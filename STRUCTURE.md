@@ -9,6 +9,7 @@ abstraction-intelligence/
 │
 ├── papers/                   # Theoretical papers
 │   ├── abstraction_is_all_you_need.md      # Core APH framework
+│   ├── recursive_abstraction.md            # Self-reference and feedback architectures
 │   └── consciousness_emergent_abstraction.md # Consciousness application
 │
 ├── notes/                    # Working notes and development
@@ -27,6 +28,11 @@ Formal theoretical papers with:
 - Falsification criteria
 - Full references
 
+**Reading order:**
+1. `abstraction_is_all_you_need.md` — foundational framework
+2. `recursive_abstraction.md` — when self-reference becomes necessary
+3. `consciousness_emergent_abstraction.md` — consciousness as self-abstraction
+
 ### `/notes`
 Working development materials:
 - Literature review notes
@@ -44,7 +50,25 @@ Future empirical validation work:
 | File | Location | Description |
 |------|----------|-------------|
 | Abstraction Is All You Need | `papers/abstraction_is_all_you_need.md` | General framework paper |
+| Recursive Abstraction | `papers/recursive_abstraction.md` | Self-reference and computational architectures |
 | Consciousness as Emergent Abstraction | `papers/consciousness_emergent_abstraction.md` | Consciousness-specific application |
+
+## Paper Relationships
+
+```
+Abstraction Is All You Need
+         │
+         ▼
+  Recursive Abstraction
+         │
+         ▼
+Consciousness as Emergent Abstraction
+```
+
+Each paper builds on the previous:
+- **AIAYN** establishes abstraction as the fundamental primitive
+- **Recursive Abstraction** identifies when abstraction must include the system itself
+- **Consciousness** applies this to biological self-modeling at sufficient complexity
 
 ## Versioning
 
