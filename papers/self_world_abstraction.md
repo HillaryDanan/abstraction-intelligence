@@ -1,6 +1,6 @@
 # Self and World: The Foundational Abstraction
 
-## A Framework for Understanding Neural Organization of Abstract Concepts
+## Why Any Embedded Intelligence Must Distinguish Self from Not-Self
 
 **Hillary Danan, PhD**  
 Cognitive Neuroscience
@@ -11,7 +11,7 @@ Cognitive Neuroscience
 
 ## Abstract
 
-Why does the brain organize abstract concepts along a dimension of internal-to-self versus external-to-self? Empirical research demonstrates that neural representations of abstract concepts systematically vary according to their relationship to the self — concepts like *pride* and *guilt* activate distinct networks from concepts like *gravity* and *distance*. This paper proposes that this organization is not arbitrary but computationally necessary. Drawing on the Abstraction Primitive Hypothesis (Danan, 2025), I argue that **self versus not-self constitutes the foundational abstraction** — the first distinction any intelligent system embedded in an environment must make. This framework explains empirical findings in abstract concept representation, connects to theories of embodied and grounded cognition, and generates testable predictions about the developmental and computational priority of self-referential abstraction.
+Why does the brain organize abstract concepts along a dimension of internal-to-self versus external-to-self? Empirical research demonstrates that neural representations of abstract concepts systematically vary according to their relationship to the self — concepts like *pride* and *guilt* activate distinct networks from concepts like *gravity* and *distance*. This paper proposes that this organization is not arbitrary, not uniquely human, and not biologically contingent. Rather, **self versus not-self constitutes the foundational abstraction for any intelligent system embedded in an environment and capable of action**. The argument is computational: an embedded agent must distinguish what it controls from what it does not control to act effectively. This framework explains empirical findings in human abstract concept representation, connects to theories of embodied cognition and predictive processing, and generates testable predictions about development, neural implementation, and artificial systems. The scope of the claim is deliberately general: if the argument is correct, any sufficiently complex embedded agent — biological or artificial, terrestrial or otherwise — must solve this problem, and its conceptual organization should reflect this foundational distinction.
 
 -----
 
@@ -25,7 +25,7 @@ This paper asks: **why this organization?**
 
 The Abstraction Primitive Hypothesis (APH) proposes that abstraction — the extraction of invariant structure across instances — is the fundamental operation underlying intelligence (Danan, 2025a). If abstraction is primitive, then the dimensions along which abstractions organize should reflect computational necessities, not arbitrary conventions.
 
-I propose that **self versus not-self is the foundational abstraction** — the first distinction an embedded intelligent system must make, and the scaffolding upon which all subsequent abstractions build.
+I propose that **self versus not-self is the foundational abstraction** — the first distinction any embedded intelligent system must make, and the scaffolding upon which all subsequent abstractions build. This claim is intentionally general. The argument derives from the computational requirements of embedded agency, not from the specifics of human neurobiology. If correct, it applies to any system meeting those requirements.
 
 -----
 
@@ -85,7 +85,7 @@ If abstraction is primitive, then the *first* abstractions a system forms should
 Consider any system that:
 
 1. Is embedded in an environment
-1. Must act to survive
+1. Must act to survive or achieve goals
 1. Receives sensory input and produces motor output
 
 Such a system faces an immediate computational problem: **distinguishing what it controls from what it does not control.**
@@ -127,7 +127,70 @@ The self/world distinction is the *precondition* for this reflexive move. A syst
 
 -----
 
-## 4. Integration: From Empirical Pattern to Theoretical Explanation
+## 4. Generality of the Framework: Beyond Human Cognition
+
+### 4.1 The Argument is Computational, Not Biological
+
+The preceding argument does not depend on human neurobiology. It depends on three conditions:
+
+1. **Embeddedness**: The system exists within an environment that affects it
+1. **Agency**: The system can act on that environment
+1. **Sensorimotor coupling**: The system receives input from and produces output to its environment
+
+Any system meeting these conditions faces the computational problem of distinguishing self-caused from world-caused regularities. The argument is therefore **substrate-independent**.
+
+This is not speculation but logical consequence. If the problem is computational, the solution (distinguishing self from not-self) is required for any system facing that problem, regardless of implementation.
+
+### 4.2 Scope of the Claim
+
+The framework makes a conditional claim:
+
+> **IF** a system is an embedded agent (meets conditions 1-3 above), **THEN** it must distinguish self from not-self as a foundational abstraction.
+
+This claim is:
+
+- **General**: It applies to any embedded agent — biological, artificial, or hypothetical
+- **Testable**: We can examine artificial systems and non-human biological systems
+- **Humble**: It does not claim all possible intelligences are embedded agents; it claims that those which are must solve this problem
+
+### 4.3 Evidence from Non-Human Systems
+
+The framework finds support beyond human cognition:
+
+**Biological systems:** Animals with complex motor control uniformly possess forward models distinguishing self-caused from externally-caused sensory input. This has been demonstrated in primates (Wolpert & Ghahramani, 2000), rodents (Crapse & Sommer, 2008), and extends to invertebrates with complex behavior (Webb, 2004).
+
+**Artificial systems:** Robotics research has found that effective motor control requires forward models predicting the consequences of actions — functionally, a self/world distinction (Kawato, 1999). Systems lacking this distinction show impaired learning and generalization.
+
+### 4.4 Constraints from Physics
+
+Certain features of the self/world distinction may be universal for agents in physical environments:
+
+- **Spatial boundedness**: Physical agents occupy bounded regions of space; the boundary between self and not-self has physical reality
+- **Causal asymmetry**: Agents cause effects through action; they are affected by external causes through perception. This asymmetry is physical, not conventional
+- **Temporal structure**: Actions precede their consequences; external causes precede their perception. The structure of time constrains all embedded agents
+
+These constraints suggest that any physically embedded intelligence would face the same foundational problem and require the same foundational abstraction.
+
+**Hypothesis 3:** The self/not-self distinction is a universal feature of embedded intelligence, not a contingent feature of human evolution. Any sufficiently complex embedded agent will develop conceptual organization reflecting this distinction.
+
+### 4.5 What Would Differ Across Substrates
+
+While the *structure* (self vs. not-self) should be universal, the *contents* would vary:
+
+|Feature                        |Potentially Universal          |Substrate-Specific              |
+|-------------------------------|-------------------------------|--------------------------------|
+|Self/not-self distinction      |Yes — computational necessity  |                                |
+|Internal vs. external grounding|Yes — follows from embeddedness|                                |
+|Specific sensory modalities    |                               |Depends on sensors              |
+|Specific motor repertoire      |                               |Depends on actuators            |
+|Specific abstract concepts     |                               |Depends on environment and goals|
+|Neural implementation          |                               |Depends on substrate            |
+
+A hypothetical non-terrestrial intelligence embedded in a different physical environment would still distinguish self from world, but its specific external-to-self concepts would differ (perhaps pressure gradients rather than gravity; chemical signals rather than light).
+
+-----
+
+## 5. Integration: From Empirical Pattern to Theoretical Explanation
 
 The proposed framework offers a parsimonious explanation for the empirical organization of abstract concepts:
 
@@ -138,77 +201,103 @@ The proposed framework offers a parsimonious explanation for the empirical organ
 |External-to-self concepts recruit sensorimotor and physical reasoning systems|External concepts ground in world-regularities processed by these systems                       |
 |Self-relevance dimension emerges early in development                        |Foundational abstractions must be established before derived abstractions                       |
 |Distinction is not reducible to concreteness                                 |The relevant dimension is computational (self vs. world), not perceptual (concrete vs. abstract)|
+|Non-human animals show self/world distinction in motor control               |The computational problem is general; the solution is conserved                                 |
 
 -----
 
-## 5. Predictions
+## 6. Predictions
 
-The framework generates falsifiable predictions:
+The framework generates falsifiable predictions across domains:
 
-### 5.1 Developmental Predictions
+### 6.1 Developmental Predictions
 
 **Prediction 1:** Disruption of self/other distinction in infancy (e.g., through aberrant sensorimotor contingencies) should produce downstream deficits in organizing *all* abstract concepts, not just self-referential ones.
 
 **Prediction 2:** The developmental trajectory of abstract concept acquisition should show self-referential concepts (internal-to-self) and physical concepts (external-to-self) emerging before concepts that require integrating both (e.g., *fairness*, which requires modeling both self-interest and external social structure).
 
-### 5.2 Neural Predictions
+### 6.2 Neural Predictions
 
 **Prediction 3:** Lesions to medial prefrontal structures should impair internal-to-self abstract concepts more than external-to-self concepts, even when controlling for emotional content.
 
 **Prediction 4:** Individual differences in interoceptive accuracy should correlate with richness of internal-to-self abstract concept representations but not external-to-self representations.
 
-### 5.3 Computational Predictions
+### 6.3 Computational Predictions
 
 **Prediction 5:** Artificial systems trained without self/world distinction (no forward model, no sense of agency) should show impaired transfer learning on tasks requiring abstract reasoning, because they lack the foundational scaffold.
 
 **Prediction 6:** In neural networks, representational similarity analysis should reveal that the self/world distinction (where applicable) accounts for more variance in abstract concept organization than concreteness or imageability.
 
+### 6.4 Cross-Species Predictions
+
+**Prediction 7:** Species with more complex motor repertoires (requiring more sophisticated forward models) should show greater differentiation between self-related and world-related neural processing, even controlling for overall brain size.
+
+### 6.5 Artificial Intelligence Predictions
+
+**Prediction 8:** AI systems given embodied experience (robotics, simulated physics) should develop more robust abstract reasoning than disembodied systems trained on text alone, because embodiment forces the self/world distinction.
+
+**Prediction 9:** Large language models, lacking true embeddedness, should show characteristic failures in reasoning about agency, causation, and self-reference — not due to insufficient scale, but due to missing foundational structure.
+
 -----
 
-## 6. Relation to Existing Theories
+## 7. Relation to Existing Theories
 
-### 6.1 Grounded Cognition
+### 7.1 Grounded Cognition
 
 The present framework is compatible with grounded cognition (Barsalou, 2008) but adds specificity: grounding is organized around the self/world boundary because this boundary is computationally foundational.
 
-### 6.2 Predictive Processing
+### 7.2 Predictive Processing
 
 Predictive processing frameworks (Clark, 2013; Friston, 2010) emphasize the brain’s task of predicting sensory input. The self/world distinction is essential to this task — predicting the consequences of one’s own actions (agency) requires different computations than predicting external events. The present framework proposes that this computational distinction shapes abstract concept organization.
 
-### 6.3 Interoceptive Inference
+### 7.3 Interoceptive Inference
 
 Seth and colleagues propose that selfhood emerges from interoceptive inference — the brain’s modeling of internal bodily states (Seth, 2013; Seth & Friston, 2016). The present framework extends this: interoceptive inference grounds the internal-to-self dimension of abstract concepts, while exteroceptive inference grounds the external-to-self dimension.
 
+### 7.4 Enactivism
+
+Enactivist approaches (Varela et al., 1991; Thompson, 2007) emphasize that cognition arises from sensorimotor interaction with the environment. The present framework aligns with this view: the self/world distinction is not a representation imposed on experience but emerges from the structure of embedded agency itself.
+
 -----
 
-## 7. Limitations and Open Questions
+## 8. Limitations and Open Questions
 
-### 7.1 Concepts That Span the Boundary
+### 8.1 Concepts That Span the Boundary
 
 Some abstract concepts resist clean categorization. *Fairness* involves both self-interest (internal) and social structure (external). *Time* is experienced internally but structures external events. The framework predicts these concepts should show mixed neural signatures and develop later — but this requires empirical test.
 
-### 7.2 Cultural Variation
+### 8.2 Cultural Variation
 
 The self/world boundary may be construed differently across cultures (Markus & Kitayama, 1991). Does this affect abstract concept organization? The framework predicts the *computational* distinction is universal, but its *boundaries* may shift — a testable hypothesis.
 
-### 7.3 The Hard Problem
+### 8.3 Non-Embedded Intelligence
+
+Could there be intelligence without embeddedness? The framework takes no position on this question. If non-embedded intelligence exists, it would not face the computational problem the framework addresses, and the predictions would not apply. The framework’s scope is explicitly conditional.
+
+### 8.4 The Hard Problem
 
 This framework addresses the *organization* of concepts, not the phenomenology of self-experience. Why self-modeling feels like something remains unaddressed (Chalmers, 1995). The framework is compatible with multiple positions on phenomenal consciousness.
 
+### 8.5 Empirical Limitations
+
+We have extensive data on human abstract concept representation, limited data on non-human animals, and early data on artificial systems. The cross-substrate predictions remain largely untested. This is a limitation of available evidence, not of the framework’s testability.
+
 -----
 
-## 8. Conclusion
+## 9. Conclusion
 
-Why does the brain organize abstract concepts along a self-relevance dimension? Because **self versus not-self is the foundational abstraction** — the first distinction an embedded intelligent system must make, and the scaffold upon which subsequent abstractions build.
+Why does the brain organize abstract concepts along a self-relevance dimension? Because **self versus not-self is the foundational abstraction** — the first distinction any embedded intelligent system must make, and the scaffold upon which subsequent abstractions build.
 
 This proposal:
 
 - **Explains** empirical findings on neural organization of abstract concepts
 - **Connects** grounded cognition, predictive processing, and interoceptive inference
 - **Extends** the Abstraction Primitive Hypothesis to conceptual organization
-- **Generates** falsifiable predictions about development, neural implementation, and computation
+- **Generalizes** beyond human cognition to embedded agents as a class
+- **Generates** falsifiable predictions about development, neural implementation, artificial systems, and cross-species comparison
 
-Gravity grounds us physically. The abstraction of *gravity* — as external-to-self — grounds us conceptually. The self/world boundary is where intelligence begins.
+The claim is deliberately general. The argument derives from the computational requirements of embedded agency, which are substrate-independent. If correct, the framework describes not a quirk of human evolution but a constraint on any intelligence that exists within and acts upon a world.
+
+Gravity grounds us physically. The abstraction of *gravity* — as external-to-self — grounds us conceptually. The self/world boundary is where intelligence begins, wherever intelligence begins.
 
 -----
 
@@ -230,6 +319,8 @@ Clark, A. (2013). Whatever next? Predictive brains, situated agents, and the fut
 
 Connell, L., Lynott, D., & Banks, B. (2018). Interoception: The forgotten modality in perceptual grounding of abstract and concrete concepts. *Philosophical Transactions of the Royal Society B*, 373(1752), 20170143.
 
+Crapse, T. B., & Sommer, M. A. (2008). Corollary discharge across the animal kingdom. *Nature Reviews Neuroscience*, 9(8), 587-600.
+
 Danan, H. (2025a). Abstraction is all you need. *Working Paper*.
 
 Danan, H. (2025b). Recursive abstraction. *Working Paper*.
@@ -239,6 +330,8 @@ Danan, H. (2025c). Consciousness as emergent abstraction. *Working Paper*.
 Fischer, J., Mikhael, J. G., Tenenbaum, J. B., & Kanwisher, N. (2016). Functional neuroanatomy of intuitive physical inference. *Proceedings of the National Academy of Sciences*, 113(34), E5072-E5081.
 
 Friston, K. (2010). The free-energy principle: A unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127-138.
+
+Kawato, M. (1999). Internal models for motor control and trajectory planning. *Current Opinion in Neurobiology*, 9(6), 718-727.
 
 Kelley, W. M., Macrae, C. N., Wyland, C. L., Caglar, S., Inati, S., & Heatherton, T. F. (2002). Finding the self? An event-related fMRI study. *Journal of Cognitive Neuroscience*, 14(5), 785-794.
 
@@ -260,9 +353,15 @@ Seth, A. K. (2013). Interoceptive inference, emotion, and the embodied self. *Tr
 
 Seth, A. K., & Friston, K. J. (2016). Active interoceptive inference and the emotional brain. *Philosophical Transactions of the Royal Society B*, 371(1708), 20160007.
 
+Thompson, E. (2007). *Mind in life: Biology, phenomenology, and the sciences of mind*. Harvard University Press.
+
+Varela, F. J., Thompson, E., & Rosch, E. (1991). *The embodied mind: Cognitive science and human experience*. MIT Press.
+
 Vigliocco, G., Kousta, S. T., Della Rosa, P. A., Vinson, D. P., Tettamanti, M., Devlin, J. T., & Cappa, S. F. (2014). The neural representation of abstract words: The role of emotion. *Cerebral Cortex*, 24(7), 1767-1777.
 
 Villani, C., Lugli, L., Liuzza, M. T., & Borghi, A. M. (2019). Varieties of abstract concepts and their multiple dimensions. *Language and Cognition*, 11(3), 403-430.
+
+Webb, B. (2004). Neural mechanisms for prediction: Do insects have forward models? *Trends in Neurosciences*, 27(5), 278-282.
 
 Wolpert, D. M., & Ghahramani, Z. (2000). Computational principles of movement neuroscience. *Nature Neuroscience*, 3(11), 1212-1217.
 
