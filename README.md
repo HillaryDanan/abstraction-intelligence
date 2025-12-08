@@ -18,6 +18,7 @@ The framework generates testable predictions about learning curves, transfer lea
 1. **Self/World as Foundational Abstraction**: The distinction between self and not-self is the first abstraction any embedded intelligent system must make — the scaffold upon which all subsequent abstractions build.
 1. **Experience as Embedded Information Format**: For embedded agents, phenomenal experience is not an output of information processing but the format of action-relevant self-world information itself. The “hard problem” dissolves because, for embedded agents, there is no gap between processing and experience — they are one thing under two descriptions.
 1. **Time as Embodied Medium**: Temporal reasoning is grounded in embodied experience of duration. Time is not a dimension to represent but the medium in which embedded action unfolds. Systems lacking embodiment can represent sequences but cannot inhabit duration — predicting systematic temporal reasoning failures in disembodied AI.
+1. **Emotion as Integrated Self-World Information**: Emotions are not epiphenomenal accompaniments to cognition but the format in which integrated self-world information is represented for action selection. Fear is not a feeling that accompanies threat-detection — fear IS threat-information integrated with self-state and action-possibilities, formatted for an agent that must respond.
 
 ## Papers
 
@@ -30,6 +31,7 @@ The framework generates testable predictions about learning curves, transfer lea
 |[Self and World](papers/self_world_abstraction.md)                                   |Working Draft|The foundational abstraction: why any embedded intelligence must distinguish self from not-self   |
 |[The Hard Problem Dissolved](papers/hard_problem_dissolution.md)                     |Working Draft|Why experience is the format of embedded information, not something processing “produces”         |
 |[Time as Embodied Abstraction](papers/time_embodied_abstraction.md)                  |Working Draft|Why disembodied systems struggle with temporal reasoning: time as medium, not dimension           |
+|[Emotion as Embedded Information](papers/emotion_embedded_information.md)            |Working Draft|Emotions as integrated self-world information formatted for action selection                      |
 
 ## Reading Order
 
@@ -40,6 +42,7 @@ The framework generates testable predictions about learning curves, transfer lea
 1. **Self and World** — grounds the framework in the foundational self/not-self distinction
 1. **The Hard Problem Dissolved** — addresses phenomenal experience via embodied self-world information
 1. **Time as Embodied Abstraction** — extends embodiment analysis to temporal reasoning and LLM limitations
+1. **Emotion as Embedded Information** — applies the self-world framework to emotion as action-relevant integration
 
 ## Key Predictions
 
@@ -58,6 +61,8 @@ The framework makes falsifiable predictions including:
 - LLMs should show dissociable temporal reasoning: success on representational tasks (sequence logic, explicit temporal relations) but failure on grounded tasks (duration estimation, process reasoning, temporal perspective-taking)
 - Scaling should differentially affect temporal task types — improving representational performance more than grounded performance
 - Embodied AI systems should outperform disembodied systems on grounded temporal reasoning tasks
+- LLMs should show dissociable emotional reasoning: success on emotion labeling and classification but failure on emotion dynamics, embodied concomitants, and contextual appropriateness
+- Emotional experience should correlate with interoceptive-exteroceptive integration; disrupting interoception should disrupt emotional experience even with intact exteroception
 
 See individual papers for detailed predictions and falsification criteria.
 
@@ -73,6 +78,7 @@ This work builds on established literature in:
 - **Information Theory**: Rate-distortion theory (Shannon, 1948), information bottleneck (Tishby et al., 2000), minimum description length (Rissanen, 1978)
 - **Embodied Cognition**: Grounded cognition (Barsalou, 2008), enactivism (Varela et al., 1991), interoceptive inference (Seth, 2013), sensorimotor contingency theory (O’Regan & Noë, 2001)
 - **Temporal Cognition**: Time perception (Wittmann, 2013), event segmentation (Zacks et al., 2007), embodied time (Craig, 2009)
+- **Emotion Science**: Appraisal theory (Scherer, 2009), constructed emotion (Barrett, 2017), somatic markers (Damasio, 1994), action tendencies (Frijda, 1986)
 - **Linguistics & Compositionality**: Compositional semantics (Frege, 1892; Fodor & Pylyshyn, 1988)
 
 ## Status
