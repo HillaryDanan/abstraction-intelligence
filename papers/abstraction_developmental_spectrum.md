@@ -2,8 +2,6 @@
 
 ## From Pattern Extraction to Self-Referential Cognition
 
-**Working Draft — Abstraction-Intelligence Framework, Paper #10**
-
 Hillary Danan, PhD  
 Cognitive Neuroscience
 
