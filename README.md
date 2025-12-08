@@ -17,6 +17,7 @@ The framework generates testable predictions about learning curves, transfer lea
 1. **Consciousness as Self-Abstraction**: When abstraction is applied reflexively to a system of sufficient complexity, the result is an integrated self-model — consciousness.
 1. **Self/World as Foundational Abstraction**: The distinction between self and not-self is the first abstraction any embedded intelligent system must make — the scaffold upon which all subsequent abstractions build.
 1. **Experience as Embedded Information Format**: For embedded agents, phenomenal experience is not an output of information processing but the format of action-relevant self-world information itself. The “hard problem” dissolves because, for embedded agents, there is no gap between processing and experience — they are one thing under two descriptions.
+1. **Time as Embodied Medium**: Temporal reasoning is grounded in embodied experience of duration. Time is not a dimension to represent but the medium in which embedded action unfolds. Systems lacking embodiment can represent sequences but cannot inhabit duration — predicting systematic temporal reasoning failures in disembodied AI.
 
 ## Papers
 
@@ -28,6 +29,7 @@ The framework generates testable predictions about learning curves, transfer lea
 |[Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md)|Working Draft|Application to consciousness: why self-monitoring becomes computationally necessary               |
 |[Self and World](papers/self_world_abstraction.md)                                   |Working Draft|The foundational abstraction: why any embedded intelligence must distinguish self from not-self   |
 |[The Hard Problem Dissolved](papers/hard_problem_dissolution.md)                     |Working Draft|Why experience is the format of embedded information, not something processing “produces”         |
+|[Time as Embodied Abstraction](papers/time_embodied_abstraction.md)                  |Working Draft|Why disembodied systems struggle with temporal reasoning: time as medium, not dimension           |
 
 ## Reading Order
 
@@ -37,6 +39,7 @@ The framework generates testable predictions about learning curves, transfer lea
 1. **Consciousness as Emergent Abstraction** — applies the framework to consciousness specifically
 1. **Self and World** — grounds the framework in the foundational self/not-self distinction
 1. **The Hard Problem Dissolved** — addresses phenomenal experience via embodied self-world information
+1. **Time as Embodied Abstraction** — extends embodiment analysis to temporal reasoning and LLM limitations
 
 ## Key Predictions
 
@@ -52,6 +55,9 @@ The framework makes falsifiable predictions including:
 - Abstract concepts should organize neurally along a self/world dimension reflecting computational necessity, not arbitrary convention
 - Embodied AI systems should develop more robust abstract reasoning than disembodied systems trained on text alone
 - Phenomenal character (qualia) should systematically track action-relevance and sensorimotor contingencies
+- LLMs should show dissociable temporal reasoning: success on representational tasks (sequence logic, explicit temporal relations) but failure on grounded tasks (duration estimation, process reasoning, temporal perspective-taking)
+- Scaling should differentially affect temporal task types — improving representational performance more than grounded performance
+- Embodied AI systems should outperform disembodied systems on grounded temporal reasoning tasks
 
 See individual papers for detailed predictions and falsification criteria.
 
@@ -59,13 +65,14 @@ See individual papers for detailed predictions and falsification criteria.
 
 This work builds on established literature in:
 
-- **Cognitive Science**: Chunking (Miller, 1956; Cowan, 2001), relational complexity (Halford et al., 1998), analogical reasoning (Gentner, 1983)
+- **Cognitive Science**: Chunking (Miller, 1956; Cowan, 2001), relational complexity (Halford et al., 1998), analogical reasoning (Gentner, 1983), event cognition (Zacks & Tversky, 2001)
 - **Machine Learning**: Representation learning (Bengio et al., 2013), attention mechanisms (Vaswani et al., 2017), compositional generalization (Lake & Baroni, 2018)
 - **Program Synthesis**: Library learning (Ellis et al., 2021), Bayesian program induction (Tenenbaum et al., 2011)
-- **Control Theory**: Feedback systems (Wiener, 1948), adaptive control (Åström & Wittenmark, 1995)
+- **Control Theory**: Feedback systems (Wiener, 1948), adaptive control (Åström & Wittenmark, 1995), forward models (Wolpert & Ghahramani, 2000)
 - **Consciousness Science**: Global Workspace Theory (Baars, 1988), Integrated Information Theory (Tononi, 2004), Predictive Processing (Friston, 2010)
 - **Information Theory**: Rate-distortion theory (Shannon, 1948), information bottleneck (Tishby et al., 2000), minimum description length (Rissanen, 1978)
 - **Embodied Cognition**: Grounded cognition (Barsalou, 2008), enactivism (Varela et al., 1991), interoceptive inference (Seth, 2013), sensorimotor contingency theory (O’Regan & Noë, 2001)
+- **Temporal Cognition**: Time perception (Wittmann, 2013), event segmentation (Zacks et al., 2007), embodied time (Craig, 2009)
 - **Linguistics & Compositionality**: Compositional semantics (Frege, 1892; Fodor & Pylyshyn, 1988)
 
 ## Status
