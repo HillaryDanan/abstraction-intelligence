@@ -11,26 +11,29 @@ The framework generates testable predictions about learning curves, transfer lea
 ## Core Claims
 
 1. **Abstraction as Primitive**: Abstraction is not one cognitive operation among many — it is the operation from which others derive.
-2. **Compositionality as the Distinguishing Feature**: Abstraction differs from compression because abstractions compose — they combine to form new abstractions, enabling self-augmenting representational capacity. Compression reduces; abstraction grows.
+2. **Compositionality as the Distinguishing Feature**: Abstraction differs from compression because abstractions compose — they combine to form new abstractions, enabling self-augmenting representational capacity. Compression reduces; abstraction grows. Compositionality admits degrees and can be measured via compositional generalization rate, systematicity, transfer efficiency, compositional depth, and reuse frequency.
 3. **Abstraction as Central Transformation**: Abstraction is the specific operation of converting attended information into manipulable, composable symbols. It is distinct from input operations (perception, attention) and downstream operations (memory, learning, reasoning, decision-making, action). Abstraction creates the representational currency that other cognitive operations trade in — constrained enough to be falsifiable, central enough to be foundational.
-4. **Self-Referential Dynamics**: Abstraction capacity follows growth patterns where the rate of new abstraction formation depends on existing abstractions (mathematically characterized by *e*). This dynamic emerges *because* abstraction is compositional — each abstraction expands the space of possible future abstractions.
-5. **Developmental Spectrum**: Abstraction capacity is not binary but develops through qualitatively distinct stages — pattern extraction, symbol formation, recursive composition, and self-referential abstraction — each enabling operations impossible at prior stages.
-6. **Disembodied Abstraction**: Systems lacking embodiment can achieve substantial capacity at early abstraction stages while showing systematic limitations at later stages, particularly self-referential abstraction. Current LLMs exhibit this profile.
-7. **Recursive Self-Modeling**: When a system's optimal output depends on its own complex internal state, self-referential computation—modeling oneself through abstraction—becomes necessary.
-8. **Consciousness as Self-Abstraction**: When abstraction is applied reflexively to a system of sufficient complexity, the result is an integrated self-model — consciousness.
-9. **Self/World as Foundational Abstraction**: The distinction between self and not-self is the first abstraction any embedded intelligent system must make — the scaffold upon which all subsequent abstractions build.
-10. **Experience as Embedded Information Format**: For embedded agents, phenomenal experience is not an output of information processing but the format of action-relevant self-world information itself. The "hard problem" dissolves because, for embedded agents, there is no gap between processing and experience — they are one thing under two descriptions.
-11. **Time as Embodied Medium**: Temporal reasoning is grounded in embodied experience of duration. Time is not a dimension to represent but the medium in which embedded action unfolds. Systems lacking embodiment can represent sequences but cannot inhabit duration — predicting systematic temporal reasoning failures in disembodied AI.
-12. **Emotion as Self-World Integration**: Emotions are integrated self-world information formatted for action selection. They are not outputs of cognition but the format in which action-relevant cognition occurs for embedded agents. Valence tracks predicted viability impact.
-13. **Social Dynamics as Multi-Agent Abstraction**: When environments contain multiple agents, the abstraction primitive is applied recursively — abstracting over others' abstractions of self. Social emotions are composed, recursive abstractions formatted for multi-agent coordination under resource constraints. This pattern scales across levels of organization.
+4. **Abstraction as Prior to Prediction**: Prediction presupposes representational content — to predict X will occur requires a representation of X, a representation of futurity, and the compositional capacity to combine them. Abstraction creates the representational currency that prediction operates on. Prediction is the selection pressure; abstraction is what is selected over.
+5. **Architectural Conditions for Abstraction**: Compression yields abstraction when specific conditions are met: factorization pressure, recombination exposure, compositional bottlenecks, and multi-task learning. Without these constraints, compression produces holistic, task-specific representations rather than compositional abstractions.
+6. **Self-Referential Dynamics**: Abstraction capacity follows growth patterns where the rate of new abstraction formation depends on existing abstractions (mathematically characterized by *e*). This dynamic emerges *because* abstraction is compositional — each abstraction expands the space of possible future abstractions.
+7. **Developmental Spectrum**: Abstraction capacity is not binary but develops through qualitatively distinct stages — pattern extraction, symbol formation, recursive composition, and self-referential abstraction — each enabling operations impossible at prior stages.
+8. **Disembodied Abstraction**: Systems lacking embodiment can achieve substantial capacity at early abstraction stages while showing systematic limitations at later stages, particularly self-referential abstraction. Current LLMs exhibit this profile.
+9. **Recursive Self-Modeling**: When a system's optimal output depends on its own complex internal state, self-referential computation—modeling oneself through abstraction—becomes necessary.
+10. **Consciousness as Self-Abstraction**: When abstraction is applied reflexively to a system of sufficient complexity, the result is an integrated self-model — consciousness.
+11. **Self/World as Foundational Abstraction**: The distinction between self and not-self is the first abstraction any embedded intelligent system must make — the scaffold upon which all subsequent abstractions build.
+12. **Experience as Embedded Information Format**: For embedded agents, phenomenal experience is not an output of information processing but the format of action-relevant self-world information itself. The "hard problem" dissolves because, for embedded agents, there is no gap between processing and experience — they are one thing under two descriptions.
+13. **Time as Embodied Medium**: Temporal reasoning is grounded in embodied experience of duration. Time is not a dimension to represent but the medium in which embedded action unfolds. Systems lacking embodiment can represent sequences but cannot inhabit duration — predicting systematic temporal reasoning failures in disembodied AI.
+14. **Emotion as Self-World Integration**: Emotions are integrated self-world information formatted for action selection. They are not outputs of cognition but the format in which action-relevant cognition occurs for embedded agents. Valence tracks predicted viability impact.
+15. **Social Dynamics as Multi-Agent Abstraction**: When environments contain multiple agents, the abstraction primitive is applied recursively — abstracting over others' abstractions of self. Social emotions are composed, recursive abstractions formatted for multi-agent coordination under resource constraints. This pattern scales across levels of organization.
 
 ## Papers
 
 | Paper | Status | Description |
 |-------|--------|-------------|
 | [Abstraction Is All You Need](papers/abstraction_is_all_you_need.md) | Working Draft | The general framework: abstraction as the fundamental primitive of intelligence |
-| [Abstraction Beyond Compression](papers/abstraction_beyond_compression.md) | Working Draft | What abstraction adds beyond compression: compositionality as the distinguishing operation |
+| [Abstraction Beyond Compression](papers/abstraction_beyond_compression.md) | Working Draft | What abstraction adds beyond compression: compositionality as the distinguishing operation; metrics for measuring compositionality; architectural conditions for abstraction |
 | [Abstraction Constrained](papers/abstraction_constrained.md) | Working Draft | What abstraction is and is not: addressing the vacuity objection by distinguishing abstraction from input and downstream operations |
+| [Prediction Requires Abstraction](papers/prediction_requires_abstraction.md) | Working Draft | On the priority of representational formation over predictive operation: why prediction presupposes abstraction |
 | [Recursive Abstraction](papers/recursive_abstraction.md) | Working Draft | When computation requires self-reference: feedforward vs. feedback vs. self-modeling architectures; the mathematics of *e* |
 | [The Developmental Spectrum of Abstraction](papers/abstraction_developmental_spectrum.md) | Working Draft | From pattern extraction to self-referential cognition: abstraction capacity as staged development |
 | [Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md) | Working Draft | Application to consciousness: why self-monitoring becomes computationally necessary |
@@ -43,16 +46,17 @@ The framework generates testable predictions about learning curves, transfer lea
 ## Reading Order
 
 1. **Abstraction Is All You Need** — establishes abstraction as primitive
-2. **Abstraction Beyond Compression** — addresses the compression objection; establishes compositionality as what abstraction adds
+2. **Abstraction Beyond Compression** — addresses the compression objection; establishes compositionality as what abstraction adds; develops metrics for measuring compositionality; identifies architectural conditions under which compression yields abstraction
 3. **Abstraction Constrained** — addresses the vacuity objection; establishes what abstraction is and is not; distinguishes from input operations (perception, attention) and downstream operations (memory, learning, reasoning, decision-making, action)
-4. **Recursive Abstraction** — establishes when computation must bend back on itself; formalizes the mathematical role of *e* in self-referential dynamics
-5. **The Developmental Spectrum of Abstraction** — establishes that abstraction capacity develops through qualitatively distinct stages; locates LLMs on this spectrum
-6. **Consciousness as Emergent Abstraction** — applies the framework to consciousness specifically; builds on stage 4 (self-referential abstraction)
-7. **Self and World** — grounds the framework in the foundational self/not-self distinction
-8. **The Hard Problem Dissolved** — addresses phenomenal experience via embodied self-world information
-9. **Time as Embodied Abstraction** — extends embodiment analysis to temporal reasoning and LLM limitations
-10. **Emotion as Embedded Information** — applies self-world integration to emotion; synthesizes major emotion theories
-11. **Social Dynamics** — scales the framework to multi-agent environments; shows recursive abstraction structure of social cognition
+4. **Prediction Requires Abstraction** — addresses the predictive processing alternative; establishes that prediction presupposes representational content that abstraction provides
+5. **Recursive Abstraction** — establishes when computation must bend back on itself; formalizes the mathematical role of *e* in self-referential dynamics
+6. **The Developmental Spectrum of Abstraction** — establishes that abstraction capacity develops through qualitatively distinct stages; locates LLMs on this spectrum
+7. **Consciousness as Emergent Abstraction** — applies the framework to consciousness specifically; builds on stage 4 (self-referential abstraction)
+8. **Self and World** — grounds the framework in the foundational self/not-self distinction
+9. **The Hard Problem Dissolved** — addresses phenomenal experience via embodied self-world information
+10. **Time as Embodied Abstraction** — extends embodiment analysis to temporal reasoning and LLM limitations
+11. **Emotion as Embedded Information** — applies self-world integration to emotion; synthesizes major emotion theories
+12. **Social Dynamics** — scales the framework to multi-agent environments; shows recursive abstraction structure of social cognition
 
 ---
 
@@ -185,6 +189,26 @@ The framework makes falsifiable predictions including:
 - Downstream deficits (e.g., amnesia, dysexecutive syndrome) should occur with intact momentary abstraction
 - Systems with genuine abstraction should show compositional generalization; systems with sophisticated compression should not
 
+**Abstraction vs. Prediction**
+
+- Abstraction deficits should impair prediction more than prediction deficits impair abstraction
+- Compositional generalization should be dissociable from prediction accuracy (systems can predict well without composing well)
+- Abstract representation should emerge in systems not trained for prediction (via clustering, compression, analogy)
+- Abstraction stage should constrain prediction sophistication — no system should make predictions requiring stage N representations without stage N abstraction capacity
+
+**Compositionality Metrics**
+
+- Compositional Generalization Rate (CGR), Systematicity Index (SI), Transfer Efficiency Ratio (TER), Compositional Depth (CD), and Reuse Frequency (RF) should correlate with each other and predict downstream intelligence-relevant outcomes
+- Aggregate Compositionality Score should predict generalization, transfer, and abstraction stage better than simple compression metrics (reconstruction error, encoding length)
+
+**Architectural Conditions**
+
+- Neural networks with explicit factorization pressure (β-VAE, sparse penalties) should show higher compositional generalization than standard autoencoders
+- Training on compositionally structured data should improve compositional generalization more than equivalent unstructured data
+- Architectures with compositional bottlenecks (neural module networks, structured attention) should show higher systematicity than fully distributed architectures
+- Multi-task training should improve transfer efficiency more than single-task training when tasks share compositional structure
+- Adding explicit compositional bottlenecks to LLMs should improve systematicity even at equivalent scale
+
 **Developmental Spectrum**
 
 - Stage progression should be sequential: no system should exhibit capacity at stage N without capacity at stage N-1
@@ -197,6 +221,7 @@ The framework makes falsifiable predictions including:
 - LLM confidence should be poorly calibrated on tasks requiring genuine self-modeling compared to pattern extraction tasks
 - Scaling (parameters, data, compute) should improve stage 1–2 performance more than stage 3–4 performance
 - Chain-of-thought prompting should improve stage 3 tasks more than stage 4 tasks
+- LLMs should show mixed compositional generalization — succeeding on some novel compositions, failing on others — reflecting partial but incomplete compositional abstraction
 
 **Architecture and Self-Reference**
 
@@ -235,10 +260,10 @@ This work builds on established literature in:
 - **Developmental Psychology**: Stage theories (Piaget, 1954), metacognitive development (Flavell, 1979; Schneider, 2008), relational complexity trajectories (Halford et al., 1998)
 - **Comparative Cognition**: Cross-species abstraction capacity (Giurfa et al., 2001; Seed & Byrne, 2010), mirror self-recognition (Gallup, 1970)
 - **Neuropsychology**: Category-specific deficits (Warrington & Shallice, 1984), dissociations between abstraction and memory (Squire, 2009), prefrontal function (Stuss & Knight, 2002)
-- **Machine Learning**: Representation learning (Bengio et al., 2013), attention mechanisms (Vaswani et al., 2017), compositional generalization (Lake & Baroni, 2018), multi-agent reinforcement learning (Leibo et al., 2017)
+- **Machine Learning**: Representation learning (Bengio et al., 2013), attention mechanisms (Vaswani et al., 2017), compositional generalization (Lake & Baroni, 2018), disentangled representations (Higgins et al., 2017), multi-agent reinforcement learning (Leibo et al., 2017)
 - **Program Synthesis**: Library learning (Ellis et al., 2021), Bayesian program induction (Tenenbaum et al., 2011)
 - **Control Theory**: Feedback systems (Wiener, 1948), adaptive control (Åström & Wittenmark, 1995), forward models (Wolpert & Ghahramani, 2000)
-- **Consciousness Science**: Global Workspace Theory (Baars, 1988), Integrated Information Theory (Tononi, 2004), Predictive Processing (Friston, 2010)
+- **Consciousness Science**: Global Workspace Theory (Baars, 1988), Integrated Information Theory (Tononi, 2004), Predictive Processing (Friston, 2010; Clark, 2013)
 - **Information Theory**: Rate-distortion theory (Shannon, 1948), information bottleneck (Tishby et al., 2000), minimum description length (Rissanen, 1978), maximum entropy (Jaynes, 1957)
 - **Embodied Cognition**: Grounded cognition (Barsalou, 2008), enactivism (Varela et al., 1991), interoceptive inference (Seth, 2013), sensorimotor contingency theory (O'Regan & Noë, 2001)
 - **Temporal Cognition**: Time perception (Wittmann, 2013), event segmentation (Zacks et al., 2007), embodied time (Craig, 2009)
