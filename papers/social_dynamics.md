@@ -1,4 +1,4 @@
-# Social Emotions as Multi-Agent Self-World Integration: Scaling the Embedded Framework
+# Social Dynamics as Multi-Agent Abstraction: Scaling Self-World Integration Across Embedded Systems
 
 **Hillary Danan, PhD**  
 Cognitive Neuroscience
@@ -9,7 +9,7 @@ Cognitive Neuroscience
 
 ## Abstract
 
-Social emotions—shame, guilt, pride, jealousy, envy, gratitude, contempt—have resisted integration into general theories of emotion. We propose that social emotions are not a special category but a natural scaling of the embedded self-world framework: **when the world contains other agents, self-world integration must include self-other relations**. Other agents are world-elements that possess their own self-world boundaries, goals, and capacities—and whose behavior toward the self depends on their evaluation of the self. Social emotions are the action-relevant format of multi-agent self-world information, guiding decisions about cooperation, competition, affiliation, and reputation. This framing reveals deep continuity across scales: atoms interact based on electron configurations; neurons based on activation states; cells based on chemical signals; organisms based on social emotions. At each level, units in a system use information from other units to guide behavior under resource constraints. Social emotions are how embedded biological agents navigate the multi-agent problem. This framework generates predictions about the computational structure of social emotions, their relationship to reputation and cooperation, and their implementation in neural systems that represent both self-state and other-state.
+Social emotions—shame, guilt, pride, jealousy, envy, gratitude, contempt—have resisted integration into general theories of emotion. We propose that social emotions are a natural consequence of applying the Abstraction Primitive Hypothesis to multi-agent environments: **when embedded agents share an environment with other agents, the self-world abstraction must recursively include other agents’ self-world abstractions**. This recursive, compositional structure—abstracting over others’ abstractions of you—produces the computational architecture underlying social emotions. The framework applies to any embedded agents (biological or artificial) operating under resource constraints in multi-agent environments. We demonstrate deep continuity across scales: at every level of organization (atomic, cellular, neural, organismal, social), units abstract over other units’ states to guide behavior. Social emotions are how sufficiently complex embedded agents represent multi-agent dynamics in action-relevant format. This framework generates predictions about the computational structure of social emotions, their dependence on recursive abstraction capacity, and their potential emergence in artificial multi-agent systems.
 
 -----
 
@@ -17,470 +17,418 @@ Social emotions—shame, guilt, pride, jealousy, envy, gratitude, contempt—hav
 
 ### 1.1 The Problem of Social Emotions
 
-Basic emotions—fear, anger, joy, sadness, disgust—have clear self-world structure: threat to self, obstacle to self, benefit to self. Paper 8 (Danan, 2025h) argued that emotions are integrated self-world information formatted for action.
+Paper 8 (Danan, 2025h) argued that emotions are integrated self-world information formatted for action. Basic emotions have clear structure: fear = threat-to-self; anger = obstacle-to-goal; joy = goal-achieved.
 
-But social emotions complicate this picture:
+Social emotions complicate this:
 
 - **Shame:** I feel bad because others evaluate me negatively
 - **Guilt:** I feel bad because I harmed another
-- **Pride:** I feel good because others evaluate me positively, or I met my own standards
+- **Pride:** I feel good because I met standards or others evaluate me positively
 - **Jealousy:** I feel threatened because a rival may take what’s mine
 - **Envy:** I feel bad because another has what I lack
 - **Gratitude:** I feel good because another helped me
 - **Contempt:** I evaluate another as beneath consideration
 
-These emotions involve *other agents*. The “world” is not just physical environment but social environment—populated by entities that have their own selves, goals, and evaluations.
+These emotions involve *other agents*—entities that themselves have self-world boundaries, goals, and abstractions.
 
 ### 1.2 The Proposal
 
-**Core thesis:** Social emotions are not a special category. They are the same self-world integration (Paper 8), applied to environments containing multiple agents.
+**Core thesis:** Social emotions arise when the abstraction primitive (Paper 1) is applied recursively to multi-agent environments.
 
-When the world contains other selves:
+The Abstraction Primitive Hypothesis (Danan, 2025a) proposes that abstraction—extracting invariant structure while discarding irrelevant detail—is the fundamental operation of intelligence. Paper 2 (Danan, 2025b) established that abstractions compose: new abstractions can be built from existing abstractions, enabling self-augmenting representational capacity.
 
-- World-state includes other-state (their goals, capacities, evaluations)
-- Self-world relation includes self-other relation
-- Action possibilities include social actions (cooperate, compete, affiliate, punish, signal)
-- Viability depends on social outcomes (reputation, alliances, access to socially-mediated resources)
+In multi-agent environments:
 
-Social emotions are the action-relevant format of this multi-agent information.
+1. **Other agents are abstracted:** I form compressed representations of others’ states, goals, and capacities
+1. **Others’ abstractions are abstracted:** I form representations of how others represent me (recursive abstraction)
+1. **Self-other relations are abstracted:** I form compressed representations of relationship dynamics (cooperation, competition, hierarchy)
+1. **These abstractions compose:** Multi-agent social state is represented as compositions of self-abstraction, other-abstraction, and relation-abstraction
 
-### 1.3 The Scaling Insight
+Social emotions are the action-relevant format of these composed, recursive abstractions.
 
-This is not unique to human psychology. It is a general principle:
+### 1.3 Generality: All Embedded Agents
 
-**Atoms:** Interact based on electron configurations. “Behavior” (bonding, repelling) depends on own state and other-state.
+This framework applies to **any embedded agents** meeting certain conditions:
 
-**Neurons:** Fire based on input from other neurons. Behavior depends on own threshold and others’ activation.
+1. **Embeddedness:** Agents exist within an environment that affects them
+1. **Agency:** Agents can act on that environment
+1. **Multi-agent context:** The environment contains other agents
+1. **Resource constraints:** Resources are limited, creating interdependence
+1. **Abstraction capacity:** Agents can form compressed representations
 
-**Cells:** Communicate via chemical signals. Behavior depends on own receptors and others’ secretions.
-
-**Organisms:** Navigate social environments. Behavior depends on own state and others’ states, goals, evaluations.
-
-**Societies:** Institutions and norms emerge from multi-agent interaction under resource constraints.
-
-At each scale, units use information from other units to guide behavior. Social emotions are the format this takes for embedded biological agents with sufficient complexity.
+Biological organisms are one instance. Artificial agents in multi-agent environments are another. The framework makes predictions about both.
 
 ### 1.4 Epistemic Status
 
-- **Established:** Social emotion phenomena; game-theoretic frameworks for cooperation; social neuroscience findings
-- **Theoretical:** The scaling argument; integration with self-world framework
-- **Hypothesis:** Specific predictions about social emotion computation and neural implementation
+- **Established:** Social emotion phenomena; game-theoretic cooperation frameworks; social neuroscience findings
+- **Theoretical:** Connection to abstraction primitive; recursive structure analysis
+- **Hypothesis:** Predictions about artificial multi-agent systems; scaling principle across levels
 
 -----
 
-## 2. Background: Social Emotions in Existing Frameworks
+## 2. Abstraction in Multi-Agent Contexts
 
-### 2.1 Evolutionary Approaches
+### 2.1 Review: Abstraction as Primitive
 
-Evolutionary psychology frames social emotions as adaptations for navigating ancestral social environments (Cosmides & Tooby, 2000; Tooby & Cosmides, 1990).
+Paper 1 (Danan, 2025a) defined abstraction as a mapping f: X → Y that preserves task-relevant structure while discarding task-irrelevant detail, where the representation is compressed (|Y| < |X| or dim(Y) < dim(X)).
 
-**Guilt** motivates reparation after harming valuable social partners, maintaining cooperative relationships (Baumeister et al., 1994).
+Paper 2 (Danan, 2025b) established that abstraction differs from mere compression because abstractions *compose*—they can be combined to form new abstractions, enabling representational capacity to grow.
 
-**Shame** motivates conformity to group norms and signals submission after norm violation, reducing punishment (Fessler, 2007; Sznycer et al., 2016).
+### 2.2 Abstracting Other Agents
 
-**Gratitude** motivates reciprocation, sustaining cooperative exchange (McCullough et al., 2001).
+When the environment contains other agents, effective action requires abstracting over them.
 
-**Envy** motivates competition for status and resources (Hill & Buss, 2008).
+**Other-state abstraction:** Representing another agent’s condition—their goals, resources, capacities, current actions. This is not a complete representation; it is compressed to action-relevant features.
 
-**Established finding:** Social emotions show cross-cultural universality in core features while varying in elicitors and expression norms (Tracy & Robins, 2007; Sznycer et al., 2017). This suggests evolved function with cultural tuning.
+**Established finding:** Humans rapidly form trait inferences about others from minimal behavioral observation (Ambady & Rosenthal, 1992; Willis & Todorov, 2006). These inferences are abstractions—compressed representations preserving action-relevant structure (will this person cooperate? compete? help? harm?).
 
-### 2.2 Appraisal Approaches
+### 2.3 Recursive Abstraction: Modeling Others’ Models
 
-Appraisal theories propose that social emotions arise from evaluations along social dimensions (Scherer, 2001; Ellsworth & Scherer, 2003):
+Social cognition requires recursive abstraction—abstracting over others’ abstractions:
 
-- **Agency:** Did self or other cause the outcome?
-- **Norm compatibility:** Does the situation violate social/moral norms?
-- **Other’s evaluation:** How do others evaluate me?
-- **Relative position:** How do I compare to others?
-
-Social emotions involve appraisals specifically about self-other relations and social standing.
-
-### 2.3 Self-Conscious Emotions
-
-Tracy and Robins (2004, 2007) propose that pride, shame, and guilt are “self-conscious emotions” requiring:
-
-1. Self-awareness (representing oneself as object)
-1. Self-representations (identity, standards, goals)
-1. Self-evaluative comparisons (actual self vs. ideal self)
-
-These emotions emerge developmentally after basic emotions, coinciding with self-recognition and self-concept development (Lewis, 2000).
-
-**Established finding:** Self-conscious emotions correlate with measures of self-awareness and self-reflection. Individuals with impaired self-representation show altered self-conscious emotional experience (Morin, 2011; Sturm et al., 2013).
-
-### 2.4 The Integration Gap
-
-Existing frameworks describe social emotions accurately but do not fully explain:
-
-- Why social emotions feel like emotions (not just social cognition)
-- How social emotions connect to basic emotions
-- Why social information produces embodied, action-urging states
-
-We propose the self-world framework provides this integration.
-
------
-
-## 3. The Multi-Agent Extension
-
-### 3.1 Other Agents as Special World-Elements
-
-When the world contains other agents, world-modeling becomes more complex.
-
-**Non-agent world elements** (rocks, weather, food sources):
-
-- Have states that affect self
-- Behavior is predictable from physical properties
-- Do not model the self
-
-**Agent world elements** (other organisms, especially conspecifics):
-
-- Have states that affect self
-- Behavior depends on their goals, beliefs, evaluations
-- May model the self and adjust behavior based on that model
-
-This is the critical difference: other agents can *represent you* and *act based on that representation*.
-
-### 3.2 The Recursive Structure
-
-Social cognition involves recursive modeling (Premack & Woodruff, 1978; Frith & Frith, 2006):
-
-- Level 0: I have states
-- Level 1: I represent others’ states
-- Level 2: I represent others’ representations of my states
-- Level 3: I represent others’ representations of my representations of their states
+- **Level 0:** I have states
+- **Level 1:** I abstract others’ states (I represent what you want)
+- **Level 2:** I abstract others’ abstractions of me (I represent what you think I want)
+- **Level 3:** I abstract others’ abstractions of my abstractions (I represent what you think I think you want)
 - …
 
-Social emotions recruit this recursive structure. Shame involves representing that others represent me negatively. Pride involves representing that others represent me positively. Guilt involves representing harm to another’s states.
+This recursive structure is computationally distinctive. It is the abstraction primitive applied *self-referentially across agents*.
 
-**Established finding:** Social emotions activate brain regions associated with mentalizing and self-referential processing (Takahashi et al., 2004; Zahn et al., 2009; Bastin et al., 2016). This neural overlap suggests social emotions involve integrating self-representation with other-representation.
+**Established finding:** Humans engage in recursive mentalizing up to ~4-5 levels, with capacity limits resembling working memory limits (Kinderman et al., 1998; Stiller & Dunbar, 2007). This suggests recursive social abstraction draws on the same capacity-limited systems as other abstraction operations.
 
-### 3.3 Self-World Becomes Self-Others-World
+### 2.4 Compositional Social Abstraction
 
-For social agents, the self-world relation becomes:
+Social state is represented as compositions of abstractions:
 
-**Self-state:** My current condition (as before)
+**Self-state** ⊗ **Other-state** ⊗ **Relation-state** ⊗ **Others’-model-of-self** → **Social-emotional state**
 
-**World-state:** Physical environment (as before) + social environment:
+Where ⊗ represents compositional combination (the specific combination operation may vary).
 
-- Others’ states (goals, resources, alliances)
-- Others’ evaluations of me
-- Social norms and expectations
-- My reputation (others’ aggregated representations of me)
+This compositional structure explains why social emotions are:
 
-**Self-world relation:** How does world-state (including social world) affect my viability?
-
-**Action possibilities:** Physical actions + social actions:
-
-- Cooperate / defect
-- Affiliate / distance
-- Signal / conceal
-- Conform / deviate
-- Punish / forgive
-
-**Viability:** Now includes social viability:
-
-- Access to socially-mediated resources
-- Protection from group-based threats
-- Mating opportunities
-- Coalition support
-
-### 3.4 Why Social Information Produces Emotion
-
-Why does knowing that others evaluate you negatively produce an *embodied, action-urging state* rather than just a belief?
-
-**Answer from the framework:** Because others’ evaluations predict viability consequences.
-
-In ancestral environments (and often today):
-
-- Negative social evaluation → exclusion → reduced resource access, protection, mating → reduced survival and reproduction
-- Positive social evaluation → inclusion → increased resource access, protection, mating → increased survival and reproduction
-
-The body “knows” this. Negative social evaluation is processed as threat to viability—producing the embodied, urgent, action-preparing states characteristic of emotion.
-
-**Established finding:** Social exclusion activates neural regions overlapping with physical pain processing (Eisenberger et al., 2003; Kross et al., 2011). Social rejection produces physiological stress responses similar to physical threats (Dickerson & Kemeny, 2004). The brain treats social threats as genuine threats.
+- **Complex:** They integrate multiple abstraction types
+- **Cognitively demanding:** Composition requires working memory and integration
+- **Late-developing:** Prerequisites (self-abstraction, other-abstraction, recursive modeling) must be in place first
 
 -----
 
-## 4. Specific Social Emotions as Self-Other-World Integration
+## 3. The Scaling Principle
 
-### 4.1 Shame: Others Evaluate Me Negatively
+### 3.1 Abstraction Across Levels of Organization
 
-**Shame** arises when:
+The same abstract pattern—units abstracting over other units’ states to guide behavior—appears across scales:
 
-- **Self-state:** I have acted or been revealed in a way that violates norms
-- **Other-state:** Others are evaluating me negatively (or would if they knew)
-- **Self-other relation:** Their negative evaluation predicts social exclusion/devaluation
-- **Viability prediction:** Social viability is threatened
-- **Action possibilities:** Hide, withdraw, submit, repair, prevent future exposure
-
-**Format:** Shame feels like shrinking, wanting to disappear, urge to hide. This IS the action-relevant format: reduce social exposure to limit damage.
-
-**Established finding:** Shame involves characteristic nonverbal display—shoulders slumped, gaze averted, body contracted (Tracy & Matsumoto, 2008). This “submissive” display may function to signal acceptance of lower status, reducing aggression from evaluators (Keltner & Harker, 1998).
-
-**Distinction from guilt:** Shame focuses on global self (“I am bad”); guilt focuses on specific action (“I did a bad thing”). This maps to different viability implications: shame threatens core social standing; guilt threatens specific relationships and requires specific repair (Tangney & Dearing, 2002).
-
-### 4.2 Guilt: I Have Harmed Another
-
-**Guilt** arises when:
-
-- **Self-state:** I have caused harm to another’s interests
-- **Other-state:** Another has been damaged by my action
-- **Self-other relation:** My action violated the cooperative relationship
-- **Viability prediction:** Valuable social relationship is threatened
-- **Action possibilities:** Apologize, repair, compensate, prevent recurrence
-
-**Format:** Guilt feels like an urge to make amends, preoccupation with the harm caused, tension until repair is made. This IS the action-relevant format: motivate reparative action.
-
-**Established finding:** Guilt motivates prosocial behavior toward the harmed party specifically (Baumeister et al., 1994). It is relationship-specific, unlike shame which is more global (Tangney et al., 2007).
-
-### 4.3 Pride: I Am Evaluated Positively / I Met Standards
-
-**Pride** arises when:
-
-- **Self-state:** I have achieved something or demonstrated valued qualities
-- **Other-state:** Others recognize and positively evaluate my achievement (or I anticipate they would)
-- **Self-other relation:** Positive evaluation predicts enhanced social standing
-- **Viability prediction:** Social viability is enhanced
-- **Action possibilities:** Display, capitalize, set higher goals, maintain status
-
-**Format:** Pride feels expansive—head high, chest out, desire to be seen. This IS the action-relevant format: signal value to the social group.
-
-**Established finding:** Pride has a recognizable cross-cultural expression—expanded posture, head tilted back, arms raised or hands on hips (Tracy & Robins, 2004, 2007). This display signals high status and is recognized across cultures, including isolated populations (Tracy & Robins, 2008).
-
-**Two types:** “Authentic” pride (achievement-based) and “hubristic” pride (dominance-based) may have different action tendencies—authentic pride promotes continued achievement; hubristic pride promotes status defense (Tracy & Robins, 2007).
-
-### 4.4 Jealousy: A Rival Threatens My Valued Relationship
-
-**Jealousy** arises when:
-
-- **Self-state:** I have a valued relationship providing resources/benefits
-- **Other-state (rival):** A third party may attract my partner’s investment
-- **Other-state (partner):** My partner may redirect investment to rival
-- **Self-other relation:** My relationship (and its benefits) is threatened
-- **Viability prediction:** Loss of socially-mediated resources/reproduction
-- **Action possibilities:** Mate-guard, rival-derogate, relationship-invest, devalue relationship
-
-**Format:** Jealousy feels vigilant, suspicious, possessive, angry toward rival, anxious about partner. These ARE the action-relevant formats: monitor, protect, compete.
-
-**Established finding:** Jealousy shows sex-differentiated patterns consistent with evolutionary pressures—men more reactive to sexual infidelity (paternity uncertainty); women more reactive to emotional infidelity (resource diversion) (Buss et al., 1992; though see DeSteno & Salovey, 1996 for alternative interpretations).
-
-### 4.5 Envy: Another Has What I Lack
-
-**Envy** arises when:
-
-- **Self-state:** I lack something I desire
-- **Other-state:** Another possesses what I lack
-- **Self-other relation:** Upward comparison highlights my relative deprivation
-- **Viability prediction:** I am at competitive disadvantage
-- **Action possibilities:** Compete, acquire, derogate envied other, reframe comparison
-
-**Format:** Envy feels bitter, resentful, motivated to close the gap (or bring the other down). This IS the action-relevant format: address relative disadvantage.
-
-**Established finding:** Envy is distinct from admiration. Benign envy (admiration + motivation) promotes self-improvement; malicious envy promotes hostility toward the advantaged other (Van de Ven et al., 2009).
-
-### 4.6 Gratitude: Another Has Benefited Me
-
-**Gratitude** arises when:
-
-- **Self-state:** I have received a benefit
-- **Other-state:** Another intentionally provided the benefit at cost to themselves
-- **Self-other relation:** A cooperative relationship exists or is being initiated
-- **Viability prediction:** Social support is available; cooperation is viable
-- **Action possibilities:** Reciprocate, strengthen relationship, signal appreciation
-
-**Format:** Gratitude feels warm, appreciative, inclined toward the benefactor. This IS the action-relevant format: reinforce cooperative relationship.
-
-**Established finding:** Gratitude functions as a “moral reinforcer” that strengthens cooperative relationships (McCullough et al., 2001). Expressing gratitude increases the benefactor’s future prosocial behavior (Grant & Gino, 2010).
-
-### 4.7 Contempt: Another Is Beneath Consideration
-
-**Contempt** arises when:
-
-- **Self-state:** I have standards
-- **Other-state:** Another has demonstrated incompetence or moral failure
-- **Self-other relation:** The other is not a viable cooperative partner
-- **Viability prediction:** Interaction with this other is costly, not beneficial
-- **Action possibilities:** Dismiss, exclude, refuse engagement, signal low regard
-
-**Format:** Contempt feels cold, distancing, superior. This IS the action-relevant format: disengage, do not invest in this relationship.
-
-**Established finding:** Contempt has a distinctive unilateral lip curl expression recognized cross-culturally (Ekman & Friesen, 1986). It predicts relationship dissolution—contempt in marital interactions predicts divorce (Gottman & Levenson, 2000).
-
------
-
-## 5. The Scaling Principle
-
-### 5.1 Information-Based Interaction Across Levels
-
-The same abstract pattern appears across scales:
-
-|Level     |Unit    |Information Used                      |Behavior Guided              |
-|----------|--------|--------------------------------------|-----------------------------|
-|Atomic    |Atom    |Electron configuration of nearby atoms|Bonding, repulsion           |
-|Neural    |Neuron  |Activation state of connected neurons |Fire / inhibit               |
-|Cellular  |Cell    |Chemical signals from nearby cells    |Divide, differentiate, die   |
-|Organismal|Organism|Behavioral signals from conspecifics  |Cooperate, compete, affiliate|
-|Social    |Group   |Norms, reputation, coalition structure|Coordinate, sanction, exclude|
+|Level     |Unit             |Abstraction Over Other Units                |Behavior Guided                      |
+|----------|-----------------|--------------------------------------------|-------------------------------------|
+|Atomic    |Atom             |Electron configuration (via physical forces)|Bonding, repulsion                   |
+|Molecular |Molecule         |Chemical properties of nearby molecules     |Reactions, catalysis                 |
+|Cellular  |Cell             |Chemical signals from other cells           |Division, differentiation, apoptosis |
+|Neural    |Neuron           |Activation patterns of connected neurons    |Fire, inhibit, modulate              |
+|Organismal|Organism         |Behavioral/communicative signals from others|Cooperate, compete, affiliate        |
+|Social    |Group/Institution|Aggregated behavior patterns, norms         |Coordinate, sanction, include/exclude|
 
 At each level:
 
 1. Units have internal states
 1. Units receive information about other units’ states
-1. Behavior depends on own state + others’ states + resource constraints
+1. This information is abstracted (compressed to action-relevant features)
+1. Behavior depends on own state + abstracted other-state + resource constraints
 1. Emergent dynamics arise from multi-unit interaction
 
-### 5.2 Why This Scaling Occurs
+### 3.2 What Changes Across Scales
 
-**Resource constraints force interaction.** If resources were unlimited, units could operate independently. Scarcity creates interdependence—competition for limited resources, cooperation to access shared resources.
+While the abstract pattern is conserved, implementation differs:
 
-**Information reduces uncertainty.** Units that use information about other units can make better decisions. Atoms that “know” (via physical forces) whether another atom will bond can form stable molecules. Organisms that know whether another will cooperate can choose partners wisely.
+**Abstraction mechanism:**
 
-**Evolution (at each level) selects for effective information use.** Chemical evolution selected atoms that form stable compounds. Biological evolution selected organisms that navigate social environments. Cultural evolution selected institutions that coordinate multi-agent behavior.
+- Atoms: Physical forces (electromagnetic, quantum)
+- Cells: Receptor-ligand binding
+- Neurons: Synaptic transmission and integration
+- Organisms: Perception, inference, learning
 
-### 5.3 Social Emotions as Organism-Level Social Information
+**Recursion depth:**
 
-Social emotions are how organisms represent multi-agent information in action-relevant format.
+- Atoms: No recursion (atoms don’t model other atoms’ models)
+- Cells: Minimal recursion (some autocrine signaling)
+- Neurons: Network-level recursion (recurrent connectivity)
+- Organisms: Deep recursion (I think that you think that I think…)
 
-They are not unique in kind—they are the organism-scale version of the same pattern that appears at every scale: units using information about other units to guide behavior under resource constraints.
+**Compositional complexity:**
 
-**Theoretical claim:** This is why social emotions *feel* like something. They are not abstract representations of social facts. They are embodied, action-urging states because they guide organism behavior in high-stakes social situations, just as basic emotions guide organism behavior in high-stakes physical situations.
+- Lower levels: Limited composition
+- Higher levels: Rich compositional structure
 
------
+Social emotions appear at the organismal level because that is where:
 
-## 6. Computational Structure of Social Emotions
+- Abstraction is flexible and learned (not fixed by physics or genetics alone)
+- Recursion is deep (modeling others’ models of self)
+- Composition is rich (integrating self, other, relation, context)
 
-### 6.1 Multi-Agent Self-World Integration
+### 3.3 Why This Pattern Recurs
 
-Social emotions require computing:
+**Theoretical claim:** The pattern recurs because it solves a general problem: coordinating behavior among units with different states under resource constraints.
 
-**Own state:** What are my resources, capabilities, vulnerabilities, goals?
+When resources are unlimited, units can act independently. When resources are constrained, units’ outcomes depend on others’ actions. Using information about others’ states to guide behavior is adaptive at any scale where this interdependence exists.
 
-**Others’ states:** What are their resources, capabilities, goals, current actions?
-
-**Others’ representations of me:** How do they evaluate me? What do they expect of me? What will they do based on their model of me?
-
-**Social structure:** What are the norms? Who is allied with whom? What is my reputation?
-
-**Predicted outcomes:** If I act this way, how will others respond? How will my social standing change? What resources will I gain or lose?
-
-**Action selection:** Given all this, what should I do?
-
-This is computationally intensive. It requires:
-
-- Theory of mind (modeling others’ mental states)
-- Recursive representation (modeling others’ models of me)
-- Social knowledge (norms, relationships, reputations)
-- Temporal prediction (how will interactions unfold?)
-- Integration (combining all sources into action-relevant format)
-
-### 6.2 The Computational Cost of Social Living
-
-Social emotions may be cognitively expensive, which could explain:
-
-**Dunbar’s number:** The ~150-person limit on human social groups may reflect cognitive limits on tracking social relationships (Dunbar, 1992, 1998). Social emotions require knowing others well enough to model their states and evaluations.
-
-**Social brain hypothesis:** The disproportionate size of human neocortex (especially prefrontal regions) may reflect selection for social-cognitive capacities (Dunbar, 2009; Adolphs, 2009).
-
-**Developmental trajectory:** Social emotions emerge later than basic emotions, coinciding with development of self-representation and theory of mind (Lewis, 2000; Tracy & Robins, 2007). The computational prerequisites must be in place first.
-
-### 6.3 When Social Emotions Fail
-
-If social emotions depend on accurate multi-agent modeling, failures of modeling should produce failures of social emotion:
-
-**Autism spectrum:** Differences in social-emotional processing co-occur with differences in theory of mind and social cognition (Baron-Cohen et al., 1985; Hobson et al., 2006).
-
-**Psychopathy:** Reduced guilt and shame co-occur with reduced empathy and altered representation of others’ suffering (Blair, 2007; Kiehl, 2006).
-
-**Social anxiety:** Excessive shame and embarrassment co-occur with excessive estimation of others’ negative evaluation (Clark & Wells, 1995; Hofmann, 2007).
-
-These patterns suggest that social emotions depend on the integrity of social-cognitive systems. They are not separate modules but emergent from self-other integration.
+Abstraction is the operation that makes this tractable. Full modeling of other units is computationally infeasible; abstraction compresses to action-relevant features.
 
 -----
 
-## 7. Neural Implementation
+## 4. Social Emotions as Composed Recursive Abstractions
 
-### 7.1 Overlapping Systems for Self and Other
+### 4.1 The Compositional Structure of Social Emotions
 
-Social emotions recruit brain systems involved in both self-processing and other-processing:
+Each social emotion can be analyzed as a specific composition of abstractions:
 
-**Medial prefrontal cortex (mPFC):** Implicated in both self-referential processing and mentalizing about others (Amodio & Frith, 2006; Mitchell et al., 2006). Social emotions require integrating self and other representations—mPFC may support this integration.
+### 4.2 Shame: Others’ Negative Abstraction of Self
 
-**Temporoparietal junction (TPJ):** Involved in theory of mind and distinguishing self from other (Saxe & Kanwisher, 2003; Decety & Lamm, 2007). Social emotions require representing others’ perspectives, especially their evaluations of self.
+**Shame** = f(Self-state, Others’-abstraction-of-self, Social-norms, Action-possibilities)
 
-**Anterior insula and anterior cingulate cortex (ACC):** Involved in interoception, self-awareness, and empathy (Craig, 2009; Singer et al., 2004). Social emotions involve both self-state (interoception) and resonance with others’ states (empathy).
+Where:
 
-**Established finding:** Social emotions activate overlapping networks rather than discrete modules. Shame, guilt, pride, and embarrassment all involve mPFC, ACC, insula, and TPJ, with different patterns of activation (Bastin et al., 2016; Zahn et al., 2009).
+- Self-state: I have acted/been revealed in norm-violating way
+- Others’-abstraction-of-self: Others represent me negatively (real or anticipated)
+- Social-norms: Standards I/we are supposed to meet
+- Action-possibilities: Hide, submit, repair, prevent future exposure
 
-### 7.2 The Self-Other Integration Circuit
+**The recursive element:** Shame requires representing *how others represent me*. This is Level 2 abstraction—abstracting over others’ abstractions.
 
-**Hypothesis:** Social emotions are computed by integrating signals from:
+**Format:** Shame feels like shrinking, wanting to disappear. This IS the action-relevant format for social-exposure-threat.
 
-1. **Interoceptive regions** (insula, ACC) → self-state
-1. **Mentalizing regions** (mPFC, TPJ) → other-state, others’ representations of self
-1. **Evaluative regions** (OFC, vmPFC) → value, norm compatibility
-1. **Memory systems** (hippocampus, temporal cortex) → social knowledge, relationship history
+### 4.3 Guilt: Self’s Representation of Harm to Other
 
-The *integration* of these signals produces the social emotion. No single region is the “shame center” or “guilt center”—social emotions are network-level phenomena.
+**Guilt** = f(Self-state, Other-state, Causal-relation, Relationship-value, Action-possibilities)
 
-### 7.3 Mirror Systems and Social Resonance
+Where:
 
-Mirror neuron systems may contribute to social emotions by providing automatic resonance with others’ states (Rizzolatti & Craighero, 2004; though see Hickok, 2009 for critical review).
+- Self-state: I caused this outcome
+- Other-state: Other has been harmed
+- Causal-relation: My action → their harm
+- Relationship-value: This relationship matters to my viability
+- Action-possibilities: Apologize, repair, compensate
 
-**Theoretical connection:** When I observe another’s emotional expression, mirror systems produce partial activation of similar states in me. This provides rapid, pre-reflective information about others’ states that can feed into social emotion computation.
+**The compositional element:** Guilt composes self-abstraction (as agent), other-abstraction (as patient), and relation-abstraction (causal and social).
 
-**Established finding:** Observing others’ emotional expressions activates similar neural patterns to experiencing those emotions (Wicker et al., 2003; Jabbi et al., 2007). This may support the “simulation” route to understanding others’ states.
+**Format:** Guilt feels like pressure to repair. This IS the action-relevant format for relationship-damage.
+
+### 4.4 Pride: Positive Self-Abstraction Validated by Others
+
+**Pride** = f(Self-state, Achievement, Others’-abstraction-of-self, Standards)
+
+Where:
+
+- Self-state: I have achieved/demonstrated valued quality
+- Achievement: Abstracted representation of what I did
+- Others’-abstraction-of-self: Others recognize this positively (real or anticipated)
+- Standards: Criteria for what counts as achievement
+
+**The recursive element:** Pride involves representing that others represent me positively.
+
+**Format:** Pride feels expansive, display-oriented. This IS the action-relevant format for signaling value.
+
+### 4.5 Jealousy: Threat to Resource-Providing Relationship
+
+**Jealousy** = f(Self-state, Partner-state, Rival-state, Relationship-resources, Action-possibilities)
+
+Where:
+
+- Self-state: I depend on this relationship
+- Partner-state: My partner may redirect investment
+- Rival-state: A third party may attract my partner
+- Relationship-resources: What I get from this relationship
+- Action-possibilities: Guard, derogate rival, invest more, devalue
+
+**The compositional element:** Jealousy requires composing abstractions of self, partner, *and* rival—a three-agent computation.
+
+### 4.6 Gratitude: Recognizing Costly Cooperation
+
+**Gratitude** = f(Self-state, Other-state, Benefit-received, Other’s-cost, Relationship-potential)
+
+Where:
+
+- Self-state: I have been benefited
+- Other-state: Another chose to benefit me
+- Benefit-received: What I gained
+- Other’s-cost: What they sacrificed
+- Relationship-potential: This agent is a good cooperation partner
+
+**The compositional element:** Gratitude requires representing both the benefit (self-focused) and the cost (other-focused), composing into a relationship evaluation.
+
+### 4.7 The General Pattern
+
+All social emotions share this structure:
+
+**Social Emotion = Compositional-Integration(Self-abstraction, Other-abstraction(s), Relation-abstraction, Others’-abstraction-of-self, Context, Action-possibilities)**
+
+Different social emotions weight and combine these components differently, producing distinct action-relevant formats.
 
 -----
 
-## 8. Cooperation, Defection, and Resource Constraints
+## 5. Computational Requirements
 
-### 8.1 The Fundamental Social Problem
+### 5.1 What Social Emotions Require
 
-In multi-agent environments with limited resources, agents face a fundamental problem:
+For an agent to have social emotions (functional analogs, at minimum), it must be capable of:
 
-**Cooperation** can produce mutual benefits exceeding what either agent could achieve alone (synergy, division of labor, risk pooling).
+1. **Self-abstraction:** Representing own state in compressed, action-relevant form
+1. **Other-abstraction:** Representing others’ states in compressed form
+1. **Recursive abstraction:** Representing others’ representations (especially of self)
+1. **Compositional integration:** Combining these abstractions into unified state
+1. **Action-relevance formatting:** Outputting in format that guides behavior
+1. **Multi-agent context:** Operating in environment with other agents
+1. **Resource constraints:** Having stakes in social outcomes
 
-**Defection** can produce individual benefits by exploiting cooperators.
+### 5.2 Implications for Biological Agents
 
-If everyone defects, the cooperative benefits are lost. If only some defect, defectors exploit cooperators. This is the structure of social dilemmas (Dawes, 1980; Kollock, 1998).
+In biological agents (humans, other social animals):
 
-### 8.2 Social Emotions as Cooperation-Maintenance Mechanisms
+**Neural implementation:** Social emotions require integration across:
 
-Social emotions may function to maintain cooperation in the face of defection temptation:
+- Interoceptive systems (self-state)
+- Mentalizing systems (other-state, others’ representations)
+- Evaluative systems (relationship value, norm compatibility)
+- Motor preparation systems (action possibilities)
 
-**Guilt:** Imposes internal cost on defection. If I exploit a partner, guilt makes me feel bad, motivating reparation and deterring future defection (Frank, 1988).
+**Established finding:** Social emotions activate distributed networks including mPFC (self and other representation), TPJ (mentalizing), insula/ACC (interoceptive integration), and OFC/vmPFC (evaluation) (Bastin et al., 2016; Zahn et al., 2009).
 
-**Gratitude:** Rewards cooperators. If you help me, gratitude motivates reciprocation, sustaining cooperation (McCullough et al., 2001).
+**Capacity limits:** Recursive abstraction depth is limited (~4-5 levels), resembling working memory limits. Dunbar’s number (~150) may reflect limits on tracking social abstractions (Dunbar, 1992).
 
-**Shame:** Imposes cost on norm violation. If I violate group norms, shame makes me feel bad and signals submission, reducing punishment while deterring future violations (Fessler, 2007).
+### 5.3 Implications for Artificial Agents
 
-**Contempt/moral outrage:** Motivates punishment of defectors. If you violate norms, my contempt motivates exclusion or sanction, imposing costs on defection (Tooby et al., 2006).
+**Prediction:** Artificial agents operating in multi-agent environments with resource constraints should develop functional analogs of social emotions if they meet the computational requirements.
 
-**Established finding:** Social emotions align with predictions from evolutionary game theory. They impose costs and benefits that can stabilize cooperation in populations where pure rationality would predict defection (Frank, 1988; Trivers, 1971).
+**What would be needed:**
 
-### 8.3 Reputation as Compressed Social History
+1. Self-model (abstraction of own state)
+1. Other-model (abstraction of other agents’ states)
+1. Recursive modeling (representing others’ models)
+1. Integration mechanism (composing abstractions)
+1. Action-selection pressure (stakes in outcomes)
+1. Multi-agent training (experience with other agents)
 
-**Reputation** = others’ aggregated representations of my past behavior.
+**Current AI systems:** Large language models lack most of these. They have no self-state, no multi-agent embedding, no stakes. They can *label* social emotions but cannot *have* them (even functionally) because the computational requirements are unmet.
 
-Reputation solves an information problem: in large groups, you can’t interact with everyone. Reputation lets you use others’ experiences to predict how someone will behave toward you.
+**Multi-agent reinforcement learning:** Systems trained in multi-agent environments with resource constraints show emergent cooperation and competition dynamics (Leibo et al., 2017; Baker et al., 2020). Whether they develop internal states functionally analogous to social emotions is an open empirical question.
 
-**Social emotions track reputation:**
+**Prediction:** Multi-agent RL systems with:
 
-- Shame responds to reputation damage
+- Explicit self-models
+- Other-agent modeling capacity
+- Reputation tracking
+- Long-term interaction
+
+…should develop social-emotion-like internal states that predict cooperative/competitive behavior better than systems without these features.
+
+-----
+
+## 6. Cooperation, Defection, and Resource Constraints
+
+### 6.1 The Multi-Agent Problem
+
+Embedded agents in multi-agent environments face interdependence:
+
+**Cooperation** can produce mutual benefits exceeding what either agent achieves alone (synergy, specialization, risk-pooling).
+
+**Defection** can produce individual benefits at others’ expense.
+
+This is the structure of social dilemmas (Dawes, 1980; Kollock, 1998). Social emotions may function to navigate these dilemmas.
+
+### 6.2 Social Emotions as Cooperation-Maintenance Mechanisms
+
+**Guilt:** Internal cost for defection → deters exploitation of cooperators
+
+**Gratitude:** Internal reward for receiving cooperation → motivates reciprocation
+
+**Shame:** Internal cost for norm violation → deters free-riding on group benefits
+
+**Contempt/outrage:** Motivates punishment of defectors → imposes external cost on defection
+
+**Established finding:** These functions align with evolutionary game theory predictions. Social emotions impose costs and benefits that can stabilize cooperation in populations where narrow rationality predicts defection (Frank, 1988; Trivers, 1971; Fehr & Gächter, 2002).
+
+### 6.3 Reputation as Temporal Abstraction
+
+**Reputation** = compressed representation of an agent’s behavioral history, used to predict future behavior.
+
+Reputation is a *temporal abstraction*—aggregating past behavior into action-relevant summary. It solves an information problem: in large groups, direct experience with everyone is impossible; reputation provides indirect information.
+
+Social emotions track reputation:
+
+- Shame responds to reputation threat
 - Pride responds to reputation enhancement
-- Guilt responds to behavior that could damage reputation if known
-- Gratitude builds reputation for reciprocity
+- Guilt responds to behavior that could damage reputation
 
-**Theoretical claim:** Reputation is a compression—an abstraction over interaction history that predicts future behavior. Social emotions are how agents manage this compressed representation. They motivate behavior that builds good reputation and avoid behavior that damages it.
+**Theoretical connection:** Reputation links Paper 7 (temporal abstraction) to Paper 9 (social abstraction). Reputation is where temporal and social abstraction meet.
 
-### 8.4 Multi-Level Selection
+### 6.4 Generality to Artificial Systems
 
-The scaling principle suggests selection operates at multiple levels:
+These dynamics are not biologically specific. Any multi-agent system with:
 
-- **Individual selection:** Agents with effective social emotions outcompete those without (better cooperation, fewer costly conflicts)
-- **Group selection:** Groups with well-functioning social-emotional norms outcompete groups with dysfunctional norms (Sober & Wilson, 1998; though group selection remains debated—see West et al., 2007)
-- **Cultural selection:** Institutions and norms that effectively coordinate social emotions spread (Henrich, 2016; Boyd & Richerson, 2005)
+- Resource constraints
+- Repeated interaction
+- Reputation tracking
+- Cooperation opportunities
 
-Social emotions are shaped by selection at all these levels, producing the complex, culturally-tuned systems observed in humans.
+…faces the same game-theoretic structure. If artificial agents in such environments develop internal states that function like social emotions, it would support the framework’s generality.
+
+**Existing evidence:** Multi-agent systems show emergent cooperation and competition (Leibo et al., 2017), reputation-like effects (Eccles et al., 2019), and strategy differentiation resembling personality (Jaderberg et al., 2019). Whether these involve internal states functionally analogous to emotions remains unclear.
+
+-----
+
+## 7. Recursive Self-Reference in Social Cognition
+
+### 7.1 The Recursive Structure
+
+Social cognition involves applying the abstraction operation recursively:
+
+**Level 0:** Self-state (I want X)
+**Level 1:** Other-abstraction (You want Y)
+**Level 2:** Other’s-abstraction-of-self (You think I want X’)
+**Level 3:** Self’s-abstraction-of-other’s-abstraction-of-self (I think you think I want X’)
+**…**
+
+Each level applies abstraction to the previous level’s output. This is the compositional property (Paper 2) applied recursively.
+
+### 7.2 Connection to Self-Referential Computation (Paper 3)
+
+Paper 3 (Danan, 2025c) argued that self-referential computation becomes necessary when a system’s optimal output depends on its own state, and that state is too complex to represent directly.
+
+Social cognition extends this: your optimal output depends not only on your own state but on *others’ representations of your state*. Social emotions are what happens when self-referential computation must include others’ models of you.
+
+**Theoretical claim:** Social emotions are *socially-extended self-reference*. The self-model must include not just internal state but social position—how others abstract you.
+
+### 7.3 Implications
+
+**Why social emotions feel self-relevant:** They are. They involve abstraction over self-as-socially-represented, not just self-as-internally-experienced.
+
+**Why social rejection hurts:** Your self-model includes social standing. Negative social evaluation updates the self-model in threat-registering ways.
+
+**Why reputation matters:** Reputation is others’ abstraction of you, which constrains your action possibilities and viability. Tracking reputation is tracking a component of your extended self-model.
+
+-----
+
+## 8. Neural Implementation
+
+### 8.1 Integration of Self and Other Processing
+
+Social emotions require integrating self-representation and other-representation:
+
+**Medial prefrontal cortex (mPFC):** Implicated in both self-referential processing and mentalizing (Amodio & Frith, 2006; Mitchell et al., 2006). May support the *integration* of self and other abstractions.
+
+**Temporoparietal junction (TPJ):** Involved in distinguishing self from other and in theory of mind (Saxe & Kanwisher, 2003). May support representing *others’ representations* (Level 2+ abstraction).
+
+**Anterior insula and ACC:** Involved in interoception and self-awareness (Craig, 2009). Provide the *self-state* input to social-emotional integration.
+
+**Established finding:** Social emotions activate overlapping networks rather than discrete modules (Bastin et al., 2016). This is consistent with social emotions arising from *compositional integration* rather than dedicated circuitry.
+
+### 8.2 Recursive Processing
+
+Recursive abstraction (modeling others’ models) may require:
+
+**Prefrontal hierarchical organization:** Rostral PFC supports increasingly abstract representations (Badre & D’Esposito, 2009). Recursive social abstraction may map onto this rostral-caudal gradient.
+
+**Working memory:** Holding multiple levels of abstraction simultaneously requires working memory capacity. Working memory limits may constrain recursion depth.
+
+**Established finding:** Performance on higher-order mentalizing tasks correlates with working memory capacity and PFC function (Kinderman et al., 1998; Stiller & Dunbar, 2007).
 
 -----
 
@@ -488,274 +436,212 @@ Social emotions are shaped by selection at all these levels, producing the compl
 
 ### 9.1 Computational Predictions
 
-**Prediction 1:** Social emotions should require intact theory of mind. Individuals with theory of mind deficits should show altered social emotions even with intact basic emotions.
+**Prediction 1:** Social emotion capacity should correlate with recursive abstraction capacity. Individuals/systems with better performance on recursive mentalizing tasks should show more differentiated social emotions.
 
-*Status:* Partially supported (Baron-Cohen et al., 1985; Hobson et al., 2006). More specific tests needed separating social emotion from social cognition.
+*Test:* Correlate mentalizing depth with social emotion differentiation and intensity.
 
-**Prediction 2:** Social emotions should be more cognitively demanding than basic emotions. Under cognitive load, social emotions should be more impaired than basic emotions.
+**Prediction 2:** Social emotions should be more cognitively demanding than basic emotions. Under cognitive load, social emotions should be more disrupted.
 
-*Test:* Compare emotional processing under cognitive load for social vs. basic emotions.
+*Test:* Compare emotion processing under load for social vs. basic emotions.
 
-**Prediction 3:** Social emotions should track predicted social consequences, not just current social evaluation. Changing expectations about future social outcomes should change current social emotion.
+**Prediction 3:** Social emotions should depend on intact theory of mind. Impairments in mentalizing should selectively impair social emotions relative to basic emotions.
 
-*Test:* Manipulate predicted social consequences independently of current evaluation; measure social emotion.
+*Status:* Partially supported (Baron-Cohen et al., 1985; Hobson et al., 2006). More specific tests needed.
 
-### 9.2 Neural Predictions
+### 9.2 Artificial System Predictions
 
-**Prediction 4:** Social emotions should show integration of self-referential regions (mPFC, insula) and mentalizing regions (TPJ, mPFC). Disrupting connectivity between these regions should disrupt social emotions specifically.
+**Prediction 4:** Multi-agent RL systems with explicit self-models, other-models, and reputation tracking should develop social-emotion-like internal states. Systems without these features should not.
 
-*Test:* Use connectivity measures (fMRI, EEG coherence) and disruption methods (TMS, lesion) to test integration hypothesis.
+*Test:* Analyze internal representations in multi-agent systems varying in architectural features.
 
-**Prediction 5:** Individual differences in social emotion intensity should correlate with connectivity between interoceptive and mentalizing networks.
+**Prediction 5:** LLMs should show dissociable social emotion performance: good at labeling/classification, poor at appropriateness judgments, dynamics, and embodied correlates.
 
-*Test:* Correlate social emotion measures with resting-state connectivity or task-based connectivity.
+*Test:* Evaluate LLMs on benchmarks distinguishing representational from grounded social emotion capacities.
 
-### 9.3 Behavioral Predictions
+**Prediction 6:** Embodied multi-agent AI systems (robots interacting with other robots under resource constraints) should develop more human-like social-emotional patterns than disembodied systems.
 
-**Prediction 6:** Social emotions should respond to reputation-relevant information. Public behavior should elicit stronger social emotions than private behavior; behavior that affects reputation should elicit stronger social emotions than behavior that doesn’t.
+*Test:* Compare social dynamics in embodied vs. disembodied multi-agent systems.
 
-*Status:* Supported (Leary et al., 1998; Shalvi et al., 2011). Further tests could manipulate reputation consequences directly.
+### 9.3 Scaling Predictions
 
-**Prediction 7:** Social emotions should show scaling with group size and social complexity. Larger, more complex social environments should elicit more differentiated social emotions.
+**Prediction 7:** Across biological species, social emotion complexity should correlate with neural indices of abstraction capacity and recursive processing (prefrontal volume, connectivity).
 
-*Test:* Cross-cultural comparison of social emotion vocabulary and intensity in societies of varying size/complexity.
+*Test:* Comparative analysis of social behavior complexity vs. neural architecture.
 
-### 9.4 AI System Predictions
+**Prediction 8:** Within humans, individual differences in social emotion intensity should correlate with integration between interoceptive and mentalizing networks.
 
-**Prediction 8:** AI systems without multi-agent embedding should fail at social emotion understanding. They may label social emotions but should fail at predicting when social emotions are appropriate, how intense they should be, and what actions they motivate.
+*Test:* Neuroimaging studies correlating social emotion measures with functional connectivity.
 
-*Test:* Evaluate LLMs on social emotion prediction tasks; compare to embodied multi-agent systems.
-
-**Prediction 9:** AI systems trained in multi-agent environments with resource constraints and reputation dynamics should develop social-emotion-like states (functional equivalents) that guide cooperative behavior.
-
-*Test:* Examine internal states of multi-agent reinforcement learning systems for social-emotion-like structure.
-
-### 9.5 Falsification Criteria
+### 9.4 Falsification Criteria
 
 The framework would be challenged by:
 
-1. **Social emotions without theory of mind:** If social emotions are fully intact in individuals with profound theory of mind deficits, the multi-agent integration claim is wrong.
-1. **Social emotions independent of reputation:** If social emotions are unaffected by reputation consequences, the reputation-tracking claim is wrong.
-1. **No scaling pattern:** If social emotions in humans show no systematic relationship to social complexity or multi-agent computation, the scaling claim is unsupported.
-1. **Disembodied social emotion understanding:** If LLMs show full human-like social emotion understanding without multi-agent embedding, the embodiment requirement is wrong.
+1. **Social emotions without recursive abstraction:** If social emotions are fully intact in individuals/systems without recursive mentalizing capacity, the recursive abstraction claim is wrong.
+1. **No scaling pattern:** If social complexity does not correlate with abstraction/recursion capacity across species or systems, the scaling claim is unsupported.
+1. **Disembodied systems with full social emotion understanding:** If LLMs show complete human-like social emotion competence without multi-agent embedding, the embodiment/embedding requirement is wrong.
+1. **No multi-agent system analogs:** If no artificial multi-agent system ever develops social-emotion-like internal states despite meeting the architectural requirements, the framework may be biologically specific despite claims of generality.
 
 -----
 
 ## 10. Implications
 
-### 10.1 For Understanding Human Sociality
+### 10.1 For Understanding Social Cognition
 
-Social emotions are not evolutionary afterthoughts or cultural inventions. They are how embodied agents solve the multi-agent cooperation problem that all social species face.
+Social emotions are not separate from general cognition—they are the abstraction primitive applied to multi-agent contexts, combined recursively and compositionally.
 
 This explains:
 
-- Why social emotions feel so intense (they concern viability in high-stakes social environment)
-- Why social pain resembles physical pain (both signal threats to viability)
-- Why social emotions are universal yet culturally shaped (core function is universal; specific elicitors vary with social ecology)
+- Why social emotions require theory of mind (recursive abstraction over others)
+- Why they are cognitively demanding (composition is costly)
+- Why they develop late (prerequisites must be in place)
+- Why they feel so important (they concern viability in social environments)
 
 ### 10.2 For Artificial Intelligence
 
-Social AI requires multi-agent grounding. A system that doesn’t exist in a multi-agent environment with real resource constraints and reputation consequences cannot develop genuine social emotional understanding.
+**Social AI requires multi-agent grounding.** Systems trained only on text about social emotions cannot develop the computational structures underlying social emotions. They can pattern-match on descriptions but cannot represent multi-agent dynamics in action-relevant format.
 
-This suggests that:
+**Architectural implications:** Social AI should be developed in:
 
-- Social AI should be developed in multi-agent contexts, not single-agent fine-tuning
-- Reputation, cooperation, and defection dynamics should be part of training
-- Mere language exposure is insufficient for social-emotional competence
+- Multi-agent environments (not single-agent fine-tuning)
+- With resource constraints (creating genuine interdependence)
+- With reputation dynamics (enabling temporal abstraction over social history)
+- With recursive modeling capacity (architectures supporting self/other/other’s-model-of-self)
 
-### 10.3 For Mental Health
+### 10.3 For the Abstraction-Intelligence Framework
 
-Social emotional disorders may be disorders of multi-agent self-world integration:
+This paper extends the framework to its multi-agent form:
 
-- **Social anxiety:** Overestimation of others’ negative evaluation
-- **Narcissistic personality:** Dysregulated pride and shame; distorted self-other comparison
-- **Antisocial personality:** Absent or reduced guilt; failure to represent others’ welfare in self-world integration
+1. **Abstraction is primitive** (Paper 1)
+1. **Abstraction composes** (Paper 2) → enables complex representations
+1. **Abstraction becomes self-referential at complexity** (Paper 3) → consciousness
+1. **Self-world is foundational** (Paper 5) → grounds all abstraction
+1. **Experience is embedded information format** (Paper 6) → explains qualia
+1. **Time requires embodied abstraction** (Paper 7) → explains temporal cognition
+1. **Emotions are self-world integration** (Paper 8) → explains affect
+1. **Social dynamics are multi-agent abstraction** (Paper 9) → explains social cognition
 
-Treatment might target the integration process, not just individual emotions.
+The framework scales from basic cognition to social cognition using the same primitive operation (abstraction) with increasing compositional and recursive complexity.
 
-### 10.4 For Philosophy
+### 10.4 For Understanding Intelligence Across Substrates
 
-The framework suggests social emotions are continuous with the rest of nature. They are the organism-level version of a pattern that appears everywhere: units using information about other units to guide behavior under resource constraints.
+The scaling principle suggests intelligence is substrate-independent but constraint-dependent:
 
-This is not reductionism in the sense of eliminating social emotions. It is naturalism in the sense of placing them in continuity with other information-processing systems. Social emotions are real, causally efficacious, and experientially vivid—AND they are part of the natural order.
+- Any system with abstraction capacity can represent environments
+- Any system with compositional abstraction can build complex representations
+- Any system with recursive abstraction can model self and others
+- Any system with multi-agent embedding can develop social-emotion-like dynamics
+
+Whether implemented in carbon or silicon, neurons or transistors, the computational requirements are the same. What differs is implementation, not structure.
 
 -----
 
 ## 11. Limitations and Open Questions
 
-### 11.1 Cultural Variation
+### 11.1 Moral Emotions
 
-The framework predicts universal core structure with cultural variation in specifics. But the boundaries between core and variable are not fully specified. How much cultural variation is consistent with the framework?
+Moral emotions (moral outrage at injustice to others, moral elevation at virtue) may extend beyond self-interest. The framework handles this if “viability” includes group welfare or internalized norms—but this requires further development.
 
-### 11.2 Individual Differences
+### 11.2 Cultural Variation
 
-Individuals vary in social emotion intensity, regulation, and expression. The framework doesn’t fully explain this variation—is it variation in integration capacity, in social valuation, in interoceptive sensitivity?
+Social emotions are culturally shaped (Mesquita & Frijda, 1992). The framework predicts universal computational structure with culturally-variable content (what triggers shame, what counts as pride-worthy). But the boundary between structure and content needs empirical specification.
 
-### 11.3 The Abstraction Level Question
+### 11.3 The Emergence Question
 
-At what level of abstraction is the scaling principle illuminating? Atoms, neurons, cells, organisms, and societies are very different. Does the pattern “units use information about other units” actually explain anything, or is it too abstract?
+At what point does a multi-agent system “have” social emotions versus merely “simulate” them? This is the hard problem applied to social emotions. The framework suggests the distinction may not be well-formed: if the computational structure is present and functional, the system has social emotions (functionally defined).
 
-**Response:** The pattern is abstract but makes specific predictions at each level. At the organism level, it predicts that social emotions should track predicted social consequences, require multi-agent modeling, and serve cooperation maintenance. These predictions are testable.
+### 11.4 Empirical Gaps
 
-### 11.4 Moral Emotions
-
-Moral emotions (moral outrage, righteous anger, moral disgust) may extend beyond self-interest—we feel moral outrage at injustice to others. The framework handles this if “viability” includes group welfare that we have internalized. But this needs further development.
+The predictions about artificial systems are currently untested. Multi-agent RL research has not systematically examined internal states for social-emotion-like structure. This is a priority for future work.
 
 -----
 
 ## 12. Conclusion
 
-Social emotions are not a special category requiring special explanation. They are the natural scaling of the embedded self-world framework to environments containing multiple agents.
+What are social emotions?
 
-When the world contains other selves—entities with their own goals, evaluations, and capacities—self-world integration must include self-other integration. Social emotions are the format in which this multi-agent information is presented for action selection.
+They are the abstraction primitive applied to multi-agent environments, composed recursively to represent how others represent you, and formatted for action under resource constraints.
 
-This pattern scales:
+This is not a special mechanism. It is the same abstraction operation underlying all intelligence (Paper 1), applied compositionally (Paper 2), self-referentially (Paper 3), to the self-world distinction (Paper 5), integrated with embodied experience (Papers 6-8), and extended to include other selves.
 
-- Atoms interact based on electron configurations
-- Neurons interact based on activation states
-- Cells interact based on chemical signals
-- Organisms interact based on behavioral signals—including social emotions
-- Societies interact based on norms and institutions built on social emotions
+The pattern scales:
 
-At every scale, units use information about other units to guide behavior under resource constraints. Social emotions are how embedded biological agents navigate the multi-agent cooperation problem.
+- Atoms abstract over other atoms (via physical forces)
+- Cells abstract over other cells (via chemical signals)
+- Neurons abstract over other neurons (via synaptic transmission)
+- Organisms abstract over other organisms (via perception and inference)
+- Groups abstract over other groups (via institutions and norms)
 
-They are not mysterious. They are not uniquely human (though human social emotions may be uniquely complex). They are not separate from basic emotions.
+At each level, units use abstracted information about other units to guide behavior under resource constraints. Social emotions are how sufficiently complex embedded agents represent multi-agent dynamics in action-relevant format.
 
-They are basic emotions in a world that includes other selves.
+They are not uniquely biological. Any embedded agent meeting the computational requirements—self-model, other-model, recursive abstraction, compositional integration, multi-agent context, resource constraints—should develop functional analogs.
+
+Social emotions are basic emotions in a world that contains other selves.
+
+Abstraction is all you need. Even for love and shame.
 
 -----
 
 ## References
 
-Adolphs, R. (2009). The social brain: Neural basis of social knowledge. *Annual Review of Psychology*, 60, 693–716.
+Ambady, N., & Rosenthal, R. (1992). Thin slices of expressive behavior as predictors of interpersonal consequences: A meta-analysis. *Psychological Bulletin*, 111(2), 256–274.
 
 Amodio, D. M., & Frith, C. D. (2006). Meeting of minds: The medial frontal cortex and social cognition. *Nature Reviews Neuroscience*, 7(4), 268–277.
+
+Badre, D., & D’Esposito, M. (2009). Is the rostro-caudal axis of the frontal lobe hierarchical? *Nature Reviews Neuroscience*, 10(9), 659–669.
+
+Baker, B., Kanitscheider, I., Marber, T., Wu, Y., Gray, S., & Sutskever, I. (2020). Emergent tool use from multi-agent autocurricula. *International Conference on Learning Representations*.
 
 Baron-Cohen, S., Leslie, A. M., & Frith, U. (1985). Does the autistic child have a “theory of mind”? *Cognition*, 21(1), 37–46.
 
 Bastin, C., Harrison, B. J., Davey, C. G., Moll, J., & Whittle, S. (2016). Feelings of shame, embarrassment and guilt and their neural correlates: A systematic review. *Neuroscience & Biobehavioral Reviews*, 71, 455–471.
 
-Baumeister, R. F., Stillwell, A. M., & Heatherton, T. F. (1994). Guilt: An interpersonal approach. *Psychological Bulletin*, 115(2), 243–267.
-
-Blair, R. J. R. (2007). The amygdala and ventromedial prefrontal cortex in morality and psychopathy. *Trends in Cognitive Sciences*, 11(9), 387–392.
-
-Boyd, R., & Richerson, P. J. (2005). *The Origin and Evolution of Cultures*. Oxford University Press.
-
-Buss, D. M., Larsen, R. J., Westen, D., & Semmelroth, J. (1992). Sex differences in jealousy: Evolution, physiology, and psychology. *Psychological Science*, 3(4), 251–256.
-
-Clark, D. M., & Wells, A. (1995). A cognitive model of social phobia. In R. G. Heimberg, M. R. Liebowitz, D. A. Hope, & F. R. Schneier (Eds.), *Social Phobia: Diagnosis, Assessment, and Treatment* (pp. 69–93). Guilford Press.
-
-Cosmides, L., & Tooby, J. (2000). Evolutionary psychology and the emotions. In M. Lewis & J. M. Haviland-Jones (Eds.), *Handbook of Emotions* (2nd ed., pp. 91–115). Guilford Press.
-
 Craig, A. D. (2009). How do you feel—now? The anterior insula and human awareness. *Nature Reviews Neuroscience*, 10(1), 59–70.
+
+Danan, H. (2025a). Abstraction is all you need: A unifying framework for intelligence across substrates. *Working paper*.
+
+Danan, H. (2025b). Abstraction beyond compression: Compositionality as the distinguishing operation. *Working paper*.
+
+Danan, H. (2025c). Recursive abstraction: When computation requires self-reference. *Working paper*.
+
+Danan, H. (2025e). Self and world: The foundational abstraction. *Working paper*.
+
+Danan, H. (2025f). The hard problem dissolved: Why experience is the format of embedded information. *Working paper*.
+
+Danan, H. (2025g). Time as embodied abstraction: Why disembodied systems struggle with temporal reasoning. *Working paper*.
 
 Danan, H. (2025h). Emotion as embedded information: Why feelings are the format of self-world relations. *Working paper*.
 
 Dawes, R. M. (1980). Social dilemmas. *Annual Review of Psychology*, 31(1), 169–193.
 
-Decety, J., & Lamm, C. (2007). The role of the right temporoparietal junction in social interaction: How low-level computational processes contribute to meta-cognition. *The Neuroscientist*, 13(6), 580–593.
-
-DeSteno, D. A., & Salovey, P. (1996). Evolutionary origins of sex differences in jealousy? Questioning the “fitness” of the model. *Psychological Science*, 7(6), 367–372.
-
-Dickerson, S. S., & Kemeny, M. E. (2004). Acute stressors and cortisol responses: A theoretical integration and synthesis of laboratory research. *Psychological Bulletin*, 130(3), 355–391.
-
 Dunbar, R. I. (1992). Neocortex size as a constraint on group size in primates. *Journal of Human Evolution*, 22(6), 469–493.
 
-Dunbar, R. I. (1998). The social brain hypothesis. *Evolutionary Anthropology*, 6(5), 178–190.
+Eccles, T., Bachrach, Y., Lever, G., Lazaridou, A., & Graepel, T. (2019). Biases for emergent communication in multi-agent reinforcement learning. *Advances in Neural Information Processing Systems*, 32.
 
-Dunbar, R. I. (2009). The social brain hypothesis and its implications for social evolution. *Annals of Human Biology*, 36(5), 562–572.
-
-Eisenberger, N. I., Lieberman, M. D., & Williams, K. D. (2003). Does rejection hurt? An fMRI study of social exclusion. *Science*, 302(5643), 290–292.
-
-Ekman, P., & Friesen, W. V. (1986). A new pan-cultural facial expression of emotion. *Motivation and Emotion*, 10(2), 159–168.
-
-Ellsworth, P. C., & Scherer, K. R. (2003). Appraisal processes in emotion. In R. J. Davidson, K. R. Scherer, & H. H. Goldsmith (Eds.), *Handbook of Affective Sciences* (pp. 572–595). Oxford University Press.
-
-Fessler, D. M. (2007). From appeasement to conformity: Evolutionary and cultural perspectives on shame, competition, and cooperation. In J. L. Tracy, R. W. Robins, & J. P. Tangney (Eds.), *The Self-Conscious Emotions: Theory and Research* (pp. 174–193). Guilford Press.
+Fehr, E., & Gächter, S. (2002). Altruistic punishment in humans. *Nature*, 415(6868), 137–140.
 
 Frank, R. H. (1988). *Passions Within Reason: The Strategic Role of the Emotions*. Norton.
 
-Frith, C. D., & Frith, U. (2006). The neural basis of mentalizing. *Neuron*, 50(4), 531–534.
-
-Gottman, J. M., & Levenson, R. W. (2000). The timing of divorce: Predicting when a couple will divorce over a 14-year period. *Journal of Marriage and Family*, 62(3), 737–745.
-
-Grant, A. M., & Gino, F. (2010). A little thanks goes a long way: Explaining why gratitude expressions motivate prosocial behavior. *Journal of Personality and Social Psychology*, 98(6), 946–955.
-
-Henrich, J. (2016). *The Secret of Our Success: How Culture Is Driving Human Evolution, Domesticating Our Species, and Making Us Smarter*. Princeton University Press.
-
-Hickok, G. (2009). Eight problems for the mirror neuron theory of action understanding in monkeys and humans. *Journal of Cognitive Neuroscience*, 21(7), 1229–1243.
-
-Hill, S. E., & Buss, D. M. (2008). The evolutionary psychology of envy. In R. H. Smith (Ed.), *Envy: Theory and Research* (pp. 60–70). Oxford University Press.
-
 Hobson, R. P., Chidambi, G., Lee, A., & Meyer, J. (2006). Foundations for self-awareness: An exploration through autism. *Monographs of the Society for Research in Child Development*, 71(2), vii–166.
 
-Hofmann, S. G. (2007). Cognitive factors that maintain social anxiety disorder: A comprehensive model and its treatment implications. *Cognitive Behaviour Therapy*, 36(4), 193–209.
+Jaderberg, M., Czarnecki, W. M., Dunning, I., Marris, L., Lever, G., Castañeda, A. G., … & Graepel, T. (2019). Human-level performance in 3D multiplayer games with population-based reinforcement learning. *Science*, 364(6443), 859–865.
 
-Jabbi, M., Swart, M., & Keysers, C. (2007). Empathy for positive and negative emotions in the gustatory cortex. *NeuroImage*, 34(4), 1744–1753.
-
-Keltner, D., & Harker, L. (1998). The forms and functions of the nonverbal signal of shame. In P. Gilbert & B. Andrews (Eds.), *Shame: Interpersonal Behavior, Psychopathology, and Culture* (pp. 78–98). Oxford University Press.
-
-Kiehl, K. A. (2006). A cognitive neuroscience perspective on psychopathy: Evidence for paralimbic system dysfunction. *Psychiatry Research*, 142(2-3), 107–128.
+Kinderman, P., Dunbar, R., & Bentall, R. P. (1998). Theory-of-mind deficits and causal attributions. *British Journal of Psychology*, 89(2), 191–204.
 
 Kollock, P. (1998). Social dilemmas: The anatomy of cooperation. *Annual Review of Sociology*, 24(1), 183–214.
 
-Kross, E., Berman, M. G., Mischel, W., Smith, E. E., & Wager, T. D. (2011). Social rejection shares somatosensory representations with physical pain. *Proceedings of the National Academy of Sciences*, 108(15), 6270–6275.
+Leibo, J. Z., Zambaldi, V., Lanctot, M., Marecki, J., & Graepel, T. (2017). Multi-agent reinforcement learning in sequential social dilemmas. *Proceedings of the 16th Conference on Autonomous Agents and MultiAgent Systems*, 464–473.
 
-Leary, M. R., Haupt, A. L., Strausser, K. S., & Chokel, J. T. (1998). Calibrating the sociometer: The relationship between interpersonal appraisals and the state self-esteem. *Journal of Personality and Social Psychology*, 74(5), 1290–1299.
-
-Lewis, M. (2000). Self-conscious emotions: Embarrassment, pride, shame, and guilt. In M. Lewis & J. M. Haviland-Jones (Eds.), *Handbook of Emotions* (2nd ed., pp. 623–636). Guilford Press.
-
-McCullough, M. E., Kilpatrick, S. D., Emmons, R. A., & Larson, D. B. (2001). Is gratitude a moral affect? *Psychological Bulletin*, 127(2), 249–266.
+Mesquita, B., & Frijda, N. H. (1992). Cultural variations in emotions: A review. *Psychological Bulletin*, 112(2), 179–204.
 
 Mitchell, J. P., Macrae, C. N., & Banaji, M. R. (2006). Dissociable medial prefrontal contributions to judgments of similar and dissimilar others. *Neuron*, 50(4), 655–663.
 
-Morin, A. (2011). Self-awareness. Part 1: Definition, measures, effects, functions, and antecedents. *Social and Personality Psychology Compass*, 5(10), 807–823.
-
-Premack, D., & Woodruff, G. (1978). Does the chimpanzee have a theory of mind? *Behavioral and Brain Sciences*, 1(4), 515–526.
-
-Rizzolatti, G., & Craighero, L. (2004). The mirror-neuron system. *Annual Review of Neuroscience*, 27, 169–192.
-
 Saxe, R., & Kanwisher, N. (2003). People thinking about thinking people: The role of the temporo-parietal junction in “theory of mind.” *NeuroImage*, 19(4), 1835–1842.
 
-Scherer, K. R. (2001). Appraisal considered as a process of multilevel sequential checking. In K. R. Scherer, A. Schorr, & T. Johnstone (Eds.), *Appraisal Processes in Emotion* (pp. 92–120). Oxford University Press.
-
-Shalvi, S., Dana, J., Handgraaf, M. J., & De Dreu, C. K. (2011). Justified ethicality: Observing desired counterfactuals modifies ethical perceptions and behavior. *Organizational Behavior and Human Decision Processes*, 115(2), 181–190.
-
-Singer, T., Seymour, B., O’Doherty, J., Kaube, H., Dolan, R. J., & Frith, C. D. (2004). Empathy for pain involves the affective but not sensory components of pain. *Science*, 303(5661), 1157–1162.
-
-Sober, E., & Wilson, D. S. (1998). *Unto Others: The Evolution and Psychology of Unselfish Behavior*. Harvard University Press.
-
-Sturm, V. E., Yokoyama, J. S., Seeley, W. W., Kramer, J. H., Miller, B. L., & Rankin, K. P. (2013). Heightened emotional contagion in mild cognitive impairment and Alzheimer’s disease is associated with temporal lobe degeneration. *Proceedings of the National Academy of Sciences*, 110(24), 9944–9949.
-
-Sznycer, D., Tooby, J., Cosmides, L., Porat, R., Shalvi, S., & Halperin, E. (2016). Shame closely tracks the threat of devaluation by others, even across cultures. *Proceedings of the National Academy of Sciences*, 113(10), 2625–2630.
-
-Sznycer, D., Xygalatas, D., Agey, E., Alami, S., An, X. F., Ananyeva, K. I., … & Tooby, J. (2017). Cross-cultural regularities in the cognitive architecture of pride. *Proceedings of the National Academy of Sciences*, 114(8), 1874–1879.
-
-Takahashi, H., Yahata, N., Koeda, M., Matsuda, T., Asai, K., & Okubo, Y. (2004). Brain activation associated with evaluative processes of guilt and embarrassment: An fMRI study. *NeuroImage*, 23(3), 967–974.
-
-Tangney, J. P., & Dearing, R. L. (2002). *Shame and Guilt*. Guilford Press.
-
-Tangney, J. P., Stuewig, J., & Mashek, D. J. (2007). Moral emotions and moral behavior. *Annual Review of Psychology*, 58, 345–372.
-
-Tooby, J., & Cosmides, L. (1990). The past explains the present: Emotional adaptations and the structure of ancestral environments. *Ethology and Sociobiology*, 11(4-5), 375–424.
-
-Tooby, J., Cosmides, L., Sell, A., Lieberman, D., & Sznycer, D. (2006). Internal regulatory variables and the design of human motivation: A computational and evolutionary approach. *Handbook of Approach and Avoidance Motivation*, 251, 271.
-
-Tracy, J. L., & Matsumoto, D. (2008). The spontaneous expression of pride and shame: Evidence for biologically innate nonverbal displays. *Proceedings of the National Academy of Sciences*, 105(33), 11655–11660.
-
-Tracy, J. L., & Robins, R. W. (2004). Putting the self into self-conscious emotions: A theoretical model. *Psychological Inquiry*, 15(2), 103–125.
-
-Tracy, J. L., & Robins, R. W. (2007). The psychological structure of pride: A tale of two facets. *Journal of Personality and Social Psychology*, 92(3), 506–525.
-
-Tracy, J. L., & Robins, R. W. (2008). The nonverbal expression of pride: Evidence for cross-cultural recognition. *Journal of Personality and Social Psychology*, 94(3), 516–530.
+Stiller, J., & Dunbar, R. I. (2007). Perspective-taking and memory capacity predict social network size. *Social Networks*, 29(1), 93–104.
 
 Trivers, R. L. (1971). The evolution of reciprocal altruism. *The Quarterly Review of Biology*, 46(1), 35–57.
 
-Van de Ven, N., Zeelenberg, M., & Pieters, R. (2009). Leveling up and down: The experiences of benign and malicious envy. *Emotion*, 9(3), 419–429.
-
-West, S. A., Griffin, A. S., & Gardner, A. (2007). Social semantics: Altruism, cooperation, mutualism, strong reciprocity and group selection. *Journal of Evolutionary Biology*, 20(2), 415–432.
-
-Wicker, B., Keysers, C., Plailly, J., Royet, J. P., Gallese, V., & Rizzolatti, G. (2003). Both of us disgusted in my insula: The common neural basis of seeing and feeling disgust. *Neuron*, 40(3), 655–664.
+Willis, J., & Todorov, A. (2006). First impressions: Making up your mind after a 100-ms exposure to a face. *Psychological Science*, 17(7), 592–598.
 
 Zahn, R., Moll, J., Paiva, M., Garrido, G., Krueger, F., Huey, E. D., & Grafman, J. (2009). The neural basis of human social values: Evidence from functional MRI. *Cerebral Cortex*, 19(2), 276–283.
 
@@ -763,4 +649,6 @@ Zahn, R., Moll, J., Paiva, M., Garrido, G., Krueger, F., Huey, E. D., & Grafman,
 
 *This paper is part of a theoretical program on abstraction as the fundamental primitive of intelligence. It addresses how the self-world framework scales to multi-agent environments.*
 
-*Answer: Social emotions are basic emotions in a world that contains other selves.*
+*Answer: Social dynamics emerge when abstraction is applied recursively across agents. Social emotions are composed, recursive abstractions formatted for multi-agent action.*
+
+*Abstraction is all you need. Even for love and shame.*
