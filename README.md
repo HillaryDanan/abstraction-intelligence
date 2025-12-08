@@ -15,7 +15,7 @@ The framework generates testable predictions about learning curves, transfer lea
 3. **Abstraction as Central Transformation**: Abstraction is the specific operation of converting attended information into manipulable, composable symbols. It is distinct from input operations (perception, attention) and downstream operations (memory, learning, reasoning, decision-making, action). Abstraction creates the representational currency that other cognitive operations trade in — constrained enough to be falsifiable, central enough to be foundational.
 4. **Abstraction as Prior to Prediction**: Prediction presupposes representational content — to predict X will occur requires a representation of X, a representation of futurity, and the compositional capacity to combine them. Abstraction creates the representational currency that prediction operates on. Prediction is the selection pressure; abstraction is what is selected over.
 5. **Architectural Conditions for Abstraction**: Compression yields abstraction when specific conditions are met: factorization pressure, recombination exposure, compositional bottlenecks, and multi-task learning. Without these constraints, compression produces holistic, task-specific representations rather than compositional abstractions.
-6. **Self-Referential Dynamics**: Abstraction capacity follows growth patterns where the rate of new abstraction formation depends on existing abstractions (mathematically characterized by *e*). This dynamic emerges *because* abstraction is compositional — each abstraction expands the space of possible future abstractions.
+6. **Self-Referential Dynamics and *e***: Abstraction capacity follows growth patterns where the rate of new abstraction formation depends on existing abstractions. This state-dependent dynamic is mathematically characterized by Euler's number *e* — not as metaphor but as mathematical necessity arising from three independent sources: the compositionality of abstraction (dA/dt ∝ A), information theory (optimal self-modeling uses natural logarithms and exponential family distributions), and the general mathematics of state-dependent change. This connection holds even under sublinear compositionality.
 7. **Developmental Spectrum**: Abstraction capacity is not binary but develops through qualitatively distinct stages — pattern extraction, symbol formation, recursive composition, and self-referential abstraction — each enabling operations impossible at prior stages.
 8. **Disembodied Abstraction**: Systems lacking embodiment can achieve substantial capacity at early abstraction stages while showing systematic limitations at later stages, particularly self-referential abstraction. Current LLMs exhibit this profile.
 9. **Recursive Self-Modeling**: When a system's optimal output depends on its own complex internal state, self-referential computation—modeling oneself through abstraction—becomes necessary.
@@ -34,7 +34,7 @@ The framework generates testable predictions about learning curves, transfer lea
 | [Abstraction Beyond Compression](papers/abstraction_beyond_compression.md) | Working Draft | What abstraction adds beyond compression: compositionality as the distinguishing operation; metrics for measuring compositionality; architectural conditions for abstraction |
 | [Abstraction Constrained](papers/abstraction_constrained.md) | Working Draft | What abstraction is and is not: addressing the vacuity objection by distinguishing abstraction from input and downstream operations |
 | [Prediction Requires Abstraction](papers/prediction_requires_abstraction.md) | Working Draft | On the priority of representational formation over predictive operation: why prediction presupposes abstraction |
-| [Recursive Abstraction](papers/recursive_abstraction.md) | Working Draft | When computation requires self-reference: feedforward vs. feedback vs. self-modeling architectures; the mathematics of *e* |
+| [Recursive Abstraction](papers/recursive_abstraction.md) | Working Draft | When computation requires self-reference: feedforward vs. feedback vs. self-modeling architectures; the mathematics of *e* (with information-theoretic grounding, robustness under sublinear compositionality, and oscillatory dynamics via *π*) |
 | [The Developmental Spectrum of Abstraction](papers/abstraction_developmental_spectrum.md) | Working Draft | From pattern extraction to self-referential cognition: abstraction capacity as staged development |
 | [Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md) | Working Draft | Application to consciousness: why self-monitoring becomes computationally necessary |
 | [Self and World](papers/self_world_abstraction.md) | Working Draft | The foundational abstraction: why any embedded intelligence must distinguish self from not-self |
@@ -49,7 +49,7 @@ The framework generates testable predictions about learning curves, transfer lea
 2. **Abstraction Beyond Compression** — addresses the compression objection; establishes compositionality as what abstraction adds; develops metrics for measuring compositionality; identifies architectural conditions under which compression yields abstraction
 3. **Abstraction Constrained** — addresses the vacuity objection; establishes what abstraction is and is not; distinguishes from input operations (perception, attention) and downstream operations (memory, learning, reasoning, decision-making, action)
 4. **Prediction Requires Abstraction** — addresses the predictive processing alternative; establishes that prediction presupposes representational content that abstraction provides
-5. **Recursive Abstraction** — establishes when computation must bend back on itself; formalizes the mathematical role of *e* in self-referential dynamics
+5. **Recursive Abstraction** — establishes when computation must bend back on itself; formalizes the mathematical role of *e* in self-referential dynamics via compositionality and information theory; demonstrates robustness under varying compositionality assumptions; extends to oscillatory dynamics governed by *π*
 6. **The Developmental Spectrum of Abstraction** — establishes that abstraction capacity develops through qualitatively distinct stages; locates LLMs on this spectrum
 7. **Consciousness as Emergent Abstraction** — applies the framework to consciousness specifically; builds on stage 4 (self-referential abstraction)
 8. **Self and World** — grounds the framework in the foundational self/not-self distinction
@@ -100,7 +100,7 @@ This theoretical framework is accompanied by an empirical research program testi
 | [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum) | Testing pattern matching vs. genuine rule induction in LLMs |
 | [concrete-overflow-detector](https://github.com/HillaryDanan/concrete-overflow-detector) | Detecting when systems fall back to concrete features; stage regression analysis |
 | [benign-violations](https://github.com/HillaryDanan/benign-violations) | Testing humor generation as embodied prediction error resolution |
-| [paradox-induced-oscillations](https://github.com/HillaryDanan/paradox-induced-oscillations) | Testing dissociative patterns and representational instability in LLMs |
+| [paradox-induced-oscillations](https://github.com/HillaryDanan/paradox-induced-oscillations) | Testing dissociative patterns and representational instability in LLMs; *e*-*π* oscillatory dynamics |
 | [computational-self-construction](https://github.com/HillaryDanan/computational-self-construction) | Testing self-construction and self-model building in LLMs |
 
 ### Recursive & Self-Referential Dynamics
@@ -223,12 +223,14 @@ The framework makes falsifiable predictions including:
 - Chain-of-thought prompting should improve stage 3 tasks more than stage 4 tasks
 - LLMs should show mixed compositional generalization — succeeding on some novel compositions, failing on others — reflecting partial but incomplete compositional abstraction
 
-**Architecture and Self-Reference**
+**Architecture and Self-Reference (*e*-Governed Dynamics)**
 
 - Feedforward architectures will show qualitative limits on tasks requiring self-reference, regardless of scale
 - A complexity threshold exists above which integrated self-monitoring becomes computationally necessary
-- Self-referential learning curves should follow *e*-governed (exponential/logistic) dynamics, not power laws
-- Neural systems implementing self-reference should exhibit characteristic time constants related to *e*
+- Self-referential learning curves should follow *e*-governed (exponential/logistic) dynamics, not power laws — discriminable via asymptote tests, log-linear vs. log-log plotting, and characteristic time constant ratios (63.2%, 86.5%, 95% of asymptote at τ, 2τ, 3τ)
+- Neural systems implementing self-reference should exhibit characteristic time constants related to *e*, with cross-system invariance: time constant ratios should equal inverse processing speed ratios
+- Measured compositionality (Paper 2 metrics) should correlate with the dynamical exponent β — higher compositionality yields dynamics closer to pure exponential
+- Self-referential systems with feedback delays should exhibit oscillatory dynamics governed by *π* (damped oscillations, limit cycles), with the *e*-*π* signature (exponential envelope, sinusoidal oscillation) as evidence of delayed self-reference
 
 **Embodiment and Grounding**
 
@@ -263,6 +265,7 @@ This work builds on established literature in:
 - **Machine Learning**: Representation learning (Bengio et al., 2013), attention mechanisms (Vaswani et al., 2017), compositional generalization (Lake & Baroni, 2018), disentangled representations (Higgins et al., 2017), multi-agent reinforcement learning (Leibo et al., 2017)
 - **Program Synthesis**: Library learning (Ellis et al., 2021), Bayesian program induction (Tenenbaum et al., 2011)
 - **Control Theory**: Feedback systems (Wiener, 1948), adaptive control (Åström & Wittenmark, 1995), forward models (Wolpert & Ghahramani, 2000)
+- **Dynamical Systems**: Nonlinear dynamics and oscillations (Strogatz, 2015), delay differential equations (Glass & Mackey, 1988)
 - **Consciousness Science**: Global Workspace Theory (Baars, 1988), Integrated Information Theory (Tononi, 2004), Predictive Processing (Friston, 2010; Clark, 2013)
 - **Information Theory**: Rate-distortion theory (Shannon, 1948), information bottleneck (Tishby et al., 2000), minimum description length (Rissanen, 1978), maximum entropy (Jaynes, 1957)
 - **Embodied Cognition**: Grounded cognition (Barsalou, 2008), enactivism (Varela et al., 1991), interoceptive inference (Seth, 2013), sensorimotor contingency theory (O'Regan & Noë, 2001)
