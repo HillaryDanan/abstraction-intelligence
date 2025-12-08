@@ -2,8 +2,10 @@
 
 ## From Pattern Extraction to Self-Referential Cognition
 
-Hillary Danan, PhD  
+**Hillary Danan, PhD**  
 Cognitive Neuroscience
+
+*Working Draft — December 2025*
 
 -----
 
