@@ -23,8 +23,8 @@ Given this success, predictive processing represents the most serious alternativ
 This paper directly addresses this challenge. We argue that prediction, despite its explanatory power, cannot be the primitive operation of cognition because prediction *presupposes* the representational content that abstraction provides. Our argument proceeds as follows:
 
 1. **The content requirement**: Prediction requires something to predict—representational content with semantic structure.
-2. **The composition requirement**: Predictions combine representations (event + futurity), requiring compositional capacity.
-3. **The priority claim**: Abstraction is the operation that creates representational content; prediction operates on that content.
+2. **The composition requirement**: Predictions combine representations (event + futurity), requiring compositional capacity—the signature feature that distinguishes abstraction from mere compression (see Paper 2).
+3. **The priority claim**: Abstraction is the operation that creates representational content; prediction operates on that content. Abstraction is constrained as a specific operation distinct from both input and downstream operations (see Paper 3)—and prediction is a downstream operation.
 4. **The co-constitution response**: Even if abstraction and prediction are developmentally intertwined, abstraction retains explanatory priority.
 
 We acknowledge throughout what is established finding versus working hypothesis, and we derive predictions that would falsify our position.
@@ -102,6 +102,10 @@ Predictions combine content (X) with modality (future). This is compositional st
 Prediction inherits its compositional structure from the representations it operates on. The question is: where does this compositional structure come from?
 
 **Working hypothesis (APH claim)**: Abstraction is the operation that creates compositional representational structure. Compression reduces; abstraction composes. This is what makes abstraction suitable as a cognitive primitive—it generates the representational capacity that other operations presuppose.
+
+This compositional criterion is central to the APH framework. Paper 2 in this series (*Abstraction Beyond Compression*; Danan, 2025b) develops the argument that compositionality is precisely what distinguishes abstraction from mere compression. Rate-distortion theory, the information bottleneck, and minimum description length all describe mappings that preserve relevant information while reducing complexity—but they do not inherently produce representations that *combine* to form new representations. A maximally compressed representation of a specific input is optimized for that input; it does not yield reusable components that transfer to novel contexts. Abstraction, by contrast, produces compositional building blocks—and prediction requires exactly this compositional structure to combine content representations with temporal operators.
+
+The implication for the present argument: predictive processing requires compositional representations, and compositionality is the signature of abstraction rather than compression. Prediction therefore presupposes not just *some* representational capacity, but specifically *abstractive* capacity—the capacity to form composable symbols.
 
 ---
 
@@ -187,6 +191,10 @@ This reveals a crucial distinction:
 Predictive processing may powerfully explain abstraction *content*—why we have the specific concepts we have, shaped by predictive utility. But abstraction *capacity*—the computational machinery that makes concept formation possible—is presupposed by the predictive account.
 
 **Working hypothesis**: Abstraction capacity is the primitive. Abstraction content is shaped by many factors, including predictive utility. The APH claims priority for capacity, not content.
+
+This capacity/content distinction connects to a broader constraint on the APH developed in Paper 3 (*Abstraction Constrained*; Danan, 2025c). That paper addresses the vacuity objection—the concern that if all cognition derives from abstraction, the concept explains nothing. The response is that abstraction is a *specific* operation: the conversion of attended information into manipulable, composable symbols. It is distinct from input operations (perception, attention) that provide raw material, and from downstream operations (memory, learning, reasoning, decision-making, action) that operate *on* abstractions. Abstraction is the central transformation—not synonymous with cognition, but the operation that creates the representational currency other operations trade in.
+
+This constraint matters for the prediction debate. Prediction is a *downstream operation*—it operates on representations that already exist. The question "what is primitive?" is the question "what creates the representational format that downstream operations require?" The APH answer: abstraction. Predictive processing can explain how abstraction content is refined, but the capacity for abstraction—the ability to form composable symbols at all—is what prediction presupposes.
 
 ---
 
@@ -358,6 +366,10 @@ Carey, S. (2009). *The Origin of Concepts*. Oxford University Press.
 Clark, A. (2013). Whatever next? Predictive brains, situated agents, and the future of cognitive science. *Behavioral and Brain Sciences*, 36(3), 181–204.
 
 Clark, A. (2016). *Surfing Uncertainty: Prediction, Action, and the Embodied Mind*. Oxford University Press.
+
+Danan, H. (2025b). Abstraction beyond compression: Compositionality as the distinguishing operation. *Working paper*.
+
+Danan, H. (2025c). Abstraction constrained: What the primitive is and is not. *Working paper*.
 
 Feldman, H., & Friston, K. (2010). Attention, uncertainty, and free-energy. *Frontiers in Human Neuroscience*, 4, 215.
 
