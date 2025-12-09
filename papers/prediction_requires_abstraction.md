@@ -6,13 +6,13 @@
 
 *Working Draft — Paper 12 in the Abstraction Primitive Hypothesis series*
 
----
+-----
 
 ## Abstract
 
 Predictive processing frameworks propose that prediction is the fundamental operation of cognition—that brains are essentially prediction machines minimizing surprise. This paper argues that while predictive processing provides powerful explanations of cognitive dynamics, prediction cannot be the *primitive* operation because prediction presupposes representational content. To predict that X will occur, a system must already possess: (1) a representation of X, (2) a representation of futurity or temporal modality, and (3) the compositional capacity to combine them. These representational capacities are products of abstraction. We argue that abstraction is therefore logically and computationally prior to prediction—abstraction creates the representational currency that prediction operates on. We address the co-constitution objection (that abstraction and prediction emerge together), acknowledging its force while arguing that even co-constitutive accounts must grant abstraction explanatory priority: prediction explains *which* abstractions are selected, but the capacity to form abstractions at all is what prediction selects over. We derive testable predictions distinguishing abstraction-first from prediction-first accounts and identify empirical signatures that would falsify our position.
 
----
+-----
 
 ## 1. Introduction
 
@@ -23,13 +23,13 @@ Given this success, predictive processing represents the most serious alternativ
 This paper directly addresses this challenge. We argue that prediction, despite its explanatory power, cannot be the primitive operation of cognition because prediction *presupposes* the representational content that abstraction provides. Our argument proceeds as follows:
 
 1. **The content requirement**: Prediction requires something to predict—representational content with semantic structure.
-2. **The composition requirement**: Predictions combine representations (event + futurity), requiring compositional capacity—the signature feature that distinguishes abstraction from mere compression (see Paper 2).
-3. **The priority claim**: Abstraction is the operation that creates representational content; prediction operates on that content. Abstraction is constrained as a specific operation distinct from both input and downstream operations (see Paper 3)—and prediction is a downstream operation.
-4. **The co-constitution response**: Even if abstraction and prediction are developmentally intertwined, abstraction retains explanatory priority.
+1. **The composition requirement**: Predictions combine representations (event + futurity), requiring compositional capacity—the signature feature that distinguishes abstraction from mere compression (see Paper 2).
+1. **The priority claim**: Abstraction is the operation that creates representational content; prediction operates on that content. Abstraction is constrained as a specific operation distinct from both input and downstream operations (see Paper 3)—and prediction is a downstream operation.
+1. **The co-constitution response**: Even if abstraction and prediction are developmentally intertwined, abstraction retains explanatory priority.
 
 We acknowledge throughout what is established finding versus working hypothesis, and we derive predictions that would falsify our position.
 
----
+-----
 
 ## 2. Predictive Processing: Core Claims
 
@@ -47,13 +47,13 @@ These findings establish that prediction is *a* fundamental operation of neural 
 
 ### 2.2 The Primitivity Claim
 
-Strong versions of predictive processing make prediction primitive. Friston's free-energy principle proposes that all adaptive behavior can be understood as minimizing variational free energy—a bound on surprise (Friston, 2010). On this view, perception, action, learning, and even the structure of organisms emerge from this single imperative.
+Strong versions of predictive processing make prediction primitive. Friston’s free-energy principle proposes that all adaptive behavior can be understood as minimizing variational free energy—a bound on surprise (Friston, 2010). On this view, perception, action, learning, and even the structure of organisms emerge from this single imperative.
 
-Clark (2013) articulates the vision clearly: "Brains... are essentially prediction machines" that "minimize prediction error" through "a unified theoretical framework" (pp. 181-182).
+Clark (2013) articulates the vision clearly: “Brains… are essentially prediction machines” that “minimize prediction error” through “a unified theoretical framework” (pp. 181-182).
 
 *This is the claim we contest*—not the explanatory utility of prediction, but its status as the foundational primitive.
 
----
+-----
 
 ## 3. The Content Requirement: Prediction Presupposes Representation
 
@@ -66,14 +66,14 @@ Consider what it means to predict. A prediction has the logical form:
 This requires:
 
 1. **A representation of X**—the content being predicted
-2. **A representation of temporal modality**—the futurity operator that distinguishes prediction from mere representation
-3. **A compositional operation**—combining X with the futurity operator
+1. **A representation of temporal modality**—the futurity operator that distinguishes prediction from mere representation
+1. **A compositional operation**—combining X with the futurity operator
 
 Each of these requirements involves abstraction.
 
 ### 3.2 The Representation of X
 
-To predict "the ball will fall," a system must represent *ball* and *fall* as distinct, recombinable elements. This is abstraction: the extraction of invariant structure from variable instances.
+To predict “the ball will fall,” a system must represent *ball* and *fall* as distinct, recombinable elements. This is abstraction: the extraction of invariant structure from variable instances.
 
 **Established finding**: Representations are not given but constructed. Developmental research demonstrates that even basic object concepts require abstraction from sensory experience—infants develop object permanence, category boundaries, and causal schemas through extended interaction with the world (Carey, 2009; Spelke & Kinzler, 2007).
 
@@ -95,7 +95,7 @@ The futurity operator *is* an abstraction—a formal distinction extracted from 
 
 Predictions combine content (X) with modality (future). This is compositional structure: the systematic combination of representational elements to generate new representations.
 
-**Established finding**: Human cognition exhibits systematicity and productivity—the ability to understand and generate novel combinations of familiar elements (Fodor & Pylyshyn, 1988). Someone who understands "the cat chases the mouse" can understand "the mouse chases the cat" without additional learning.
+**Established finding**: Human cognition exhibits systematicity and productivity—the ability to understand and generate novel combinations of familiar elements (Fodor & Pylyshyn, 1988). Someone who understands “the cat chases the mouse” can understand “the mouse chases the cat” without additional learning.
 
 **Established finding**: Compositional structure requires representations that factor into recombinable parts (Lake et al., 2017; Marcus, 2001). This factorization is itself a form of abstraction—extracting the compositional structure from holistic patterns.
 
@@ -107,7 +107,7 @@ This compositional criterion is central to the APH framework. Paper 2 in this se
 
 The implication for the present argument: predictive processing requires compositional representations, and compositionality is the signature of abstraction rather than compression. Prediction therefore presupposes not just *some* representational capacity, but specifically *abstractive* capacity—the capacity to form composable symbols.
 
----
+-----
 
 ## 4. The Priority Argument
 
@@ -128,8 +128,8 @@ This is not a claim about temporal sequence but about explanatory dependency. Ev
 Consider what a prediction engine requires computationally:
 
 1. **A hypothesis space**: The set of possible states to predict over
-2. **A generative model**: Structure mapping from latent states to observations
-3. **An update rule**: How prediction errors revise the model
+1. **A generative model**: Structure mapping from latent states to observations
+1. **An update rule**: How prediction errors revise the model
 
 The hypothesis space and generative model are composed of representations. Where do these come from?
 
@@ -155,15 +155,16 @@ Similarly, prediction error can select which *representations* are maintained. B
 
 Abstraction provides the vocabulary and grammar; prediction provides selection pressure over their use.
 
----
+-----
 
 ## 5. The Co-Constitution Objection
 
 ### 5.1 The Objection Stated
 
-The most sophisticated response from predictive processing is that abstraction and prediction are *co-constitutive*—they emerge together through developmental dynamics, with neither strictly prior (see Clark, 2016, on "embodied prediction").
+The most sophisticated response from predictive processing is that abstraction and prediction are *co-constitutive*—they emerge together through developmental dynamics, with neither strictly prior (see Clark, 2016, on “embodied prediction”).
 
 On this view:
+
 - Early prediction operates over low-level sensory representations
 - Prediction error drives the formation of more abstract representations
 - More abstract representations enable more abstract predictions
@@ -194,13 +195,13 @@ Predictive processing may powerfully explain abstraction *content*—why we have
 
 This capacity/content distinction connects to a broader constraint on the APH developed in Paper 3 (*Abstraction Constrained*; Danan, 2025c). That paper addresses the vacuity objection—the concern that if all cognition derives from abstraction, the concept explains nothing. The response is that abstraction is a *specific* operation: the conversion of attended information into manipulable, composable symbols. It is distinct from input operations (perception, attention) that provide raw material, and from downstream operations (memory, learning, reasoning, decision-making, action) that operate *on* abstractions. Abstraction is the central transformation—not synonymous with cognition, but the operation that creates the representational currency other operations trade in.
 
-This constraint matters for the prediction debate. Prediction is a *downstream operation*—it operates on representations that already exist. The question "what is primitive?" is the question "what creates the representational format that downstream operations require?" The APH answer: abstraction. Predictive processing can explain how abstraction content is refined, but the capacity for abstraction—the ability to form composable symbols at all—is what prediction presupposes.
+This constraint matters for the prediction debate. Prediction is a *downstream operation*—it operates on representations that already exist. The question “what is primitive?” is the question “what creates the representational format that downstream operations require?” The APH answer: abstraction. Predictive processing can explain how abstraction content is refined, but the capacity for abstraction—the ability to form composable symbols at all—is what prediction presupposes.
 
----
+-----
 
 ## 6. Empirical Predictions and Falsification Criteria
 
-A theory's value lies in its testable predictions. If abstraction is prior to prediction, we should observe specific empirical signatures. If prediction is prior, we should observe different signatures.
+A theory’s value lies in its testable predictions. If abstraction is prior to prediction, we should observe specific empirical signatures. If prediction is prior, we should observe different signatures.
 
 ### 6.1 Predictions Favoring Abstraction Priority
 
@@ -228,17 +229,34 @@ If abstraction capacity is prior to prediction, then abstraction should be achie
 
 *Falsification*: If abstraction *only* occurred through predictive dynamics, this would support prediction priority.
 
+**Prediction 4: Developmental deprivation of abstraction-scaffolding input should produce abstraction deficits even when sensorimotor experience remains available.**
+
+If abstraction is prior and requires specific developmental inputs—language exposure, social interaction, symbolic scaffolding—then depriving these inputs should devastate abstraction capacity. Critically, if prediction were primary and could bootstrap abstraction, then children with intact sensorimotor experience but impoverished linguistic/social input should eventually develop abstraction through predictive learning from physical interaction alone. The prediction-first account implies that sensorimotor prediction, given sufficient time and experience, should be able to bootstrap higher-order abstraction.
+
+*Relevant evidence*: The Bucharest Early Intervention Project (BEIP) provides a tragic natural experiment testing this prediction (Nelson, Fox, & Zeanah, 2014). Children raised in Romanian orphanages experienced severe deprivation of language exposure, contingent social interaction, and scaffolded symbolic communication, while retaining basic sensorimotor interaction with their physical environment. Findings include:
+
+- Profound and lasting deficits in language acquisition, with institutionalized children showing vocabulary and grammatical development far below age-matched norms (Windsor et al., 2011)
+- Significantly reduced IQ and impaired capacity for abstract reasoning (Nelson et al., 2007)
+- Deficits in executive function and working memory—capacities requiring the manipulation of abstract representations (Bos et al., 2009)
+- Critical period effects: early intervention (foster care placement before approximately 24 months) enabled partial cognitive recovery; later placement showed markedly limited recovery, suggesting abstraction capacity has developmental windows that sensorimotor experience alone cannot reopen (Nelson et al., 2007)
+
+*Interpretation*: Institutionalized children had years of sensorimotor experience—interacting with objects, experiencing physical contingencies, navigating their environment. On a prediction-first account, this extensive opportunity for sensorimotor prediction should have provided sufficient raw material for bootstrapping abstract representation through predictive learning. It did not. The specific and devastating deficits were concentrated in language and higher cognition—the domains most dependent on compositional, symbolic abstraction. The developmental bottleneck was abstraction-scaffolding input (language, contingent social interaction, symbolic communication), not prediction opportunity per se.
+
+*Limitations*: This interpretation assumes that sensorimotor experience enables sensorimotor prediction, and that the BEIP children’s physical environment interaction constituted such prediction opportunity. The studies did not directly measure predictive processing capacity. The argument is inferential: if prediction alone could bootstrap abstraction, it should have done so given years of physical interaction; its failure to do so suggests abstraction requires its own developmental inputs that prediction cannot substitute for.
+
+*Falsification*: If children with severely impoverished linguistic/social input but intact sensorimotor experience showed normal abstraction development (even if delayed), this would suggest prediction can bootstrap abstraction—challenging abstraction priority.
+
 ### 6.2 Predictions Distinguishing APH from Alternative Frameworks
 
-**Prediction 4: Abstraction stage should constrain prediction sophistication.**
+**Prediction 5: Abstraction stage should constrain prediction sophistication.**
 
 The APH posits developmental stages of abstraction (pattern extraction → symbol formation → recursive composition → self-reference). If abstraction is prior, then predictive sophistication should be constrained by abstraction stage—a system at stage 2 cannot make predictions requiring stage 3 representations.
 
-*Relevant evidence*: Children's predictive capacities track abstraction stages. Pre-operational children fail predictions requiring relational reasoning even when the predictive task is simple (Halford et al., 1998). Theory of mind predictions emerge only after relevant representational capacities (Wellman et al., 2001).
+*Relevant evidence*: Children’s predictive capacities track abstraction stages. Pre-operational children fail predictions requiring relational reasoning even when the predictive task is simple (Halford et al., 1998). Theory of mind predictions emerge only after relevant representational capacities (Wellman et al., 2001).
 
 *Falsification*: If predictive sophistication exceeded abstraction stage systematically, this would challenge abstraction priority.
 
-**Prediction 5: Scaling should differentially affect abstraction vs. prediction.**
+**Prediction 6: Scaling should differentially affect abstraction vs. prediction.**
 
 If abstraction is prior and computationally distinct from prediction, then scaling dimensions (parameters, data, compute) should differentially affect abstraction and prediction capacities.
 
@@ -251,12 +269,10 @@ If abstraction is prior and computationally distinct from prediction, then scali
 We state explicitly what would falsify abstraction priority:
 
 1. **Demonstrating prediction without representation**: A system that makes successful predictions without any representational content—predicting sensory streams directly without extracting invariant structure. (Note: This may be conceptually impossible, which would strengthen our claim.)
+1. **Demonstrating that abstraction *requires* prediction error**: If abstraction could be proven to only occur through prediction error minimization, with no alternative pathways, this would support prediction priority.
+1. **Demonstrating systematic dissociation in the wrong direction**: If predictive impairment reliably caused abstraction failure, while abstraction impairment left prediction intact, this would favor prediction priority.
 
-2. **Demonstrating that abstraction *requires* prediction error**: If abstraction could be proven to only occur through prediction error minimization, with no alternative pathways, this would support prediction priority.
-
-3. **Demonstrating systematic dissociation in the wrong direction**: If predictive impairment reliably caused abstraction failure, while abstraction impairment left prediction intact, this would favor prediction priority.
-
----
+-----
 
 ## 7. Integrating Predictive Processing within the APH Framework
 
@@ -280,16 +296,16 @@ But selection pressure presupposes variation to select over. Prediction error se
 
 The integrated view:
 
-| **Operation** | **Function** | **Relationship** |
-|---------------|--------------|------------------|
-| Abstraction | Creates representational content | Primitive |
-| Prediction | Applies representations to future-directed inference | Derived (species of abstraction) |
-| Prediction Error | Selects among representations | Selection pressure on abstraction content |
-| Learning | Updates abstractions based on error | Mechanism for abstraction refinement |
+|**Operation**   |**Function**                                        |**Relationship**                         |
+|----------------|----------------------------------------------------|-----------------------------------------|
+|Abstraction     |Creates representational content                    |Primitive                                |
+|Prediction      |Applies representations to future-directed inference|Derived (species of abstraction)         |
+|Prediction Error|Selects among representations                       |Selection pressure on abstraction content|
+|Learning        |Updates abstractions based on error                 |Mechanism for abstraction refinement     |
 
 This preserves the insights of predictive processing while locating prediction in a larger framework with abstraction as primitive.
 
----
+-----
 
 ## 8. Implications
 
@@ -298,8 +314,9 @@ This preserves the insights of predictive processing while locating prediction i
 If abstraction is prior to prediction, then cognitive science should attend not just to how organisms predict but to *how they generate the representational vocabulary they predict with*. The abstraction problem is prior to the prediction problem.
 
 This suggests renewed attention to:
+
 - Concept formation and category learning
-- Compositional structure acquisition  
+- Compositional structure acquisition
 - The development of abstract relational reasoning
 - Cross-domain abstraction and analogical mapping
 
@@ -313,9 +330,9 @@ If abstraction is prior, this explains the pattern: optimizing prediction does n
 
 ### 8.3 For Consciousness Studies
 
-The APH proposes that consciousness emerges when abstraction is applied reflexively—when a system abstracts over its own processes (Papers 6–8). If abstraction is prior to prediction, then predictive accounts of consciousness (Seth & Friston, 2016) should be understood as identifying *one application* of self-referential abstraction rather than consciousness's fundamental basis.
+The APH proposes that consciousness emerges when abstraction is applied reflexively—when a system abstracts over its own processes (Papers 6–8). If abstraction is prior to prediction, then predictive accounts of consciousness (Seth & Friston, 2016) should be understood as identifying *one application* of self-referential abstraction rather than consciousness’s fundamental basis.
 
----
+-----
 
 ## 9. Limitations and Open Questions
 
@@ -323,24 +340,25 @@ The APH proposes that consciousness emerges when abstraction is applied reflexiv
 
 **The definition of abstraction remains to be fully formalized.** While Paper 3 constrains what abstraction is and is not, a complete computational formalization is ongoing work.
 
-**The boundary between abstraction and compression is not fully resolved.** Some compression schemes discover compositional structure; the precise conditions distinguishing "mere compression" from "genuine abstraction" require further specification.
+**The boundary between abstraction and compression is not fully resolved.** Some compression schemes discover compositional structure; the precise conditions distinguishing “mere compression” from “genuine abstraction” require further specification.
 
 **The temporal relationship between abstraction and prediction in development is complex.** We have argued for logical and explanatory priority, not necessarily temporal priority in all cases.
 
 ### 9.2 Open Questions
 
 1. What minimal computational architecture supports abstraction capacity?
-2. Can abstraction capacity be quantified and compared across systems?
-3. What is the relationship between abstraction capacity and information-theoretic quantities?
-4. Are there fundamental limits on abstraction capacity analogous to limits on prediction?
+1. Can abstraction capacity be quantified and compared across systems?
+1. What is the relationship between abstraction capacity and information-theoretic quantities?
+1. Are there fundamental limits on abstraction capacity analogous to limits on prediction?
 
----
+-----
 
 ## 10. Conclusion
 
 Predictive processing provides a powerful framework for understanding cognitive dynamics. But prediction cannot be the primitive operation of cognition because prediction presupposes what abstraction provides: representational content with compositional structure.
 
 To predict that X will occur, a system must possess:
+
 - A representation of X (abstracted content)
 - A representation of futurity (abstracted temporal relation)
 - The capacity to compose them (compositional structure)
@@ -349,17 +367,19 @@ These are products of abstraction. Prediction operates on the representational c
 
 We have addressed the co-constitution objection, acknowledging that abstraction content is shaped by predictive utility while maintaining that abstraction *capacity* is explanatorily prior. Prediction is the selection pressure; abstraction is what is selected over.
 
-The argument generates testable predictions: abstraction deficits should impair prediction more than vice versa; compositional generalization should be dissociable from prediction accuracy; abstraction should be achievable through non-predictive pathways. We have stated falsification criteria explicitly.
+The argument generates testable predictions: abstraction deficits should impair prediction more than vice versa; compositional generalization should be dissociable from prediction accuracy; abstraction should be achievable through non-predictive pathways; developmental deprivation of abstraction-scaffolding input should devastate abstraction even when sensorimotor prediction remains possible. We have stated falsification criteria explicitly.
 
 If this analysis is correct, then abstraction is not one cognitive operation among many but the operation that creates the representational foundation on which other operations—including prediction—depend. Prediction is powerful. Abstraction is prior.
 
----
+-----
 
 ## References
 
 Ashby, F. G., & Maddox, W. T. (2005). Human category learning. *Annual Review of Psychology*, 56, 149–178.
 
 Bastos, A. M., Usrey, W. M., Adams, R. A., Mangun, G. R., Fries, P., & Friston, K. J. (2012). Canonical microcircuits for predictive coding. *Neuron*, 76(4), 695–711.
+
+Bos, K. J., Fox, N. A., Zeanah, C. H., & Nelson, C. A. (2009). Effects of early psychosocial deprivation on the development of memory and executive function. *Frontiers in Behavioral Neuroscience*, 3, 16.
 
 Carey, S. (2009). *The Origin of Concepts*. Oxford University Press.
 
@@ -399,6 +419,10 @@ Lake, B. M., Ullman, T. D., Tenenbaum, J. B., & Gershman, S. J. (2017). Building
 
 Marcus, G. F. (2001). *The Algebraic Mind: Integrating Connectionism and Cognitive Science*. MIT Press.
 
+Nelson, C. A., Fox, N. A., & Zeanah, C. H. (2014). *Romania’s Abandoned Children: Deprivation, Brain Development, and the Struggle for Recovery*. Harvard University Press.
+
+Nelson, C. A., Zeanah, C. H., Fox, N. A., Marshall, P. J., Smyke, A. T., & Guthrie, D. (2007). Cognitive recovery in socially deprived young children: The Bucharest Early Intervention Project. *Science*, 318(5858), 1937–1940.
+
 Patterson, K., Nestor, P. J., & Rogers, T. T. (2007). Where do you know what you know? The representation of semantic knowledge in the human brain. *Nature Reviews Neuroscience*, 8(12), 976–987.
 
 Quiroga, R. Q., Reddy, L., Kreiman, G., Koch, C., & Fried, I. (2005). Invariant visual representation by single neurons in the human brain. *Nature*, 435(7045), 1102–1107.
@@ -419,16 +443,18 @@ Todorovic, A., van Ede, F., Maris, E., & de Lange, F. P. (2011). Prior expectati
 
 Webb, T., Holyoak, K. J., & Lu, H. (2023). Emergent analogical reasoning in large language models. *Nature Human Behaviour*, 7, 1526–1541.
 
-Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., ... & Fedus, W. (2022). Emergent abilities of large language models. *Transactions on Machine Learning Research*.
+Wei, J., Tay, Y., Bommasani, R., Raffel, C., Zoph, B., Borgeaud, S., … & Fedus, W. (2022). Emergent abilities of large language models. *Transactions on Machine Learning Research*.
 
 Wellman, H. M., Cross, D., & Watson, J. (2001). Meta-analysis of theory-of-mind development: The truth about false belief. *Child Development*, 72(3), 655–684.
 
----
+Windsor, J., Benigno, J. P., Wing, C. A., Carroll, P. J., Koga, S. F., Nelson, C. A., Fox, N. A., & Zeanah, C. H. (2011). Effect of foster care on young children’s language learning. *Child Development*, 82(4), 1040–1046.
+
+-----
 
 ## Acknowledgments
 
 This paper developed through dialogue examining whether prediction could serve as a cognitive primitive alternative to abstraction. The author thanks the many colleagues whose challenges sharpened these arguments.
 
----
+-----
 
-*"Prediction is powerful. Abstraction is prior."*
+*“Prediction is powerful. Abstraction is prior.”*
