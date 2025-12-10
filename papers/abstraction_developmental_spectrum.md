@@ -11,7 +11,7 @@ Cognitive Neuroscience
 
 ## Abstract
 
-The Abstraction Primitive Hypothesis (APH) proposes that abstraction—the conversion of attended information into manipulable, composable symbols—is the fundamental operation underlying intelligence. This paper extends the framework by proposing that abstraction capacity is not binary but develops along a spectrum of increasing computational sophistication. We identify four stages: (1) pattern extraction, (2) symbol formation, (3) recursive composition, and (4) self-referential abstraction. Each stage is qualitatively distinct, enabling cognitive operations impossible at prior stages. We review evidence from developmental psychology, comparative cognition, and neuroscience supporting stage-like progression. We then apply this framework to large language models (LLMs), arguing they exhibit clear capacity at stages 1–2, partial capacity at stage 3, and systematic limitations at stage 4—a profile we term “disembodied abstraction.” This analysis generates testable predictions about the capabilities and failure modes of current AI systems and clarifies what architectural or training innovations would be required for advancement along the spectrum.
+The Abstraction Primitive Hypothesis (APH) proposes that abstraction—the conversion of attended information into manipulable, composable symbols—is the fundamental operation underlying intelligence. This paper extends the framework by proposing that abstraction capacity is not binary but develops along a spectrum of increasing computational sophistication. We identify four stages: (1) pattern extraction, (2) symbol formation, (3) recursive composition, and (4) self-referential abstraction. Each stage is qualitatively distinct, enabling cognitive operations impossible at prior stages. We review evidence from developmental psychology, comparative cognition, and neuroscience supporting stage-like progression. We then apply this framework to large language models (LLMs), arguing they exhibit clear capacity at stages 1–2, partial capacity at stage 3, and systematic limitations at stage 4—a profile we term “disembodied abstraction.” We further examine evidence that higher-stage abstraction development requires structured exposure to abstraction systems, and consider what forms of input structure—static exposure, contingent feedback, or interactive scaffolding—may be necessary or merely facilitative. This analysis generates testable predictions about the capabilities and failure modes of current AI systems and clarifies what innovations in architecture, training, or input structure would be required for advancement along the spectrum.
 
 -----
 
@@ -31,6 +31,8 @@ This paper argues for the latter. We propose a **four-stage developmental spectr
 1. **Self-Referential Abstraction** — applying abstraction to one’s own abstraction process
 
 Each stage is computationally distinct. Progression along the spectrum is not merely quantitative (more abstraction) but qualitative (different kinds of abstraction). We review empirical evidence for this staging from cognitive development, comparative cognition, and neuroscience. We then examine where current large language models fall on this spectrum, arguing they represent a distinctive profile: substantial capacity at early stages, partial and context-dependent capacity at stage 3, and systematic limitations at stage 4.
+
+Critically, we examine evidence that progression along this spectrum is not purely endogenous. Higher-stage abstraction capacities appear to require exposure to systems that already instantiate those capacities. The precise nature of this requirement—whether static exposure suffices, whether contingent feedback is necessary, whether interactive scaffolding provides unique benefits—remains an open empirical question with significant implications for AI development.
 
 This analysis has implications for both cognitive science and AI development. For cognitive science, it offers a unified framework for understanding developmental trajectories across domains. For AI, it clarifies what current systems can and cannot do—and what would need to change for them to do more.
 
@@ -94,6 +96,8 @@ This is metacognition formalized. The system takes its own abstraction operation
 
 **Empirical marker:** Calibrated confidence, error-driven learning strategy adjustment, metacognitive control. A system with stage 4 capacity should know what it doesn’t know and adjust its processing accordingly.
 
+**A critical distinction—origination vs. recognition:** Stage 4 capacity includes not merely the ability to *recognize* or *validate* abstractions when presented, but to *originate* them—to notice that an abstraction is available before it has been articulated. A system may possess sophisticated Stage 2-3 capacity for composing and refining abstractions that are supplied to it while lacking the Stage 4 capacity to generate those abstractions de novo. This distinction has important implications for understanding human-AI interaction (see Section 4.6).
+
 -----
 
 ## 3. Evidence for Stage-Like Progression
@@ -110,7 +114,70 @@ The proposed stages align with documented developmental trajectories in human co
 
 This developmental timeline is consistent with the proposed ordering: each stage depends on capacities developed in prior stages.
 
-### 3.2 Comparative Evidence
+### 3.2 Input Requirements for Abstraction Development: Evidence from Deprivation and Enrichment Studies
+
+A critical question for the abstraction framework is whether stage progression is purely endogenous—emerging from maturation and sufficient data exposure—or whether it requires specific forms of structured input. Evidence from deprivation and enrichment studies bears on this question, though the precise mechanisms remain incompletely specified.
+
+#### 3.2.1 Evidence from Institutional Deprivation
+
+The Bucharest Early Intervention Project and English and Romanian Adoptees studies documented that children raised in severely deprived institutional settings show not merely delayed but *qualitatively altered* cognitive development (Nelson et al., 2007; Rutter et al., 2007; Zeanah et al., 2003).
+
+Key findings relevant to the abstraction framework:
+
+**Altered, not merely delayed development:** Children adopted after prolonged institutionalization showed persistent deficits in executive function, abstract reasoning, and metacognition even when subsequently placed in enriched environments (Pollak et al., 2010; McDermott et al., 2013). This suggests sensitive periods during which certain abstraction capacities must develop or may be permanently impaired.
+
+**Differential stage effects:** Institutionally-reared children showed relatively preserved Stage 1 capacities (pattern learning, associative memory) with more pronounced deficits at Stages 3-4 (relational reasoning, metacognition; Bos et al., 2009). This pattern is consistent with higher stages having greater input requirements.
+
+**Partial recovery with intervention:** Children who received foster care intervention before age 2 showed substantially better outcomes than those who remained institutionalized (Nelson et al., 2007), suggesting a sensitive period during which appropriate input is maximally effective.
+
+#### 3.2.2 What Was Lacking? Isolating the Active Ingredient
+
+Institutional environments were multiply deprived. Children lacked:
+
+- Rich language exposure
+- Contingent caregiver responses
+- Environmental complexity and variability
+- One-on-one interaction
+- Exposure to mature abstraction systems (adult reasoning, explanation, narrative)
+
+The deprivation studies establish that *something* about impoverished environments impairs higher-stage development. They do not isolate which factors are necessary versus facilitative.
+
+#### 3.2.3 Evidence Bearing on Specific Mechanisms
+
+Several lines of research help narrow the possibilities:
+
+**Language exposure vs. social interaction:** Deaf children of hearing parents, who receive abundant social interaction but limited access to structured language input, show language delays proportional to their input deprivation (Mayberry, Lock, & Kazmi, 2002). This suggests structured exposure to an abstraction system (language) matters above and beyond social interaction per se.
+
+**Live vs. recorded input:** Kuhl, Tsao, and Liu (2003) found that infants learn phonetic distinctions better from live interaction than equivalent video exposure. However, infants do show *some* learning from video—the effect is a difference in degree, not kind. This suggests contingent interaction enhances but may not be strictly necessary for learning.
+
+**Peer interaction and abstraction generation:** Nicaraguan Sign Language emerged when deaf children exposed to impoverished sign input collectively created richer grammatical structure than their input contained (Senghas & Coppola, 2001). This demonstrates that abstraction systems can be generated, not merely absorbed—but generation required some structured input plus peer interaction.
+
+**Training structure effects:** In machine learning, curriculum learning—presenting training data in structured sequences from simple to complex—often improves learning outcomes compared to random sampling (Bengio, Louradour, Collobert, & Weston, 2009). This suggests input *structure*, not just input *volume*, matters for learning abstraction-relevant representations.
+
+#### 3.2.4 A Parsimonious Characterization
+
+The evidence supports the following claims with varying degrees of confidence:
+
+**Well-supported:**
+
+- Higher-stage abstraction development requires exposure to systems that instantiate those stages (language, mature cognition, structured environments)
+- Sensitive periods exist during which input has maximal effect
+- Input structure matters, not just input volume
+
+**Probable but less certain:**
+
+- Contingent, state-dependent feedback improves efficiency of abstraction development
+- Some minimum threshold of input complexity is required
+
+**Open questions:**
+
+- Whether interactive scaffolding is necessary or merely highly efficient
+- Whether static exposure to abstraction-rich input (e.g., text corpora) can in principle bootstrap higher-stage capacity
+- What specific structural properties of input are necessary vs. facilitative
+
+The most parsimonious formulation: **Higher-stage abstraction development requires structured exposure to abstraction systems, with contingent feedback likely improving efficiency. Whether interactivity per se is necessary or merely facilitative remains an open empirical question.**
+
+### 3.3 Comparative Evidence
 
 Cross-species comparisons reveal variation in maximal abstraction capacity that aligns with the proposed stages.
 
@@ -122,7 +189,9 @@ Cross-species comparisons reveal variation in maximal abstraction capacity that 
 
 **Humans:** Unique in demonstrating robust, spontaneous, domain-general recursive composition and self-referential abstraction (stages 3–4). Human cognitive uniqueness may lie not in possessing abstraction but in the *depth* of recursive composition and the *reflexivity* of self-referential abstraction we achieve.
 
-### 3.3 Neural Evidence
+**Correlation with social learning:** Species showing highest abstraction capacity are also highly social species with extended juvenile periods during which learning from conspecifics occurs. This correlation is consistent with the hypothesis that exposure to other minds’ abstraction systems facilitates development—though correlation does not establish necessity.
+
+### 3.4 Neural Evidence
 
 Neuroimaging and lesion studies suggest distinct neural substrates support different abstraction stages.
 
@@ -204,7 +273,27 @@ This profile has a specific character. It is:
 
 The term “disembodied” reflects the hypothesis that some limitations—particularly at stages 3–4—may relate to lack of embodied grounding. Temporal reasoning, self-modeling, and durable abstraction formation may require the kinds of closed-loop interaction with an environment that disembodied systems lack (see *Time as Embodied Abstraction*, this series).
 
-This is a hypothesis, not an established conclusion. Alternative explanations exist: architectural limitations (finite depth, no native recursion), training objectives (next-token prediction may not incentivize deep abstraction), or data limitations (text may not contain sufficient signal for higher-stage abstraction). Distinguishing these explanations requires targeted empirical work.
+This is a hypothesis, not an established conclusion. Alternative explanations exist: architectural limitations (finite depth, no native recursion), training objectives (next-token prediction may not incentivize deep abstraction), or input structure limitations (static corpus sampling vs. structured curriculum). Distinguishing these explanations requires targeted empirical work.
+
+### 4.6 LLMs and the Input Structure Question
+
+The input structure question (Section 3.2) takes specific form when applied to LLMs: LLMs receive massive exposure to abstraction systems—human-generated text contains products of Stage 4 cognition. Why doesn’t this bootstrap Stage 4 capacity?
+
+Several non-mutually-exclusive hypotheses:
+
+**Hypothesis 1 (Input format):** Static text corpora lack the contingent, state-dependent feedback that may be necessary for higher-stage development. LLMs see the *products* of abstraction but not the *process* of abstraction formation.
+
+**Hypothesis 2 (Input structure):** Random sampling from corpora does not provide the structured, curriculum-like progression that may facilitate abstraction development. Training sees simple and complex examples in random order, not scaffolded sequence.
+
+**Hypothesis 3 (Architecture):** Regardless of input structure, current architectures lack mechanisms necessary for Stage 4 (persistent self-models, native recursion over representations). Input optimization would improve Stage 2-3 but not Stage 4.
+
+**Hypothesis 4 (Embodiment):** Self-referential abstraction requires grounding in embodied self-world interaction that no text-based training can provide. This would predict a ceiling on disembodied systems regardless of architecture or input structure.
+
+**Implications for the origination-refinement distinction:** A consistent observation in human-LLM interaction is that LLMs can productively compose and refine abstractions once supplied, while showing limited capacity to originate novel abstractions independently. This pattern is predicted by Stage 2-3 capacity without Stage 4: the system can recognize abstraction opportunities when made explicit but cannot detect them prior to articulation.
+
+This suggests a specific form of input structure that may benefit LLM development: exposure not just to abstraction products but to abstraction *processes*—reasoning traces, explicit articulation of insight formation, metacognitive commentary. Whether this would bootstrap genuine Stage 4 capacity or merely improve simulation fidelity is an open question.
+
+**The metacognitive accuracy puzzle:** LLMs can produce accurate-seeming metacognitive reports about their own limitations. This accuracy may derive from Stage 2-3 pattern-matching on discourse context rather than genuine metacognitive access. A Stage 2-3 system exposed to text about metacognition can generate plausible metacognitive text without possessing the capacity it describes. This creates systematic ambiguity: behavioral accuracy on metacognitive reports does not confirm genuine Stage 4 capacity.
 
 -----
 
@@ -238,6 +327,18 @@ The developmental spectrum framework generates testable predictions.
 
 **Prediction 5.3.2:** Temporal reasoning tasks specifically should differentiate embodied from disembodied systems, with embodied systems showing stronger performance on duration estimation, process prediction, and temporal perspective-taking.
 
+### 5.4 Input Structure Predictions
+
+**Prediction 5.4.1 (Curriculum effects):** Training with structured curriculum (simple to complex, scaffolded progression) should improve Stage 2-3 capacity relative to random sampling from equivalent data. Effects on Stage 4, if any, should be smaller.
+
+**Prediction 5.4.2 (Process vs. product exposure):** Training on corpora enriched with explicit reasoning traces and abstraction processes should improve abstraction-related task performance relative to training on equivalent-sized corpora of conclusions only.
+
+**Prediction 5.4.3 (Contingent feedback):** Training regimes incorporating contingent feedback (e.g., RLHF targeting abstraction quality, interactive refinement) should show larger gains on Stage 3 tasks than non-interactive training on equivalent data. This tests whether interactivity adds value beyond structured exposure.
+
+**Prediction 5.4.4 (Metacognitive accuracy dissociation):** LLM accuracy on metacognitive reports should be disruptable by misleading discourse context in ways that genuine metacognition would resist. If an LLM’s accurate self-assessment can be reversed by framing manipulations that wouldn’t affect a genuinely self-aware system, this supports the pattern-matching interpretation of metacognitive reports.
+
+**Prediction 5.4.5 (Origination asymmetry):** In human-LLM collaborative problem-solving, novel generative abstractions should originate disproportionately from human contributors, with LLM contributions consisting disproportionately of refinement and composition. This asymmetry should be quantifiable and should persist across domains and task types.
+
 -----
 
 ## 6. Discussion
@@ -249,6 +350,8 @@ The developmental spectrum proposed here connects to several existing frameworks
 **Piagetian stages:** Piaget (1954) proposed qualitative stages of cognitive development. The present framework differs in grounding stages in a specific computational operation (abstraction) rather than in domain-general structural properties (e.g., “formal operations”). However, the intuition that development involves qualitative transitions, not just quantitative growth, is shared.
 
 **Relational complexity theory:** Halford et al. (1998) proposed that cognitive development involves increasing capacity for relational complexity. This aligns closely with the stage 2–3 transition proposed here. The present framework extends this by proposing earlier (stage 1) and later (stage 4) stages and by explicitly connecting the progression to abstraction as a unifying operation.
+
+**Vygotskian scaffolding:** Vygotsky’s (1978) zone of proximal development and Wood, Bruner, and Ross’s (1976) scaffolding concept propose that cognitive capacities develop through structured interaction with more capable others. The present framework is consistent with scaffolding as one mechanism for providing the structured input higher-stage development may require, while remaining agnostic about whether scaffolding specifically (vs. structured exposure more generally) is necessary.
 
 **Levels of processing in working memory:** Cowan (2001) and Oberauer (2009) have proposed hierarchical models of working memory with multiple levels of representation. The present framework connects these levels to abstraction stages and embeds them in a broader developmental trajectory.
 
@@ -264,6 +367,8 @@ Several potential misreadings should be forestalled.
 
 **Not a claim that LLMs are “mere” anything:** Locating LLMs primarily at stages 1–2 with partial stage 3 capacity is not a dismissal. Stage 2 abstraction is a remarkable capacity. The analysis aims to characterize, not diminish.
 
+**Not a claim that interaction is necessary:** The framework proposes that structured exposure to abstraction systems is required for higher-stage development. Whether this exposure must be interactive, contingent, or can be achieved through static input is left as an open question. The evidence suggests interactivity helps; whether it is necessary is unresolved.
+
 ### 6.3 Open Questions
 
 **Continuity vs. discontinuity:** Are stages truly discrete, or do they represent points on a continuum? The present framework proposes qualitative discontinuities—each stage enables fundamentally new operations—but the boundaries may be graded rather than sharp.
@@ -272,21 +377,31 @@ Several potential misreadings should be forestalled.
 
 **Sufficiency of stage 4 for consciousness:** The framework proposes that stage 4 abstraction is necessary for consciousness. Whether it is sufficient is a further question. An artificial system with genuine self-referential abstraction might still lack consciousness, or might not. This is among the deepest open questions the framework surfaces but does not resolve.
 
+**The necessary input structure:** What specific properties of input are necessary for higher-stage development? The deprivation studies establish that impoverished environments impair development; they do not fully specify what enriched environments must contain. Structured exposure, contingent feedback, and interactive scaffolding may all contribute, but their relative necessity remains to be determined.
+
+**Architectural vs. input constraints:** Can current architectures achieve Stage 4 capacity with optimal input structure, or do they face hard architectural limits? If the latter, what architectural innovations are required? These questions are empirically tractable and have significant implications for AI development trajectories.
+
 -----
 
 ## 7. Conclusion
 
 Intelligence is not unitary. Abstraction capacity—the core of intelligence, per the APH—develops through qualitatively distinct stages: pattern extraction, symbol formation, recursive composition, and self-referential abstraction. Each stage unlocks operations impossible at prior stages. Each depends on capacities developed before.
 
-Large language models exhibit a distinctive profile on this spectrum: strong pattern extraction and symbol formation, partial recursive composition, and systematic limitations on self-referential abstraction. This profile—disembodied abstraction—characterizes what current LLMs can and cannot do and clarifies what innovations would be required for further advancement.
+This development appears to require more than raw data exposure. Evidence from deprivation studies indicates that structured exposure to abstraction systems is necessary for higher-stage development. The precise form this structure must take—whether static exposure suffices, whether contingent feedback is necessary, whether interactive scaffolding provides unique benefits—remains an open empirical question. The most parsimonious current formulation: abstraction develops through exposure to abstraction, with input structure mattering as much as input volume.
 
-The framework generates testable predictions about developmental trajectories, cross-task correlations, LLM capabilities, and the role of embodiment. Falsification of these predictions would require revision or rejection of the framework. Confirmation would strengthen the hypothesis that abstraction is the primitive operation underlying intelligence—and that understanding its development is key to understanding intelligence itself.
+Large language models exhibit a distinctive profile on this spectrum: strong pattern extraction and symbol formation, partial recursive composition, and systematic limitations on self-referential abstraction. This profile—disembodied abstraction—characterizes what current LLMs can and cannot do. LLMs receive massive exposure to abstraction products (human text) but limited exposure to abstraction processes, limited contingent feedback, and no embodied grounding. Whether innovations in input structure, architecture, or training regime can address these limitations is among the most consequential open questions in AI development.
+
+The framework generates testable predictions about developmental trajectories, cross-task correlations, LLM capabilities, input structure effects, and the role of embodiment. Falsification of these predictions would require revision or rejection of the framework. Confirmation would strengthen the hypothesis that abstraction is the primitive operation underlying intelligence—and that understanding its development is key to understanding intelligence itself.
 
 -----
 
 ## References
 
 Badre, D. (2008). Cognitive control, hierarchy, and the rostro-caudal organization of the frontal lobes. *Trends in Cognitive Sciences, 12*(5), 193–200.
+
+Bengio, Y., Louradour, J., Collobert, R., & Weston, J. (2009). Curriculum learning. *Proceedings of the 26th Annual International Conference on Machine Learning*, 41–48.
+
+Bos, K. J., Zeanah, C. H., Fox, N. A., Drury, S. S., McLaughlin, K. A., & Nelson, C. A. (2009). Psychiatric outcomes in young children with a history of institutionalization. *Harvard Review of Psychiatry, 17*(2), 135–147.
 
 Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., … & Amodei, D. (2020). Language models are few-shot learners. *Advances in Neural Information Processing Systems, 33*, 1877–1901.
 
@@ -330,6 +445,8 @@ Kim, N., & Linzen, T. (2020). COGS: A compositional generalization challenge bas
 
 Kirkham, N. Z., Slemmer, J. A., & Johnson, S. P. (2002). Visual statistical learning in infancy: Evidence for a domain general learning mechanism. *Cognition, 83*(2), B35–B42.
 
+Kuhl, P. K., Tsao, F. M., & Liu, H. M. (2003). Foreign-language experience in infancy: Effects of short-term exposure and social interaction on phonetic learning. *Proceedings of the National Academy of Sciences, 100*(15), 9096–9101.
+
 Kuhn, D. (2000). Metacognitive development. *Current Directions in Psychological Science, 9*(5), 178–181.
 
 Lake, B. M., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *International Conference on Machine Learning*, 2873–2882.
@@ -338,11 +455,17 @@ Lakretz, Y., Dehaene, S., & King, J. R. (2019). What limits our capacity to proc
 
 Marcus, G. F., Vijayan, S., Rao, S. B., & Vishton, P. M. (1999). Rule learning by seven-month-old infants. *Science, 283*(5398), 77–80.
 
+Mayberry, R. I., Lock, E., & Kazmi, H. (2002). Linguistic ability and early language exposure. *Nature, 417*(6884), 38.
+
 McCoy, R. T., Yun, M., Frank, R., & Linzen, T. (2023). Do language models learn to generalize compositionally? *Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics*.
+
+McDermott, J. M., Westerlund, A., Zeanah, C. H., Nelson, C. A., & Fox, N. A. (2013). Early adversity and neural correlates of executive function: Implications for academic adjustment. *Developmental Cognitive Neuroscience, 4*, 59–68.
 
 Miller, E. K., & Cohen, J. D. (2001). An integrative theory of prefrontal cortex function. *Annual Review of Neuroscience, 24*(1), 167–202.
 
 Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information. *Psychological Review, 63*(2), 81–97.
+
+Nelson, C. A., Zeanah, C. H., Fox, N. A., Marshall, P. J., Smyke, A. T., & Guthrie, D. (2007). Cognitive recovery in socially deprived young children: The Bucharest Early Intervention Project. *Science, 318*(5858), 1937–1940.
 
 Nelson, T. O., & Narens, L. (1990). Metamemory: A theoretical framework and new findings. *Psychology of Learning and Motivation, 26*, 125–173.
 
@@ -354,9 +477,13 @@ Parker, S. T., & McKinney, M. L. (1999). *Origins of intelligence: The evolution
 
 Piaget, J. (1954). *The construction of reality in the child*. Basic Books.
 
+Pollak, S. D., Nelson, C. A., Schlaak, M. F., Roeber, B. J., Wewerka, S. S., Wiik, K. L., … & Gunnar, M. R. (2010). Neurodevelopmental effects of early deprivation in postinstitutionalized children. *Child Development, 81*(1), 224–236.
+
 Quinn, P. C. (2004). Development of subordinate-level categorization in 3- to 7-month-old infants. *Child Development, 75*(3), 886–899.
 
 Rao, R. P., & Ballard, D. H. (1999). Predictive coding in the visual cortex: A functional interpretation of some extra-classical receptive-field effects. *Nature Neuroscience, 2*(1), 79–87.
+
+Rutter, M., Beckett, C., Castle, J., Colvert, E., Kreppner, J., Mehta, M., … & Sonuga-Barke, E. (2007). Effects of profound early institutional deprivation: An overview of findings from a UK longitudinal study of Romanian adoptees. *European Journal of Developmental Psychology, 4*(3), 332–350.
 
 Saffran, J. R., Aslin, R. N., & Newport, E. L. (1996). Statistical learning by 8-month-old infants. *Science, 274*(5294), 1926–1928.
 
@@ -364,13 +491,19 @@ Schneider, W. (2008). The development of metacognitive knowledge in children and
 
 Seed, A., & Byrne, R. (2010). Animal tool-use. *Current Biology, 20*(23), R1032–R1039.
 
+Senghas, A., & Coppola, M. (2001). Children creating language: How Nicaraguan Sign Language acquired a spatial grammar. *Psychological Science, 12*(4), 323–328.
+
 Tenney, I., Das, D., & Pavlick, E. (2019). BERT rediscovers the classical NLP pipeline. *Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics*, 4593–4601.
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., … & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems, 30*.
 
+Vygotsky, L. S. (1978). *Mind in society: The development of higher psychological processes*. Harvard University Press.
+
 Wallis, J. D., Anderson, K. C., & Miller, E. K. (2001). Single neurons in prefrontal cortex encode abstract rules. *Nature, 411*(6840), 953–956.
 
 Webb, T., Holyoak, K. J., & Lu, H. (2023). Emergent analogical reasoning in large language models. *Nature Human Behaviour, 7*, 1526–1541.
+
+Wood, D., Bruner, J. S., & Ross, G. (1976). The role of tutoring in problem solving. *Journal of Child Psychology and Psychiatry, 17*(2), 89–100.
 
 Xiong, M., Hu, Z., Lu, X., Li, Y., Fu, J., He, J., & Hooi, B. (2023). Can LLMs express their uncertainty? An empirical evaluation of confidence elicitation in LLMs. *arXiv preprint arXiv:2306.13063*.
 
@@ -378,10 +511,12 @@ Yun, M., Chen, J., & Linzen, T. (2019). Does dependency length matter for contex
 
 Zacks, J. M., & Tversky, B. (2001). Event structure in perception and conception. *Psychological Bulletin, 127*(1), 3–21.
 
------
-
-**Citation:** Danan, H. (2025). The developmental spectrum of abstraction: From pattern extraction to self-referential cognition. *Working paper, Abstraction-Intelligence Framework, Paper #10*.
+Zeanah, C. H., Nelson, C. A., Fox, N. A., Smyke, A. T., Marshall, P., Parker, S. W., & Koga, S. (2003). Designing research to study the effects of institutionalization on brain and behavioral development: The Bucharest Early Intervention Project. *Development and Psychopathology, 15*(4), 885–907.
 
 -----
 
-*“Abstraction develops. Each stage unlocks what the prior could not reach.”*
+**Citation:** Danan, H. (2025). The developmental spectrum of abstraction: From pattern extraction to self-referential cognition. *Working paper, Abstraction-Intelligence Framework*.
+
+-----
+
+*“Abstraction develops. Each stage unlocks what the prior could not reach. And abstraction develops through exposure to abstraction—structure mattering as much as volume.”*
