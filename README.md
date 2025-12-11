@@ -10,14 +10,20 @@ This repository develops the **Abstraction Primitive Hypothesis (APH)**: intelli
 
 Abstraction is the operation that converts selected information into symbols that can be *combined to form new symbols*. This is what distinguishes a sensor from a mind.
 
-**Four components define abstraction:**
+**Four components define abstraction** (proposed decomposition—see Paper 2 for detailed argument):
 
 1. **Stabilization** — representation persists beyond the stimulus
 1. **Discretization** — continuous input becomes discrete symbols
 1. **Binding** — features cohere into units
 1. **Structural decoupling** — roles separate from fillers, enabling recombination
 
-**The test is compositionality.** Systems that genuinely abstract can combine known primitives in novel ways. Systems that merely compress typically cannot—though the boundary is sharper in principle than in practice. (Learned embeddings like word2vec occupy an intermediate zone: they compress *and* support limited composition. Whether this constitutes “real” abstraction or composition-preserving compression is a live question.) A JPEG doesn’t compose with another JPEG to generate meaningful novel structure. Concepts do. This criterion is measurable and—crucially—admits degrees.
+Whether these four are the right decomposition—necessary, sufficient, independent—is an empirical question. The framework proposes them as jointly required for compositional capacity; alternative decompositions may prove superior.
+
+**The test is compositionality.** Systems that genuinely abstract can combine known primitives in novel ways. Systems that merely compress typically cannot—though the boundary is sharper in principle than in practice. A JPEG doesn’t compose with another JPEG to generate meaningful novel structure. Concepts do. This criterion is measurable and—crucially—admits degrees.
+
+**Why compositionality matters:** It enables unbounded representational capacity from finite primitives. This solves combinatorial explosion—you can’t store a lookup table for every possible situation, but you can compose representations of novel situations from known components. Compositionality is what allows finite systems to handle infinite possibility spaces.
+
+**The threshold problem:** If compositionality exists on a spectrum, where does abstraction “begin”? Learned embeddings like word2vec support limited composition (vector arithmetic), but the operations are fixed and the space is shaped by statistics rather than constructed by the system. A principled threshold might distinguish *generative* composition (unboundedly many novel structures from recursive combination) from *interpolative* composition (operations within a pre-shaped space). This remains an open question the framework must resolve to avoid circularity.
 
 -----
 
@@ -27,9 +33,9 @@ Abstraction is the operation that converts selected information into symbols tha
 
 Compression reduces information; abstraction generates combinatorial capacity. The framework provides metrics (compositional generalization rate, systematicity, transfer efficiency) and identifies architectural conditions under which compression yields abstraction.
 
-**Empirically supported:** Compositional generalization requires end-to-end compositional structure—factorized input encoding AND compositional output (interaction effect d = 11.95; factorized representations alone insufficient). This result warrants replication and scrutiny of experimental design, but provides initial support for the architectural claims.
+**Empirically supported:** Compositional generalization requires end-to-end compositional structure—factorized input encoding AND compositional output; factorized representations alone prove insufficient. These results warrant replication across tasks and architectures, but provide initial support for the architectural claims.
 
-**Important caveat:** Compositionality exists on a spectrum. LLMs show *some* compositional generalization—the question is not binary presence/absence but degree and systematicity. The framework proposes that this partial compositionality reflects partial instantiation of the four components, particularly structural decoupling. This interpretation requires further testing.
+**Important caveat:** Compositionality exists on a spectrum. LLMs show *some* compositional generalization—the question is not binary presence/absence but degree and systematicity. The framework proposes that this partial compositionality reflects partial instantiation of the four components, particularly structural decoupling—though transformers do bind entities to roles in context, and how robust and systematic that binding is remains actively debated.
 
 ### Embeddedness, Not Embodiment
 
@@ -57,7 +63,7 @@ Abstraction capacity develops through stages: pattern extraction → symbol form
 |8 |[Embeddedness and Self/World](papers/embedded_abstraction.md)                        |Why embeddedness enables Stage 4; the self-modeling cascade                                                                           |
 |9 |[Self and World](papers/self_world_abstraction.md)                                   |The foundational abstraction                                                                                                          |
 |10|[Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md)|Self-monitoring as computational necessity                                                                                            |
-|11|[The Hard Problem Dissolved](papers/hard_problem_dissolution.md)                     |Experience as embedded information format (argues the problem is reframed by embeddedness, not that phenomenal experience is illusory)|
+|11|[The Hard Problem Reframed](papers/hard_problem_reframed.md)                         |Experience as embedded information format (argues the problem is reframed by embeddedness, not that phenomenal experience is illusory)|
 |12|[Time as Embodied Abstraction](papers/time_embodied_abstraction.md)                  |Temporal reasoning and embeddedness                                                                                                   |
 |13|[Emotion as Embedded Information](papers/emotion_embedded_information.md)            |Emotions as action-formatted self-world information                                                                                   |
 |14|[Social Dynamics](papers/social_dynamics.md)                                         |Multi-agent recursive abstraction                                                                                                     |
@@ -75,8 +81,8 @@ The framework generates testable predictions. Selected examples:
 
 **Architecture** *(initial empirical support—replication needed)*
 
-- ✓ Compositional generalization requires factorized input AND compositional output (d = 11.95)
-- ✓ Factorized representations alone insufficient (93% decodability, 0% generalization)
+- ✓ Compositional generalization requires factorized input AND compositional output
+- ✓ Factorized representations alone insufficient (high decodability, low generalization)
 - ✓ Compression ratio threshold exists (~5×)
 
 **Development**
@@ -104,10 +110,11 @@ See individual papers for complete predictions and falsification criteria.
 
 The framework is offered as a research program, not a finished theory. Key unresolved issues:
 
-- **Operationalizing embeddedness:** What counts as sufficient action-consequence contingency? Does conversational interaction qualify? What’s the threshold?
-- **Compositionality thresholds:** At what point does partial compositionality become “genuine” abstraction? Is there a phase transition or continuous graduation? Where do learned embeddings (which compress *and* compose to a degree) fall?
-- **The Hard Problem:** The framework argues that embeddedness dissolves the explanatory gap, but this may reframe rather than resolve what philosophers mean by phenomenal consciousness. The claim requires engagement with existing positions.
-- **Replication:** Core empirical results (d = 11.95 for end-to-end compositionality) come from limited experimental contexts and need independent replication across tasks and architectures.
+- **The four-component decomposition:** Why stabilization, discretization, binding, and structural decoupling specifically? Are these independent dimensions or derivably related? Alternative decompositions should be tested.
+- **Operationalizing embeddedness:** What counts as sufficient action-consequence contingency? If language itself constitutes an environment with action-consequence structure—and arguably it does—then predicting Stage 4 ceilings in LLMs becomes harder to test. What would distinguish “insufficiently embedded” from “embedded in language”?
+- **Compositionality thresholds:** The framework proposes generative vs. interpolative composition as a candidate boundary, but this needs rigorous operationalization and testing.
+- **The Hard Problem:** The framework argues that embeddedness reframes the explanatory gap, but a functional account of self-modeling doesn’t obviously address what philosophers mean by phenomenal consciousness—why modeling *feels like something*.
+- **Replication:** Core empirical results come from limited experimental contexts and need independent replication across tasks and architectures.
 
 -----
 
