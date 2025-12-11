@@ -17,7 +17,7 @@ Abstraction is the operation that converts selected information into symbols tha
 1. **Binding** — features cohere into units
 1. **Structural decoupling** — roles separate from fillers, enabling recombination
 
-**The test is compositionality.** Systems that genuinely abstract can combine known primitives in novel ways. Systems that merely compress cannot. A JPEG doesn’t compose with another JPEG to generate meaningful novel structure. Concepts do. This criterion is measurable and—crucially—admits degrees.
+**The test is compositionality.** Systems that genuinely abstract can combine known primitives in novel ways. Systems that merely compress typically cannot—though the boundary is sharper in principle than in practice. (Learned embeddings like word2vec occupy an intermediate zone: they compress *and* support limited composition. Whether this constitutes “real” abstraction or composition-preserving compression is a live question.) A JPEG doesn’t compose with another JPEG to generate meaningful novel structure. Concepts do. This criterion is measurable and—crucially—admits degrees.
 
 -----
 
@@ -39,7 +39,7 @@ What enables self-referential abstraction isn’t having a body—it’s being e
 
 ### Developmental Spectrum
 
-Abstraction capacity develops through stages: pattern extraction → symbol formation → recursive composition → self-referential abstraction. Each stage enables operations impossible at prior stages. Stage progression is sequential and testable. Current LLMs show substantial capacity at early stages with systematic limitations at later stages—not because they lack bodies, but because they lack embedded interaction forcing self/world differentiation.
+Abstraction capacity develops through stages: pattern extraction → symbol formation → recursive composition → self-referential abstraction. Each stage enables operations impossible at prior stages. Stage progression is sequential in prerequisites—Stage N capacity requires prior Stage N-1 capacity—though development may show parallelism and temporary regression. Current LLMs show substantial capacity at early stages with systematic limitations at later stages—not because they lack bodies, but because they lack embedded interaction forcing self/world differentiation.
 
 -----
 
@@ -81,14 +81,14 @@ The framework generates testable predictions. Selected examples:
 
 **Development**
 
-- Stage progression is sequential: no Stage N capacity without Stage N-1
-- Stage-specific tasks cluster; within-stage correlations exceed across-stage
+- Stage progression is sequential in prerequisites: no Stage N capacity without prior Stage N-1 (though regression possible)
+- Stage-specific tasks should cluster; within-stage correlations exceed across-stage
 
 **LLM-Specific**
 
 - Performance degrades with hierarchical depth in ways human performance does not
 - Scaling improves Stage 1–2 more than Stage 3–4
-- Self-modeling capacity shows ceiling in non-embedded systems (contingent on operationalizing “embedded”)
+- Self-modeling capacity shows ceiling in non-embedded systems—a strong prediction contingent on operationalizing “embedded,” and one that could be falsified by sufficient scale
 
 **Embeddedness**
 
@@ -105,7 +105,7 @@ See individual papers for complete predictions and falsification criteria.
 The framework is offered as a research program, not a finished theory. Key unresolved issues:
 
 - **Operationalizing embeddedness:** What counts as sufficient action-consequence contingency? Does conversational interaction qualify? What’s the threshold?
-- **Compositionality thresholds:** At what point does partial compositionality become “genuine” abstraction? Is there a phase transition or continuous graduation?
+- **Compositionality thresholds:** At what point does partial compositionality become “genuine” abstraction? Is there a phase transition or continuous graduation? Where do learned embeddings (which compress *and* compose to a degree) fall?
 - **The Hard Problem:** The framework argues that embeddedness dissolves the explanatory gap, but this may reframe rather than resolve what philosophers mean by phenomenal consciousness. The claim requires engagement with existing positions.
 - **Replication:** Core empirical results (d = 11.95 for end-to-end compositionality) come from limited experimental contexts and need independent replication across tasks and architectures.
 
