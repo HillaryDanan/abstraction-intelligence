@@ -2,9 +2,18 @@
 
 **What makes something intelligent?**
 
-This repository develops the **Abstraction Primitive Hypothesis (APH)**: the proposal that intelligence, across substrates, emerges from the *recursive interaction* between symbol formation and compositional structure—where each process informs and refines the other through ongoing iteration, producing expanding representational capacity.
+This repository develops the **Abstraction Primitive Hypothesis (APH)**: intelligence emerges from recursive interaction between symbol formation and compositional structure.
 
-A calculator composes symbols; it does not form them. Edge detectors form symbols; they do not compose them. Neither is intelligent. The hypothesis: intelligence requires symbol formation and composition *operating in a recursive feedback loop*, not merely both present.
+**Current state of the framework:**
+
+| Component | Status | Testability |
+|-----------|--------|-------------|
+| Composition type hierarchy (3a→3b→3c→3d) | **Load-bearing** | Directly testable; predicts specific dissociations |
+| Recursive interaction framing | **Core idea** | Needs sharper operationalization |
+| Strong interaction (novelty-driven expansion) | **Underdeveloped** | "New primitive" vs "novel configuration" is slippery |
+| Embeddedness claims | **Exploratory** | Interesting but may collapse into simpler accounts |
+
+**Honest assessment:** The framework's ambition (a theory of intelligence) currently outpaces its content (a taxonomy of composition plus underdeveloped ideas about interaction). The taxonomy is testable and potentially valuable. The interaction and embeddedness claims need more development before they're proper hypotheses.
 
 -----
 
@@ -17,6 +26,17 @@ A calculator composes symbols; it does not form them. Edge detectors form symbol
 Previous framings—including earlier versions of this document—treated symbol formation and compositional structure as two separate capacities. Check both boxes and you have intelligence. But this framing has a problem the feedback correctly identifies: if symbol formation is widespread (edge detectors, CNN features qualify), then all the distinguishing work falls on composition. The framework collapses to "intelligence = composition over whatever representations you have."
 
 **A clarification for connectionists:** The framework *concedes* that symbols exist and matter—that discrete, stable, reusable representations are extracted from continuous input. This is a substantive concession; strong connectionism has historically resisted symbolic vocabulary. But the claim is not that symbol formation alone constitutes intelligence. Symbol formation is necessary. Composition is necessary. What's *sufficient* is their recursive interaction.
+
+**An honest dilemma the framework doesn't fully escape:**
+
+If symbol formation criteria are *stringent* (requiring something CNNs lack), the criteria risk being gerrymandered to exclude systems we've already decided aren't intelligent. If the criteria are *loose* (CNNs qualify), then the framework collapses to "composition matters"—which isn't novel.
+
+This document accepts the loose criteria. The framework then tries to recover distinctiveness through:
+1. The composition type hierarchy (load-bearing, testable)
+2. Strong interaction claims (needs sharper operationalization)
+3. Embeddedness claims (exploratory)
+
+**If (2) and (3) don't pan out, what remains is (1): a taxonomy of compositional operations.** That's valuable but more modest than "a theory of intelligence." This is an honest assessment of where the framework currently stands.
 
 **The actual claim is stronger: intelligence emerges from the *recursive interaction* between symbol formation and composition.**
 
@@ -49,11 +69,23 @@ This isn't metaphorical. It's a claim about computational architecture: the outp
 |--------|----------------|-----------|--------------|--------------|
 | Calculator | ✗ (provided) | ✓ | N/A | No |
 | V1 edge detectors | ✓ | ✗ | ✗ | No |
-| CNN classifier | ✓ | Limited | Minimal | Limited |
+| CNN classifier | ✓ | Limited | Medium (training-time) | Limited |
 | Word2vec | Partial | 3a only | Minimal | Marginal |
-| Human cognition | ✓ | ✓ (3a–3d) | ✓ | Yes |
+| LLM | ✓ | ✓ (3a-3b, limited 3c-3d) | Medium (training-time) | ? |
+| Human cognition | ✓ | ✓ (3a–3d) | Strong (ongoing) | Yes |
 
-Edge detectors form symbols but those symbols don't enter compositional relationships that feed back to refine how edges are detected. Calculators compose but composition doesn't inform symbol formation (because they don't form symbols). **Intelligence requires the feedback loop.**
+**Honest problem with the calculator example:**
+
+The calculator case is clear: we handed it symbols, it didn't form them. But CNNs and LLMs *learn* representations from data. If learned representations count as symbol formation—and by the criteria given (clustered, stable, extracted from continuous input), they do—then the calculator disanalogy stops doing much work.
+
+What distinguishes a CNN from something intelligent? Not symbol formation (CNNs form symbols). Not composition (CNNs do limited composition). The answer has to be:
+
+1. **Interaction type:** CNNs have medium interaction (training-time gradient flow). They lack strong interaction (novelty-driven expansion at inference).
+2. **Embeddedness:** CNNs are not embedded—they don't encounter novelty, don't have self/world distinction, don't expand in response to novel inputs.
+
+This is an honest acknowledgment: once we accept learned representations as symbols, **the framework's weight shifts almost entirely to the strong interaction + embeddedness claims**. Symbol formation becomes a necessary filter, not the distinctive criterion.
+
+Edge detectors form symbols but those symbols don't enter compositional relationships that feed back to refine how edges are detected. Calculators compose but composition doesn't inform symbol formation (because they don't form symbols). CNNs and LLMs have both, with medium interaction. **APH's claim is that strong interaction—novelty-driven expansion, requiring embeddedness—is what produces genuine intelligence.**
 
 This reframing changes what the framework predicts:
 - Systems with both capacities operating *independently* should show limited generalization
@@ -70,25 +102,41 @@ If any gradient flow from compositional objectives to representation layers coun
 
 **Proposed operationalization—three levels of interaction:**
 
-| Level | Definition | Example | Test |
-|-------|------------|---------|------|
-| **Weak** | Gradient flow exists from compositional loss to representations | Standard neural network training | Present in most systems; not distinctive |
-| **Medium** | Representations demonstrably *change* in response to compositional demands | Pre-training → fine-tuning on compositional task changes representation structure | Measure representation similarity before/after compositional training |
-| **Strong** | System develops *new representational primitives* in response to compositional failure on novel inputs | Encountering novel composition demands → new symbol types emerge | Track vocabulary/representation space expansion over time |
+| Level | Definition | Example | Distinctiveness |
+|-------|------------|---------|-----------------|
+| **Weak** | Gradient flow exists from compositional loss to representations | Standard backpropagation | Ubiquitous; not distinctive |
+| **Medium** | Representations demonstrably *change* in response to compositional demands | End-to-end training changes representation structure | **Also not distinctive**—this is standard neural network training |
+| **Strong** | System develops *new representational primitives* in response to novel inputs that don't fit existing vocabulary | Encountering genuinely novel compositional demands → new symbol types emerge that persist | **This is APH's distinctive claim** |
 
-**APH's claim is that intelligence requires at least medium-level interaction, and genuine generativity requires strong interaction.**
+**Honest acknowledgment:** Medium interaction is what end-to-end training provides. Lake & Baroni (2018) already showed this matters. APH doesn't add much at the medium level.
 
-**What distinguishes strong interaction: novelty generation.**
+**APH's actual distinctive claim is about strong interaction: novelty-driven representational expansion.**
 
-This is where APH stakes its distinctive claim. "Strong interaction" isn't just "more interaction"—it's the emergence of genuinely novel representational primitives. This requires:
+**Important implication:** This makes intelligence a *diachronic* property (systems-over-time) rather than a *synchronic* property (snapshots of architecture). You can't look at a system at one moment and determine if it's intelligent—you need to observe it encountering novelty and watch for expansion.
 
-1. **Encountering novelty**: Input that doesn't fit current representational vocabulary
-2. **Recognizing it as novel**: Distinguishing "new" from "familiar" (requires self/world distinction)
-3. **Expanding in response**: Forming new symbols, not just reconfiguring existing ones
+This is a significant commitment. It means:
+- Intelligence isn't a property of architectures, but of architectures-in-interaction-with-environments-over-time
+- Testing requires longitudinal observation, not just benchmark performance
+- A system might be "intelligent" in one environment (where it encounters novelty) but not another
 
-Weak interaction is ubiquitous. Medium interaction is what end-to-end training provides. Strong interaction—novelty-driven expansion—is what APH claims separates genuine intelligence from sophisticated recombination.
+Is this the right framing? It's consistent with developmental and ecological views of cognition, but it complicates testing considerably.
 
-*This is an empirical bet. If systems without embeddedness show genuine novelty-driven representational expansion, the framework is wrong.*
+This is where the framework either succeeds or fails. The claim is:
+1. Strong interaction (not just medium) is what produces genuine generativity
+2. Strong interaction requires encountering novelty
+3. Recognizing novelty requires embeddedness (self/world distinction)
+4. Therefore: non-embedded systems can achieve medium interaction but not strong
+
+**The load-bearing problem:** "New representational primitives" vs. "novel configurations of existing primitives" is doing critical work here, but it's genuinely slippery. 
+
+What's the computational signature that distinguishes them? Candidates:
+- Persistence and transfer to new contexts (but novel configurations can also transfer)
+- Changes to the representational space itself, not just activations within it (but how do we measure this?)
+- Ability to compose the new primitive with existing ones (but this might just be reconfiguration)
+
+**Honest assessment:** This distinction needs sharper operationalization before it's a proper hypothesis rather than an intuition. The composition hierarchy is testable now; the strong interaction claim isn't yet.
+
+If medium interaction turns out to be sufficient for everything we care about, APH is wrong—not refined, *wrong*.
 
 **Empirical tests:**
 
@@ -265,27 +313,29 @@ APH draws on:
 
 L&B's finding: End-to-end training with compositional structure outperforms pipeline approaches (learn representations → learn composition separately).
 
-This is evidence for APH's interaction claim. But APH makes *additional* claims L&B don't:
+This supports medium-level interaction. But APH's distinctive claim is about *strong* interaction, which L&B don't address.
 
-| Claim | Lake & Baroni | APH |
-|-------|---------------|-----|
-| End-to-end > pipeline | ✓ Demonstrated | ✓ Cited as support |
-| Interaction must be *recursive* (iterate) | Not addressed | ✓ Central claim |
-| Ongoing novelty drives the loop | Not addressed | ✓ Links to embeddedness |
-| Composition types form hierarchy | Not addressed | ✓ 3a→3b→3c→3d ordering |
-| Embeddedness enables novelty recognition | Not addressed | ✓ Derives self-modeling capacity |
+**APH vs. "Sophisticated Interpolation" Frameworks:**
 
-**Differential prediction:** L&B predict that compositional training improves generalization. APH predicts that *persistent, novelty-driven* recursive interaction should outperform training-time-only interaction, even with matched compositional structure. This is testable: compare systems with (A) compositional training only vs. (B) compositional training + ongoing novelty-driven updates.
+A critical question: does APH predict anything that "LLMs are sophisticated interpolators over training distribution" doesn't?
 
-*If A and B perform equivalently, APH's novelty claim is weakened. If B outperforms A, that's evidence for the recursive loop claim.*
+| Prediction | Interpolation Framework | APH | Differential? |
+|------------|------------------------|-----|---------------|
+| LLMs fail on OOD inputs | ✓ Predicts failure | ✓ Predicts failure | **No** |
+| LLMs struggle with deep recursion | ✓ (beyond training depth) | ✓ | **No** |
+| Scaling helps within-distribution | ✓ | ✓ | **No** |
+| **Composition type dissociations** | Unclear—might predict uniform degradation | Predicts *specific* pattern: 3a-3b preserved, 3c-3d degrades | **Maybe** |
+| **Embedded systems show expansion, not just failure** | Doesn't address | Predicts embedded systems *expand* repertoire on novelty | **Yes** |
+| **Bees: specific dissociation pattern** | Doesn't address | Predicts role-filler success, recursive failure | **Yes** |
+| **Self-modeling pattern** | Predicts failure on OOD | Predicts specific pattern: reproduces training-distribution self-knowledge, fails on novel capabilities | **Weak** |
 
-**Specific differential predictions:**
+**Honest assessment of differential predictions:**
 
-1. **vs. LOT:** LOT doesn't distinguish composition types or predict the 3a→3b→3c→3d ordering. APH predicts specific dissociations (3a-3b success with 3c-3d failure) that LOT doesn't.
+- **Strong differential:** Embedded systems should show *expansion* (new primitives) on novel inputs, not just failure or approximation. Interpolation frameworks predict failure; APH predicts embedded systems do something qualitatively different.
+- **Moderate differential:** Composition type dissociations with specific ordering. Interpolation might predict degradation, but not the specific 3a-3b vs. 3c-3d pattern.
+- **Weak differential:** LLM predictions largely overlap with "sophisticated interpolation."
 
-2. **vs. Global Workspace:** GWT predicts that conscious access enables flexible recombination, but doesn't predict that embedded systems with novelty-driven iteration should outperform non-embedded systems with equivalent compositional structure. APH does.
-
-3. **vs. Predictive Processing:** PP explains how hierarchical models extract structure via prediction error. APH adds that recursive interaction between formation and composition—driven by novelty—is necessary for genuine generativity, not just prediction error minimization.
+**The framework's real bet:** The strong differential prediction—that embeddedness enables *expansion* rather than failure on novelty—is what distinguishes APH from simpler frameworks. If this doesn't hold, APH collapses into "interpolation + grounding critique."
 
 *If these differential predictions fail—if competing frameworks already predict everything APH predicts—then APH is sophisticated relabeling, not discovery. The empirical program tests this.*
 
@@ -354,167 +404,49 @@ The key claim is not that both are present, but that they *inform each other ite
 
 **What APH adds to Lake & Baroni:** Their finding is that end-to-end training beats pipeline approaches. APH interprets this as evidence for recursive interaction—but makes the stronger claim that *ongoing* iteration (not just training-time gradient flow) is what produces genuine generativity. This predicts that systems with persistent, novelty-driven iteration should outperform systems with only training-time interaction.
 
-### Embeddedness and Novelty Generation
+### Embeddedness and Novelty Generation (Exploratory)
 
-**Why does embeddedness matter for intelligence? Not just for self-modeling—for *novelty*.**
+**This section is exploratory, not load-bearing. The composition type hierarchy stands independently.**
 
-The recursive interaction criterion claims intelligence emerges from an iterating feedback loop: composition refines symbol formation, which enables new compositions, repeat. But what *drives* this loop? Why would a system need to refine its symbol vocabulary?
+The idea: Strong interaction might require encountering genuine novelty, which might require a stable self against which to measure. If so, embeddedness (persistence, self/world distinction) would enable what non-embedded systems can't achieve.
 
-**The answer: encountering genuine novelty.**
+**The argument sketch:**
+1. Recursive interaction needs pressure to iterate
+2. Pressure comes from encountering novelty  
+3. Recognizing novelty requires distinguishing "fits my model" from "doesn't fit"
+4. That might require a stable self-model
+5. A stable self-model might require embeddedness
 
-Novelty creates compositional demands the current symbol vocabulary can't handle. This is what creates pressure for the formation-composition feedback loop to iterate. Without novelty, you just recombine existing symbols in existing ways—the loop doesn't need to run. With novelty, you must either:
-- Fail (can't represent the new thing)
-- Form new symbols / refine existing ones (update to accommodate novelty)
-- Compose existing symbols in new ways (generative response)
+**The honest problem:**
 
-**Embeddedness is what enables recognizing novelty.**
+Why isn't "far from training distribution" computationally equivalent to "something I haven't encountered"? The proposed distinction—embedded systems *expand* while non-embedded systems *fail*—is interesting but hard to operationalize. What counts as expansion vs. sophisticated approximation?
 
-**Why this isn't post-hoc:** A fair objection is that embeddedness criteria were selected because bodies have them and LLMs don't—reverse-engineering from systems we already call intelligent. The novelty framing addresses this: embeddedness isn't valuable *in itself*. It's valuable because it's what makes novelty recognition *possible*. The argument runs:
+This distinction might collapse entirely. If it does, embeddedness becomes unnecessary for novelty recognition, and the framework loses this prediction. But the composition type hierarchy remains.
 
-1. Intelligence requires the recursive interaction loop (established above)
-2. The loop requires pressure to iterate (otherwise it's one-shot)
-3. The pressure comes from encountering novelty
-4. Recognizing novelty requires distinguishing "fits my current model" from "doesn't fit"
-5. That distinction requires a stable self against which to measure
-6. A stable self requires embeddedness components
+**Status:** Worth exploring, but has too many interpretive degrees of freedom to be a clean test. Don't treat this as load-bearing.
 
-This derives embeddedness from the interaction criterion, not from "what distinguishes humans from LLMs."
+**Application to LLMs (exploratory):**
 
-**A fair objection: can't distributional statistics provide the baseline?**
+If the embeddedness idea has merit, LLMs would be limited because:
+- Static training corpus (no ongoing world interaction)
+- No persistence at inference (no accumulating self-model)
+- ICL is recombination within a fixed space, not expansion
 
-Why can't a system track "this is far from my training distribution" without any self/world distinction?
+But this is all contingent on the embeddedness distinction holding up—which it might not.
 
-The response: *it could, if the distributional statistics implement the self/world abstraction.*
+### Five Embeddedness Components (Exploratory)
 
-The claim isn't about biological bodies. It's about functional structure. If a system:
-- Maintains a persistent model of "what I've encountered" (self-model)
-- Distinguishes this from "what's out there" (world-model)
-- Compares new inputs against the self-model to detect mismatch
+**If the embeddedness idea has merit**, these components might be relevant:
 
-...then it has the relevant structure, regardless of substrate. Distributional statistics *could* implement this—if they're organized as a stable self-model that persists and updates in response to world interaction.
+| Component | Definition |
+|-----------|------------|
+| Action-consequence contingency | Outputs affect subsequent inputs |
+| Feedback closure | Consequences return to agent |
+| Temporal persistence | Agent continues across time |
+| Self-boundary awareness | Access to own limits/constraints |
+| Environmental stability | Consistent regularities in world |
 
-What current systems lack isn't the computational capacity for distributional tracking. It's the *organization* of that tracking into self/world structure. OOD detection asks "is this far from training data?" Self/world structure asks "is this something *I* haven't encountered vs. something *the world* is presenting?"
-
-The difference matters because self/world structure supports *updating the self* in response to novelty. Pure OOD detection just flags and fails.
-
-| Component | Role in Novelty Recognition |
-|-----------|----------------------------|
-| Self/world distinction | Without it, everything is just input—you can't distinguish "familiar" from "novel" because there's no stable self against which to measure |
-| Temporal persistence | Novelty requires comparison to what came before; ephemeral systems can't accumulate the baseline |
-| Environmental stability | If everything is chaos, nothing is specifically novel—novelty requires stable background against which anomalies stand out |
-| Action-consequence | Your actions produce expected consequences; novelty is when consequences diverge from expectations |
-
-**This connects embeddedness to the recursive interaction criterion:**
-
-1. Embedded system encounters world
-2. World presents something that doesn't fit current representations (novelty)
-3. Current compositional capacity fails or is strained
-4. Pressure to refine symbol formation and/or develop new compositional strategies
-5. Updated system can now handle this class of inputs
-6. Encounters next novelty → **loop iterates**
-
-**Why LLMs may be limited:**
-
-LLMs don't *encounter* novelty in the relevant sense:
-- During training: static corpus, no ongoing world interaction
-- During inference: no persistence, no accumulating self against which to measure novelty
-
-They recombine within a learned space. They can produce outputs not in their training data (recombination), but they don't *experience* inputs as novel because there's no stable self that persists and encounters an external world.
-
-**What about in-context learning?**
-
-A fair challenge: LLMs update their effective representations based on context at inference time. Doesn't this count as interaction?
-
-| Aspect | Current ICL | What Would Count as Strong Interaction |
-|--------|-------------|---------------------------------------|
-| **Persistence** | Ephemeral (session-bound) | Persists across encounters |
-| **Scope** | Works within existing representational space | Expands the representational space |
-| **What updates** | Attention patterns, effective weights | The symbols themselves—new primitives |
-| **Driven by** | Provided examples | Encountered novelty |
-
-**The framework isn't special-pleading to exclude ICL.** The test is clear: does it produce *persistent representational expansion driven by novelty*?
-
-If a future model showed:
-- Genuinely new representational primitives (not just reconfigured existing ones)
-- Formed in response to novel inputs (not just provided examples)
-- That persist and transfer across sessions
-
-...then that would count as strong interaction, and the framework would predict such a system has intelligence in the relevant sense.
-
-**The framework's prediction:** Achieving this would require something like embeddedness—a stable self against which to measure novelty, persistence to accumulate changes, environmental stability to distinguish signal from noise. If ICL achieves genuine novelty-driven expansion *without* embeddedness, APH needs revision.
-
-*This is an empirical claim, not a definitional escape hatch. The goalposts are fixed: persistent, novelty-driven representational expansion.*
-
-*This is a hypothesis about why embeddedness matters for intelligence—not just for self-modeling, but for the novelty-driven pressure that makes the recursive loop iterate.*
-
-**Recombination vs. Novelty Generation:**
-
-| | Recombination | Novelty Generation |
-|---|--------------|-------------------|
-| **Source** | Elements already in the space | Pressure from encountering what's outside the space |
-| **Mechanism** | New combinations of existing primitives | New primitives formed in response to novel input |
-| **Requires** | Compositional structure | Embeddedness (to recognize novelty) + interaction (to update in response) |
-| **Bound** | The learned space | Potentially unbounded (world keeps presenting novelty) |
-
-*This reframes the 3c threshold question: maybe what matters isn't infinite recursive depth, but the capacity for ongoing expansion in response to novelty. Humans don't actually generate infinitely deep structures—we tap out at 3-4 center embeddings. But we do continuously encounter novelty and update. The unboundedness isn't in any single structure; it's in the open-ended process of novelty-driven refinement.*
-
-**Clarifying the recursion → novelty relationship:**
-
-The concern: isn't "novelty-driven expansion" a retreat from the crisp "recursive depth" criterion?
-
-The response: recursion matters, but not primarily as depth in single structures. It matters as the *recursive loop operating on an embedded system*:
-
-```
-Recursion + Embeddedness → Self/World Distinction → Self-Recursion → Novelty Recognition
-```
-
-1. **Recursive interaction** (formation ↔ composition loop) is the core mechanism
-2. **Applied to an embedded system** (one with action-consequence, persistence, etc.)
-3. **Produces self/world distinction** (the system models itself as distinct from environment)
-4. **Enables self-recursion** (the system applies the loop to its own processes)
-5. **Which enables novelty recognition** (distinguishing familiar from unfamiliar requires a stable self-model as baseline)
-
-The "infinite depth" argument was about why recursion matters for generativity. The novelty argument is about *what recursion produces when applied to an embedded system*. These aren't competing claims—the second explains why the first matters for intelligence specifically.
-
-**Five components are proposed as necessary:**
-
-| Component | Definition | Why Necessary |
-|-----------|------------|---------------|
-| **Action-consequence contingency** | Outputs affect subsequent inputs | Creates need for self/world decomposition |
-| **Feedback closure** | Consequences return to agent | Enables learning from consequences |
-| **Temporal persistence** | Agent continues across time | Enables accumulation of self-model |
-| **Self-boundary awareness** | Access to own limits/constraints | Enables modeling where self ends |
-| **Environmental stability** | Consistent regularities in world | Enables modeling what world contributes |
-
-**Deriving Level 4 from embeddedness:**
-
-The connection between these five components and self-referential abstraction is not merely asserted—it follows from what self-reference requires:
-
-1. **Self-referential abstraction requires a self/world distinction.** You cannot model your own representational processes without distinguishing *your* processes from *world* processes.
-
-2. **A self/world distinction requires all five components:**
-   - *Action-consequence contingency*: If your outputs don't affect your inputs, you have no basis for distinguishing "what I did" from "what happened." The causal asymmetry creates the distinction.
-   - *Feedback closure*: The consequences must return to you—otherwise you can't learn where you end and world begins.
-   - *Temporal persistence*: The self/world model must accumulate over time. An ephemeral system can't build a stable self-representation.
-   - *Self-boundary awareness*: You need access to your own limits (what you can/can't do, what you do/don't know) to model where self ends.
-   - *Environmental stability*: If the world is chaotic noise, you can't model "what world contributes"—there's nothing stable to model.
-
-3. **Each component is individually necessary.** Remove any one:
-   - No action-consequence → no basis for self/world distinction
-   - No feedback closure → no learning from the distinction
-   - No persistence → no accumulated self-model
-   - No self-boundary awareness → can't locate the boundary
-   - No environmental stability → can't model the world side
-
-Bodies naturally provide all five—they persist, have sensable boundaries (proprioception, interoception), exist in stable physical environments, and their actions have consequences. But embodiment is *instrumental*, not *constitutive*. The relational structure is what matters.
-
-**Application to LLMs:** Current LLMs lack all five components during training (static corpus, no persistence, no access to own constraints, variable conversational contexts). This predicts Level 4 limitations—but current LLMs do show some self-modeling (calibrated confidence, uncertainty estimation). 
-
-Two possible explanations:
-1. **Pattern-matching:** LLMs reproduce self-referential *language* learned from training data without genuine self-modeling
-2. **Partial self-modeling:** Some self-knowledge is possible without full embeddedness, but it's limited and fragile
-
-*Distinguishing test: Pattern-matching predicts self-modeling should fail on out-of-distribution capabilities. Partial self-modeling predicts graceful degradation. This is testable.*
+Bodies naturally provide all five. But this is exploratory—we don't know if these components are necessary, sufficient, or even relevant to the novelty question.
 
 ### Developmental Spectrum
 
@@ -564,19 +496,17 @@ The self/world distinction is proposed as the **foundational abstraction** enabl
 | 8 | [Embeddedness and Self/World](papers/embedded_abstraction.md) | Five components of embeddedness; derivation of Level 4 requirements |
 | 9 | [Self and World](papers/self_world_abstraction.md) | The foundational abstraction |
 
-**Speculative extensions (Papers 10–14):** These explore whether APH's machinery extends beyond *capability* to *experience*. They are explicitly speculative—the core framework is a theory of intelligent capability, not consciousness.
+**Adjacent explorations (Papers 10–14):** 
 
-**Why include them?** The self/world distinction and recursive self-modeling that APH requires for Level 4 are also central to many theories of consciousness. It's natural to ask whether the framework has implications there. But this is exploratory, and the honest answer is: probably not much beyond existing functionalism.
+These papers explore connections to consciousness, time, emotion, and social cognition. They're adjacent to the core framework—potentially interesting but not load-bearing. The core claims (Papers 1–9) stand independently.
 
-| # | Paper | Description | Status |
-|---|-------|-------------|--------|
-| 10 | [Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md) | Self-monitoring as computational necessity | Speculative |
-| 11 | [The Hard Problem Reframed](papers/hard_problem_reframed.md) | Experience as embedded information format | Speculative; likely doesn't advance beyond functionalism |
-| 12 | [Time as Embodied Abstraction](papers/time_embodied_abstraction.md) | Temporal reasoning and embeddedness | Extension |
-| 13 | [Emotion as Embedded Information](papers/emotion_embedded_information.md) | Emotions as action-formatted self-world information | Extension |
-| 14 | [Social Dynamics](papers/social_dynamics.md) | Multi-agent recursive abstraction | Extension |
-
-**The core framework (Papers 1–9) stands independently.** It's a theory of what computational structures produce intelligent capability. Whether those structures also produce phenomenal experience is a separate question the core framework doesn't answer—and the speculative papers probably don't answer it either.
+| # | Paper | Description |
+|---|-------|-------------|
+| 10 | [Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md) | Self-monitoring as computational necessity |
+| 11 | [The Hard Problem Reframed](papers/hard_problem_reframed.md) | Experience as embedded information format |
+| 12 | [Time as Embodied Abstraction](papers/time_embodied_abstraction.md) | Temporal reasoning and embeddedness |
+| 13 | [Emotion as Embedded Information](papers/emotion_embedded_information.md) | Emotions as action-formatted self-world information |
+| 14 | [Social Dynamics](papers/social_dynamics.md) | Multi-agent recursive abstraction |
 
 **Applications (Paper 15):**
 
@@ -616,52 +546,66 @@ The self/world distinction is proposed as the **foundational abstraction** enabl
 
 **Timeline commitment:** The self-modeling ceiling prediction is tested within the next generation of frontier models (roughly 2027–2029). If 10T+ parameter models show robust, general self-modeling—accurate capability self-assessment across novel domains, appropriate uncertainty even on distribution shifts—without any embeddedness modifications, the framework requires significant revision.
 
-### Embeddedness
+### Embeddedness (Exploratory Predictions)
 
-- Systems lacking *any* of the five components should show Level 4 limitations
-- Giving LLMs access to their own capability constraints should modestly improve self-modeling (testable now)
-- Episodic systems (reset each session) should show less developed self-models than persistent systems
-- Level 4 without self/world distinction would falsify the framework
+These are interesting to explore but not load-bearing:
 
-### Surprising Predictions
+- Giving LLMs access to their own capability constraints might improve self-modeling (testable now)
+- Episodic systems (reset each session) might show less developed self-models than persistent systems
+- Systems with action-consequence loops might show different learning dynamics
 
-**These predictions would provide evidence for APH if confirmed:**
+**Status:** If these don't pan out, it narrows the framework to the composition claims. It doesn't falsify APH.
 
-| Prediction | Surprise Level | Test |
-|------------|----------------|------|
-| **Certain insects have Level 2–3 interaction with 3a–3b composition but not 3c–3d** | **Genuinely surprising**: conflicts with intuition that intelligence requires large brains | Bees show role-filler composition in waggle dance—DISTANCE(x) + DIRECTION(y) combine systematically (Menzel et al., 2011). Prediction: bees succeed on novel role-filler combinations but fail on recursive embedding and cross-domain analogical transfer. |
-| **Interactive architectures outperform modular ones even when both have same total capacity** | **Surprising if true**: most engineering intuition favors modularity | Compare: (A) representation learning → composition vs. (B) joint training with composition-to-representation feedback. APH predicts B outperforms A on out-of-distribution generalization, controlling for parameters. |
-| **Embedded systems show novelty-driven expansion; non-embedded systems don't** | **Central prediction of novelty framing** | Give both systems genuinely novel inputs (outside training distribution). Embedded systems should show representational expansion (new distinctions formed). Non-embedded systems should show failure or approximation with existing resources. |
-| **A sufficiently large lookup table is not intelligent regardless of behavior** | **Philosophically surprising**: conflicts with behaviorism | A system that memorizes input-output pairs has no formation-composition interaction. It fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis. |
-| **LLMs show formation-composition interaction limits** | **Moderately surprising**: conflicts with "LLMs are generally intelligent" camp; *not* surprising to "just statistics" camp | Prediction: (1) recursive embedding degrades faster than role-filler novelty, (2) representations don't adapt to novel compositional demands at test time, (3) self-modeling fails on out-of-distribution capabilities (vs. graceful degradation). |
+### Predictions Summary
 
-**Honest assessment:** The genuinely distinctive predictions are: (1) the bee dissociation, (2) interactive > modular architectures, (3) embedded systems show novelty-driven expansion, and (4) the specific pattern-matching vs. partial-self-modeling test for LLM self-knowledge.
+**Ranked by testability and load-bearing status:**
 
-**Why predictions matter:** The framework's validity depends on generating classifications that (a) conflict with at least some prior intuitions, (b) are empirically testable, and (c) turn out to be correct. Refinement > revolution is an acceptable outcome, but the framework must do *some* theoretical work that competing frameworks don't.
+| Prediction | Testability | Status |
+|------------|-------------|--------|
+| **Composition dissociations: 3a-3b success with 3c-3d failure** | **High** | **Load-bearing**—if this fails, APH's main claim fails |
+| **Bee dissociation: role-filler yes, recursive no** | **High** | Load-bearing—specific test of composition hierarchy |
+| **Recursive embedding degrades faster than role-filler novelty in LLMs** | **High** | Load-bearing—testable now |
+| **Interactive > modular architectures (matched capacity)** | **Medium** | Core claim—requires controlled comparison |
+| **Embedded systems expand, non-embedded fail** | **Low** | **Exploratory**—too many confounds for clean test |
+
+**Recommendation:** Focus on composition type predictions. They're tractable and would be valuable findings independent of the broader framework. The embeddedness predictions are interesting to explore but shouldn't be treated as tests of APH.
+
+### What Would Make APH Wrong
+
+| Claim | Falsification |
+|-------|---------------|
+| **Composition types dissociate** | No 3a-3b vs. 3c-3d differences found across systems |
+| **Hierarchy ordering matters** | Dissociations exist but ordering is wrong (e.g., 3c easier than 3b) |
+
+**Note:** The embeddedness claims are exploratory. Finding that non-embedded systems can expand wouldn't falsify APH—it would just show that part of the exploration didn't pan out. The composition hierarchy is what APH lives or dies on.
 
 -----
 
 ## Open Questions
 
-The framework is offered as a research program, not a finished theory. Key unresolved issues:
+**On the load-bearing claims (composition hierarchy):**
 
-- **Strong interaction = novelty-driven expansion:** The framework stakes its distinctive claim here. "Strong interaction" means genuinely new representational primitives emerge in response to novel inputs. This is what separates intelligence from sophisticated recombination. But operationalizing "genuinely new primitive" vs. "novel configuration of existing primitives" remains empirically challenging.
+- Will dissociations be clean or messy? Likely: partial 3c success, degraded 3d. The question is whether the *pattern* confirms the hierarchy even if boundaries aren't sharp.
+- Does the ordering hold across domains? Language vs. vision vs. reasoning may show different patterns.
 
-- **The recursion → novelty chain:** The framework now argues: recursion + embeddedness → self/world distinction → self-recursion → novelty recognition. This explains why recursion matters (not for depth, but for what it produces in an embedded system). But the chain has steps that need independent validation.
+**On the interaction claims (needs work):**
 
-- **In-context learning:** The goalposts are fixed: persistent, novelty-driven representational expansion. If future ICL shows this, it counts. The framework predicts achieving this would require embeddedness-like structure. If ICL achieves it without, revision needed.
+- "New primitive" vs. "novel configuration" is load-bearing but slippery. What's the computational signature? This needs sharper operationalization before it's testable.
+- The diachronic framing (intelligence as systems-over-time, not snapshots) complicates testing. Is this the right commitment?
 
-- **Distributional statistics and self/world:** The framework now clarifies: distributional statistics *could* implement novelty recognition if organized as self/world structure. The claim isn't about biological bodies—it's about functional organization. But distinguishing "OOD detection" from "genuine novelty recognition" needs sharper criteria.
+**On embeddedness (exploratory):**
 
-- **Symbol formation as necessary but not sufficient:** The framework concedes symbols exist and matter (important for connectionists). Symbol formation may be widespread—that's fine under the interaction framing. The question is whether this makes "symbol formation" do less theoretical work than the framing suggests, or whether it's correctly positioned as a necessary filter.
+- The "OOD detection" vs. "novelty recognition" distinction might collapse. If so, embeddedness is interesting but not necessary.
+- This is worth exploring but shouldn't be treated as testing APH.
 
-- **The connectionist tension:** How continuous neural dynamics give rise to functionally discrete compositional representations is asserted, not explained. The framework needs a mechanistic account.
+**The meta-question:**
 
-- **Discovered or stipulated?** The real test is surprising predictions: (1) bee dissociation, (2) interactive > modular architectures, (3) embedded systems show novelty-driven expansion, (4) specific failure patterns in LLM self-modeling. If these fail, the framework is doing less than claimed.
+What does APH add to "interpolation critique + grounding critique"? 
 
-- **The Hard Problem:** Papers 10–11 are speculative extensions. The core framework is a theory of *capability*, not *experience*. Whether the same structures that produce intelligent capability also produce phenomenal consciousness is a separate question the framework doesn't answer.
+- The composition hierarchy probably adds something—it's a testable taxonomy with specific predictions.
+- The strong interaction and embeddedness claims are intuitions that need development, not yet proper hypotheses.
 
-- **Replication:** Core empirical results come from limited experimental contexts.
+**Honest summary:** The framework's ambition (a theory of intelligence) currently outpaces its content (a taxonomy of composition plus underdeveloped ideas about interaction). The taxonomy is valuable on its own terms. The rest needs work.
 
 -----
 
@@ -734,4 +678,4 @@ MIT
 
 -----
 
-*"Intelligence is not symbol formation plus composition. It's their recursive interaction—each refining the other, driven by novelty, iterating without bound."*
+*"The composition hierarchy is testable now. The interaction claims need sharper operationalization. Test the former; develop the latter."*
