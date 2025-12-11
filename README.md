@@ -35,7 +35,51 @@ Why these two capacities? The framework starts from an empirical observation rat
 
 This is pattern recognition on available data: what do capable systems have that rocks don’t? The answer appears to be symbols and composition. The remaining question is whether intelligence requires *forming* those symbols or merely *having* them. A calculator suggests the latter is insufficient—compositional structure over externally provided symbols doesn’t constitute intelligence. Hence the two-part criterion.
 
+**The selection bias concern:** This reasoning risks selecting criteria to match systems we already call intelligent, then declaring intelligence requires those criteria. The real test is whether the framework generates *surprising* predictions—cases where it classifies something as intelligent or non-intelligent against our prior intuitions, and turns out to be right. See [Surprising Predictions](#surprising-predictions) below.
+
 *Acknowledged limitation: this is Earth data, human technology. But if the question is “what computational structure enables general capability,” we don’t need alien examples—we need to understand why the things that work, work.*
+
+### The Symbol Identification Problem
+
+**This is a core theoretical challenge, not a minor detail.**
+
+If a symbol is defined as something that “enters into compositional relationships,” and compositionality is the other half of the criterion, the framework is circular. We need independent criteria for symbol-hood.
+
+**Candidate independent criteria:**
+
+|Criterion                |Definition                                                                      |Problem                                                                      |
+|-------------------------|--------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+|**Discreteness**         |The representation occupies distinct, separable states                          |Continuous representations can be functionally discrete; threshold unclear   |
+|**Stability**            |The representation persists across time and context                             |How much stability? Many non-symbolic processes show stability               |
+|**Reusability**          |The same representation recurs across different contexts                        |Risks circularity—reusability in what sense?                                 |
+|**Causal role**          |The representation has consistent causal effects independent of context         |Hard to operationalize; context-sensitivity may be a feature                 |
+|**Information-theoretic**|The representation achieves compression beyond what non-symbolic coding achieves|Promising but threshold unclear; compression alone insufficient (see Paper 3)|
+
+**Current best candidate:** A representation is symbolic when it shows **context-independent recurrence with consistent causal role**. The same token activates in response to the same feature across contexts, and produces similar downstream effects. This can be measured via representational similarity analysis and causal intervention studies (e.g., Kriegeskorte et al., 2008; Geiger et al., 2021).
+
+*This is not fully satisfying. The symbol identification problem remains genuinely open. The framework’s validity depends on whether this can be resolved.*
+
+### The Connectionist Tension
+
+**How do continuous neural activations give rise to discrete symbols?**
+
+The framework draws on Fodor’s language of thought, which posits discrete syntactically structured representations. But neural networks—biological and artificial—traffic in continuous activation patterns. If intelligence requires symbols, and brains are neural networks, where do the symbols come from?
+
+**Three positions:**
+
+1. **Strong discretization:** Symbols are neurally implemented as discrete attractor states. Evidence: concept cells showing highly selective firing (Quiroga et al., 2005); discrete attractor dynamics in working memory (Amit, 1995). Problem: most neural coding appears distributed, not localist.
+1. **Functional discretization:** Continuous activations implement functionally discrete representations—the system *behaves as if* it has discrete tokens even though the substrate is continuous. Evidence: neural networks can learn discrete-like compositional structure (Lake & Baroni, 2018); vector symbolic architectures achieve symbolic computation in continuous space (Kanerva, 2009). Problem: “behaves as if” needs rigorous cashing out.
+1. **Levels of description:** The symbolic level is a higher-level description of continuous dynamics, valid for some purposes but not claiming discrete implementation. Problem: risks making the framework unfalsifiable—any system can be described symbolically if you squint.
+
+**Current position:** The framework adopts (2) with constraints from (1). Symbols are patterns of activation that exhibit:
+
+- Clustering in representational space (discreteness is statistical, not absolute)
+- Consistent recurrence across contexts (same cluster activates for same feature)
+- Combinatorial productivity (clusters combine systematically)
+
+This is compatible with predictive processing—hierarchical generative models can have functionally discrete states at higher levels while being implemented in continuous prediction-error dynamics (Friston, 2010). But the integration requires more work.
+
+*This tension is not resolved. A fully satisfying account would show exactly how continuous dynamics give rise to functionally discrete, compositional representations. The framework claims this happens; it does not yet explain the mechanism.*
 
 ### What Makes a Representation Compositional
 
@@ -75,7 +119,7 @@ Stabilization and attention are required for abstraction but don’t constitute 
 
 If both symbol formation and compositionality exist on spectra, where does abstraction “begin”?
 
-**For symbol formation:** When does a learned feature become a symbol? Convolutional networks learn edge detectors—are these symbols? A candidate criterion: a representation is symbolic when it is *reusable across contexts* and *enters into compositional relationships*. But this threatens circularity with the compositionality criterion.
+**For symbol formation:** When does a learned feature become a symbol? Convolutional networks learn edge detectors—are these symbols? Current answer: only if they show context-independent recurrence with consistent causal role (see above). Edge detectors may qualify; this is an empirical question.
 
 **For compositionality:** Learned embeddings like word2vec support limited composition—vector arithmetic produces “king - man + woman ≈ queen” (Mikolov et al., 2013). These are genuine novel combinations with predictable meanings. A candidate distinction: *generative* composition supports unboundedly many novel structures through recursive combination and role-filler independence, while *interpolative* composition operates within a pre-shaped space with fixed operations. But this needs rigorous operationalization—word2vec’s limitation may be the fixed operation set (only arithmetic), not the representations themselves.
 
@@ -173,18 +217,35 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 - Stage-specific tasks should cluster; within-stage correlations exceed across-stage
 - Symbol formation (Stage 2) is necessary for compositional generalization (Stage 3)
 
-### LLM-Specific
+### LLM-Specific (with operationalization)
 
-- Performance degrades with hierarchical depth in ways human performance does not
-- Scaling improves Stage 1–2 more than Stage 3–4
-- Self-modeling capacity shows ceiling in non-embedded systems—*a strong prediction that could be falsified by sufficient scale*
+|Prediction                                      |Operationalization                                                                                                                          |Falsification Criterion                                                                                                                                 |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Performance degrades with hierarchical depth    |Accuracy on tasks requiring N levels of embedding (N = 2, 3, 4, 5+)                                                                         |If degradation curve matches human performance curve, prediction fails                                                                                  |
+|Scaling improves Stage 1–2 more than Stage 3–4  |Compare performance gains on pattern recognition vs. novel compositional generalization across model sizes (1B → 10B → 100B → 1T parameters)|If Stage 3–4 gains match or exceed Stage 1–2 gains at any scale jump, prediction fails                                                                  |
+|Self-modeling shows ceiling without embeddedness|Calibration accuracy, capability self-assessment, uncertainty quantification                                                                |If models at 10T+ parameters (estimated 2027–2029) show human-level self-modeling without architectural changes providing embeddedness, prediction fails|
+
+**Timeline commitment:** The self-modeling ceiling prediction is tested within the next generation of frontier models (roughly 2027–2029). If 10T+ parameter models show robust, general self-modeling—accurate capability self-assessment across novel domains, appropriate uncertainty even on distribution shifts—without any embeddedness modifications, the framework requires significant revision.
 
 ### Embeddedness
 
 - Systems lacking *any* of the five components should show Stage 4 limitations
-- Giving LLMs access to their own capability constraints should modestly improve self-modeling
+- Giving LLMs access to their own capability constraints should modestly improve self-modeling (testable now)
 - Episodic systems (reset each session) should show less developed self-models than persistent systems
 - Stage 4 without self/world distinction would falsify the framework
+
+### Surprising Predictions
+
+**These predictions conflict with common intuitions and would provide strong evidence if confirmed:**
+
+|Prediction                                                                     |Conflicts With                                                      |Test                                                                                                                                                                                                                                                                                                   |
+|-------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|**Certain insects may qualify as Stage 2–3 intelligent**                       |Intuition that intelligence requires large brains                   |Bees show context-independent reusable representations of distance/direction that combine compositionally in waggle dance (Menzel et al., 2011). If this compositional structure is confirmed and shown to generalize, insects have symbol formation + composition.                                    |
+|**A sufficiently large lookup table is not intelligent regardless of behavior**|Behaviorist intuitions; Turing test reasoning                       |A system that memorizes input-output pairs without forming symbols or composing them fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis, not just behavioral observation.                                                                               |
+|**Some human cognitive processes are not intelligent by this criterion**       |Intuition that everything humans do cognitively is intelligent      |Priming, mere exposure effects, and some forms of implicit learning may involve pattern extraction without symbol formation or composition. These would be Stage 1, not “intelligent” in the full sense.                                                                                               |
+|**Current LLMs may have Stage 2 but limited Stage 3**                          |Both “LLMs are just statistics” and “LLMs are generally intelligent”|LLMs may form genuine symbols (via tokenization + learned representations) but show limited *generative* composition—they interpolate within training distribution rather than generating truly novel combinations. This predicts specific failure patterns on out-of-distribution compositional tasks.|
+
+**Why these matter:** The framework’s validity depends on generating classifications that (a) conflict with prior intuitions, (b) are empirically testable, and (c) turn out to be correct. If the framework only confirms what we already believed, it’s not doing theoretical work.
 
 -----
 
@@ -192,8 +253,9 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 The framework is offered as a research program, not a finished theory. Key unresolved issues:
 
-- **Discovered or stipulated?** Is “intelligence requires symbol formation + composition” an empirical claim or a definition? The framework intends it as a hypothesis. Evidence against: systems we’d call intelligent that lack either capacity, or systems with both that fail to exhibit intelligent behavior. But the risk of circularity requires ongoing vigilance.
-- **Symbol formation criteria:** When does a learned feature count as a symbol? The criterion “enters into compositional relationships” risks circularity. Independent criteria are needed.
+- **The symbol identification problem:** Independent criteria for symbol-hood remain unsatisfying. “Context-independent recurrence with consistent causal role” is the current best candidate, but requires more rigorous operationalization and empirical validation.
+- **The connectionist tension:** How continuous neural dynamics give rise to functionally discrete compositional representations is asserted, not explained. The framework needs a mechanistic account of this transition.
+- **Discovered or stipulated?** The framework intends the criterion as a hypothesis, but the real test is surprising predictions. If it only classifies systems the way we already would, it’s a relabeling, not a discovery.
 - **Compositionality thresholds:** The generative/interpolative distinction is proposed but needs rigorous operationalization.
 - **Operationalizing embeddedness:** The five-component model is more precise than vague embodiment claims, but thresholds remain unclear.
 - **The Hard Problem:** The framework argues embeddedness reframes the explanatory gap, but a functional account of self-modeling doesn’t obviously address phenomenal consciousness. Does this advance beyond existing functionalism? *Honest answer: unclear.*
@@ -217,6 +279,8 @@ The framework is offered as a research program, not a finished theory. Key unres
 
 ## References
 
+Amit, D. J. (1995). The Hebbian paradigm reintegrated: Local reverberations as internal representations. *Behavioral and Brain Sciences*, 18(4), 617-626.
+
 Baars, B. J. (1988). *A Cognitive Theory of Consciousness*. Cambridge University Press.
 
 Fodor, J. A. (1975). *The Language of Thought*. Harvard University Press.
@@ -225,13 +289,23 @@ Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture
 
 Friston, K. (2010). The free-energy principle: A unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127-138.
 
+Geiger, A., Lu, H., Icard, T., & Potts, C. (2021). Causal abstractions of neural networks. *Advances in Neural Information Processing Systems*, 34.
+
+Kanerva, P. (2009). Hyperdimensional computing: An introduction to computing in distributed representation with high-dimensional random vectors. *Cognitive Computation*, 1(2), 139-159.
+
 Kim, N., & Linzen, T. (2020). COGS: A compositional generalization challenge based on semantic interpretation. *Proceedings of EMNLP 2020*.
 
+Kriegeskorte, N., Mur, M., & Bandettini, P. A. (2008). Representational similarity analysis—connecting the branches of systems neuroscience. *Frontiers in Systems Neuroscience*, 2, 4.
+
 Lake, B., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *Proceedings of ICML 2018*.
+
+Menzel, R., Kirbach, A., Haass, W. D., Fischer, B., Fuchs, J., Koblofsky, M., … & Greggers, U. (2011). A common frame of reference for learned and communicated vectors in honeybee navigation. *Current Biology*, 21(8), 645-650.
 
 Mikolov, T., Chen, K., Corrado, G., & Dean, J. (2013). Efficient estimation of word representations in vector space. *arXiv preprint arXiv:1301.3781*.
 
 Montague, R. (1970). Universal grammar. *Theoria*, 36(3), 373-398.
+
+Quiroga, R. Q., Reddy, L., Kreiman, G., Koch, C., & Fried, I. (2005). Invariant visual representation by single neurons in the human brain. *Nature*, 435(7045), 1102-1107.
 
 Szabó, Z. G. (2012). The case for compositionality. In *The Oxford Handbook of Compositionality*. Oxford University Press.
 
