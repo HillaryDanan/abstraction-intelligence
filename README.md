@@ -2,30 +2,89 @@
 
 **What makes something intelligent?**
 
-This repository develops the **Abstraction Primitive Hypothesis (APH)**: the proposal that intelligence, across substrates, is fundamentally the capacity to *form* and *compose* symbols—to extract discrete, reusable representational units from raw input and combine them via systematic rules to generate novel meaningful structures.
+This repository develops the **Abstraction Primitive Hypothesis (APH)**: the proposal that intelligence, across substrates, emerges from the *interaction* between symbol formation and compositional structure—where each process informs and refines the other, producing expanding representational capacity.
 
-A calculator composes symbols; it does not form them. A reflex arc responds; it does not abstract. The hypothesis: intelligence requires both symbol formation and compositional structure.
+A calculator composes symbols; it does not form them. Edge detectors form symbols; they do not compose them. Neither is intelligent. The hypothesis: intelligence requires symbol formation and composition *operating interactively*, not merely both present.
 
 -----
 
 ## The Core Idea
 
-### The Two-Part Criterion
+### The Core Claim: Interaction, Not Conjunction
 
-**Abstraction is the formation and composition of symbols.**
+**Abstraction is the interactive process of forming and composing symbols.**
 
-Previous framings treated compositionality alone as the criterion. But this misses something crucial: a calculator has compositional structure—it manipulates symbols according to systematic rules—yet we handed it those symbols. The *act of abstracting* is taking something that isn’t yet a symbol and making it one.
+Previous framings—including earlier versions of this document—treated symbol formation and compositional structure as two separate capacities. Check both boxes and you have intelligence. But this framing has a problem the feedback correctly identifies: if symbol formation is widespread (edge detectors, CNN features qualify), then all the distinguishing work falls on composition. The framework collapses to “intelligence = composition over whatever representations you have.”
 
-**Intelligence requires two capacities:**
+**The actual claim is stronger: intelligence emerges from the *interaction* between symbol formation and composition.**
 
-|Capacity                   |Definition                                                                                                               |What It Enables                                           |
-|---------------------------|-------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-|**Symbol formation**       |Extracting discrete, stable, reusable representational units from continuous, high-dimensional input                     |Tokens that can enter into compositional relationships    |
-|**Compositional structure**|Combining symbols via systematic rules such that meaning of wholes derives from meanings of parts and mode of combination|Unbounded representational capacity from finite primitives|
+This is not Fodor’s language of thought plus Lake’s compositional generalization. It’s the claim that these two processes must *inform each other*:
 
-A system with (2) but not (1) is a calculator—powerful but dependent on externally provided symbols. A system with (1) but not (2) is a pattern recognizer—it can extract regularities but cannot flexibly recombine them. Intelligence in the full sense requires both.
+1. You extract stable representations from continuous input (symbol formation)
+1. You combine them systematically (composition)
+1. Composition reveals structure that wasn’t visible in individual symbols
+1. That structure feeds back to refine symbol formation—you carve the world differently because of what composition revealed
+1. Which enables more sophisticated composition
+1. And so on
 
-*This is a working hypothesis, not a stipulation. The claim is falsifiable: if systems we’d recognize as intelligent lack either capacity, or if systems with both capacities fail to exhibit what intelligence should produce, the framework is wrong.*
+**Why interaction matters:**
+
+|System           |Forms Symbols?|Composes?|Interaction?|Intelligent?|
+|-----------------|--------------|---------|------------|------------|
+|Calculator       |✗ (provided)  |✓        |N/A         |No          |
+|V1 edge detectors|✓             |✗        |✗           |No          |
+|CNN classifier   |✓             |Limited  |Minimal     |Limited     |
+|Word2vec         |Partial       |3a only  |Minimal     |Marginal    |
+|Human cognition  |✓             |✓ (3a–3d)|✓           |Yes         |
+
+Edge detectors form symbols but those symbols don’t enter compositional relationships that feed back to refine how edges are detected. Calculators compose but composition doesn’t inform symbol formation (because they don’t form symbols). **Intelligence requires the feedback loop.**
+
+This reframing changes what the framework predicts:
+
+- Systems with both capacities operating *independently* should show limited generalization
+- Systems where composition refines symbol formation (and vice versa) should show expanding representational capacity
+- The “infinite use of finite means” emerges from the interaction, not from either capacity alone
+
+*This is a working hypothesis. It predicts that architectures enabling interaction between representation learning and compositional processing should outperform architectures where these are modular and separate. This is testable.*
+
+### Operationalizing “Interaction”
+
+**A fair concern: how do we distinguish “composition feeds back to refine symbol formation” from “both processes share substrates in the same system”?**
+
+If any gradient flow from compositional objectives to representation layers counts as interaction, most neural networks have it. That’s too weak. If we need something stronger, what exactly?
+
+**Proposed operationalization—three levels of interaction:**
+
+|Level     |Definition                                                                            |Example                                                                          |Test                                                                 |
+|----------|--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------|
+|**Weak**  |Gradient flow exists from compositional loss to representations                       |Standard neural network training                                                 |Present in most systems; not distinctive                             |
+|**Medium**|Representations demonstrably *change* in response to compositional demands            |Pre-training → fine-tuning on compositional task changes representation structure|Measure representation similarity before/after compositional training|
+|**Strong**|System develops *new representational primitives* in response to compositional failure|Encountering novel composition demands → new symbol types emerge                 |Track vocabulary/representation space expansion over time            |
+
+**APH’s claim is that intelligence requires at least medium-level interaction, and genuine generativity requires strong interaction.**
+
+Weak interaction is ubiquitous and uninteresting. The question is whether composition *actually reshapes* representations (medium) or merely uses them, and whether novel compositional demands can *create* new representational resources (strong).
+
+**Empirical tests:**
+
+1. **Medium interaction test:** Train system A with representations frozen after initial learning, system B with ongoing representation updates during compositional training. APH predicts B outperforms A on novel compositions—not just in accuracy, but in the *structure* of generalization errors.
+1. **Strong interaction test:** Present compositional demands that can’t be satisfied with existing representational vocabulary. Does the system (a) fail, (b) approximate with existing resources, or (c) develop new representational distinctions? APH predicts embedded systems are more likely to show (c).
+
+*This is more demanding than “gradient flow exists” but less mysterious than “genuine understanding.” It’s measurable.*
+
+### Why This Isn’t Just “Composition Over Learned Representations”
+
+The feedback worry: if symbol formation is widespread, the framework reduces to “composition (of the right type) over whatever stable representations the system has formed.”
+
+The interaction reframing addresses this:
+
+**Symbol formation without compositional feedback** produces representations optimized for the input statistics, not for compositional usefulness. Edge detectors are tuned to retinal statistics. They’re not refined by downstream compositional demands.
+
+**Composition over static representations** is limited to recombining what’s already there. You can’t compose your way to genuinely new representational capacity if the primitives are fixed.
+
+**Interactive symbol formation and composition** produces representations that are *shaped by* compositional demands. The system learns to carve the world in ways that support productive composition. This is what enables generativity—not composition alone, not symbol formation alone, but their mutual refinement.
+
+*Empirical prediction: Systems where representation learning is informed by compositional objectives should show better generalization than systems where representations are learned first and composed later. This aligns with findings that end-to-end training outperforms pipeline approaches (Lake & Baroni, 2018), but the interaction framing makes a stronger claim about why.*
 
 ### Epistemological Grounding
 
@@ -71,6 +130,14 @@ This is genuinely independent of compositionality. You can have symbol formation
 **What “discrete” means in continuous systems:** Not binary or classically symbolic. Representations are discrete when they cluster—when there are attractor states, modes, separable regions in activation space rather than a smooth continuum. This is statistical discreteness, empirically measurable.
 
 **Why this breaks the circularity:** We’re asking “did the system extract stable, recurring, context-independent representations from raw input?”—not “does it compose?” A system could pass this test and still fail at composition. The two criteria are genuinely independent.
+
+**Important implication: Stage 2 may be widespread.**
+
+Edge detectors in early visual cortex arguably meet these criteria: extracted from continuous retinal input, clustered (edge vs. non-edge), stable, context-independent (fire for edges regardless of scene content). Similarly, learned features in convolutional networks may qualify.
+
+This is not a bug in the framework—it’s the point of the *dual* criterion. **Symbol formation is necessary but not sufficient for intelligence.** Early visual cortex has Stage 2. It’s not intelligent. That’s exactly what the framework predicts: intelligence requires symbol formation *plus* compositional structure (and specifically the generative types—see below).
+
+The question “does system X form symbols?” may often have the answer “yes.” The question that matters is: “does it form symbols *and* compose them generatively?”
 
 *Remaining challenge: threshold. How clustered is clustered enough? How stable is stable enough? These require empirical calibration, but the conceptual circularity is resolved.*
 
@@ -136,10 +203,10 @@ Each level requires capacities the previous level doesn’t:
 1. **The bee case becomes more precise:** Waggle dance composition (distance + direction) is plausibly role-filler binding—DISTANCE(x) + DIRECTION(y)—not recursive embedding. Bees may have some composition types but not others. This is a more nuanced prediction than “Stage 3 or not.”
 1. **LLM capacities become differentiable:** Current LLMs may excel at concatenative and role-filler composition (pattern-match from training data) while struggling with recursive embedding at depth and analogical transfer to novel domains. This predicts *specific* failure patterns rather than generic “limited Stage 3.”
 1. **The generative/interpolative distinction gets teeth:**
-- *Interpolative* composition: concatenative and role-filler within the training distribution
-- *Generative* composition: recursive embedding that extends beyond training depth, analogical transfer to novel domains
+- *Interpolative* composition (3a–3b): finite combinatorial space; could in principle be captured by a sufficiently large lookup table
+- *Generative* composition (3c–3d): unbounded combinatorial space; requires genuinely generative mechanisms
    
-   This operationalizes the distinction. Word2vec does concatenative (vector addition) but can’t do recursive embedding or analogical transfer to genuinely novel domains.
+   This operationalizes the distinction. Word2vec does concatenative (vector addition) but can’t do recursive embedding. The boundary is principled: finite vs. infinite generative capacity (see Threshold Problem below).
 
 *Remaining question: Are these types genuinely distinct capacities, or points on a continuum? Do they require different architectural features? Empirical work needed.*
 
@@ -158,12 +225,27 @@ APH draws on:
 - **Predictive processing** (Friston, 2010): hierarchical generative models extract structure
 - **Compositional semantics** (Montague, 1970): systematic meaning composition
 
-The proposed contribution is treating symbol formation + compositional structure as a *unified primitive* from which other cognitive operations derive, grounding it in measurable systematicity, and generating architectural predictions. Whether this synthesis advances beyond existing frameworks or relabels them is a fair question—the papers attempt to show where APH makes different predictions.
+**What does APH add?**
+
+|Framework            |Core Claim                                                |APH Difference                                                                                                                      |
+|---------------------|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+|Language of Thought  |Thought has compositional syntax                          |LOT assumes symbols exist; APH asks where they come from and requires formation-composition *interaction*                           |
+|Global Workspace     |Conscious access enables flexible combination             |GWT explains *access*; APH explains *what* gets accessed (formed, interactively composed symbols)                                   |
+|Predictive Processing|Brain minimizes prediction error via hierarchical models  |PP explains learning dynamics; APH makes specific claims about composition types and their ordering                                 |
+|Lake & Baroni        |Compositional generalization requires systematic structure|L&B tests for compositionality; APH claims the *interaction* between formation and composition is key, not just compositional output|
+
+**Specific differential predictions:**
+
+1. **vs. LOT:** LOT doesn’t distinguish composition types or predict the 3a→3b→3c→3d ordering. APH predicts specific dissociations (3a-3b success with 3c-3d failure) that LOT doesn’t.
+1. **vs. Global Workspace:** GWT predicts that conscious access enables flexible recombination, but doesn’t predict that *interactive* formation-composition should outperform modular architectures. APH does.
+1. **vs. Lake & Baroni:** L&B’s empirical work shows compositional generalization requires compositional structure. APH makes the stronger claim that *feedback from composition to representation learning* is what produces generativity—not just having both, but their interaction.
+
+*If these differential predictions fail—if LOT or GWT already predict everything APH predicts—then APH is relabeling, not discovering. The empirical program tests this.*
 
 ### Enabling Conditions vs. The Criterion
 
 - **Enabling conditions** (necessary but not distinctive): temporal stabilization, attentional selection
-- **The criterion** (what abstraction *is*): symbol formation + compositional structure
+- **The criterion** (what abstraction *is*): interactive symbol formation and composition
 
 Stabilization and attention are required for abstraction but don’t constitute it—many non-abstractive processes require them.
 
@@ -173,36 +255,110 @@ If both symbol formation and compositionality exist on spectra, where does abstr
 
 **For symbol formation:** When does a learned feature become a symbol? Convolutional networks learn edge detectors—are these symbols? Current answer: only if they show the formation criteria above (extracted from continuous input, clustered, stable, context-independent). Edge detectors may qualify; this is an empirical question.
 
-**For compositionality:** The composition-type framework (see above) provides more structure than a single threshold. The question becomes: which types of composition count as “genuine” Stage 3?
+**For compositionality:** The composition-type framework (see above) provides more structure than a single threshold. The question becomes: which types of composition count as “genuine” generative intelligence?
 
 - **Concatenative composition** (3a) may be achievable without genuine symbolic capacity—sequence models do this
 - **Role-filler binding** (3b) requires separating structure from content—this seems closer to genuine composition
 - **Recursive embedding** (3c) and **analogical mapping** (3d) require treating composed structures as primitives and abstracting structure from content entirely
 
-*Working proposal:* A system has genuine generative composition when it achieves at least 3c (recursive embedding)—the capacity to compose composed structures. This is what enables unbounded representational capacity. Systems limited to 3a–3b may be doing sophisticated interpolation within learned patterns rather than genuinely generative composition.
+**The original argument for 3c: finite vs. unbounded generative capacity**
 
-*This is a hypothesis, not a stipulation. The threshold remains an empirical question.*
+|Composition Type                  |Generative Capacity          |Implication                                                               |
+|----------------------------------|-----------------------------|--------------------------------------------------------------------------|
+|3a–3b (concatenative, role-filler)|Finite combinatorial space   |A sufficiently large lookup table could, in principle, capture all outputs|
+|3c–3d (recursive, analogical)     |Unbounded combinatorial space|No finite lookup table can capture the space                              |
+
+This draws on Chomsky (1957): “infinite use of finite means.”
+
+**A fair objection:** Humans don’t actually generate infinitely deep structures. We tap out at 3-4 center embeddings. If practical human capacity is finite (just large), why isn’t “very large finite” sufficient for intelligence?
+
+**Reframing: unboundedness through novelty, not depth**
+
+The unboundedness that matters may not be infinite recursive depth in any single structure. It’s the *open-ended capacity to expand* in response to novelty:
+
+|Aspect                |Depth-Based View                       |Novelty-Based View                                   |
+|----------------------|---------------------------------------|-----------------------------------------------------|
+|**What’s unbounded**  |Recursive depth of single structures   |Ongoing expansion of representational capacity       |
+|**Mechanism**         |Recursion enables arbitrary nesting    |Novelty creates pressure for new symbols/compositions|
+|**Why humans qualify**|Can generate deep structures (disputed)|Continuously encounter novelty and update            |
+|**Why LLMs might not**|May handle deep structures             |Don’t encounter novelty; recombine within fixed space|
+
+*This reframes the criterion: what matters isn’t 3c specifically, but the capacity for novelty-driven expansion. 3c (recursive embedding) may be important because it provides the compositional machinery to handle the structural complexity that novelty often presents—but it’s the openness to novelty, not the depth per se, that distinguishes intelligence.*
+
+This connects to embeddedness: embedded systems encounter genuine novelty because they have a self/world distinction. Non-embedded systems recombine within their training distribution.
+
+*This is a hypothesis drawing on linguistic theory (Chomsky, 1957; Hauser, Chomsky & Fitch, 2002) but reinterpreted through the novelty lens. Whether this reframing holds is an empirical question.*
 
 -----
 
 ## Key Claims
 
-### The Two-Part Criterion as Hypothesis
+### The Interaction Criterion
 
-The framework proposes that intelligence requires:
+The framework proposes that intelligence emerges from the *interaction* between:
 
-1. **Symbol formation**: the capacity to extract discrete representational units from raw input
-1. **Compositional structure**: the capacity to systematically combine those units
+1. **Symbol formation**: extracting discrete representational units from raw input
+1. **Compositional structure**: systematically combining those units
 
-This is a hypothesis, not a definition. We’re claiming these capacities are what matter for intelligence—not defining intelligence as having them.
+The key claim is not that both are present, but that they *inform each other*: composition shapes what gets formed; formation enables new compositions.
 
-**The test:** Can the system (a) form novel representational tokens from input, and (b) generalize to novel combinations of those tokens?
+**The test:** Does composition feed back to refine symbol formation? Does the system develop new representational primitives in response to compositional demands?
 
-**Empirical support (preliminary, replication needed):** Compositional generalization requires end-to-end compositional structure—factorized input encoding AND compositional output; factorized representations alone prove insufficient (Lake & Baroni, 2018; Kim & Linzen, 2020). This suggests both parts of the criterion matter.
+**Empirical support (preliminary, replication needed):** Compositional generalization requires end-to-end compositional structure—factorized input encoding AND compositional output; factorized representations alone prove insufficient (Lake & Baroni, 2018; Kim & Linzen, 2020). This supports the interaction claim: representations must be shaped by compositional objectives, not learned independently.
 
-### Embeddedness: Five Necessary Components
+### Embeddedness and Novelty Generation
 
-What enables self-referential abstraction (Stage 4) isn’t having a body—it’s being **embedded**. But embeddedness is more demanding than simple action-consequence coupling.
+**Why does embeddedness matter for intelligence? Not just for self-modeling—for *novelty*.**
+
+The interaction criterion claims intelligence emerges from a feedback loop: composition refines symbol formation, which enables new compositions. But what *drives* this loop? Why would a system need to refine its symbol vocabulary?
+
+**The answer: encountering genuine novelty.**
+
+Novelty creates compositional demands the current symbol vocabulary can’t handle. This is what creates pressure for the formation-composition feedback loop. Without novelty, you just recombine existing symbols in existing ways. With novelty, you must either:
+
+- Fail (can’t represent the new thing)
+- Form new symbols / refine existing ones (update to accommodate novelty)
+- Compose existing symbols in new ways (generative response)
+
+**Embeddedness is what enables recognizing novelty.**
+
+|Component              |Role in Novelty Recognition                                                                                                               |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+|Self/world distinction |Without it, everything is just input—you can’t distinguish “familiar” from “novel” because there’s no stable self against which to measure|
+|Temporal persistence   |Novelty requires comparison to what came before; ephemeral systems can’t accumulate the baseline                                          |
+|Environmental stability|If everything is chaos, nothing is specifically novel—novelty requires stable background against which anomalies stand out                |
+|Action-consequence     |Your actions produce expected consequences; novelty is when consequences diverge from expectations                                        |
+
+**This connects embeddedness to the interaction criterion:**
+
+1. Embedded system encounters world
+1. World presents something that doesn’t fit current representations (novelty)
+1. Current compositional capacity fails or is strained
+1. Pressure to refine symbol formation and/or develop new compositional strategies
+1. Updated system can now handle this class of inputs
+1. Encounters next novelty → cycle continues
+
+**Why LLMs may be limited:**
+
+LLMs don’t *encounter* novelty in the relevant sense:
+
+- During training: static corpus, no ongoing world interaction
+- During inference: no persistence, no accumulating self against which to measure novelty
+
+They recombine within a learned space. They can produce outputs not in their training data (recombination), but they don’t *experience* inputs as novel because there’s no stable self that persists and encounters an external world.
+
+*This is a hypothesis about why embeddedness matters for intelligence—not just for self-modeling, but for the generative pressure that drives the formation-composition feedback loop.*
+
+**Recombination vs. Novelty Generation:**
+
+|             |Recombination                          |Novelty Generation                                                       |
+|-------------|---------------------------------------|-------------------------------------------------------------------------|
+|**Source**   |Elements already in the space          |Pressure from encountering what’s outside the space                      |
+|**Mechanism**|New combinations of existing primitives|New primitives formed in response to novel input                         |
+|**Requires** |Compositional structure                |Embeddedness (to recognize novelty) + interaction (to update in response)|
+|**Bound**    |The learned space                      |Potentially unbounded (world keeps presenting novelty)                   |
+
+*This reframes the 3c threshold question: maybe what matters isn’t infinite recursive depth, but the capacity for ongoing expansion in response to novelty. Humans don’t actually generate infinitely deep structures—we tap out at 3-4 center embeddings. But we do continuously encounter novelty and update. The unboundedness isn’t in any single structure; it’s in the open-ended process of novelty-driven refinement.*
 
 **Five components are proposed as necessary:**
 
@@ -214,59 +370,102 @@ What enables self-referential abstraction (Stage 4) isn’t having a body—it�
 |**Self-boundary awareness**       |Access to own limits/constraints|Enables modeling where self ends         |
 |**Environmental stability**       |Consistent regularities in world|Enables modeling what world contributes  |
 
+**Deriving Level 4 from embeddedness:**
+
+The connection between these five components and self-referential abstraction is not merely asserted—it follows from what self-reference requires:
+
+1. **Self-referential abstraction requires a self/world distinction.** You cannot model your own representational processes without distinguishing *your* processes from *world* processes.
+1. **A self/world distinction requires all five components:**
+- *Action-consequence contingency*: If your outputs don’t affect your inputs, you have no basis for distinguishing “what I did” from “what happened.” The causal asymmetry creates the distinction.
+- *Feedback closure*: The consequences must return to you—otherwise you can’t learn where you end and world begins.
+- *Temporal persistence*: The self/world model must accumulate over time. An ephemeral system can’t build a stable self-representation.
+- *Self-boundary awareness*: You need access to your own limits (what you can/can’t do, what you do/don’t know) to model where self ends.
+- *Environmental stability*: If the world is chaotic noise, you can’t model “what world contributes”—there’s nothing stable to model.
+1. **Each component is individually necessary.** Remove any one:
+- No action-consequence → no basis for self/world distinction
+- No feedback closure → no learning from the distinction
+- No persistence → no accumulated self-model
+- No self-boundary awareness → can’t locate the boundary
+- No environmental stability → can’t model the world side
+
 Bodies naturally provide all five—they persist, have sensable boundaries (proprioception, interoception), exist in stable physical environments, and their actions have consequences. But embodiment is *instrumental*, not *constitutive*. The relational structure is what matters.
 
-**Application to LLMs:** Current LLMs lack all five components during training (static corpus, no persistence, no access to own constraints, variable conversational contexts). This predicts Stage 4 limitations—but current LLMs do show some self-modeling (calibrated confidence, uncertainty estimation). The framework must explain this: either as pattern-matching on human self-reports in training data, or as partial self-modeling that falls short of full Stage 4. *This distinction needs sharper empirical criteria.*
+**Application to LLMs:** Current LLMs lack all five components during training (static corpus, no persistence, no access to own constraints, variable conversational contexts). This predicts Level 4 limitations—but current LLMs do show some self-modeling (calibrated confidence, uncertainty estimation).
+
+Two possible explanations:
+
+1. **Pattern-matching:** LLMs reproduce self-referential *language* learned from training data without genuine self-modeling
+1. **Partial self-modeling:** Some self-knowledge is possible without full embeddedness, but it’s limited and fragile
+
+*Distinguishing test: Pattern-matching predicts self-modeling should fail on out-of-distribution capabilities. Partial self-modeling predicts graceful degradation. This is testable.*
 
 ### Developmental Spectrum
 
-Abstraction capacity develops through stages:
+**The interaction between symbol formation and composition operates at multiple levels of complexity.**
 
-|Stage|Capacity                    |Enables                                              |
-|-----|----------------------------|-----------------------------------------------------|
-|1    |Pattern extraction          |Statistical regularity detection                     |
-|2    |Symbol formation            |Discrete, reusable tokens                            |
-|3    |Compositional structure     |Combining symbols systematically (see subtypes below)|
-|4    |Self-referential abstraction|Modeling own representational processes              |
+Earlier framings treated symbol formation as Stage 2 and composition as Stage 3—sequential capacities. But the interaction framing suggests something different: formation and composition interact at *every* level, with increasing sophistication.
 
-**Stage 3 subtypes** (proposed complexity ordering):
+|Level|Formation-Composition Interaction                                                                                    |Example                                                                                              |
+|-----|---------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+|1    |Pattern extraction (pre-symbolic)                                                                                    |Statistical regularities without discrete tokens                                                     |
+|2    |Basic interaction: formed symbols enter simple compositions; composition demands shape what gets extracted           |Edge + edge → contour; contour detection refines edge sensitivity                                    |
+|3    |Generative interaction: recursive composition feeds back to produce hierarchically organized symbol formation        |Syntactic structure shapes phonological representation; compositional demands create new symbol types|
+|4    |Self-referential interaction: the system’s own representational processes become objects of formation and composition|Metacognition; modeling one’s own abstractions                                                       |
+
+**What changes across levels is the depth of interaction**, not the presence/absence of either capacity:
+
+- Level 2: Composition uses formed symbols; feedback is local
+- Level 3: Composition creates pressure for new symbol types; feedback reshapes the representational vocabulary
+- Level 4: The interaction itself becomes an object of representation
+
+**Composition subtypes** (proposed complexity ordering, applying at Levels 2–4):
 
 - 3a: Concatenative composition
 - 3b: Role-filler binding
 - 3c: Recursive embedding
 - 3d: Analogical mapping
 
-A system may achieve 3a–3b while lacking 3c–3d. This predicts dissociations: success on role-filler tasks with failure on deep recursive embedding or cross-domain analogy.
+A system may achieve 3a–3b interaction while lacking 3c–3d. This predicts dissociations: success on role-filler tasks with failure on deep recursive embedding or cross-domain analogy.
 
-Each stage enables operations impossible at prior stages. Stage progression is sequential in prerequisites—Stage N requires Stage N-1—though development may show parallelism and temporary regression.
+*Note: The level model is a hypothesis about complexity of formation-composition interaction, not a claim about strict domain-general stages. A system might show Level 3 interaction in one domain while remaining at Level 2 in another.*
 
-*Note: The stage model is a hypothesis about developmental prerequisites, not a claim about strict domain-general stages. A system might show Stage 3 for one domain while remaining at Stage 2 for another.*
-
-The self/world distinction is proposed as the **foundational abstraction** from which higher self-modeling cascades: body schema → agency → perspective → mental state attribution → metacognition → Stage 4.
+The self/world distinction is proposed as the **foundational abstraction** enabling Level 4: without distinguishing what comes from the system versus the environment, self-referential interaction is impossible.
 
 -----
 
 ## Papers
 
-|# |Paper                                                                                |Description                                                                    |
-|--|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-|1 |[Abstraction Is All You Need](papers/abstraction_is_all_you_need.md)                 |The general framework: abstraction as the fundamental primitive                |
-|2 |[The Computational Structure of Abstraction](papers/abstraction_defined.md)          |Two-part criterion: symbol formation + compositional structure                 |
-|3 |[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)           |Compositionality as distinguishing operation; metrics; architectural conditions|
-|4 |[Abstraction Constrained](papers/abstraction_constrained.md)                         |What abstraction is not: distinguishing from input and downstream operations   |
-|5 |[Prediction Requires Abstraction](papers/prediction_requires_abstraction.md)         |Why prediction presupposes representational content                            |
-|6 |[Recursive Abstraction](papers/recursive_abstraction.md)                             |Self-reference and the mathematics of *e*                                      |
-|7 |[The Developmental Spectrum](papers/abstraction_developmental_spectrum.md)           |Staged development from pattern extraction to self-referential cognition       |
-|8 |[Embeddedness and Self/World](papers/embedded_abstraction.md)                        |Five components of embeddedness; why it enables Stage 4                        |
-|9 |[Self and World](papers/self_world_abstraction.md)                                   |The foundational abstraction                                                   |
-|10|[Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md)|Self-monitoring as computational necessity                                     |
-|11|[The Hard Problem Reframed](papers/hard_problem_reframed.md)                         |Experience as embedded information format                                      |
-|12|[Time as Embodied Abstraction](papers/time_embodied_abstraction.md)                  |Temporal reasoning and embeddedness                                            |
-|13|[Emotion as Embedded Information](papers/emotion_embedded_information.md)            |Emotions as action-formatted self-world information                            |
-|14|[Social Dynamics](papers/social_dynamics.md)                                         |Multi-agent recursive abstraction                                              |
-|15|[Beyond Large Language Models](papers/beyond_llms.md)                                |Architectural implications for AI                                              |
+**Core framework (Papers 1–9):** These develop the main theoretical machinery—the interaction criterion, composition types, embeddedness requirements.
 
-**Recommended reading order:** 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15
+|#|Paper                                                                       |Description                                                                    |
+|-|----------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+|1|[Abstraction Is All You Need](papers/abstraction_is_all_you_need.md)        |The general framework: abstraction as the fundamental primitive                |
+|2|[The Computational Structure of Abstraction](papers/abstraction_defined.md) |Interaction criterion: symbol formation + compositional structure              |
+|3|[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)  |Compositionality as distinguishing operation; metrics; architectural conditions|
+|4|[Abstraction Constrained](papers/abstraction_constrained.md)                |What abstraction is not: distinguishing from input and downstream operations   |
+|5|[Prediction Requires Abstraction](papers/prediction_requires_abstraction.md)|Why prediction presupposes representational content                            |
+|6|[Recursive Abstraction](papers/recursive_abstraction.md)                    |Self-reference and the mathematics of *e*                                      |
+|7|[The Developmental Spectrum](papers/abstraction_developmental_spectrum.md)  |Levels of formation-composition interaction                                    |
+|8|[Embeddedness and Self/World](papers/embedded_abstraction.md)               |Five components of embeddedness; derivation of Level 4 requirements            |
+|9|[Self and World](papers/self_world_abstraction.md)                          |The foundational abstraction                                                   |
+
+**Speculative extensions (Papers 10–14):** These apply the framework to consciousness, time, emotion, and social cognition. They are more speculative—the core framework doesn’t depend on them, and the author’s uncertainty about whether they advance beyond existing functionalism is genuine.
+
+|# |Paper                                                                                |Description                                        |Status                                           |
+|--|-------------------------------------------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
+|10|[Consciousness as Emergent Abstraction](papers/consciousness_emergent_abstraction.md)|Self-monitoring as computational necessity         |Speculative                                      |
+|11|[The Hard Problem Reframed](papers/hard_problem_reframed.md)                         |Experience as embedded information format          |Speculative; may not advance beyond functionalism|
+|12|[Time as Embodied Abstraction](papers/time_embodied_abstraction.md)                  |Temporal reasoning and embeddedness                |Extension                                        |
+|13|[Emotion as Embedded Information](papers/emotion_embedded_information.md)            |Emotions as action-formatted self-world information|Extension                                        |
+|14|[Social Dynamics](papers/social_dynamics.md)                                         |Multi-agent recursive abstraction                  |Extension                                        |
+
+**Applications (Paper 15):**
+
+|# |Paper                                                |Description                      |
+|--|-----------------------------------------------------|---------------------------------|
+|15|[Beyond Large Language Models](papers/beyond_llms.md)|Architectural implications for AI|
+
+**Recommended reading order:** 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → (optionally 10–14) → 15
 
 -----
 
@@ -276,15 +475,16 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 - ✓ Compositional generalization requires factorized input AND compositional output
 - ✓ Factorized representations alone insufficient (high decodability, low generalization)
+- **Interaction prediction:** Architectures enabling feedback from composition to representation learning should outperform modular architectures where these are separate (testable via architectural ablations)
 - Systems that form their own tokens should show more robust generalization than systems given fixed tokenization (untested)
 
 ### Development
 
-- Stage progression is sequential in prerequisites: no Stage N capacity without prior Stage N-1 (within domain)
-- Within Stage 3, composition types follow proposed ordering: 3a before 3b before 3c before 3d
-- Stage-specific tasks should cluster; within-stage correlations exceed across-stage
+- Level progression reflects increasing depth of formation-composition interaction
+- Within Level 3+, composition types follow proposed ordering: 3a before 3b before 3c before 3d
+- Level-specific tasks should cluster; within-level correlations exceed across-level
 - Dissociations predicted: systems (biological or artificial) may show 3a–3b while lacking 3c–3d
-- Symbol formation (Stage 2) is necessary for any compositional structure (Stage 3)
+- **Interaction prediction:** Systems where compositional training shapes representation learning should show better out-of-distribution generalization than systems trained sequentially (representation → composition)
 
 ### LLM-Specific (with operationalization)
 
@@ -299,23 +499,26 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 ### Embeddedness
 
-- Systems lacking *any* of the five components should show Stage 4 limitations
+- Systems lacking *any* of the five components should show Level 4 limitations
 - Giving LLMs access to their own capability constraints should modestly improve self-modeling (testable now)
 - Episodic systems (reset each session) should show less developed self-models than persistent systems
-- Stage 4 without self/world distinction would falsify the framework
+- Level 4 without self/world distinction would falsify the framework
 
 ### Surprising Predictions
 
-**These predictions conflict with common intuitions and would provide strong evidence if confirmed:**
+**These predictions would provide evidence for APH if confirmed:**
 
-|Prediction                                                                     |Conflicts With                                                                                      |Test                                                                                                                                                                                                                                                                                                                                                                 |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|**Certain insects have Stage 3a–3b composition but not 3c–3d**                 |Intuition that intelligence requires large brains; also intuition that composition is all-or-nothing|Bees show role-filler composition in waggle dance—DISTANCE(x) + DIRECTION(y) combine systematically (Menzel et al., 2011). Prediction: bees succeed on novel role-filler combinations but fail on recursive embedding (nested structures) and cross-domain analogical transfer.                                                                                      |
-|**A sufficiently large lookup table is not intelligent regardless of behavior**|Behaviorist intuitions; Turing test reasoning                                                       |A system that memorizes input-output pairs without forming symbols or composing them fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis, not just behavioral observation.                                                                                                                                             |
-|**Some human cognitive processes are not intelligent by this criterion**       |Intuition that everything humans do cognitively is intelligent                                      |Priming, mere exposure effects, and some forms of implicit learning may involve pattern extraction without symbol formation or composition. These would be Stage 1, not “intelligent” in the full sense.                                                                                                                                                             |
-|**Current LLMs have Stage 3a–3b but limited 3c–3d**                            |Both “LLMs are just statistics” and “LLMs are generally intelligent”                                |LLMs show robust concatenative and role-filler composition within training distribution. Prediction: systematic failures on (1) recursive embedding beyond training depth, (2) analogical transfer to domains not represented in training. Specific test: novel recursive structures at depth 5+ should show steeper degradation than novel role-filler combinations.|
+|Prediction                                                                                   |Surprise Level                                                                                                             |Test                                                                                                                                                                                                                                                       |
+|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|**Certain insects have Level 2–3 interaction with 3a–3b composition but not 3c–3d**          |**Genuinely surprising**: conflicts with intuition that intelligence requires large brains                                 |Bees show role-filler composition in waggle dance—DISTANCE(x) + DIRECTION(y) combine systematically (Menzel et al., 2011). Prediction: bees succeed on novel role-filler combinations but fail on recursive embedding and cross-domain analogical transfer.|
+|**Interactive architectures outperform modular ones even when both have same total capacity**|**Surprising if true**: most engineering intuition favors modularity                                                       |Compare: (A) representation learning → composition vs. (B) joint training with composition-to-representation feedback. APH predicts B outperforms A on out-of-distribution generalization, controlling for parameters.                                     |
+|**Embedded systems show novelty-driven expansion; non-embedded systems don’t**               |**Central prediction of novelty framing**                                                                                  |Give both systems genuinely novel inputs (outside training distribution). Embedded systems should show representational expansion (new distinctions formed). Non-embedded systems should show failure or approximation with existing resources.            |
+|**A sufficiently large lookup table is not intelligent regardless of behavior**              |**Philosophically surprising**: conflicts with behaviorism                                                                 |A system that memorizes input-output pairs has no formation-composition interaction. It fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis.                                                                 |
+|**LLMs show formation-composition interaction limits**                                       |**Moderately surprising**: conflicts with “LLMs are generally intelligent” camp; *not* surprising to “just statistics” camp|Prediction: (1) recursive embedding degrades faster than role-filler novelty, (2) representations don’t adapt to novel compositional demands at test time, (3) self-modeling fails on out-of-distribution capabilities (vs. graceful degradation).         |
 
-**Why these matter:** The framework’s validity depends on generating classifications that (a) conflict with prior intuitions, (b) are empirically testable, and (c) turn out to be correct. If the framework only confirms what we already believed, it’s not doing theoretical work.
+**Honest assessment:** The genuinely distinctive predictions are: (1) the bee dissociation, (2) interactive > modular architectures, (3) embedded systems show novelty-driven expansion, and (4) the specific pattern-matching vs. partial-self-modeling test for LLM self-knowledge.
+
+**Why predictions matter:** The framework’s validity depends on generating classifications that (a) conflict with at least some prior intuitions, (b) are empirically testable, and (c) turn out to be correct. Refinement > revolution is an acceptable outcome, but the framework must do *some* theoretical work that competing frameworks don’t.
 
 -----
 
@@ -323,13 +526,13 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 The framework is offered as a research program, not a finished theory. Key unresolved issues:
 
-- **Symbol identification thresholds:** The circularity is resolved—symbols are defined by formation (extraction from input), not by compositional behavior. But threshold questions remain: how clustered is clustered enough? How stable is stable enough? These require empirical calibration.
-- **The connectionist tension:** How continuous neural dynamics give rise to functionally discrete compositional representations is asserted, not explained. The framework needs a mechanistic account of this transition.
-- **Discovered or stipulated?** The framework intends the criterion as a hypothesis, but the real test is surprising predictions. If it only classifies systems the way we already would, it’s a relabeling, not a discovery.
-- **Compositionality type structure:** Are concatenative, role-filler, recursive embedding, and analogical mapping genuinely distinct capacities with different computational requirements? Or points on a continuum? Do they require different architectural features? The proposed complexity ordering is a hypothesis.
-- **Generative/interpolative thresholds:** The distinction now has more content—interpolative is 3a–3b within training distribution; generative is 3c–3d extending beyond it. But the boundary remains unclear. How much recursive depth counts as generative? How novel must the target domain be for analogical transfer to count?
-- **Operationalizing embeddedness:** The five-component model is more precise than vague embodiment claims, but thresholds remain unclear.
-- **The Hard Problem:** The framework argues embeddedness reframes the explanatory gap, but a functional account of self-modeling doesn’t obviously address phenomenal consciousness. Does this advance beyond existing functionalism? *Honest answer: unclear.*
+- **Operationalizing interaction:** Now more specific: weak (gradient flow), medium (representations change in response to compositional demands), strong (new representational primitives emerge). The claim is that intelligence requires at least medium-level interaction. Tests proposed, but not yet run.
+- **Novelty recognition vs. recombination:** The framework now claims embeddedness enables novelty recognition, which drives the interaction loop. But how do we distinguish a system that *recognizes* novelty from one that just fails on out-of-distribution inputs? Proposed: novelty recognition leads to representational expansion; simple failure doesn’t.
+- **The 3c threshold reframing:** Originally: 3c matters because recursive depth gives unbounded generativity. Reframed: what matters is novelty-driven expansion, not depth per se. Humans don’t generate infinitely deep structures, but we continuously encounter novelty and update. Is this reframing correct? Does 3c still mark an important boundary, or is it epiphenomenal?
+- **Symbol identification thresholds:** Symbols are defined by formation (extraction from input), not compositional behavior. This may mean symbol formation is widespread. Under the interaction + novelty framing, that’s fine—widespread formation without novelty-driven feedback doesn’t constitute intelligence. But threshold questions remain.
+- **The connectionist tension:** How continuous neural dynamics give rise to functionally discrete compositional representations is asserted, not explained. The framework needs a mechanistic account.
+- **Discovered or stipulated?** The real test is surprising predictions. The framework now predicts: (1) bee dissociation, (2) interactive > modular architectures, (3) embedded systems show novelty-driven expansion, (4) specific failure patterns in LLM self-modeling. If these fail, the framework is doing less than claimed.
+- **The Hard Problem:** Papers 10–11 argue embeddedness reframes the explanatory gap, but a functional account of self-modeling doesn’t obviously address phenomenal consciousness. *Honest answer: unclear. These papers are flagged as speculative.*
 - **Replication:** Core empirical results come from limited experimental contexts.
 
 -----
@@ -354,6 +557,8 @@ Amit, D. J. (1995). The Hebbian paradigm reintegrated: Local reverberations as i
 
 Baars, B. J. (1988). *A Cognitive Theory of Consciousness*. Cambridge University Press.
 
+Chomsky, N. (1957). *Syntactic Structures*. Mouton.
+
 Fodor, J. A. (1975). *The Language of Thought*. Harvard University Press.
 
 Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
@@ -361,6 +566,8 @@ Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture
 Friston, K. (2010). The free-energy principle: A unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127-138.
 
 Geiger, A., Lu, H., Icard, T., & Potts, C. (2021). Causal abstractions of neural networks. *Advances in Neural Information Processing Systems*, 34.
+
+Hauser, M. D., Chomsky, N., & Fitch, W. T. (2002). The faculty of language: What is it, who has it, and how did it evolve? *Science*, 298(5598), 1569-1579.
 
 Higgins, I., Matthey, L., Pal, A., Burgess, C., Glorot, X., Botvinick, M., … & Lerchner, A. (2017). β-VAE: Learning basic visual concepts with a constrained variational framework. *Proceedings of ICLR 2017*.
 
@@ -399,4 +606,4 @@ MIT
 
 -----
 
-*“A calculator composes symbols; it does not form them. Intelligence requires both.”*
+*“Intelligence is not symbol formation plus composition. It’s their interaction—each refining the other.”*
