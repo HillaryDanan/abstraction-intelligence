@@ -45,19 +45,34 @@ This is pattern recognition on available data: what do capable systems have that
 
 If a symbol is defined as something that “enters into compositional relationships,” and compositionality is the other half of the criterion, the framework is circular. We need independent criteria for symbol-hood.
 
-**Candidate independent criteria:**
+**The solution: define symbols by formation, not by downstream behavior.**
 
-|Criterion                |Definition                                                                      |Problem                                                                      |
-|-------------------------|--------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-|**Discreteness**         |The representation occupies distinct, separable states                          |Continuous representations can be functionally discrete; threshold unclear   |
-|**Stability**            |The representation persists across time and context                             |How much stability? Many non-symbolic processes show stability               |
-|**Reusability**          |The same representation recurs across different contexts                        |Risks circularity—reusability in what sense?                                 |
-|**Causal role**          |The representation has consistent causal effects independent of context         |Hard to operationalize; context-sensitivity may be a feature                 |
-|**Information-theoretic**|The representation achieves compression beyond what non-symbolic coding achieves|Promising but threshold unclear; compression alone insufficient (see Paper 3)|
+The calculator insight points the way. A calculator has symbols but didn’t *form* them—we handed them over. So what makes something a symbol can’t be about what it *does* (compose). It has to be about how it *comes to exist*.
 
-**Current best candidate:** A representation is symbolic when it shows **context-independent recurrence with consistent causal role**. The same token activates in response to the same feature across contexts, and produces similar downstream effects. This can be measured via representational similarity analysis and causal intervention studies (e.g., Kriegeskorte et al., 2008; Geiger et al., 2021).
+**A symbol is a representational unit that the system itself extracted from continuous input.**
 
-*This is not fully satisfying. The symbol identification problem remains genuinely open. The framework’s validity depends on whether this can be resolved.*
+Specifically, symbol formation occurs when a system:
+
+1. **Receives continuous, high-dimensional input** (sensory data, raw signal)
+1. **Extracts discrete representational states** (clustering in activation space, not a smooth manifold)
+1. **That are stable** (the same state recurs for similar inputs)
+1. **Across contexts** (the representation activates for the relevant feature regardless of what else is present)
+
+This is genuinely independent of compositionality. You can have symbol formation without composition—a system that carves the world into discrete categories but can’t combine them flexibly (Stage 2 without Stage 3). You can have composition without symbol formation—a calculator that manipulates symbols it was handed but never extracted anything from raw input.
+
+**Operationalization:**
+
+|Criterion               |Measurement                                                                                  |Citation                                                        |
+|------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+|**Discreteness**        |Do representations cluster in activation space rather than forming a continuous manifold?    |Representational similarity analysis (Kriegeskorte et al., 2008)|
+|**Stability**           |Does the same cluster activate for similar inputs across time?                               |Temporal consistency analysis                                   |
+|**Context-independence**|Does the representation for feature X activate regardless of what other features are present?|Factorized representation probing (Higgins et al., 2017)        |
+
+**What “discrete” means in continuous systems:** Not binary or classically symbolic. Representations are discrete when they cluster—when there are attractor states, modes, separable regions in activation space rather than a smooth continuum. This is statistical discreteness, empirically measurable.
+
+**Why this breaks the circularity:** We’re asking “did the system extract stable, recurring, context-independent representations from raw input?”—not “does it compose?” A system could pass this test and still fail at composition. The two criteria are genuinely independent.
+
+*Remaining challenge: threshold. How clustered is clustered enough? How stable is stable enough? These require empirical calibration, but the conceptual circularity is resolved.*
 
 ### The Connectionist Tension
 
@@ -91,6 +106,43 @@ A representation is compositional when (Fodor & Pylyshyn, 1988; Szabó, 2012):
 
 The test is **systematicity**: the capacity to understand or produce novel combinations of familiar elements. If a system understands “John loves Mary,” can it understand “Mary loves John”? If it can represent RED and SQUARE separately, can it combine them into RED SQUARE?
 
+### Types of Compositional Structure
+
+**Not all composition is the same.**
+
+The framework initially treated “Stage 3: Recursive composition” as a single capacity. But compositional structure comes in distinct types with potentially different computational requirements, developmental trajectories, and neural implementations:
+
+|Type                   |Structure                  |Example                                                |Computational Requirement                               |
+|-----------------------|---------------------------|-------------------------------------------------------|--------------------------------------------------------|
+|**Concatenative**      |A + B → AB                 |“blue” + “bird” → “bluebird”                           |Sequencing; minimal structure                           |
+|**Role-filler binding**|R(x) + S(y) → R(x)S(y)     |AGENT(dog) + ACTION(chased) + PATIENT(cat)             |Structural slots separable from content                 |
+|**Recursive embedding**|A contains [B contains C]  |“The dog [that chased the cat [that caught the mouse]]”|Composed units become inputs to further composition     |
+|**Analogical mapping** |Structure(A) → Structure(B)|atom:nucleus :: solar system:sun                       |Abstract structure from content; transfer across domains|
+
+**Proposed complexity ordering:**
+
+Concatenative → Role-filler binding → Recursive embedding → Analogical mapping
+
+Each level requires capacities the previous level doesn’t:
+
+- Role-filler requires separating structure from content
+- Recursive embedding requires treating composed wholes as compositional primitives
+- Analogical mapping requires abstracting structure entirely and applying it to novel content
+
+*This ordering is a hypothesis, not established fact. It generates testable predictions about developmental sequence and dissociations.*
+
+**Implications for the framework:**
+
+1. **The bee case becomes more precise:** Waggle dance composition (distance + direction) is plausibly role-filler binding—DISTANCE(x) + DIRECTION(y)—not recursive embedding. Bees may have some composition types but not others. This is a more nuanced prediction than “Stage 3 or not.”
+1. **LLM capacities become differentiable:** Current LLMs may excel at concatenative and role-filler composition (pattern-match from training data) while struggling with recursive embedding at depth and analogical transfer to novel domains. This predicts *specific* failure patterns rather than generic “limited Stage 3.”
+1. **The generative/interpolative distinction gets teeth:**
+- *Interpolative* composition: concatenative and role-filler within the training distribution
+- *Generative* composition: recursive embedding that extends beyond training depth, analogical transfer to novel domains
+   
+   This operationalizes the distinction. Word2vec does concatenative (vector addition) but can’t do recursive embedding or analogical transfer to genuinely novel domains.
+
+*Remaining question: Are these types genuinely distinct capacities, or points on a continuum? Do they require different architectural features? Empirical work needed.*
+
 ### Why This Matters
 
 Compositionality solves combinatorial explosion. You cannot store a lookup table for every possible situation, but you can compose representations of novel situations from known components. Symbol formation solves the grounding problem—it explains where the primitives come from rather than assuming them.
@@ -119,11 +171,17 @@ Stabilization and attention are required for abstraction but don’t constitute 
 
 If both symbol formation and compositionality exist on spectra, where does abstraction “begin”?
 
-**For symbol formation:** When does a learned feature become a symbol? Convolutional networks learn edge detectors—are these symbols? Current answer: only if they show context-independent recurrence with consistent causal role (see above). Edge detectors may qualify; this is an empirical question.
+**For symbol formation:** When does a learned feature become a symbol? Convolutional networks learn edge detectors—are these symbols? Current answer: only if they show the formation criteria above (extracted from continuous input, clustered, stable, context-independent). Edge detectors may qualify; this is an empirical question.
 
-**For compositionality:** Learned embeddings like word2vec support limited composition—vector arithmetic produces “king - man + woman ≈ queen” (Mikolov et al., 2013). These are genuine novel combinations with predictable meanings. A candidate distinction: *generative* composition supports unboundedly many novel structures through recursive combination and role-filler independence, while *interpolative* composition operates within a pre-shaped space with fixed operations. But this needs rigorous operationalization—word2vec’s limitation may be the fixed operation set (only arithmetic), not the representations themselves.
+**For compositionality:** The composition-type framework (see above) provides more structure than a single threshold. The question becomes: which types of composition count as “genuine” Stage 3?
 
-*The threshold remains genuinely unresolved. This is an open problem, not a solved one.*
+- **Concatenative composition** (3a) may be achievable without genuine symbolic capacity—sequence models do this
+- **Role-filler binding** (3b) requires separating structure from content—this seems closer to genuine composition
+- **Recursive embedding** (3c) and **analogical mapping** (3d) require treating composed structures as primitives and abstracting structure from content entirely
+
+*Working proposal:* A system has genuine generative composition when it achieves at least 3c (recursive embedding)—the capacity to compose composed structures. This is what enables unbounded representational capacity. Systems limited to 3a–3b may be doing sophisticated interpolation within learned patterns rather than genuinely generative composition.
+
+*This is a hypothesis, not a stipulation. The threshold remains an empirical question.*
 
 -----
 
@@ -164,12 +222,21 @@ Bodies naturally provide all five—they persist, have sensable boundaries (prop
 
 Abstraction capacity develops through stages:
 
-|Stage|Capacity                    |Enables                                      |
-|-----|----------------------------|---------------------------------------------|
-|1    |Pattern extraction          |Statistical regularity detection             |
-|2    |Symbol formation            |Discrete, reusable tokens                    |
-|3    |Recursive composition       |Hierarchical structure, unbounded combination|
-|4    |Self-referential abstraction|Modeling own representational processes      |
+|Stage|Capacity                    |Enables                                              |
+|-----|----------------------------|-----------------------------------------------------|
+|1    |Pattern extraction          |Statistical regularity detection                     |
+|2    |Symbol formation            |Discrete, reusable tokens                            |
+|3    |Compositional structure     |Combining symbols systematically (see subtypes below)|
+|4    |Self-referential abstraction|Modeling own representational processes              |
+
+**Stage 3 subtypes** (proposed complexity ordering):
+
+- 3a: Concatenative composition
+- 3b: Role-filler binding
+- 3c: Recursive embedding
+- 3d: Analogical mapping
+
+A system may achieve 3a–3b while lacking 3c–3d. This predicts dissociations: success on role-filler tasks with failure on deep recursive embedding or cross-domain analogy.
 
 Each stage enables operations impossible at prior stages. Stage progression is sequential in prerequisites—Stage N requires Stage N-1—though development may show parallelism and temporary regression.
 
@@ -214,16 +281,19 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 ### Development
 
 - Stage progression is sequential in prerequisites: no Stage N capacity without prior Stage N-1 (within domain)
+- Within Stage 3, composition types follow proposed ordering: 3a before 3b before 3c before 3d
 - Stage-specific tasks should cluster; within-stage correlations exceed across-stage
-- Symbol formation (Stage 2) is necessary for compositional generalization (Stage 3)
+- Dissociations predicted: systems (biological or artificial) may show 3a–3b while lacking 3c–3d
+- Symbol formation (Stage 2) is necessary for any compositional structure (Stage 3)
 
 ### LLM-Specific (with operationalization)
 
-|Prediction                                      |Operationalization                                                                                                                          |Falsification Criterion                                                                                                                                 |
-|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Performance degrades with hierarchical depth    |Accuracy on tasks requiring N levels of embedding (N = 2, 3, 4, 5+)                                                                         |If degradation curve matches human performance curve, prediction fails                                                                                  |
-|Scaling improves Stage 1–2 more than Stage 3–4  |Compare performance gains on pattern recognition vs. novel compositional generalization across model sizes (1B → 10B → 100B → 1T parameters)|If Stage 3–4 gains match or exceed Stage 1–2 gains at any scale jump, prediction fails                                                                  |
-|Self-modeling shows ceiling without embeddedness|Calibration accuracy, capability self-assessment, uncertainty quantification                                                                |If models at 10T+ parameters (estimated 2027–2029) show human-level self-modeling without architectural changes providing embeddedness, prediction fails|
+|Prediction                                                        |Operationalization                                                                                                               |Falsification Criterion                                                                                                                                 |
+|------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Degradation differs by composition type                           |Compare accuracy on: (a) novel role-filler combinations, (b) recursive embedding at depth N, (c) cross-domain analogical transfer|If degradation curves are identical across types, prediction fails                                                                                      |
+|Recursive depth shows steeper degradation than role-filler novelty|Accuracy on depth 2→3→4→5 embedding vs. accuracy on novel-but-shallow role-filler                                                |If role-filler novelty degrades as steeply as recursive depth, prediction fails                                                                         |
+|Scaling helps 3a–3b more than 3c–3d                               |Compare performance gains across model sizes on role-filler vs. recursive/analogical tasks                                       |If 3c–3d gains match or exceed 3a–3b gains, prediction fails                                                                                            |
+|Self-modeling shows ceiling without embeddedness                  |Calibration accuracy, capability self-assessment, uncertainty quantification                                                     |If models at 10T+ parameters (estimated 2027–2029) show human-level self-modeling without architectural changes providing embeddedness, prediction fails|
 
 **Timeline commitment:** The self-modeling ceiling prediction is tested within the next generation of frontier models (roughly 2027–2029). If 10T+ parameter models show robust, general self-modeling—accurate capability self-assessment across novel domains, appropriate uncertainty even on distribution shifts—without any embeddedness modifications, the framework requires significant revision.
 
@@ -238,12 +308,12 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 **These predictions conflict with common intuitions and would provide strong evidence if confirmed:**
 
-|Prediction                                                                     |Conflicts With                                                      |Test                                                                                                                                                                                                                                                                                                   |
-|-------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|**Certain insects may qualify as Stage 2–3 intelligent**                       |Intuition that intelligence requires large brains                   |Bees show context-independent reusable representations of distance/direction that combine compositionally in waggle dance (Menzel et al., 2011). If this compositional structure is confirmed and shown to generalize, insects have symbol formation + composition.                                    |
-|**A sufficiently large lookup table is not intelligent regardless of behavior**|Behaviorist intuitions; Turing test reasoning                       |A system that memorizes input-output pairs without forming symbols or composing them fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis, not just behavioral observation.                                                                               |
-|**Some human cognitive processes are not intelligent by this criterion**       |Intuition that everything humans do cognitively is intelligent      |Priming, mere exposure effects, and some forms of implicit learning may involve pattern extraction without symbol formation or composition. These would be Stage 1, not “intelligent” in the full sense.                                                                                               |
-|**Current LLMs may have Stage 2 but limited Stage 3**                          |Both “LLMs are just statistics” and “LLMs are generally intelligent”|LLMs may form genuine symbols (via tokenization + learned representations) but show limited *generative* composition—they interpolate within training distribution rather than generating truly novel combinations. This predicts specific failure patterns on out-of-distribution compositional tasks.|
+|Prediction                                                                     |Conflicts With                                                                                      |Test                                                                                                                                                                                                                                                                                                                                                                 |
+|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|**Certain insects have Stage 3a–3b composition but not 3c–3d**                 |Intuition that intelligence requires large brains; also intuition that composition is all-or-nothing|Bees show role-filler composition in waggle dance—DISTANCE(x) + DIRECTION(y) combine systematically (Menzel et al., 2011). Prediction: bees succeed on novel role-filler combinations but fail on recursive embedding (nested structures) and cross-domain analogical transfer.                                                                                      |
+|**A sufficiently large lookup table is not intelligent regardless of behavior**|Behaviorist intuitions; Turing test reasoning                                                       |A system that memorizes input-output pairs without forming symbols or composing them fails the criterion even if it passes behavioral tests. Distinguishing requires internal analysis, not just behavioral observation.                                                                                                                                             |
+|**Some human cognitive processes are not intelligent by this criterion**       |Intuition that everything humans do cognitively is intelligent                                      |Priming, mere exposure effects, and some forms of implicit learning may involve pattern extraction without symbol formation or composition. These would be Stage 1, not “intelligent” in the full sense.                                                                                                                                                             |
+|**Current LLMs have Stage 3a–3b but limited 3c–3d**                            |Both “LLMs are just statistics” and “LLMs are generally intelligent”                                |LLMs show robust concatenative and role-filler composition within training distribution. Prediction: systematic failures on (1) recursive embedding beyond training depth, (2) analogical transfer to domains not represented in training. Specific test: novel recursive structures at depth 5+ should show steeper degradation than novel role-filler combinations.|
 
 **Why these matter:** The framework’s validity depends on generating classifications that (a) conflict with prior intuitions, (b) are empirically testable, and (c) turn out to be correct. If the framework only confirms what we already believed, it’s not doing theoretical work.
 
@@ -253,10 +323,11 @@ The self/world distinction is proposed as the **foundational abstraction** from 
 
 The framework is offered as a research program, not a finished theory. Key unresolved issues:
 
-- **The symbol identification problem:** Independent criteria for symbol-hood remain unsatisfying. “Context-independent recurrence with consistent causal role” is the current best candidate, but requires more rigorous operationalization and empirical validation.
+- **Symbol identification thresholds:** The circularity is resolved—symbols are defined by formation (extraction from input), not by compositional behavior. But threshold questions remain: how clustered is clustered enough? How stable is stable enough? These require empirical calibration.
 - **The connectionist tension:** How continuous neural dynamics give rise to functionally discrete compositional representations is asserted, not explained. The framework needs a mechanistic account of this transition.
 - **Discovered or stipulated?** The framework intends the criterion as a hypothesis, but the real test is surprising predictions. If it only classifies systems the way we already would, it’s a relabeling, not a discovery.
-- **Compositionality thresholds:** The generative/interpolative distinction is proposed but needs rigorous operationalization.
+- **Compositionality type structure:** Are concatenative, role-filler, recursive embedding, and analogical mapping genuinely distinct capacities with different computational requirements? Or points on a continuum? Do they require different architectural features? The proposed complexity ordering is a hypothesis.
+- **Generative/interpolative thresholds:** The distinction now has more content—interpolative is 3a–3b within training distribution; generative is 3c–3d extending beyond it. But the boundary remains unclear. How much recursive depth counts as generative? How novel must the target domain be for analogical transfer to count?
 - **Operationalizing embeddedness:** The five-component model is more precise than vague embodiment claims, but thresholds remain unclear.
 - **The Hard Problem:** The framework argues embeddedness reframes the explanatory gap, but a functional account of self-modeling doesn’t obviously address phenomenal consciousness. Does this advance beyond existing functionalism? *Honest answer: unclear.*
 - **Replication:** Core empirical results come from limited experimental contexts.
@@ -290,6 +361,8 @@ Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture
 Friston, K. (2010). The free-energy principle: A unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127-138.
 
 Geiger, A., Lu, H., Icard, T., & Potts, C. (2021). Causal abstractions of neural networks. *Advances in Neural Information Processing Systems*, 34.
+
+Higgins, I., Matthey, L., Pal, A., Burgess, C., Glorot, X., Botvinick, M., … & Lerchner, A. (2017). β-VAE: Learning basic visual concepts with a constrained variational framework. *Proceedings of ICLR 2017*.
 
 Kanerva, P. (2009). Hyperdimensional computing: An introduction to computing in distributed representation with high-dimensional random vectors. *Cognitive Computation*, 1(2), 139-159.
 
