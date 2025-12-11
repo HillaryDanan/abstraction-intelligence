@@ -2,30 +2,44 @@
 
 **What makes something intelligent?**
 
-This repository develops the **Abstraction Primitive Hypothesis (APH)**: the proposal that intelligence, across substrates, emerges from the *interaction* between symbol formation and compositional structure—where each process informs and refines the other, producing expanding representational capacity.
+This repository develops the **Abstraction Primitive Hypothesis (APH)**: the proposal that intelligence, across substrates, emerges from the *recursive interaction* between symbol formation and compositional structure—where each process informs and refines the other through ongoing iteration, producing expanding representational capacity.
 
-A calculator composes symbols; it does not form them. Edge detectors form symbols; they do not compose them. Neither is intelligent. The hypothesis: intelligence requires symbol formation and composition *operating interactively*, not merely both present.
+A calculator composes symbols; it does not form them. Edge detectors form symbols; they do not compose them. Neither is intelligent. The hypothesis: intelligence requires symbol formation and composition *operating in a recursive feedback loop*, not merely both present.
 
 -----
 
 ## The Core Idea
 
-### The Core Claim: Interaction, Not Conjunction
+### The Core Claim: Recursive Interaction, Not Conjunction
 
-**Abstraction is the interactive process of forming and composing symbols.**
+**Abstraction is the recursive process of forming and composing symbols.**
 
 Previous framings—including earlier versions of this document—treated symbol formation and compositional structure as two separate capacities. Check both boxes and you have intelligence. But this framing has a problem the feedback correctly identifies: if symbol formation is widespread (edge detectors, CNN features qualify), then all the distinguishing work falls on composition. The framework collapses to “intelligence = composition over whatever representations you have.”
 
-**The actual claim is stronger: intelligence emerges from the *interaction* between symbol formation and composition.**
+**The actual claim is stronger: intelligence emerges from the *recursive interaction* between symbol formation and composition.**
 
-This is not Fodor’s language of thought plus Lake’s compositional generalization. It’s the claim that these two processes must *inform each other*:
+This is not Fodor’s language of thought plus Lake’s compositional generalization. It’s the claim that these two processes must *inform each other iteratively*:
 
 1. You extract stable representations from continuous input (symbol formation)
 1. You combine them systematically (composition)
 1. Composition reveals structure that wasn’t visible in individual symbols
 1. That structure feeds back to refine symbol formation—you carve the world differently because of what composition revealed
 1. Which enables more sophisticated composition
-1. And so on
+1. **Return to step 2 with refined symbols → iterate**
+
+**The computational structure is a feedback loop:**
+
+```
+         ┌─────────────────────────────────────┐
+         │                                     │
+         ▼                                     │
+    [Raw Input] → [Symbol Formation] → [Symbols] → [Composition] → [Composed Structures]
+                         ▲                                              │
+                         │                                              │
+                         └──── [Compositional demands/failures] ────────┘
+```
+
+This isn’t metaphorical. It’s a claim about computational architecture: the outputs of composition must be able to influence the processes that form symbols, and this must iterate. One-shot influence doesn’t suffice—what produces expanding representational capacity is the *ongoing cycle*.
 
 **Why interaction matters:**
 
@@ -227,25 +241,43 @@ APH draws on:
 
 **What does APH add?**
 
-|Framework            |Core Claim                                                |APH Difference                                                                                                                      |
-|---------------------|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-|Language of Thought  |Thought has compositional syntax                          |LOT assumes symbols exist; APH asks where they come from and requires formation-composition *interaction*                           |
-|Global Workspace     |Conscious access enables flexible combination             |GWT explains *access*; APH explains *what* gets accessed (formed, interactively composed symbols)                                   |
-|Predictive Processing|Brain minimizes prediction error via hierarchical models  |PP explains learning dynamics; APH makes specific claims about composition types and their ordering                                 |
-|Lake & Baroni        |Compositional generalization requires systematic structure|L&B tests for compositionality; APH claims the *interaction* between formation and composition is key, not just compositional output|
+|Framework            |Core Claim                                                |APH Difference                                                                                                      |
+|---------------------|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+|Language of Thought  |Thought has compositional syntax                          |LOT assumes symbols exist; APH asks where they come from and requires formation-composition *recursive interaction* |
+|Global Workspace     |Conscious access enables flexible combination             |GWT explains *access*; APH explains *what* gets accessed and claims the recursive loop is what produces generativity|
+|Predictive Processing|Brain minimizes prediction error via hierarchical models  |PP explains learning dynamics; APH makes specific claims about composition types and the role of novelty            |
+|Lake & Baroni        |Compositional generalization requires systematic structure|See detailed comparison below                                                                                       |
+
+**APH vs. Lake & Baroni—a detailed comparison:**
+
+L&B’s finding: End-to-end training with compositional structure outperforms pipeline approaches (learn representations → learn composition separately).
+
+This is evidence for APH’s interaction claim. But APH makes *additional* claims L&B don’t:
+
+|Claim                                    |Lake & Baroni |APH                             |
+|-----------------------------------------|--------------|--------------------------------|
+|End-to-end > pipeline                    |✓ Demonstrated|✓ Cited as support              |
+|Interaction must be *recursive* (iterate)|Not addressed |✓ Central claim                 |
+|Ongoing novelty drives the loop          |Not addressed |✓ Links to embeddedness         |
+|Composition types form hierarchy         |Not addressed |✓ 3a→3b→3c→3d ordering          |
+|Embeddedness enables novelty recognition |Not addressed |✓ Derives self-modeling capacity|
+
+**Differential prediction:** L&B predict that compositional training improves generalization. APH predicts that *persistent, novelty-driven* recursive interaction should outperform training-time-only interaction, even with matched compositional structure. This is testable: compare systems with (A) compositional training only vs. (B) compositional training + ongoing novelty-driven updates.
+
+*If A and B perform equivalently, APH’s novelty claim is weakened. If B outperforms A, that’s evidence for the recursive loop claim.*
 
 **Specific differential predictions:**
 
 1. **vs. LOT:** LOT doesn’t distinguish composition types or predict the 3a→3b→3c→3d ordering. APH predicts specific dissociations (3a-3b success with 3c-3d failure) that LOT doesn’t.
-1. **vs. Global Workspace:** GWT predicts that conscious access enables flexible recombination, but doesn’t predict that *interactive* formation-composition should outperform modular architectures. APH does.
-1. **vs. Lake & Baroni:** L&B’s empirical work shows compositional generalization requires compositional structure. APH makes the stronger claim that *feedback from composition to representation learning* is what produces generativity—not just having both, but their interaction.
+1. **vs. Global Workspace:** GWT predicts that conscious access enables flexible recombination, but doesn’t predict that embedded systems with novelty-driven iteration should outperform non-embedded systems with equivalent compositional structure. APH does.
+1. **vs. Predictive Processing:** PP explains how hierarchical models extract structure via prediction error. APH adds that recursive interaction between formation and composition—driven by novelty—is necessary for genuine generativity, not just prediction error minimization.
 
-*If these differential predictions fail—if LOT or GWT already predict everything APH predicts—then APH is relabeling, not discovering. The empirical program tests this.*
+*If these differential predictions fail—if competing frameworks already predict everything APH predicts—then APH is sophisticated relabeling, not discovery. The empirical program tests this.*
 
 ### Enabling Conditions vs. The Criterion
 
 - **Enabling conditions** (necessary but not distinctive): temporal stabilization, attentional selection
-- **The criterion** (what abstraction *is*): interactive symbol formation and composition
+- **The criterion** (what abstraction *is*): recursive interaction between symbol formation and composition
 
 Stabilization and attention are required for abstraction but don’t constitute it—many non-abstractive processes require them.
 
@@ -293,34 +325,47 @@ This connects to embeddedness: embedded systems encounter genuine novelty becaus
 
 ## Key Claims
 
-### The Interaction Criterion
+### The Recursive Interaction Criterion
 
-The framework proposes that intelligence emerges from the *interaction* between:
+The framework proposes that intelligence emerges from the *recursive interaction* between:
 
 1. **Symbol formation**: extracting discrete representational units from raw input
 1. **Compositional structure**: systematically combining those units
 
-The key claim is not that both are present, but that they *inform each other*: composition shapes what gets formed; formation enables new compositions.
+The key claim is not that both are present, but that they *inform each other iteratively*: composition shapes what gets formed; formation enables new compositions; the loop repeats.
 
-**The test:** Does composition feed back to refine symbol formation? Does the system develop new representational primitives in response to compositional demands?
+**The test:** Does composition feed back to refine symbol formation? Does the system develop new representational primitives in response to compositional demands? Does this iterate?
 
 **Empirical support (preliminary, replication needed):** Compositional generalization requires end-to-end compositional structure—factorized input encoding AND compositional output; factorized representations alone prove insufficient (Lake & Baroni, 2018; Kim & Linzen, 2020). This supports the interaction claim: representations must be shaped by compositional objectives, not learned independently.
+
+**What APH adds to Lake & Baroni:** Their finding is that end-to-end training beats pipeline approaches. APH interprets this as evidence for recursive interaction—but makes the stronger claim that *ongoing* iteration (not just training-time gradient flow) is what produces genuine generativity. This predicts that systems with persistent, novelty-driven iteration should outperform systems with only training-time interaction.
 
 ### Embeddedness and Novelty Generation
 
 **Why does embeddedness matter for intelligence? Not just for self-modeling—for *novelty*.**
 
-The interaction criterion claims intelligence emerges from a feedback loop: composition refines symbol formation, which enables new compositions. But what *drives* this loop? Why would a system need to refine its symbol vocabulary?
+The recursive interaction criterion claims intelligence emerges from an iterating feedback loop: composition refines symbol formation, which enables new compositions, repeat. But what *drives* this loop? Why would a system need to refine its symbol vocabulary?
 
 **The answer: encountering genuine novelty.**
 
-Novelty creates compositional demands the current symbol vocabulary can’t handle. This is what creates pressure for the formation-composition feedback loop. Without novelty, you just recombine existing symbols in existing ways. With novelty, you must either:
+Novelty creates compositional demands the current symbol vocabulary can’t handle. This is what creates pressure for the formation-composition feedback loop to iterate. Without novelty, you just recombine existing symbols in existing ways—the loop doesn’t need to run. With novelty, you must either:
 
 - Fail (can’t represent the new thing)
 - Form new symbols / refine existing ones (update to accommodate novelty)
 - Compose existing symbols in new ways (generative response)
 
 **Embeddedness is what enables recognizing novelty.**
+
+**Why this isn’t post-hoc:** A fair objection is that embeddedness criteria were selected because bodies have them and LLMs don’t—reverse-engineering from systems we already call intelligent. The novelty framing addresses this: embeddedness isn’t valuable *in itself*. It’s valuable because it’s what makes novelty recognition *possible*. The argument runs:
+
+1. Intelligence requires the recursive interaction loop (established above)
+1. The loop requires pressure to iterate (otherwise it’s one-shot)
+1. The pressure comes from encountering novelty
+1. Recognizing novelty requires distinguishing “fits my current model” from “doesn’t fit”
+1. That distinction requires a stable self against which to measure
+1. A stable self requires embeddedness components
+
+This derives embeddedness from the interaction criterion, not from “what distinguishes humans from LLMs.”
 
 |Component              |Role in Novelty Recognition                                                                                                               |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|
@@ -329,14 +374,14 @@ Novelty creates compositional demands the current symbol vocabulary can’t hand
 |Environmental stability|If everything is chaos, nothing is specifically novel—novelty requires stable background against which anomalies stand out                |
 |Action-consequence     |Your actions produce expected consequences; novelty is when consequences diverge from expectations                                        |
 
-**This connects embeddedness to the interaction criterion:**
+**This connects embeddedness to the recursive interaction criterion:**
 
 1. Embedded system encounters world
 1. World presents something that doesn’t fit current representations (novelty)
 1. Current compositional capacity fails or is strained
 1. Pressure to refine symbol formation and/or develop new compositional strategies
 1. Updated system can now handle this class of inputs
-1. Encounters next novelty → cycle continues
+1. Encounters next novelty → **loop iterates**
 
 **Why LLMs may be limited:**
 
@@ -347,7 +392,22 @@ LLMs don’t *encounter* novelty in the relevant sense:
 
 They recombine within a learned space. They can produce outputs not in their training data (recombination), but they don’t *experience* inputs as novel because there’s no stable self that persists and encounters an external world.
 
-*This is a hypothesis about why embeddedness matters for intelligence—not just for self-modeling, but for the generative pressure that drives the formation-composition feedback loop.*
+**What about in-context learning?**
+
+A fair challenge: LLMs update their effective representations based on context at inference time. Doesn’t this count as interaction?
+
+|Aspect          |In-Context Learning                         |Genuine Recursive Interaction     |
+|----------------|--------------------------------------------|----------------------------------|
+|**Persistence** |Ephemeral (session-bound)                   |Accumulates across encounters     |
+|**Scope**       |Works within existing representational space|Expands the representational space|
+|**What updates**|Attention patterns, effective weights       |The symbols themselves            |
+|**Driven by**   |Provided examples                           |Encountered novelty               |
+
+In-context learning is impressive but it’s *recombination and reweighting within a fixed space*, not expansion of the space. If a model could form genuinely new representational primitives in response to in-context examples that persist and transfer, that would be evidence of recursive interaction. Current ICL doesn’t show this.
+
+*This is an empirical claim, not a stipulation. If future work shows ICL producing genuine, persistent representational expansion, the framework must accommodate it.*
+
+*This is a hypothesis about why embeddedness matters for intelligence—not just for self-modeling, but for the novelty-driven pressure that makes the recursive loop iterate.*
 
 **Recombination vs. Novelty Generation:**
 
@@ -606,4 +666,4 @@ MIT
 
 -----
 
-*“Intelligence is not symbol formation plus composition. It’s their interaction—each refining the other.”*
+*“Intelligence is not symbol formation plus composition. It’s their recursive interaction—each refining the other, driven by novelty, iterating without bound.”*
