@@ -37,9 +37,28 @@ Not all composition is the same.
 
 ## Embeddedness
 
-Strong interaction requires novelty detection. Novelty detection requires a persistent self. A persistent self requires embeddedness.
+Strong interaction requires **novelty detection**—recognizing unfamiliar against a background of familiar.
 
-Non-embedded systems receive diverse inputs but can't experience them *as novel*—there's no accumulated "familiar" to contrast against.
+Novelty is relational. An input isn't novel in itself—it's novel *to a subject*. This requires:
+
+1. **Persistent self** → accumulated experience ("what's familiar to me")
+2. **Self/world distinction** → reference frame for locating novelty
+3. **Embeddedness** → what makes persistence and self/world possible
+
+```
+Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty detection → Pressure to expand primitives → Strong interaction
+```
+
+Non-embedded systems can *process* the concept of novelty but cannot *detect* it—there's no accumulated self to whom something could be unfamiliar.
+
+**Five components of embeddedness:**
+- Action-consequence contingency
+- Feedback closure
+- Temporal persistence
+- Self-boundary awareness
+- Environmental stability
+
+LLMs fail all five. This predicts principled Stage 4 limitations that scaling cannot overcome.
 
 ---
 
@@ -50,6 +69,7 @@ Non-embedded systems receive diverse inputs but can't experience them *as novel*
 | Composition types dissociate (3a-3b vs. 3c-3d) | No differences found |
 | Recursive depth degrades faster than role-filler novelty | Identical degradation curves |
 | Bees: role-filler yes, recursive no | Bees succeed at recursion |
+| Non-embedded systems can't detect novelty | System without persistence shows genuine novelty detection |
 
 ---
 
