@@ -10,7 +10,7 @@ This repository develops the **Abstraction Primitive Hypothesis (APH)**: intelli
 |-----------|--------|
 | Composition type hierarchy (3a→3b→3c→3d) | **Core contribution** — testable predictions about dissociations |
 | Recursive interaction framing | **Core idea** — composition and symbol formation must inform each other |
-| Embeddedness claims | **Exploratory** — interesting direction, not required for main claims |
+| Embeddedness claims | **Core requirement** — necessary for novelty detection that drives strong interaction |
 
 ---
 
@@ -113,9 +113,46 @@ APH's distinctive claim: *strong interaction*—novelty-driven expansion—is wh
 
 ---
 
-## Embeddedness (Exploratory)
+## Embeddedness and Novelty Detection
 
-Strong interaction may require encountering genuine novelty, which may require a stable self against which to measure. If so, embeddedness (persistence, self/world distinction, action-consequence loops) enables what non-embedded systems can't achieve.
+Strong interaction requires novelty-driven expansion of representational primitives. But what makes novelty detection possible?
+
+**Novelty is relational, not intrinsic.** An input isn't novel in itself—it's novel *to a subject*. Novelty is the detection of unfamiliar against a background of familiar. This requires:
+
+1. **A persistent self** — accumulated experience that constitutes "what's familiar to me"
+2. **Self/world distinction** — you can't have a self without something it's distinguished from; inside requires outside
+3. **Embeddedness** — self/world distinction requires actually *being somewhere*, persisting through time in contact with a world
+
+**The chain:**
+
+```
+Embeddedness
+    ↓
+Persistent self (accumulates, is reshaped over time)
+    ↓
+Familiar/unfamiliar distinction becomes meaningful
+    ↓
+Novelty can be *detected* (not just received)
+    ↓
+Detection drives expansion of representational primitives
+    ↓
+Strong interaction
+```
+
+**Why non-embedded systems can't achieve this:**
+
+An LLM receives objectively diverse inputs but cannot experience them *as* novel. Each context window starts relatively fresh. There's no accumulated "what's familiar to me" to contrast against. The recognition "this doesn't fit my existing structure" requires having a persistent structure that's *yours*.
+
+A system can *model* self/world distinction—represent it, reason about it—without *having* one. Map versus territory. And the claim is: the territory is what grounds the map, what makes it more than syntax.
+
+**Embeddedness isn't just helpful for strong interaction—it's necessary for the novelty detection that drives it.**
+
+The five components of embeddedness (detailed in [Paper 8](papers/embedded_abstraction.md)):
+- **Persistence** — continuous existence through time
+- **Self/world distinction** — boundary between system and environment  
+- **Action-consequence loops** — actions affect world, world affects self
+- **Accumulated history** — experience shapes current state
+- **Stake** — outcomes matter to the system
 
 ---
 
@@ -332,4 +369,4 @@ MIT
 
 ---
 
-*"Abstraction is all your need ;)"*
+*"Abstraction is all you need ;)"*
