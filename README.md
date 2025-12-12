@@ -332,4 +332,4 @@ MIT
 
 ---
 
-*"Intelligence emerges from recursive interaction between symbol formation and composition. The composition hierarchy (3a→3b→3c→3d) predicts specific dissociations. Test it."*
+*"Abstraction is all your need ;)"*
