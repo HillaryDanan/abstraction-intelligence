@@ -539,4 +539,4 @@ Full experimental details and raw data: [compositional-dual-process](https://git
 
 *Working paper for the Abstraction-Intelligence Research Program*
 
-*Version 1.1 — December 2024 (with empirical addendum)*
+*Version 1.1 — December 2025 (with empirical addendum)*
