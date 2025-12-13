@@ -99,6 +99,7 @@ LLMs fail all five. This predicts principled Stage 4 limitations that scaling ca
 | 13 | [Emotion as Embedded Information](papers/emotion_embedded_information.md) |
 | 14 | [Social Dynamics](papers/social_dynamics.md) |
 | 15 | [Beyond Large Language Models](papers/beyond_llms.md) |
+| 16 | [Dual-Process Theory Reconsidered](papers/dual_process_abstraction.md) |
 
 ---
 
