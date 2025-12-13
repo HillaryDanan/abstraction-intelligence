@@ -89,7 +89,7 @@ LLMs fail all five. This predicts principled Stage 4 limitations that scaling ca
 | 8 | [Embeddedness and Self/World](papers/embedded_abstraction.md) |
 | 9 | [Self and World](papers/self_world_abstraction.md) |
 
-**Extensions (10–15):**
+**Extensions (10–16):**
 
 | # | Paper |
 |---|-------|
