@@ -66,14 +66,21 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 
 The hypothesis: embeddedness/stakes is necessary for meeting these criteria. Empirically testable.
 
-**Why stakes matter (hypothesis):** Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). This selects for architecture capable of *constructing* responses to novelty, not just flagging anomalies.
+**Why stakes matter (hypothesis):**
+
+Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). But why *different architecture* rather than just stronger optimization?
+
+- **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren’t selected; they were optimized on symmetric loss.
+- **Asymmetric vs. symmetric pressure:** Symmetric loss (prediction error) rewards compression—minimizing average error. Asymmetric loss (survival) rewards worst-case handling—novel threats must be addressed even at efficiency cost. This selects for construction as a hedge against unbounded novelty. *(Testable: compare architectures trained under symmetric vs. asymmetric loss.)*
+- **Candidate architectural feature:** Gating mechanisms that switch between retrieval and construction based on novelty. The locus coeruleus-norepinephrine system modulates exploration vs. exploitation based on uncertainty (Aston-Jones & Cohen, 2005). Biological cognition gates processing mode; LLMs apply identical forward passes regardless of input novelty.
+- **On necessity:** Stakes are the known path to construction-capable architecture. Whether alternative paths exist is open. We claim *sufficiency* with confidence; *necessity* remains hypothesis.
 
 **Why 3c-3d specifically (hypothesis):**
 
 - **3a-3b:** Bounded combinatorial space. Can be encountered in training and stored. Pattern matching suffices.
 - **3c-3d:** Unbounded generative space. Recursive depth extends indefinitely; analogical mappings span arbitrary domains. Cannot be precomputed.
 
-When target space is unbounded, retrieval fails—*online construction* required. Stakes create pressure to construct rather than retrieve-and-fail. Without stakes, optimization satisfies via interpolation (pattern matching), handling 3a-3b but not 3c-3d. (See [Paper 10](papers/survival_pressure.md).)
+When target space is unbounded, retrieval fails—*online construction* required. (See [Paper 10](papers/survival_pressure.md).)
 
 **Compression vs. Generation:**
 
@@ -86,7 +93,7 @@ When target space is unbounded, retrieval fails—*online construction* required
 
 **Prediction:** Compression asymptotes on 3c-3d as coverable space is exhausted. Generation doesn’t asymptote because it’s not coverage-limited. Scaling improves compression; it doesn’t produce generation.
 
-**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, and stakes. This predicts principled 3c-3d limitations that scaling cannot overcome—hypothesis pending empirical test.
+**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled 3c-3d limitations that scaling alone cannot overcome—hypothesis pending empirical test. Whether alternative paths to 3c-3d exist remains open.
 
 -----
 
@@ -100,6 +107,7 @@ When target space is unbounded, retrieval fails—*online construction* required
 |Non-embedded systems fail novelty criteria (calibration, systematicity, uncertainty propagation)|System without embeddedness meets all four criteria                  |
 |Systematicity failure: novel combinations fail despite component competence                     |Novel combinations succeed proportionally to component familiarity   |
 |Systems without stakes plateau on 3c-3d despite scaling                                         |Scaled systems show continued 3c-3d improvement proportional to scale|
+|Asymmetric loss training improves 3c-3d over symmetric loss                                     |No difference between loss types                                     |
 
 -----
 
@@ -219,6 +227,8 @@ When target space is unbounded, retrieval fails—*online construction* required
 -----
 
 ## References
+
+Aston-Jones, G., & Cohen, J. D. (2005). An integrative theory of locus coeruleus-norepinephrine function: Adaptive gain and optimal performance. *Annual Review of Neuroscience*, 28, 403-450.
 
 Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
 
