@@ -31,6 +31,40 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 |**3c: Recursive**    |A contains [B contains C]  |“The dog [that chased the cat [that…]]”   |
 |**3d: Analogical**   |Structure(A) → Structure(B)|atom:nucleus :: solar system:sun          |
 
+**Computational framing:**
+
+|Type  |Mechanism                            |Complexity                                                           |Formal basis                            |
+|------|-------------------------------------|---------------------------------------------------------------------|----------------------------------------|
+|**3a**|Sequence concatenation               |O(1) per operation                                                   |Finite automata                         |
+|**3b**|Slot-filling / template instantiation|O(1) per slot                                                        |Finite automata                         |
+|**3c**|Stack-based self-reference           |O(n) space for depth n                                               |Context-free grammars, pushdown automata|
+|**3d**|Constraint satisfaction over mappings|Worst-case exponential (related to subgraph isomorphism, NP-complete)|Structure-mapping, graph matching       |
+
+**The 3a-3b vs. 3c-3d divide:**
+
+- **3a-3b:** Bounded combinatorial space. O(1) operations, finite state machines suffice. Pattern matching covers the space.
+- **3c-3d:** Unbounded spaces. Require mechanisms beyond finite state. Pattern matching cannot precompute all cases.
+
+**3c and 3d are computationally distinct:**
+
+|                |3c (Recursive)                       |3d (Analogical)                                |
+|----------------|-------------------------------------|-----------------------------------------------|
+|What’s unbounded|Depth                                |Domain pairs                                   |
+|Mechanism       |Fixed (stack + grammar)              |Search over mapping space                      |
+|Complexity      |O(n) space                           |Worst-case exponential                         |
+|Operation       |Apply bounded rule to unbounded depth|Search unbounded space of cross-domain mappings|
+
+They’re both “unbounded” but in *different dimensions*. This raises the question: why group them?
+
+**Hypothesized unity:** Both require **representing and manipulating relational structure** as opposed to surface features:
+
+- **Recursion:** Relations *between levels* (embedding structure)
+- **Analogy:** Relations *between elements* (mapping structure)
+
+The shared primitive may be: **relational representation + structure-sensitive operations**. Systems that can’t represent relations abstractly (independent of surface features) should fail both.
+
+**Prediction:** 3c and 3d failures should co-occur. Systems that fail recursive depth should also fail analogical mapping, and vice versa—because both depend on relational representation. Dissociation between 3c and 3d would challenge the unity hypothesis and suggest distinct underlying mechanisms.
+
 **Prediction:** Systems show 3a-3b success with 3c-3d failure. Bees do role-filler (waggle dance), not recursion. LLMs degrade faster on recursive depth than role-filler novelty.
 
 **Clarification on the boundary:** The claim is not “unlimited 3c-3d vs. zero”—humans also degrade on recursive depth (Gibson, 1998). The distinction is *construction with graceful degradation* vs. *pattern-matching with hard limits*:
@@ -141,6 +175,7 @@ When target space is unbounded, retrieval fails—*online construction* required
 |Prediction                                                                                      |Falsification                                                        |
 |------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
 |Composition types dissociate (3a-3b vs. 3c-3d)                                                  |No differences found                                                 |
+|3c and 3d failures co-occur (relational representation unity)                                   |3c and 3d dissociate                                                 |
 |Recursive depth degrades faster than role-filler novelty                                        |Identical degradation curves                                         |
 |Bees: role-filler yes, recursive no                                                             |Bees succeed at recursion                                            |
 |Non-embedded systems fail novelty criteria (calibration, systematicity, uncertainty propagation)|System without embeddedness meets all four criteria                  |
@@ -286,6 +321,8 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 Aston-Jones, G., & Cohen, J. D. (2005). An integrative theory of locus coeruleus-norepinephrine function: Adaptive gain and optimal performance. *Annual Review of Neuroscience*, 28, 403-450.
 
 Chollet, F. (2019). On the measure of intelligence. *arXiv preprint arXiv:1911.01547*.
+
+Falkenhainer, B., Forbus, K. D., & Gentner, D. (1989). The structure-mapping engine: Algorithm and examples. *Artificial Intelligence*, 41(1), 1-63.
 
 Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
 
