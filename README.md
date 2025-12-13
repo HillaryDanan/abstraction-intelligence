@@ -47,6 +47,8 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 - **Error structure:** When failing, does output preserve structural coherence or collapse randomly?
 - **Generalization pattern:** Does performance track training distribution boundaries (interpolation) or extend beyond (construction)?
 
+**On falsifiability:** The framework predicts *qualitative* signatures (error structure, systematicity), not just quantitative differences. But edge cases will be contested—any improvement could be framed as “more coverage” and any failure as “insufficient construction.” The clearest tests are systematicity and error structure, which are harder to explain away. Honest acknowledgment: some cases will be genuinely ambiguous.
+
 -----
 
 ## Embeddedness
@@ -116,7 +118,7 @@ When target space is unbounded, retrieval fails—*online construction* required
 
 **On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled 3c-3d limitations that scaling alone cannot overcome—hypothesis pending empirical test. Whether alternative paths to 3c-3d exist remains open.
 
-**On in-context learning:** ICL appears to show within-context adaptation, complicating the picture. Our interpretation: ICL is meta-level pattern matching—retrieving learned demonstration-response mappings, not constructing novel responses. ICL provides weak temporal persistence but lacks stakes, gating, and cross-context stability. Whether scale could change this is an open empirical question; current evidence suggests ICL improves coverage (compression) rather than enabling genuine construction (generation).
+**On in-context learning:** ICL shows within-context adaptation, including some systematic properties like inferring novel rules from examples. The open question: is this genuine construction or sophisticated retrieval? The framework predicts retrieval—ICL improves coverage (compression) rather than enabling construction (generation). But ICL’s systematic properties make this genuinely ambiguous; it’s testable, not settled.
 
 -----
 
