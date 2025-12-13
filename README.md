@@ -18,6 +18,8 @@ The **Abstraction Primitive Hypothesis (APH)**: intelligence emerges from recurs
 
 Not symbols alone. Not composition alone. Their **mutual refinement through iteration**.
 
+**Scoping the claim:** Non-abstractive processing exists—pure reactive systems with stimulus-response mappings but no symbol formation (thermostats, tropisms, basic reflexes). The framework’s load-bearing element is not “abstraction” as a label, but the *composition hierarchy* and its predicted dissociations. The claim: 3c-3d requires something beyond pattern matching. That’s testable independent of terminology.
+
 -----
 
 ## The Composition Hierarchy
@@ -30,6 +32,20 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 |**3d: Analogical**   |Structure(A) → Structure(B)|atom:nucleus :: solar system:sun          |
 
 **Prediction:** Systems show 3a-3b success with 3c-3d failure. Bees do role-filler (waggle dance), not recursion. LLMs degrade faster on recursive depth than role-filler novelty.
+
+**Clarification on the boundary:** The claim is not “unlimited 3c-3d vs. zero”—humans also degrade on recursive depth (Gibson, 1998). The distinction is *construction with graceful degradation* vs. *pattern-matching with hard limits*:
+
+|                 |Embedded (humans)                                        |Non-embedded (LLMs)       |
+|-----------------|---------------------------------------------------------|--------------------------|
+|Degradation curve|Graceful                                                 |Threshold collapse        |
+|Error structure  |Preserves recursive structure (shallower but grammatical)|Loses structural coherence|
+|Scaffolding      |External memory extends capacity                         |Doesn’t help equivalently |
+
+**Operationalizing construction vs. interpolation:** Depth alone isn’t the test—succeeding at depth 6 after training on 1-5 could be interpolation. The signatures:
+
+- **Systematicity:** Novel combinations of familiar components (A[B] + C[D] → A[D]) when that combination wasn’t trained
+- **Error structure:** When failing, does output preserve structural coherence or collapse randomly?
+- **Generalization pattern:** Does performance track training distribution boundaries (interpolation) or extend beyond (construction)?
 
 -----
 
@@ -55,6 +71,8 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 - Self-boundary awareness
 - Environmental stability
 
+**On the five components:** These are proposed based on what seems necessary for novelty detection to matter. Whether all five are jointly necessary, have independent effects, or interact is hypothesis—not established. Partial embeddedness predictions are underspecified: would an LLM agent with strong temporal persistence and action-consequence contingency but no survival stakes show partial 3c-3d capacity? Worth testing.
+
 **Operationalizing novelty detection:** To avoid circularity, we specify four measurable criteria independent of embeddedness:
 
 |Criterion                     |Operationalization                                                                       |
@@ -64,7 +82,7 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 |**Response systematicity**    |Novel combinations of familiar components yield appropriate outputs (Lake & Baroni, 2018)|
 |**Uncertainty propagation**   |Input novelty propagates to output uncertainty rather than confident confabulation       |
 
-The hypothesis: embeddedness/stakes is necessary for meeting these criteria. Empirically testable.
+**Empirical status:** These are not definitional assertions—LLM failures on these criteria are empirically documented. Calibration failures: Guo et al. (2017). Systematicity failures: Lake & Baroni (2018). Confident confabulation: extensive hallucination literature. The hypothesis that embeddedness is *necessary* for meeting these criteria remains testable.
 
 **Why stakes matter (hypothesis):**
 
@@ -72,6 +90,7 @@ Survival pressure creates asymmetric costs—misclassifying threat as familiar c
 
 - **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren’t selected; they were optimized on symmetric loss.
 - **Asymmetric vs. symmetric pressure:** Symmetric loss (prediction error) rewards compression—minimizing average error. Asymmetric loss (survival) rewards worst-case handling—novel threats must be addressed even at efficiency cost. This selects for construction as a hedge against unbounded novelty. *(Testable: compare architectures trained under symmetric vs. asymmetric loss.)*
+- **On the mechanism gap:** The prediction is that asymmetric loss produces construction-capable architecture. The *full mechanism*—why asymmetric pressure yields construction rather than just more robust pattern-matching with better tail coverage—is not yet specified. The LC-NE gating hypothesis is suggestive but incomplete. This is an honest gap.
 - **Candidate architectural feature:** Gating mechanisms that switch between retrieval and construction based on novelty. The locus coeruleus-norepinephrine system modulates exploration vs. exploitation based on uncertainty (Aston-Jones & Cohen, 2005). Biological cognition gates processing mode; LLMs apply identical forward passes regardless of input novelty.
 - **On necessity:** Stakes are the known path to construction-capable architecture. Whether alternative paths exist is open. We claim *sufficiency* with confidence; *necessity* remains hypothesis.
 
@@ -93,7 +112,25 @@ When target space is unbounded, retrieval fails—*online construction* required
 
 **Prediction:** Compression asymptotes on 3c-3d as coverable space is exhausted. Generation doesn’t asymptote because it’s not coverage-limited. Scaling improves compression; it doesn’t produce generation.
 
+**On emergent capabilities:** Some argue LLMs show discontinuous capability jumps with scale, challenging the asymptote prediction. The empirical record is contested—Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics. Some “emergent” capabilities may be 3a-3b improvements mistaken for 3c-3d. Whether genuine 3c-3d emergence occurs with scale is an open empirical question the framework takes seriously.
+
 **On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled 3c-3d limitations that scaling alone cannot overcome—hypothesis pending empirical test. Whether alternative paths to 3c-3d exist remains open.
+
+**On in-context learning:** ICL appears to show within-context adaptation, complicating the picture. Our interpretation: ICL is meta-level pattern matching—retrieving learned demonstration-response mappings, not constructing novel responses. ICL provides weak temporal persistence but lacks stakes, gating, and cross-context stability. Whether scale could change this is an open empirical question; current evidence suggests ICL improves coverage (compression) rather than enabling genuine construction (generation).
+
+-----
+
+## Relation to Other Frameworks
+
+**Chollet’s ARC-AGI:** Chollet (2019) also emphasizes abstraction as core to intelligence, focusing on program synthesis and skill-acquisition efficiency.
+
+|          |APH                                                       |Chollet/ARC                                                 |
+|----------|----------------------------------------------------------|------------------------------------------------------------|
+|Core claim|Composition hierarchy matters; 3c-3d requires construction|Intelligence = skill-acquisition efficiency over novel tasks|
+|Mechanism |Embeddedness → gating → construction                      |Program synthesis over core-knowledge priors                |
+|Key test  |3a-3b vs 3c-3d dissociation                               |Few-shot generalization on novel tasks                      |
+
+**Relationship:** Compatible, not competing. ARC tasks likely probe 3c-3d capacity (novel analogical mappings). Chollet’s efficiency focus and APH’s composition focus address different aspects. Program synthesis could be one *implementation* of construction. LLM failures on ARC despite scale are consistent with APH predictions.
 
 -----
 
@@ -108,6 +145,22 @@ When target space is unbounded, retrieval fails—*online construction* required
 |Systematicity failure: novel combinations fail despite component competence                     |Novel combinations succeed proportionally to component familiarity   |
 |Systems without stakes plateau on 3c-3d despite scaling                                         |Scaled systems show continued 3c-3d improvement proportional to scale|
 |Asymmetric loss training improves 3c-3d over symmetric loss                                     |No difference between loss types                                     |
+
+**Distinguishing embeddedness from architectural explanation:**
+
+LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) transformer architecture being compression-optimized for unrelated reasons. To distinguish:
+
+|Condition           |Loss      |Persistence/Gating|Tests             |
+|--------------------|----------|------------------|------------------|
+|1. Baseline LLM     |Symmetric |No                |—                 |
+|2. Loss only        |Asymmetric|No                |Loss alone        |
+|3. Architecture only|Symmetric |Yes               |Architecture alone|
+|4. Full embeddedness|Asymmetric|Yes               |Interaction       |
+
+- If only (4) shows 3c-3d improvement → embeddedness necessary
+- If (2) alone suffices → loss asymmetry is key mechanism
+- If (3) alone suffices → architectural gating is key mechanism
+- If (2) and (3) both help independently → multiple paths exist
 
 -----
 
@@ -230,13 +283,19 @@ When target space is unbounded, retrieval fails—*online construction* required
 
 Aston-Jones, G., & Cohen, J. D. (2005). An integrative theory of locus coeruleus-norepinephrine function: Adaptive gain and optimal performance. *Annual Review of Neuroscience*, 28, 403-450.
 
+Chollet, F. (2019). On the measure of intelligence. *arXiv preprint arXiv:1911.01547*.
+
 Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
+
+Gibson, E. (1998). Linguistic complexity: Locality of syntactic dependencies. *Cognition*, 68(1), 1-76.
 
 Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. *ICML*.
 
 Lake, B., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *ICML*.
 
 Öhman, A., Flykt, A., & Esteves, F. (2001). Emotion drives attention: Detecting the snake in the grass. *Journal of Experimental Psychology: General*, 130(3), 466-478.
+
+Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *NeurIPS*.
 
 -----
 
