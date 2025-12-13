@@ -49,8 +49,6 @@ Novelty is relational. An input isn’t novel in itself—it’s novel *to a sub
 Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty detection → Pressure to expand primitives → Strong interaction
 ```
 
-Non-embedded systems can *process* the concept of novelty but cannot *detect* it—there’s no accumulated self to whom something could be unfamiliar.
-
 **Five components of embeddedness:**
 
 - Action-consequence contingency
@@ -59,9 +57,11 @@ Non-embedded systems can *process* the concept of novelty but cannot *detect* it
 - Self-boundary awareness
 - Environmental stability
 
-LLMs fail all five. This predicts principled Stage 4 limitations that scaling cannot overcome.
+**Critical distinction:** Statistical anomaly detection (flagging deviation from a learned distribution) differs from *stake-driven novelty response* (constructing appropriate behavior toward genuinely unfamiliar inputs). The former requires only accumulated statistics; the latter requires knowing what’s at risk and building responses when pattern matching is insufficient.
 
-**Why embeddedness matters:** Survival pressure. The self/world distinction exists because organisms must know what to protect. Novelty detection is critical because unfamiliar inputs have unknown survival implications. This selective pressure shaped cognitive architecture for genuine abstraction—not just pattern matching. Systems without stakes lack this architectural shaping. (See [Paper 10](papers/survival_pressure.md).)
+**Why stakes matter (hypothesis):** Survival pressure creates asymmetric costs—misclassifying a threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). This asymmetry selects for cognitive architecture capable of *constructing* responses to genuine novelty, not just flagging anomalies. Without stakes, optimization pressure can be satisfied by pattern matching alone. (See [Paper 10](papers/survival_pressure.md) for mechanism specification and falsification conditions.)
+
+**On LLMs:** Within a conversation, LLMs have weak versions of temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, and—crucially—stakes. Nothing architecturally consequential happens when an LLM fails to respond appropriately to novelty. This predicts principled 3c-3d limitations that scaling cannot overcome, though this remains hypothesis pending empirical test.
 
 -----
 
@@ -73,6 +73,7 @@ LLMs fail all five. This predicts principled Stage 4 limitations that scaling ca
 |Recursive depth degrades faster than role-filler novelty|Identical degradation curves                              |
 |Bees: role-filler yes, recursive no                     |Bees succeed at recursion                                 |
 |Non-embedded systems can’t detect novelty               |System without persistence shows genuine novelty detection|
+|Systems without stakes plateau on 3c-3d despite scaling |Scaled systems show continued 3c-3d improvement           |
 
 -----
 
