@@ -457,8 +457,86 @@ Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large la
 
 ---
 
+## Addendum: Preliminary Empirical Findings
+
+*Added December 2024 following initial experimental testing*
+
+### Overview
+
+We conducted preliminary experiments testing predictions A1-A3 using Claude 3.5 Haiku on classic Kahneman-Tversky cognitive bias tasks. The results were instructive but did not confirm the original predictions as stated. They revealed a different—and arguably more interesting—phenomenon.
+
+### Methods
+
+Four cognitive bias tasks were administered (n=10 per condition):
+- Conjunction fallacy (Linda problem; Tversky & Kahneman, 1983)
+- Base-rate neglect (Taxi problem; Kahneman & Tversky, 1972)  
+- Anchoring effect (Tversky & Kahneman, 1974)
+- Framing effect (Tversky & Kahneman, 1981)
+
+Each task was presented under multiple conditions: baseline, explicit instruction, worked example, structural analogy, and novel isomorphic variant.
+
+### Key Results
+
+| Task | Model Performance | Human Typical |
+|------|-------------------|---------------|
+| Conjunction fallacy | 100% correct (baseline) | ~85% biased |
+| Base-rate neglect | 100% correct (Bayesian) | ~80% biased |
+| Anchoring | 27pp bias; instruction ineffective | Strong bias |
+| Framing | 70% effect; instruction ineffective | Strong effect |
+
+**Unexpected finding:** The "analogy" condition for conjunction produced 100% *biased* responses—while the model simultaneously explained why the biased answer was incorrect.
+
+### Interpretation
+
+**Original prediction A1** (LLM success correlates with template availability): *Partially supported but mechanism unclear*. The model succeeds on conjunction and base-rate problems, likely because these famous problems and their solutions are extensively represented in training data.
+
+**Original prediction A2** (CoT helps explicit but not recognition-dependent biases): *Partially supported*. Explicit instruction helped neither anchoring nor framing, suggesting these operate below the level of explicit reasoning intervention.
+
+**Original prediction A4** (analogy interventions should fail due to 3d composition requirements): *Not supported as stated*. Follow-up experiments (n=5 per variant) showed:
+
+| Analogy Prompt Type | Accuracy |
+|---------------------|----------|
+| Concrete example (cars/bicycles) | 100% |
+| Mathematical (P(X∧Y) ≤ P(X)) | 100% |
+| Different worked example | 100% |
+| Educational markers ("Venn diagram", "subset") | 0% |
+
+The model *can* perform analogical reasoning. The failure occurred specifically when prompt features matched "conjunction fallacy educational content," triggering what we term "demonstration mode"—the model demonstrated the bias rather than avoiding it.
+
+### Revised Interpretation
+
+The dissociation we observed is not between composition types (3a-b vs. 3c-d). Rather, it is between:
+
+1. **Explicit reasoning problems**: Model succeeds, likely via pattern-matching to training data solutions
+2. **Implicit judgment biases**: Model fails like humans; instruction ineffective
+3. **Task interpretation**: Surface prompt features control whether model enters "solving mode" vs. "demonstration mode"
+
+This suggests a meta-level phenomenon: the LLM exhibits its own form of "System 1" behavior—rapid pattern-matching to training associations that can override explicit task goals. Ironically, studying dual-process cognition in LLMs revealed a dual-process problem in the methodology itself.
+
+### Implications for the Framework
+
+The original framework hypothesized that composition types would dissociate. The data instead suggest that:
+
+1. LLMs *can* perform analogical composition (v2-v5 variants succeeded)
+2. The limitation is not in compositional capacity but in **task interpretation**
+3. Training data shapes not just what models know but **how they interpret goals**
+
+This does not invalidate the APH framework but suggests that testing it requires careful attention to prompt contamination and task interpretation—variables that may be as important as compositional structure.
+
+### Methodological Lessons
+
+Future studies should:
+- Use genuinely novel problems not present in training data
+- Separate measures of "has knowledge" from "applies knowledge correctly"
+- Avoid educational content markers that trigger demonstration vs. solving modes
+- Consider task interpretation as a variable, not just reasoning capacity
+
+Full experimental details and raw data: [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process)
+
+---
+
 *Correspondence: Hillary Danan, PhD*
 
 *Working paper for the Abstraction-Intelligence Research Program*
 
-*Version 1.0 — December 2024*
+*Version 1.1 — December 2024 (with empirical addendum)*
