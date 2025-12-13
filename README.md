@@ -199,6 +199,8 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 - If (3) alone suffices → architectural gating is key mechanism
 - If (2) and (3) both help independently → multiple paths exist
 
+**RL agents as test case:** If embeddedness is necessary for 3c-3d, RL agents trained under survival-like pressure in complex environments should develop construction capacity. If they don’t, stakes may be necessary but not sufficient—or phylogenetic timescales may matter in ways training runs can’t replicate.
+
 -----
 
 ## Papers
