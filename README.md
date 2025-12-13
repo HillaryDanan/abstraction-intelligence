@@ -22,8 +22,6 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 ## The Composition Hierarchy
 
-Not all composition is the same.
-
 |Type                 |Structure                  |Example                                   |
 |---------------------|---------------------------|------------------------------------------|
 |**3a: Concatenative**|A + B → AB                 |“blue bird”                               |
@@ -57,23 +55,51 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 - Self-boundary awareness
 - Environmental stability
 
-**Critical distinction:** Statistical anomaly detection (flagging deviation from a learned distribution) differs from *stake-driven novelty response* (constructing appropriate behavior toward genuinely unfamiliar inputs). The former requires only accumulated statistics; the latter requires knowing what’s at risk and building responses when pattern matching is insufficient.
+**Operationalizing novelty detection:** To avoid circularity, we specify four measurable criteria independent of embeddedness:
 
-**Why stakes matter (hypothesis):** Survival pressure creates asymmetric costs—misclassifying a threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). This asymmetry selects for cognitive architecture capable of *constructing* responses to genuine novelty, not just flagging anomalies. Without stakes, optimization pressure can be satisfied by pattern matching alone. (See [Paper 10](papers/survival_pressure.md) for mechanism specification and falsification conditions.)
+|Criterion                     |Operationalization                                                                       |
+|------------------------------|-----------------------------------------------------------------------------------------|
+|**Calibration**               |Confidence decreases appropriately for OOD inputs (Guo et al., 2017)                     |
+|**Processing differentiation**|Novel inputs trigger distinct internal processing, not just lower confidence             |
+|**Response systematicity**    |Novel combinations of familiar components yield appropriate outputs (Lake & Baroni, 2018)|
+|**Uncertainty propagation**   |Input novelty propagates to output uncertainty rather than confident confabulation       |
 
-**On LLMs:** Within a conversation, LLMs have weak versions of temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, and—crucially—stakes. Nothing architecturally consequential happens when an LLM fails to respond appropriately to novelty. This predicts principled 3c-3d limitations that scaling cannot overcome, though this remains hypothesis pending empirical test.
+The hypothesis: embeddedness/stakes is necessary for meeting these criteria. Empirically testable.
+
+**Why stakes matter (hypothesis):** Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). This selects for architecture capable of *constructing* responses to novelty, not just flagging anomalies.
+
+**Why 3c-3d specifically (hypothesis):**
+
+- **3a-3b:** Bounded combinatorial space. Can be encountered in training and stored. Pattern matching suffices.
+- **3c-3d:** Unbounded generative space. Recursive depth extends indefinitely; analogical mappings span arbitrary domains. Cannot be precomputed.
+
+When target space is unbounded, retrieval fails—*online construction* required. Stakes create pressure to construct rather than retrieve-and-fail. Without stakes, optimization satisfies via interpolation (pattern matching), handling 3a-3b but not 3c-3d. (See [Paper 10](papers/survival_pressure.md).)
+
+**Compression vs. Generation:**
+
+|              |Compression                                    |Generation                                    |
+|--------------|-----------------------------------------------|----------------------------------------------|
+|**Definition**|Finding structure within training distribution |Constructing outputs with no training coverage|
+|**Operation** |Interpolation between known points             |Extrapolation into unbounded space            |
+|**3a-3b**     |Sufficient (bounded space is coverable)        |Not required                                  |
+|**3c-3d**     |Insufficient (unbounded space exceeds coverage)|Required                                      |
+
+**Prediction:** Compression asymptotes on 3c-3d as coverable space is exhausted. Generation doesn’t asymptote because it’s not coverage-limited. Scaling improves compression; it doesn’t produce generation.
+
+**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, and stakes. This predicts principled 3c-3d limitations that scaling cannot overcome—hypothesis pending empirical test.
 
 -----
 
 ## Predictions
 
-|Prediction                                              |Falsification                                             |
-|--------------------------------------------------------|----------------------------------------------------------|
-|Composition types dissociate (3a-3b vs. 3c-3d)          |No differences found                                      |
-|Recursive depth degrades faster than role-filler novelty|Identical degradation curves                              |
-|Bees: role-filler yes, recursive no                     |Bees succeed at recursion                                 |
-|Non-embedded systems can’t detect novelty               |System without persistence shows genuine novelty detection|
-|Systems without stakes plateau on 3c-3d despite scaling |Scaled systems show continued 3c-3d improvement           |
+|Prediction                                                                                      |Falsification                                                        |
+|------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+|Composition types dissociate (3a-3b vs. 3c-3d)                                                  |No differences found                                                 |
+|Recursive depth degrades faster than role-filler novelty                                        |Identical degradation curves                                         |
+|Bees: role-filler yes, recursive no                                                             |Bees succeed at recursion                                            |
+|Non-embedded systems fail novelty criteria (calibration, systematicity, uncertainty propagation)|System without embeddedness meets all four criteria                  |
+|Systematicity failure: novel combinations fail despite component competence                     |Novel combinations succeed proportionally to component familiarity   |
+|Systems without stakes plateau on 3c-3d despite scaling                                         |Scaled systems show continued 3c-3d improvement proportional to scale|
 
 -----
 
@@ -189,6 +215,18 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 
 [pattern-analyzer](https://github.com/HillaryDanan/pattern-analyzer) ·
 [concrete-overflow-detector](https://github.com/HillaryDanan/concrete-overflow-detector)
+
+-----
+
+## References
+
+Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
+
+Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. *ICML*.
+
+Lake, B., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *ICML*.
+
+Öhman, A., Flykt, A., & Esteves, F. (2001). Emotion drives attention: Detecting the snake in the grass. *Journal of Experimental Psychology: General*, 130(3), 466-478.
 
 -----
 
