@@ -109,6 +109,8 @@ LLMs fail all five. This predicts principled Stage 4 limitations that scaling ca
 [abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) ·
 [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) ·
 [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) ·
+[compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) ·
+[embeddedness-calibration](https://github.com/HillaryDanan/embeddedness-calibration) ·
 [emergent-factorization](https://github.com/HillaryDanan/emergent-factorization) ·
 [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum)
 
