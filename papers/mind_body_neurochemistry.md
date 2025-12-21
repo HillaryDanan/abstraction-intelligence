@@ -1,4 +1,4 @@
-# Neurochemistry as Self-State Abstraction: A Compositional Framework
+# Neurochemistry as Self-State Abstraction: Biological Evidence for Compositional Internal Representation
 
 **Hillary Danan, PhD**  
 Cognitive Neuroscience
@@ -10,10 +10,10 @@ Cognitive Neuroscience
 ## Highlights
 
 - Major neurochemical systems show coordinated central-peripheral effects: serotonin (gut/mood), dopamine (movement/motivation), cortisol (metabolism/cognition), cytokines (immunity/sickness behavior), GLP-1 (satiation/reward)
-- We propose these systems provide **factorized self-state signals** for compositional integration with world-state
+- We propose these systems provide **factorized self-state signals** for compositional integration with world-state—biological evidence for compositional self-state abstraction
 - The compositional interpretation predicts: cross-domain effects from single-factor modulation, systematic transfer structure, and dissociations between factors
 - GLP-1 agonists provide a current test case: cross-domain effects on food, alcohol, and possibly compulsive behaviors
-- Key uncertainty: whether neurochemistry implements genuinely compositional structure or “compositional” just redescribes shared mechanisms
+- If confirmed, neurochemistry provides biological evidence that intelligent systems represent internal state compositionally, supporting frameworks that propose compositional structure as fundamental to intelligence
 
 -----
 
@@ -21,11 +21,11 @@ Cognitive Neuroscience
 
 Neurochemical systems show a striking pattern: coordinated effects across brain and body. Serotonin regulates gut motility AND mood. Dopamine influences movement AND motivation. Cortisol affects metabolism AND cognition. Cytokines produce immune responses AND sickness behavior. GLP-1 signals satiation AND modulates reward processing.
 
-Why this coordination? We propose that neurochemistry implements **compositional self-state abstraction**. For any agent that must act in the world, internal state (energy, integrity, arousal, motivation) must combine with external context (opportunities, threats) to guide action. We propose that major neurochemical systems provide factorized self-state signals—distinct dimensions that combine with world-state to produce context-appropriate behavior.
+Why this coordination? We propose that neurochemistry implements **compositional self-state abstraction**—a key prediction of frameworks proposing that intelligence requires compositional structure for representing internal state, not just external world. For any agent that must act in the world, internal state (energy, integrity, arousal, motivation) must combine with external context (opportunities, threats) to guide action. We propose that major neurochemical systems provide factorized self-state signals—distinct dimensions that combine with world-state to produce context-appropriate behavior.
 
 This is more than “shared mechanisms.” The compositional interpretation predicts specific structure: modulating one factor should affect all contexts that factor participates in (cross-domain effects), while sparing other factors (dissociations). Effect sizes across domains should be systematically related (transfer structure), and novel contexts should be affected without specific learning (compositional generalization).
 
-GLP-1 agonists provide a current test case. Originally developed for diabetes, they show unexpected effects on alcohol craving and possibly compulsive behaviors. The compositional interpretation: GLP-1 modulates “appetitive intensity”—a factor distinct from dopaminergic “effort-investment”—that combines with any reward context. We specify predictions, acknowledge substantial uncertainty about whether the compositional framework adds explanatory value beyond simpler accounts, and propose empirical tests.
+GLP-1 agonists provide a current test case. Originally developed for diabetes, they show unexpected effects on alcohol craving and possibly compulsive behaviors. The compositional interpretation: GLP-1 modulates “appetitive intensity”—a factor distinct from dopaminergic “effort-investment”—that combines with any reward context. We specify predictions, acknowledge substantial uncertainty about whether the compositional framework adds explanatory value beyond simpler accounts, and propose empirical tests. If confirmed, this provides biological evidence that intelligent systems implement compositional self-state representation.
 
 -----
 
@@ -91,6 +91,15 @@ We propose that major neurochemical systems provide **factorized self-state sign
 
 **Factorized** means these are distinct dimensions, not redundant signals. **Compositional** means they combine with world-state to produce context-appropriate outputs.
 
+**What constrains factor assignments?** A reviewer might ask: why “appetitive intensity” for GLP-1 rather than “satiation threshold” or “consummatory drive”? The mappings above are underdetermined by current evidence. Constraints include:
+
+1. **Peripheral function**: What does the system do in the body? GLP-1 signals post-meal satiation—this suggests appetitive/wanting dimension rather than consummatory pleasure.
+1. **Central effects**: What behaviors does central modulation affect? GLP-1 reduces approach motivation across reward types, not just consumption.
+1. **Dissociation patterns**: What is spared when the system is modulated? If GLP-1 affects wanting but not liking (Berridge’s distinction), “appetitive intensity” fits better than “consummatory drive.”
+1. **Parsimony**: Prefer dimensions that explain the most variance with the fewest factors.
+
+**Honest status**: The factor assignments in Table 1 are hypotheses, not established facts. They’re constrained by the considerations above but remain underdetermined. Alternative mappings are possible and should be tested.
+
 ### 2.3 What “Compositional” Adds
 
 A critic might ask: how does this differ from “shared mechanisms” or “coordinated signaling”?
@@ -116,7 +125,21 @@ Effects should not be idiosyncratic across domains. If GLP-1 agonists reduce foo
 
 Effects should extend to contexts never experienced during the intervention. If GLP-1 modulates a compositional factor, it should affect craving for novel rewards—not just rewards with established GLP-1 circuit involvement.
 
-### 2.4 The Precision Problem
+### 2.4 Terminology: Compositional, Factorized, or Modular?
+
+A reviewer might reasonably ask: is “compositional” the right term, or is this better described as *factorization* or *modularity*?
+
+**Factorization**: The claim that neurochemical signals encode separable dimensions. This is the weaker claim and is likely correct.
+
+**Modularity**: The claim that these systems are functionally distinct and independently modulable. This is also likely correct to some degree.
+
+**Compositionality**: The stronger claim that factorized signals *combine systematically* with context to produce outputs, enabling novel generalization.
+
+**Our use**: We use “compositional” to emphasize the combination property—that self-state factors don’t just exist in parallel but *integrate with* world-state through some (unspecified) function. However, we acknowledge this imports prestige from formal compositionality without fully earning it. The framework might ultimately be better described as “factorized self-state with contextual integration.”
+
+**What hangs on the terminology**: The key predictions (cross-domain effects, dissociations, transfer structure, novel generalization) hold regardless of whether we call this “compositional” or “factorized with integration.” The label matters less than the predictions.
+
+### 2.5 The Precision Problem
 
 We should be honest about the analogy’s limits.
 
@@ -144,6 +167,18 @@ A key question: Are dopamine and GLP-1 distinct factors, or does GLP-1 simply mo
 
 **Evidence for interaction**: GLP-1 receptors are expressed on VTA dopamine neurons. GLP-1 agonists reduce dopamine release in NAc (Dickson et al., 2012; Mietlicki-Baase et al., 2014).
 
+**The interaction-vs-distinctness problem**: If GLP-1 sits upstream of dopamine mechanistically, in what sense are they “distinct factors”? We need sharper criteria.
+
+**Criteria for factor distinctness despite mechanistic interaction**:
+
+1. **Dissociable effects**: If modulating X affects dimension A but not B, while modulating Y affects B but not A, they encode distinct information—even if X influences Y mechanistically.
+1. **Independent information**: If knowing GLP-1 levels tells you something about behavior that knowing DA levels alone doesn’t (and vice versa), they carry non-redundant information.
+1. **Selective intervention**: If you can change wanting without changing effort (or vice versa) by targeting different systems, the systems encode different factors—even if they interact.
+
+**Analogy**: Brightness and contrast in an image are distinct factors even though changing one affects how the other is perceived. They’re distinct because you can adjust them independently and they carry different information about the image.
+
+**Applied to GLP-1/DA**: GLP-1 might modulate DA while encoding something DA doesn’t—the “gain” or “intensity” of appetitive states, while DA encodes which stimuli are motivationally relevant. GLP-1 could be the volume knob; DA could be the channel selector.
+
 **The compositional interpretation**: GLP-1 and dopamine may encode DIFFERENT dimensions:
 
 - Dopamine: Incentive salience—the motivational “pull” of reward-associated stimuli (Berridge & Robinson, 1998)
@@ -151,7 +186,9 @@ A key question: Are dopamine and GLP-1 distinct factors, or does GLP-1 simply mo
 
 These are conceptually dissociable: you can want intensely but be unwilling to work (high GLP-1 effect, low DA), or work hard for something you don’t intensely want (low GLP-1 effect, high DA).
 
-**Alternative**: GLP-1 effects are entirely DA-mediated. GLP-1 reduces DA signaling → reduced incentive salience → cross-domain effects. No separate “appetitive intensity” factor.
+**Alternative**: GLP-1 effects are entirely DA-mediated. GLP-1 reduces DA signaling → reduced incentive salience → cross-domain effects. No separate “appetitive intensity” factor—GLP-1 is just an upstream modulator of a single factor.
+
+**Empirical resolution**: The question is whether GLP-1 modulation produces effects that DA modulation doesn’t (or vice versa). If yes, they’re informationally distinct despite mechanistic interaction. If no, the simpler account wins.
 
 **Empirical test**: Do GLP-1 agonists produce dissociations from DA manipulations?
 
@@ -305,6 +342,8 @@ The compositional framework would be challenged by:
 
 Neurochemical systems show a striking pattern of coordinated central-peripheral effects. We’ve proposed that this reflects compositional self-state abstraction: distinct neurochemical dimensions that combine with world-state to produce context-appropriate behavior.
 
+This connects to broader proposals about the computational requirements of intelligence. The Abstraction-Intelligence framework proposes that intelligent systems require compositional structure—not just for representing the external world, but for integrating internal state with external context. Neurochemistry may provide the biological implementation of compositional self-state.
+
 GLP-1 agonists provide a current test case. Their unexpected effects on alcohol and compulsive behaviors are consistent with compositional organization—modulating “appetitive intensity” affects all contexts using that factor. But we’ve acknowledged substantial uncertainty:
 
 - GLP-1 effects might be entirely dopamine-mediated
@@ -315,7 +354,9 @@ GLP-1 agonists provide a current test case. Their unexpected effects on alcohol 
 
 **What would disconfirm it**: Idiosyncratic effects, no novel generalization, no dissociations.
 
-**The broader stakes**: How intelligent systems represent internal state matters for understanding flexible, generalizable behavior. If neurochemistry provides compositional self-state—reusable dimensions that combine with context—this explains why drugs developed for one condition affect others, why psychiatric conditions cluster, and why embodied agents have the behavioral flexibility they do.
+**The broader stakes**: If neurochemistry provides compositional self-state—reusable dimensions that combine with context—this supports the claim that compositional structure is fundamental to biological intelligence. It would explain why drugs developed for one condition affect others, why psychiatric conditions cluster, and why embedded agents have the behavioral flexibility they do.
+
+For frameworks proposing that intelligence requires compositional abstraction, neurochemistry may provide biological evidence: the brain represents internal state factorially, enabling systematic combination with world-state for context-appropriate action. The gating mechanisms that switch between processing modes based on novelty may operate over these factorized dimensions.
 
 For now, this is a framework for generating hypotheses and designing tests. The compositional interpretation earns its keep only if its predictions are confirmed.
 
@@ -405,4 +446,4 @@ Wilding, J. P. H. et al. (2021). Once-weekly semaglutide in adults with overweig
 
 -----
 
-*Acknowledgments: This framework connects neurochemical coordination to cognitive science research on compositionality (Fodor & Pylyshyn, 1988), interoception (Craig, 2009; Seth, 2013), and the computational requirements of embedded agency. The question—whether neurochemistry implements compositional self-state abstraction—emerges from applying these frameworks to established patterns of central-peripheral coordination.*
+*Acknowledgments: This paper extends the Abstraction-Intelligence framework’s treatment of gating mechanisms and compositional self-state. The framework proposes that biological cognition gates processing mode based on novelty (Aston-Jones & Cohen, 2005), enabling construction rather than pure retrieval. Here we argue that neurochemistry provides the vocabulary for such gating—factorized self-state signals that compose with world-state. The broader framework connects compositional representation in cognitive science (Fodor & Pylyshyn, 1988), interoception (Craig, 2009; Seth, 2013), and the computational requirements of embedded agency. If neurochemistry implements compositional self-state abstraction, this provides biological evidence for the framework’s core claim that compositional structure extends beyond world-modeling to self-representation.*
