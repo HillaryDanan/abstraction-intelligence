@@ -1,609 +1,408 @@
-# The Integrated Organism: Neurochemical Systems as Viability Regulators Across Brain and Body
+# Neurochemistry as Self-State Abstraction: A Compositional Framework
 
 **Hillary Danan, PhD**  
 Cognitive Neuroscience
 
-*Working Draft — December 2025*
+*Trends in Cognitive Sciences* — Opinion
+
+-----
+
+## Highlights
+
+- Major neurochemical systems show coordinated central-peripheral effects: serotonin (gut/mood), dopamine (movement/motivation), cortisol (metabolism/cognition), cytokines (immunity/sickness behavior), GLP-1 (satiation/reward)
+- We propose these systems provide **factorized self-state signals** for compositional integration with world-state
+- The compositional interpretation predicts: cross-domain effects from single-factor modulation, systematic transfer structure, and dissociations between factors
+- GLP-1 agonists provide a current test case: cross-domain effects on food, alcohol, and possibly compulsive behaviors
+- Key uncertainty: whether neurochemistry implements genuinely compositional structure or “compositional” just redescribes shared mechanisms
 
 -----
 
 ## Abstract
 
-The conceptual division between “mental” and “physical” health reflects a Cartesian inheritance that modern neuroscience increasingly reveals as empirically untenable. This review examines the major neurochemical systems—serotonin, dopamine, norepinephrine, acetylcholine, and the hypothalamic-pituitary-adrenal axis—demonstrating that each operates as an integrated viability-regulation system spanning brain and body rather than as a “brain chemical” with incidental peripheral effects. Serotonin serves as the primary exemplar: approximately 95% of the body’s serotonin resides in the gastrointestinal system, where it regulates motility, secretion, and satiation, while centrally it modulates mood, anxiety, and behavioral inhibition. This is not coincidence but functional integration—serotonin coordinates metabolic state with behavioral state because both serve organismal viability. We extend this analysis across neurochemical systems, showing convergent evidence for the thesis that neurochemistry implements **embodied viability regulation**: the continuous, predictive management of the organism’s relationship with its environment. This framework has immediate clinical implications, explaining why “physical” interventions (exercise, diet, sleep) affect “mental” health and vice versa, and why treatment approaches that honor mind-body integration show superior outcomes. We propose that the mental/physical distinction is not merely incomplete but actively misleading—a category error that impedes both scientific understanding and clinical practice.
+Neurochemical systems show a striking pattern: coordinated effects across brain and body. Serotonin regulates gut motility AND mood. Dopamine influences movement AND motivation. Cortisol affects metabolism AND cognition. Cytokines produce immune responses AND sickness behavior. GLP-1 signals satiation AND modulates reward processing.
+
+Why this coordination? We propose that neurochemistry implements **compositional self-state abstraction**. For any agent that must act in the world, internal state (energy, integrity, arousal, motivation) must combine with external context (opportunities, threats) to guide action. We propose that major neurochemical systems provide factorized self-state signals—distinct dimensions that combine with world-state to produce context-appropriate behavior.
+
+This is more than “shared mechanisms.” The compositional interpretation predicts specific structure: modulating one factor should affect all contexts that factor participates in (cross-domain effects), while sparing other factors (dissociations). Effect sizes across domains should be systematically related (transfer structure), and novel contexts should be affected without specific learning (compositional generalization).
+
+GLP-1 agonists provide a current test case. Originally developed for diabetes, they show unexpected effects on alcohol craving and possibly compulsive behaviors. The compositional interpretation: GLP-1 modulates “appetitive intensity”—a factor distinct from dopaminergic “effort-investment”—that combines with any reward context. We specify predictions, acknowledge substantial uncertainty about whether the compositional framework adds explanatory value beyond simpler accounts, and propose empirical tests.
 
 -----
 
-## 1. Introduction: The Problem of Dualism in Neuroscience
+## 1. The Pattern: Coordinated Central-Peripheral Effects
 
-### 1.1 The Cartesian Inheritance
+### 1.1 The Empirical Observation
 
-Despite three centuries of post-Cartesian philosophy and decades of neuroscience, clinical practice and lay understanding remain organized around a fundamental division: mental versus physical, psychiatric versus medical, brain versus body. This division is so deeply embedded that it structures medical specialties, insurance reimbursement, research funding, and the phenomenology of illness itself—patients report “physical” symptoms to one type of doctor and “mental” symptoms to another.
+Major neurochemical systems show effects across traditional brain-body divides:
 
-Yet the neuroscience of the past three decades has progressively undermined this division. The same molecules that regulate mood regulate digestion. The same systems that control movement control motivation. The immune system communicates with the brain; the brain regulates immune function. “Stress” is simultaneously a psychological state and a physiological cascade with measurable effects on every organ system.
+**Serotonin**: ~95% resides in the gastrointestinal tract, regulating motility and secretion. Central serotonin modulates mood, behavioral inhibition, and impulse control (Gershon & Tack, 2007; Cools et al., 2008). SSRIs affect both GI function and emotional regulation.
 
-### 1.2 The Central Thesis
+**Dopamine**: Central pathways mediate movement, motivation, and reward learning. Peripheral dopamine influences renal function and gut motility (Salamone et al., 2007; Eisenhofer et al., 1997). Parkinson’s disease produces both motor and motivational symptoms.
 
-This review advances a specific claim: **major neurochemical systems are not “brain chemicals” with peripheral side effects but integrated viability-regulation systems that span brain and body by functional necessity.**
+**Norepinephrine**: Central release produces arousal, attention, and stress responses. Peripheral release mediates cardiovascular and metabolic mobilization (Sara, 2009; Molinoff, 1984). The system coordinates psychological and physiological arousal.
 
-We define **viability regulation** as the continuous process by which an organism maintains the conditions necessary for its survival and reproduction. This includes:
+**Cortisol**: Metabolic effects (gluconeogenesis, immune modulation) and cognitive effects (memory consolidation, stress responding) are coordinated through HPA axis dynamics (Lupien et al., 2009; McEwen, 2008).
 
-- **Metabolic regulation**: Energy intake, storage, and expenditure
-- **Defensive regulation**: Threat detection, immune activation, tissue repair
-- **Behavioral regulation**: Action selection to acquire resources and avoid harm
-- **Social regulation**: Coordination with conspecifics for mutual benefit
+**Cytokines**: Peripheral immune signaling produces central “sickness behavior”—fatigue, social withdrawal, anhedonia—that coordinates behavioral with immunological responses (Dantzer et al., 2008; Miller & Raison, 2016).
 
-The traditional view holds that the brain “controls” the body and that neurochemicals mediate this control. We propose an alternative: brain and body are components of a single integrated system, and neurochemical systems coordinate this integration. The distinction between “central” and “peripheral” function is anatomical convenience, not functional reality.
+**GLP-1**: Gut-derived satiation signal with receptors in hypothalamus, VTA, and NAc. Effects extend beyond food intake to reward processing broadly (Müller et al., 2019; Dickson et al., 2012).
 
-### 1.3 Scope and Structure
+### 1.2 The Question
 
-We examine five major neurochemical systems:
+Why this coordination? Three possibilities:
 
-1. **Serotonin (5-HT)**: The primary exemplar, demonstrating gut-brain integration
-1. **Dopamine (DA)**: Reward, movement, and motivated action
-1. **Norepinephrine (NE)**: Arousal, attention, and stress mobilization
-1. **Acetylcholine (ACh)**: Memory, muscle control, and autonomtic balance
-1. **The HPA axis and cortisol**: The canonical stress-response system
+1. **Coincidence**: Central and peripheral systems evolved separately; coordination is accidental overlap
+1. **Signaling economy**: Using the same molecules for related functions is metabolically efficient
+1. **Functional architecture**: Coordination reflects how intelligent systems must organize internal state for action
 
-For each system, we review:
-
-- Anatomical distribution (central and peripheral)
-- Functional roles across domains
-- Evidence for integration rather than separation
-- Clinical implications
-
-We then synthesize these findings into a theoretical framework connecting neurochemistry to embodied cognition and embedded agency.
-
-### 1.4 Epistemic Status
-
-Throughout this review, we distinguish:
-
-- **Established**: Findings replicated across multiple peer-reviewed studies with broad consensus
-- **Well-supported**: Findings with substantial evidence but ongoing refinement
-- **Hypothesis**: Theoretical proposals consistent with evidence but requiring further testing
-- **Framework**: Interpretive structures that organize findings but are not directly falsifiable
-
-The empirical findings reviewed are established or well-supported. The integrative framework is hypothesis-level, offered as a more parsimonious interpretation of existing data than the traditional mental/physical division.
+We develop the third possibility.
 
 -----
 
-## 2. Serotonin: The Paradigm Case of Mind-Body Integration
+## 2. The Framework: Compositional Self-State Abstraction
 
-### 2.1 Distribution: A “Brain Chemical” That Lives in the Gut
+### 2.1 The Problem of Embedded Action
 
-The serotonin (5-hydroxytryptamine, 5-HT) system provides the most striking demonstration of mind-body integration because its distribution defies the “brain chemical” narrative so completely.
+Any agent embedded in an environment faces a problem: action must be guided by the relationship between internal state and external context.
 
-**Established finding**: Approximately 95% of the body’s serotonin is located in the gastrointestinal tract, primarily in enterochromaffin cells of the gut mucosa and in enteric neurons (Gershon & Tack, 2007; Berger et al., 2009). Only ~5% resides in the central nervous system, primarily in the raphe nuclei of the brainstem.
+- Food is valuable only relative to hunger
+- Threats matter only relative to capacity to respond
+- Opportunities are worth pursuing only relative to current resources
 
-This distribution is not an evolutionary accident or vestigial arrangement. Serotonin appeared early in evolution, predating the nervous system itself, and likely originated as a signaling molecule in the gut (Azmitia, 2001). The “brain” serotonin system is, evolutionarily speaking, an extension of the gut system—not the reverse.
+This requires integrating:
 
-### 2.2 Peripheral Functions: Gut Motility, Secretion, and Satiation
+- **Self-state**: Energy, integrity, arousal, motivation, immune status
+- **World-state**: Opportunities, threats, social context, resource availability
 
-In the gastrointestinal system, serotonin serves multiple established functions:
+The integration must be formatted for action—not just represented but usable for behavioral guidance.
 
-**Motility regulation**: Serotonin released from enterochromaffin cells activates 5-HT3 and 5-HT4 receptors on enteric neurons, initiating peristalsis and the migrating motor complex (Gershon, 2013). Approximately 90% of gut motility is regulated by the enteric nervous system, operating largely independently of central control but using serotonin as a primary signaling molecule.
+### 2.2 The Compositional Proposal
 
-**Secretion**: Serotonin modulates fluid secretion in the gut, affecting both absorption and secretion processes (Mawe & Hoffman, 2013).
+We propose that major neurochemical systems provide **factorized self-state signals**:
 
-**Satiation signaling**: Serotonin contributes to satiation—the feeling of having eaten enough. Peripheral 5-HT acts on vagal afferents to signal fullness to the brain (Hayes & Bhavani, 2015). This is not separate from serotonin’s central satiety effects; it is the peripheral arm of an integrated system.
+|System        |Self-State Dimension                  |Functional Role                                 |
+|--------------|--------------------------------------|------------------------------------------------|
+|Serotonin     |Metabolic adequacy                    |Resource status for inhibition vs. action       |
+|Dopamine      |Incentive salience / effort-investment|Motivation to pursue rewards                    |
+|Norepinephrine|Arousal                               |Urgency and attentional focus                   |
+|Cortisol      |Resource mobilization                 |Sustained challenge response                    |
+|Cytokines     |Integrity status                      |Infection/damage requiring behavioral adjustment|
+|GLP-1         |Appetitive intensity                  |Strength of wanting/craving                     |
 
-**Nausea and vomiting**: The 5-HT3 receptor mediates the nausea response, explaining why serotonergic drugs commonly produce GI side effects and why 5-HT3 antagonists (ondansetron) are effective antiemetics (Gershon, 2013).
+**Factorized** means these are distinct dimensions, not redundant signals. **Compositional** means they combine with world-state to produce context-appropriate outputs.
 
-### 2.3 Central Functions: Mood, Anxiety, and Behavioral Inhibition
+### 2.3 What “Compositional” Adds
 
-The central serotonin system, originating in the raphe nuclei and projecting widely throughout the brain, modulates:
+A critic might ask: how does this differ from “shared mechanisms” or “coordinated signaling”?
 
-**Mood and affect**: Low serotonergic function is associated with depression, though the relationship is more complex than the simplistic “chemical imbalance” narrative suggests (Cowen & Browning, 2015). SSRIs increase synaptic serotonin availability and, over weeks, produce antidepressant effects in a significant subset of patients.
+The compositional interpretation makes specific predictions that “shared mechanisms” does not:
 
-**Anxiety**: Serotonin modulates anxiety-related circuits, with complex effects depending on receptor subtype and brain region (Lowry et al., 2005). SSRIs are effective anxiolytics, often more reliably than as antidepressants.
+**1. Cross-domain effects from single-factor modulation**
 
-**Behavioral inhibition**: Serotonin promotes impulse control and the inhibition of prepotent responses. Low serotonin is associated with impulsivity and aggression (Coccaro et al., 2015).
+Modulating one factor should affect ALL contexts that factor participates in. If GLP-1 encodes “appetitive intensity,” reducing it should reduce food craving, alcohol craving, gambling urges, and any appetitive state—not just metabolically-related rewards.
 
-**Sleep-wake regulation**: Serotonin is involved in sleep regulation, with raphe neurons showing state-dependent firing patterns (Monti, 2011).
+**2. Dissociations between factors**
 
-### 2.4 Integration: Why Gut and Brain Share a Signaling System
+Different factors should be independently modulable. If dopamine encodes “effort-investment” and GLP-1 encodes “appetitive intensity,” you should be able to:
 
-The traditional interpretation views gut serotonin and brain serotonin as separate systems that happen to use the same molecule. We propose the opposite: **they are one system with distributed implementation because their functions are inherently linked.**
+- Reduce wanting (GLP-1) while preserving willingness to work (DA)
+- Reduce effort-investment (DA) while preserving wanting intensity (GLP-1)
 
-Consider the computational problem facing any organism that must:
+**3. Systematic transfer structure**
 
-1. Acquire energy through feeding
-1. Regulate behavioral activity based on energy state
-1. Coordinate activity with metabolic readiness
+Effects should not be idiosyncratic across domains. If GLP-1 agonists reduce food craving by 40%, alcohol craving reduction should be predictable from that—related by the factor’s contribution to each context.
 
-A system that signals satiation (gut) *should* be linked to a system that modulates behavioral activation (brain). When the organism is fed, it should feel satisfied and reduce food-seeking; when hungry, it should feel motivated and increase food-seeking. Serotonin coordinates both because both are aspects of a single regulatory challenge.
+**4. Novel generalization**
 
-**Hypothesis**: Serotonin is a **viability-state signal** that coordinates metabolic status with behavioral state. High serotonergic tone signals “resources adequate, conserve and digest.” Low serotonergic tone signals “resources needed, activate and seek.”
+Effects should extend to contexts never experienced during the intervention. If GLP-1 modulates a compositional factor, it should affect craving for novel rewards—not just rewards with established GLP-1 circuit involvement.
 
-This explains:
+### 2.4 The Precision Problem
 
-- Why SSRIs reduce appetite (satiation signaling enhanced)
-- Why SSRIs reduce anxiety (threat-mobilization reduced when resources adequate)
-- Why depression involves both mood symptoms and vegetative symptoms (appetite, sleep, energy)
-- Why gut dysfunction and mood dysfunction co-occur at rates far exceeding chance
+We should be honest about the analogy’s limits.
 
-### 2.5 The Gut-Brain Axis: Bidirectional Communication
+In compositional semantics (Fodor & Pylyshyn, 1988; Partee, 1995), there are explicit combination rules: meaning(“brown dog”) = f(meaning(“brown”), meaning(“dog”), syntactic structure). The function f is formally specified.
 
-The gut-brain axis refers to bidirectional communication between the GI system and the CNS. Multiple pathways mediate this communication (Mayer, 2011; Cryan & Dinan, 2012):
+Here we have:
 
-**Vagal afferents**: The vagus nerve carries sensory information from gut to brain, including serotonin-mediated signals from enterochromaffin cells. Approximately 80% of vagal fibers are afferent (gut-to-brain), not efferent.
+Craving(X) = f(appetitive_intensity, value(X), availability(X))
 
-**Immune signaling**: Gut immune activation produces cytokines that affect brain function (see Section 6).
+But f is not specified. Is it multiplicative? Additive? Threshold-gated?
 
-**Microbial metabolites**: Gut bacteria produce neuroactive compounds including serotonin precursors, short-chain fatty acids, and other molecules that affect brain function (Cryan & Dinan, 2012).
+**What the framework provides**: Predictions about transfer, generalization, and dissociation—testable without specifying f.
 
-**Established finding**: Germ-free mice show altered anxiety-like behavior, altered stress responses, and altered neurochemistry compared to conventionally colonized mice (Sudo et al., 2004; Heijtz et al., 2011). Probiotic administration can affect anxiety and depression measures in both rodents and humans, though human evidence remains mixed and effect sizes modest (Reis et al., 2018).
+**What the framework lacks**: Formal precision about combination rules.
 
-### 2.6 Clinical Implications
-
-The integrated view of serotonin has immediate clinical implications:
-
-**GI side effects of SSRIs are not side effects**: Nausea, diarrhea, and appetite changes following SSRI initiation reflect the same mechanism as mood effects. They are not off-target effects but gut-level manifestations of altered serotonin signaling. They typically diminish as the system adapts, but their presence confirms systemic action.
-
-**IBS and depression comorbidity**: Irritable bowel syndrome (IBS) and depression co-occur at rates of 40-60%, far exceeding chance (Fond et al., 2014). This is not “psychosomatic” in the dismissive sense; it reflects shared reliance on a serotonergic system that regulates both.
-
-**Diet affects mood**: Dietary tryptophan (serotonin precursor) availability affects central serotonin synthesis. Acute tryptophan depletion produces transient mood effects, particularly in vulnerable individuals (Ruhé et al., 2007).
+**Honest framing**: “Compositional” here means “factorized signals that combine with context in ways enabling novel generalization.” This is weaker than formal compositionality but may be scientifically productive if predictions are confirmed.
 
 -----
 
-## 3. Dopamine: Reward, Movement, and Motivated Action
+## 3. The Relationship Between Factors
 
-### 3.1 Distribution and Pathways
+### 3.1 Dopamine and GLP-1: Distinct or Overlapping?
 
-The dopamine system comprises several distinct pathways with both central and peripheral functions:
+A key question: Are dopamine and GLP-1 distinct factors, or does GLP-1 simply modulate dopamine?
 
-**Central pathways** (established):
+**Evidence for interaction**: GLP-1 receptors are expressed on VTA dopamine neurons. GLP-1 agonists reduce dopamine release in NAc (Dickson et al., 2012; Mietlicki-Baase et al., 2014).
 
-- **Mesolimbic pathway**: Ventral tegmental area (VTA) to nucleus accumbens; mediates reward and motivation
-- **Mesocortical pathway**: VTA to prefrontal cortex; mediates executive function and working memory
-- **Nigrostriatal pathway**: Substantia nigra to dorsal striatum; mediates movement initiation and control
-- **Tuberoinfundibular pathway**: Hypothalamus to pituitary; regulates prolactin release
+**The compositional interpretation**: GLP-1 and dopamine may encode DIFFERENT dimensions:
 
-**Peripheral dopamine** (established but less emphasized):
+- Dopamine: Incentive salience—the motivational “pull” of reward-associated stimuli (Berridge & Robinson, 1998)
+- GLP-1: Appetitive intensity—the strength of wanting states
 
-- Renal dopamine regulates sodium excretion and blood pressure (Carey, 2001)
-- GI dopamine modulates motility and secretion
-- Immune cells express dopamine receptors and synthesize dopamine (Levite, 2016)
+These are conceptually dissociable: you can want intensely but be unwilling to work (high GLP-1 effect, low DA), or work hard for something you don’t intensely want (low GLP-1 effect, high DA).
 
-### 3.2 The Reward Prediction Error Framework
+**Alternative**: GLP-1 effects are entirely DA-mediated. GLP-1 reduces DA signaling → reduced incentive salience → cross-domain effects. No separate “appetitive intensity” factor.
 
-Contemporary understanding of mesolimbic dopamine centers on **reward prediction error** (Schultz, 1998; Schultz, 2015):
+**Empirical test**: Do GLP-1 agonists produce dissociations from DA manipulations?
 
-**Established finding**: Midbrain dopamine neurons fire in response to unexpected rewards and to cues predicting rewards. Critically, they fire *above baseline* when reward exceeds expectation, *at baseline* when reward matches expectation, and *below baseline* when expected reward is omitted.
+|Dimension         |DA Manipulation      |GLP-1 Manipulation (if distinct)|
+|------------------|---------------------|--------------------------------|
+|Wanting intensity |Affected             |Affected                        |
+|Effort-willingness|Affected             |Spared                          |
+|Liking/pleasure   |Maybe affected       |Spared                          |
+|Motor effects     |Affected (high doses)|Spared                          |
 
-This pattern suggests dopamine signals not reward itself but the *difference* between expected and received reward—a teaching signal for learning about the world’s reward structure.
+If GLP-1 agonists reduce wanting while sparing effort-willingness, they modulate something beyond (or in addition to) DA. If both are equally affected, the simpler DA-mediated account suffices.
 
-**Well-supported**: This reward prediction error signal drives reinforcement learning, updating action values based on outcome feedback (Montague et al., 1996; Dayan & Balleine, 2002).
+### 3.2 The Multi-Factor Hypothesis
 
-### 3.3 Movement and Motivation: An Integrated Function
+The compositional framework proposes MULTIPLE factors:
 
-The traditional division separates “motor” dopamine (nigrostriatal) from “reward” dopamine (mesolimbic). But this division obscures functional integration:
+- Serotonin and dopamine are not redundant—they encode different dimensions
+- GLP-1 and dopamine may not be redundant—one could modulate the other while encoding distinct information
+- Factor interactions (GLP-1 gating DA) don’t eliminate factor distinctness
 
-**Parkinson’s disease** involves both motor symptoms (tremor, rigidity, bradykinesia) and motivational/mood symptoms (apathy, anhedonia, depression). These co-occur because the nigrostriatal and mesolimbic systems are not functionally independent—both mediate the translation of motivation into action (Mazzoni et al., 2007).
+**The key prediction**: Selective modulation should produce selective effects. If neurochemistry is compositional:
 
-**Hypothesis**: Dopamine mediates the **vigor** of motivated action—how energetically an organism pursues goals. Movement and motivation are not separate functions but aspects of the same function: converting goals into action.
+- SSRI → affects metabolic/inhibitory dimension; spares effort-investment dimension
+- DA agonist → affects effort-investment; may spare appetitive intensity
+- GLP-1 agonist → affects appetitive intensity; should spare effort-investment (if distinct from DA)
 
-Support for this hypothesis comes from studies showing that dopamine depletion reduces not just motor ability but the *willingness* to exert effort for reward (Salamone et al., 2007). Animals with dopamine lesions can perform actions but choose not to when effort is required.
-
-### 3.4 Peripheral Dopamine: Beyond the Brain
-
-**Renal function**: Dopamine synthesized in renal tubular cells promotes sodium excretion and vasodilation. Dopamine infusion is used clinically to improve renal perfusion (Carey, 2001).
-
-**Immune function**: Dopamine receptors are expressed on T cells, B cells, macrophages, and dendritic cells. Dopamine modulates immune cell activation, migration, and cytokine release (Levite, 2016). The implications for neuropsychiatric illness are actively investigated.
-
-**GI function**: Dopamine in the gut inhibits motility, opposing serotonin’s prokinetic effects. This creates a push-pull regulatory system for GI function.
-
-### 3.5 Integration: Dopamine as Vigor-Regulation System
-
-Across its functions, dopamine can be understood as regulating **how energetically the organism pursues goals**:
-
-- Centrally: willingness to exert effort, movement initiation, action vigor
-- Renally: mobilizing resources (sodium balance, blood pressure) for action
-- Immunologically: modulating resource allocation between defense and other functions
-
-**Hypothesis**: Dopamine coordinates the organism’s investment in goal pursuit. High dopaminergic tone signals “invest effort—goal is achievable and valuable.” Low dopaminergic tone signals “conserve effort—goal is unachievable or not worth the cost.”
-
-This explains:
-
-- Why dopamine is involved in both movement and motivation (both are aspects of goal pursuit)
-- Why Parkinson’s produces both motor and motivational symptoms
-- Why depression involves anhedonia and psychomotor slowing (reduced investment in goal pursuit)
-- Why stimulants (dopamine agonists) increase both motor activity and goal-directed behavior
+If these dissociations don’t obtain—if every modulation affects everything proportionally—the compositional framework loses value and “general shared mechanism” suffices.
 
 -----
 
-## 4. Norepinephrine: Arousal, Attention, and the Stress Response
+## 4. GLP-1 as Test Case
 
-### 4.1 Central and Peripheral Distribution
+### 4.1 The Unexpected Findings
 
-Norepinephrine (NE) provides perhaps the clearest example of an integrated stress-response system:
+GLP-1 agonists provide a current test of compositional predictions because their effects are extending beyond expected domains:
 
-**Central**: The locus coeruleus (LC) in the brainstem sends noradrenergic projections throughout the cortex, thalamus, hippocampus, amygdala, and cerebellum. LC neurons fire in response to salient stimuli and modulate arousal, attention, and memory consolidation (Aston-Jones & Cohen, 2005).
+**Established**: Weight loss, reduced food intake (Wilding et al., 2021)
 
-**Peripheral**: The sympathetic nervous system releases norepinephrine at target organs throughout the body, producing the classic “fight-or-flight” response: increased heart rate, bronchodilation, vasoconstriction in non-essential vascular beds, vasodilation in skeletal muscle, glycogenolysis, and pupil dilation.
+**Emerging**: Reduced alcohol consumption in rodents and preliminary human trials (Shirazi et al., 2013; Klausen et al., 2022; Leggio et al., 2023)
 
-**Adrenal**: The adrenal medulla releases both norepinephrine and epinephrine into the bloodstream, producing systemic effects.
+**Preliminary**: Case reports of reduced gambling, compulsive shopping, skin-picking (Richards et al., 2023)
 
-### 4.2 The Stress Response as Integrated System
+### 4.2 Interpreting the Pattern
 
-When an organism encounters a threat, the response is not “mental” or “physical” but integrated:
+**Coincidental overlap**: GLP-1 receptors happen to be in reward circuits; effects on alcohol are anatomical accident.
 
-**Central effects**: Increased arousal, narrowed attention to threat-relevant stimuli, enhanced sensory processing, suppression of non-urgent cognitive processes, memory encoding for threat-relevant information.
+**General dampening**: GLP-1 reduces reward circuit gain broadly.
 
-**Peripheral effects**: Cardiovascular mobilization for action, respiratory enhancement, metabolic mobilization (glucose release), immune redistribution, suppression of digestive and reproductive functions.
+**Compositional factor**: GLP-1 modulates “appetitive intensity” that combines with any reward context.
 
-**Established finding**: These responses are coordinated because they are mediated by a single integrated system—the sympathetic-adrenal-medullary (SAM) axis working in concert with locus coeruleus activation. Threatening stimuli activate both simultaneously because both are required for effective response.
+### 4.3 What Would Distinguish These?
 
-### 4.3 Clinical Implications
+|Prediction                       |Coincidental  |Dampening|Compositional             |
+|---------------------------------|--------------|---------|--------------------------|
+|Affect novel rewards             |No            |Maybe    |Yes                       |
+|Systematic cross-domain structure|No            |Maybe    |Yes                       |
+|Dissociate from effort           |No prediction |No       |Yes                       |
+|Predicted side effects           |Domain-limited|Global   |Wanting-specific anhedonia|
 
-**PTSD**: Noradrenergic hyperactivation contributes to PTSD symptoms—hyperarousal, exaggerated startle, intrusive memories (which are consolidated under high noradrenergic tone). Prazosin, an alpha-1 adrenergic antagonist, reduces PTSD-related nightmares (Raskind et al., 2013).
+**The sharpest test**: Does reducing “appetitive intensity” (via GLP-1) spare “effort-investment” (DA-mediated)? If yes, they’re distinct factors. If no, GLP-1 may simply modulate DA.
 
-**Anxiety disorders**: Chronic noradrenergic activation contributes to generalized anxiety. Physical symptoms (racing heart, sweating, tremor) and psychological symptoms (worry, apprehension) are two manifestations of the same system activation.
+### 4.4 Novel Reward Generalization: Operationalizing the Test
 
-**ADHD**: Norepinephrine modulates attention, and noradrenergic medications (atomoxetine) are effective ADHD treatments (Garnock-Jones & Keating, 2009).
+A reviewer might ask: how do you test “novel rewards” in adult humans?
 
-### 4.4 Integration: Norepinephrine as Urgency-Mobilization System
+**Approaches**:
 
-**Hypothesis**: Norepinephrine signals **“act now—situation requires immediate response.”** It coordinates:
-
-- Central: attention, arousal, memory encoding for urgent situations
-- Peripheral: physiological mobilization for immediate action
-- Both simultaneously because urgent situations require both cognitive and physiological readiness
-
-The chronic activation of this system (chronic stress) produces both “mental” effects (anxiety, cognitive impairment) and “physical” effects (cardiovascular strain, immune dysregulation, metabolic disruption)—not as separate consequences but as manifestations of sustained activation of an integrated urgency-response system.
-
------
-
-## 5. Acetylcholine: Memory, Muscle, and Autonomic Balance
-
-### 5.1 Distribution: The Most Ubiquitous Neurotransmitter
-
-Acetylcholine (ACh) demonstrates integration differently—it is the primary neurotransmitter at multiple critical interfaces:
-
-**Neuromuscular junction**: ACh mediates all voluntary muscle contraction. Motor neurons release ACh onto nicotinic receptors on muscle fibers, producing contraction.
-
-**Autonomic ganglia**: ACh is the neurotransmitter at all autonomic ganglia, both sympathetic and parasympathetic.
-
-**Parasympathetic effectors**: Parasympathetic postganglionic neurons release ACh onto muscarinic receptors at target organs (heart, gut, glands).
-
-**Central cholinergic systems**: Basal forebrain nuclei project to cortex and hippocampus, modulating attention, learning, and memory (Hasselmo & Sarter, 2011).
-
-### 5.2 Central Functions: Attention and Memory
-
-**Established finding**: Central cholinergic projections from basal forebrain modulate attention and memory encoding. Cholinergic lesions impair learning; cholinergic enhancement improves attention.
-
-**Alzheimer’s disease**: Degeneration of basal forebrain cholinergic neurons is an early and consistent feature of Alzheimer’s disease. Cholinesterase inhibitors (donepezil, rivastigmine) provide modest symptomatic benefit by enhancing remaining cholinergic function (Hampel et al., 2018).
-
-### 5.3 Peripheral Functions: Movement and Rest-and-Digest
-
-**Neuromuscular**: All voluntary movement requires cholinergic transmission. Myasthenia gravis, an autoimmune disease targeting nicotinic receptors, produces profound weakness.
-
-**Parasympathetic**: The parasympathetic system (“rest-and-digest”) uses ACh to promote digestion, slow heart rate, and facilitate recuperative processes.
-
-### 5.4 Integration: Cholinergic Systems Coordinate Action with Learning
-
-**Hypothesis**: Acetylcholine coordinates **action with learning about action**:
-
-- Peripherally: executing movements
-- Centrally: encoding memory of what actions were taken and their consequences
-
-This makes functional sense. An organism that acts must also learn from the outcomes of its actions. The cholinergic system coordinates action execution (peripheral) with action encoding (central).
-
-The parasympathetic role adds another dimension: ACh promotes not only memory encoding but the “rest-and-digest” state that consolidates memory (sleep, low-arousal periods).
+1. **Cross-domain transfer without training**: Patients treated for obesity with no alcohol history. Does GLP-1 reduce alcohol cue reactivity even though alcohol was never targeted?
+1. **Lab-based novel rewards**: Introduce new game-like tasks with abstract point rewards. Measure approach motivation on vs. off GLP-1.
+1. **Individual differences**: Among GLP-1 patients, correlate food craving reduction with reduction in other cravings. Compositional predicts systematic correlation; coincidental predicts independence.
+1. **Proportionality test**: If GLP-1 reduces food craving by 40%, does it reduce other appetitive states proportionally (same factor, different contexts) or idiosyncratically (different mechanisms)?
 
 -----
 
-## 6. The HPA Axis and Cortisol: Chronic Stress and Systemic Regulation
+## 5. Implications for Understanding Self-State Representation
 
-### 6.1 The Hypothalamic-Pituitary-Adrenal Axis
+### 5.1 Connection to Cognitive Science
 
-While the SAM axis (norepinephrine/epinephrine) mediates rapid stress responses, the HPA axis mediates slower, sustained responses:
+The framework connects to established work on:
 
-**Mechanism** (established):
+**Compositionality in cognition**: Language, concepts, and motor control show compositional structure—reusable primitives combining to produce novel outputs (Fodor & Pylyshyn, 1988; Murphy, 1988; Flash & Hochner, 2005). If neurochemistry is compositional, internal state representation shares this property.
 
-1. Hypothalamic release of corticotropin-releasing hormone (CRH)
-1. Pituitary release of adrenocorticotropic hormone (ACTH)
-1. Adrenal cortex release of cortisol (glucocorticoid)
-1. Negative feedback at hypothalamus and pituitary
+**Interoception and self-representation**: Interoceptive signals provide the brain’s access to body state (Craig, 2009; Seth, 2013). Neurochemistry may provide the vocabulary for interoceptive self-representation—distinct dimensions that multimodal integration circuits combine with world-state.
 
-**Time course**: HPA activation occurs over minutes to hours, in contrast to SAM activation over seconds to minutes.
+**Emotion as self-world integration**: Emotional experience may arise from integrating self-state (interoception, neurochemistry) with world-state (context, appraisal) in action-relevant format (Barrett, 2017; Damasio, 1994). Compositional neurochemistry provides the self-state vocabulary.
 
-### 6.2 Cortisol Functions: Metabolic, Immune, Cognitive
+### 5.2 Clinical Implications
 
-Cortisol has effects across virtually every organ system:
+If neurochemistry provides compositional self-state:
 
-**Metabolic**: Promotes gluconeogenesis, protein catabolism, and fat redistribution. Mobilizes energy for sustained challenge.
+**Comorbidity explained**: Obesity and addiction often co-occur (Volkow et al., 2013). If both involve dysregulated appetitive intensity, a single factor produces multiple presentations depending on context.
 
-**Immune**: Complex effects—acute cortisol is immunomodulatory; chronic elevation is immunosuppressive. Cortisol redirects immune resources and reduces inflammation (Silverman & Sternberg, 2012).
+**Cross-domain treatment effects expected**: GLP-1 agonists for obesity affecting alcohol use is predicted, not surprising. Other cross-domain effects (SSRIs affecting both mood and GI function) are similarly predicted.
 
-**Cognitive**: Moderate cortisol enhances memory consolidation for emotionally significant events; chronic elevation impairs hippocampal function and produces memory deficits (Lupien et al., 2007).
+**Side effects are compositional consequences**: Reducing a factor reduces ALL contexts using that factor. GLP-1-related anhedonia (reduced wanting for healthy activities) is a feature, not a bug—the cost of modulating a compositional factor.
 
-**Cardiovascular**: Contributes to blood pressure regulation; chronic elevation promotes hypertension and atherosclerosis.
+### 5.3 The Alternative: Compositional Language for Shared Mechanisms?
 
-### 6.3 Chronic Stress: When Adaptation Becomes Damage
+We must be honest: the compositional framing might add appealing language without adding explanatory power.
 
-The stress response evolved for acute challenges—predator encounters, injuries, short-term resource scarcity. Chronic activation produces pathology:
+**What compositional adds**:
 
-**Allostatic load**: McEwen’s concept of “allostatic load” captures the cumulative wear-and-tear from chronic stress-response activation (McEwen, 1998). The same systems that protect acutely cause damage chronically.
+- Predictions about transfer structure, dissociation, novel generalization
+- Framework for understanding which effects should and shouldn’t co-occur
+- Connection to cognitive science research on compositionality
 
-**Established consequences of chronic HPA activation**:
+**What compositional might just be**:
 
-- Hippocampal atrophy and memory impairment (Lupien et al., 2009)
-- Increased visceral fat deposition (metabolic syndrome)
-- Immune dysregulation and increased inflammation
-- Cardiovascular damage
-- Mood dysregulation (depression, anxiety)
+- Sophisticated redescription of “these systems overlap”
+- Theoretical overhead that collapses into simpler accounts
 
-### 6.4 Integration: The HPA Axis as Sustained-Challenge System
-
-**Hypothesis**: The HPA axis coordinates the organism’s response to **sustained challenges that require metabolic redistribution**:
-
-- Mobilizing energy stores
-- Suppressing non-essential functions (reproduction, growth, immune elaboration)
-- Enhancing memory for challenge-relevant information
-- Preparing for prolonged resource scarcity
-
-The “mental” and “physical” effects of chronic stress are not separate—they are manifestations of sustained activation of a system designed for temporary activation.
+**Resolution**: Empirical. If the specific predictions (dissociations, proportional transfer, novel generalization) hold, compositionality earns its overhead. If effects are idiosyncratic, simpler accounts suffice.
 
 -----
 
-## 7. Inflammation and the Immune-Brain Interface
+## 6. Predictions and Falsification
 
-### 7.1 Cytokines Affect Brain Function
+### 6.1 Specific Predictions
 
-The immune system communicates with the brain via cytokines—signaling molecules that coordinate immune responses but also affect neural function:
+**Prediction 1**: GLP-1 agonists should reduce appetitive states across domains proportionally, including for novel rewards never experienced during treatment.
 
-**Established finding**: Pro-inflammatory cytokines (IL-1β, IL-6, TNF-α) produce “sickness behavior”: fatigue, anhedonia, social withdrawal, anorexia, sleep alterations (Dantzer et al., 2008). These effects are not side effects of being sick—they are adaptive responses that redirect resources toward immune function.
+**Prediction 2**: GLP-1 effects should dissociate from effort-willingness. Wanting reduced; effort preserved.
 
-### 7.2 Inflammation in Depression
+**Prediction 3**: Cross-domain effect sizes should be systematically related (transfer structure), not idiosyncratic.
 
-**Well-supported**: A subset of depressed patients shows elevated inflammatory markers (CRP, IL-6, TNF-α). Meta-analyses confirm the association, though effect sizes are moderate and not all depressed patients show elevation (Howren et al., 2009; Dowlati et al., 2010).
+**Prediction 4**: Domain-general anhedonia should emerge as a predicted side effect—reduced wanting across healthy and unhealthy appetitive states.
 
-**Inflammatory challenge → depressive symptoms**: Administration of inflammatory stimuli (endotoxin, interferon-α) produces depressive symptoms in a significant subset of recipients (Reichenberg et al., 2001; Capuron & Miller, 2011).
+### 6.2 Falsification Criteria
 
-**Anti-inflammatory → antidepressant**: Anti-inflammatory treatments show antidepressant effects in subgroups, particularly those with elevated baseline inflammation (Raison et al., 2013; Köhler et al., 2014).
+The compositional framework would be challenged by:
 
-### 7.3 Integration: The Immune System as Viability-Threat Detector
+1. **Idiosyncratic cross-domain effects**: No systematic relationship between effect sizes
+1. **No novel reward generalization**: Effects limited to trained/targeted rewards
+1. **No dissociations**: Every modulation affects all dimensions proportionally
+1. **GLP-1 effects fully explained by DA modulation**: No wanting/effort dissociation
 
-**Hypothesis**: The immune system is a **distributed threat-detection system** that communicates with the brain to coordinate organismal response to infection, injury, and other viability threats.
+### 6.3 Evidence Levels
 
-“Sickness behavior” is not a malfunction—it is adaptive redirection of resources:
-
-- Fatigue → energy conservation for immune function
-- Anhedonia → reduced exploration and risk-taking during vulnerability
-- Social withdrawal → reduced disease transmission, reduced exposure to threats
-- Fever → enhanced immune function
-
-Depression may represent, in some cases, inappropriate or chronic activation of this system—“sickness behavior without infection” (Miller & Raison, 2016).
-
------
-
-## 8. Theoretical Integration: Neurochemistry as Embodied Viability Regulation
-
-### 8.1 The Common Pattern
-
-Across the systems reviewed, a common pattern emerges:
-
-|System        |Central Function           |Peripheral Function              |Integrated Function                          |
-|--------------|---------------------------|---------------------------------|---------------------------------------------|
-|Serotonin     |Mood, behavioral inhibition|Gut motility, satiation          |Metabolic-state/behavioral-state coordination|
-|Dopamine      |Motivation, effort         |Renal function, immune modulation|Vigor of goal pursuit                        |
-|Norepinephrine|Arousal, attention         |Sympathetic activation           |Urgent-situation mobilization                |
-|Acetylcholine |Memory, attention          |Movement, rest-and-digest        |Action/learning coordination                 |
-|HPA/Cortisol  |Memory, mood               |Metabolism, immune               |Sustained-challenge response                 |
-|Cytokines     |Sickness behavior          |Immune coordination              |Viability-threat response                    |
-
-### 8.2 The Thesis: Viability Regulation Is Inherently Mind-Body
-
-**Core thesis**: These neurochemical systems implement **viability regulation**—the continuous process of maintaining the conditions necessary for survival and reproduction. Viability regulation is inherently mind-body because:
-
-1. **Viability threats are physical and behavioral**: A predator threatens both body (if caught) and requires behavioral response (escape). Energy depletion is both metabolic and requires behavioral response (feeding). Separating “physical” from “mental” would compromise effective response.
-1. **Effective response requires coordination**: Escaping a predator requires both physiological mobilization (cardiovascular, respiratory) and cognitive mobilization (attention, action selection). These must be coordinated because they serve the same function.
-1. **Resource allocation is unified**: The organism has finite resources to allocate among competing demands (defense, growth, reproduction, activity, rest). Neurochemical systems coordinate this allocation. Depression, for example, may represent a resource-conservation mode that reduces investment in exploration, social engagement, and goal pursuit (Nesse, 2000).
-
-### 8.3 Relation to Embedded Agency
-
-This thesis extends the framework developed in previous papers (Danan, 2025e; Danan, 2025f):
-
-**Paper 5** argued that the self/world distinction is foundational for embedded agents. The “self” for biological agents is the body—the physical substrate whose viability must be maintained.
-
-**Paper 6** argued that phenomenal experience is the format of embedded information—how self-world relations are represented for an agent that must act.
-
-The present paper adds: **Neurochemical systems are how biological agents implement viability regulation.** They are not “brain chemicals” that also happen to affect the body; they are viability-regulation systems that span brain and body because viability is a property of the whole organism, not just the brain.
-
-### 8.4 The Allostasis Framework
-
-Sterling and Eyer (1988) introduced **allostasis**—“stability through change”—as an alternative to homeostasis. Whereas homeostasis implies defending fixed set-points, allostasis implies predictively adjusting parameters based on anticipated demands.
-
-The brain is the primary organ of allostasis: it predicts upcoming demands and coordinates bodily systems accordingly (Sterling, 2012). Waking before the alarm, preparing for a stressor before it arrives, mobilizing resources in anticipation of action—these are allostatic processes mediated by the neurochemical systems reviewed here.
-
-**Allostatic regulation is inherently mind-body**: The brain predicts; the body prepares. They are components of a single predictive regulatory system.
+|Claim                                                            |Status                             |
+|-----------------------------------------------------------------|-----------------------------------|
+|Neurochemical systems show coordinated central-peripheral effects|Established                        |
+|GLP-1 agonists reduce food craving and weight                    |Established                        |
+|GLP-1 agonists reduce alcohol consumption                        |Emerging (phase 2/3 trials ongoing)|
+|GLP-1 agonists reduce compulsive behaviors                       |Preliminary (case reports)         |
+|Neurochemistry provides factorized self-state signals            |Theoretical interpretation         |
+|These signals combine compositionally with world-state           |Hypothesis                         |
 
 -----
 
-## 9. Clinical Implications
+## 7. Conclusion
 
-### 9.1 “Physical” and “Mental” Treatments Converge
+Neurochemical systems show a striking pattern of coordinated central-peripheral effects. We’ve proposed that this reflects compositional self-state abstraction: distinct neurochemical dimensions that combine with world-state to produce context-appropriate behavior.
 
-If neurochemical systems are integrated viability-regulation systems, interventions targeting one domain should affect the other:
+GLP-1 agonists provide a current test case. Their unexpected effects on alcohol and compulsive behaviors are consistent with compositional organization—modulating “appetitive intensity” affects all contexts using that factor. But we’ve acknowledged substantial uncertainty:
 
-**Exercise as antidepressant**: Physical exercise produces antidepressant effects comparable to medication in some meta-analyses (Kvam et al., 2016). This is not surprising if depression involves dysregulation of systems that coordinate behavioral and metabolic state. Exercise directly engages these systems.
+- GLP-1 effects might be entirely dopamine-mediated
+- “Compositional” might just redescribe “shared mechanism”
+- The formal precision of compositional semantics is absent here
 
-**Diet and mental health**: Dietary patterns (Mediterranean diet, anti-inflammatory diets) are associated with reduced depression risk (Lassale et al., 2019). This follows if mood regulation and metabolic regulation share substrate.
+**What would confirm the framework**: Systematic transfer structure (proportional effects across domains), novel reward generalization, and dissociations between factors (GLP-1 affecting wanting while sparing effort).
 
-**Sleep and mental health**: Sleep deprivation produces mood disturbance; sleep interventions improve depression (Krystal et al., 2008). Sleep is when allostatic recalibration occurs; disrupting it disrupts the whole system.
+**What would disconfirm it**: Idiosyncratic effects, no novel generalization, no dissociations.
 
-**Inflammation and depression**: Anti-inflammatory treatments show antidepressant effects in inflammatory subgroups (Köhler et al., 2014). This follows if depression is, in some cases, sickness behavior inappropriately activated.
+**The broader stakes**: How intelligent systems represent internal state matters for understanding flexible, generalizable behavior. If neurochemistry provides compositional self-state—reusable dimensions that combine with context—this explains why drugs developed for one condition affect others, why psychiatric conditions cluster, and why embodied agents have the behavioral flexibility they do.
 
-### 9.2 Side Effects Are System Effects
-
-When SSRIs produce nausea, this is not a “side effect”—it is the gut manifestation of altered serotonin signaling. When antipsychotics produce metabolic syndrome, this reflects dopamine’s role in metabolic regulation, not an off-target effect. When chronic stress produces both anxiety and cardiovascular disease, these are not separate consequences but manifestations of sustained activation of an integrated system.
-
-**Clinical implication**: Side effects are information about system-wide effects. Attending to them reveals how the system is responding, not just how the brain is responding.
-
-### 9.3 Integrated Treatment Approaches
-
-**Hypothesis**: Treatment approaches that honor mind-body integration should show superior outcomes.
-
-Preliminary evidence supports this:
-
-- Combined exercise and psychotherapy outperforms either alone for depression (Blumenthal et al., 2007)
-- Mind-body interventions (yoga, meditation) show effects on both mood and physiological measures (Pascoe et al., 2017)
-- Collaborative care models integrating mental and physical health show improved outcomes (Archer et al., 2012)
-
-The evidence base is growing but not yet definitive. Integrated approaches face practical and systemic barriers (insurance, specialization, training) that impede rigorous testing.
+For now, this is a framework for generating hypotheses and designing tests. The compositional interpretation earns its keep only if its predictions are confirmed.
 
 -----
 
-## 10. Limitations and Open Questions
+## Outstanding Questions
 
-### 10.1 Complexity and Oversimplification
-
-This review emphasizes integration but risks oversimplifying genuinely complex systems. Each neurochemical system has multiple receptor subtypes with different, sometimes opposing functions. Regional specificity matters—serotonin in one brain region may have different effects than serotonin in another. The integration thesis does not negate this complexity; it provides a framework for understanding why the complexity exists (fine-tuned viability regulation requires nuanced signaling).
-
-### 10.2 Individual Variation
-
-Not all individuals respond identically to neurochemical manipulations. Genetics, developmental history, current state, and stochastic factors all contribute to individual variation. The framework explains what systems are doing on average; predicting individual responses requires additional precision.
-
-### 10.3 The Hard Problems Remain
-
-This framework does not solve the hard problems of consciousness or explain why viability regulation *feels like something*. It is consistent with the approach taken in Paper 6 (experience is the format of embedded information), but integrating neurochemistry with phenomenology remains an open challenge.
-
-### 10.4 Falsifiability
-
-The integrative framework is more parsimonious than the mental/physical division but not straightforwardly falsifiable. It would be challenged by:
-
-- Neurochemical systems with genuinely separate central and peripheral functions (no evidence of coordination)
-- “Mental” interventions with no physiological correlates or vice versa
-- Successful treatments that target only one domain with no spillover to the other
-
-Current evidence does not support these challenges, but the framework should be held tentatively.
+1. What combination rules govern how self-state factors integrate with world-state? Can these be formalized?
+1. Are there additional self-state factors beyond those identified? What’s the dimensionality of self-state representation?
+1. How do factor interactions (GLP-1 modulating DA) relate to factor distinctness? Can interacting signals still be compositionally distinct?
+1. What neural architecture implements self-world composition? Multimodal integration in insula, OFC, ACC?
+1. How does compositional self-state relate to conscious self-experience? Is awareness of self-state required for compositional integration?
 
 -----
 
-## 11. Conclusion
+## Glossary
 
-The Cartesian division between mind and body, though intuitive and deeply embedded in clinical practice, is not supported by neuroscientific evidence. The major neurochemical systems—serotonin, dopamine, norepinephrine, acetylcholine, and cortisol—are not “brain chemicals” with incidental peripheral effects but integrated viability-regulation systems spanning brain and body.
+**Compositional**: A system where complex representations are built from reusable components that combine systematically, enabling novel generalization.
 
-Serotonin coordinates metabolic state with behavioral state. Dopamine coordinates motivation with physiological investment in action. Norepinephrine coordinates cognitive arousal with physiological mobilization. The HPA axis coordinates cognitive-emotional responses to stress with metabolic redistribution. In each case, “central” and “peripheral” functions serve a unified purpose: maintaining the conditions necessary for organismal viability.
+**Factorized**: Distinct, separable dimensions rather than holistic or entangled representations.
 
-This framework has immediate implications:
+**Self-state**: Internal conditions relevant to action—metabolic status, integrity, arousal, motivation.
 
-**For science**: Mind-body integration is not a curiosity or caveat—it is the default organization of biological systems. Research programs that study “mental” and “physical” health separately miss the integration that defines how these systems work.
+**World-state**: External conditions relevant to action—opportunities, threats, context.
 
-**For clinical practice**: “Physical” and “mental” symptoms are often manifestations of the same underlying system state. Treatment approaches that honor integration—addressing sleep, exercise, diet, stress, relationships, and neurochemistry together—may prove more effective than approaches that separate domains.
-
-**For patients**: The division between “mental” and “physical” illness contributes to stigma (mental illness is seen as less “real”) and to fragmented care. Understanding that anxiety involves the same systems as cardiovascular stress, that depression involves the same systems as metabolic regulation, may help patients and providers take integrated approaches.
-
-The mind-body problem, as a philosophical puzzle, remains unsolved. But the mind-body division, as an assumption organizing science and medicine, should be abandoned. The evidence points toward integration.
+**Transfer structure**: The systematic relationship between effects across domains when a shared factor is modulated.
 
 -----
 
 ## References
 
-Archer, J., Bower, P., Gilbody, S., Lovell, K., Richards, D., Gask, L., … & Coventry, P. (2012). Collaborative care for depression and anxiety problems. *Cochrane Database of Systematic Reviews*, 10, CD006525.
+Barrett, L. F. (2017). *How Emotions Are Made*. Houghton Mifflin.
 
-Aston-Jones, G., & Cohen, J. D. (2005). An integrative theory of locus coeruleus-norepinephrine function: Adaptive gain and optimal performance. *Annual Review of Neuroscience*, 28, 403-450.
+Berridge, K. C. & Robinson, T. E. (1998). What is the role of dopamine in reward? *Brain Res. Rev.* 28, 309–369.
 
-Azmitia, E. C. (2001). Modern views on an ancient chemical: Serotonin effects on cell proliferation, maturation, and apoptosis. *Brain Research Bulletin*, 56(5), 413-424.
+Cools, R. et al. (2008). Serotonin and dopamine: Unifying affective, activational, and decision functions. *Neuropsychopharmacology* 33, 1–12.
 
-Berger, M., Gray, J. A., & Roth, B. L. (2009). The expanded biology of serotonin. *Annual Review of Medicine*, 60, 355-366.
+Craig, A. D. (2009). How do you feel—now? *Nat. Rev. Neurosci.* 10, 59–70.
 
-Blumenthal, J. A., Babyak, M. A., Doraiswamy, P. M., Watkins, L., Hoffman, B. M., Barbour, K. A., … & Sherwood, A. (2007). Exercise and pharmacotherapy in the treatment of major depressive disorder. *Psychosomatic Medicine*, 69(7), 587-596.
+Damasio, A. (1994). *Descartes’ Error*. Putnam.
 
-Capuron, L., & Miller, A. H. (2011). Immune system to brain signaling: Neuropsychopharmacological implications. *Pharmacology & Therapeutics*, 130(2), 226-238.
+Dantzer, R. et al. (2008). From inflammation to sickness and depression. *Nat. Rev. Neurosci.* 9, 46–56.
 
-Carey, R. M. (2001). Theodore Cooper Lecture: Renal dopamine system: Paracrine regulator of sodium homeostasis and blood pressure. *Hypertension*, 38(3), 297-302.
+Dickson, S. L. et al. (2012). The glucagon-like peptide 1 (GLP-1) analogue, exendin-4, decreases the rewarding value of food. *Physiol. Behav.* 107, 196–200.
 
-Coccaro, E. F., Fanning, J. R., Phan, K. L., & Lee, R. (2015). Serotonin and impulsive aggression. *CNS Spectrums*, 20(3), 295-302.
+Eisenhofer, G. et al. (1997). Substantial production of dopamine in the human gastrointestinal tract. *J. Clin. Endocrinol. Metab.* 82, 3864–3871.
 
-Cowen, P. J., & Browning, M. (2015). What has serotonin to do with depression? *World Psychiatry*, 14(2), 158-160.
+Flash, T. & Hochner, B. (2005). Motor primitives in vertebrates and invertebrates. *Curr. Opin. Neurobiol.* 15, 660–666.
 
-Cryan, J. F., & Dinan, T. G. (2012). Mind-altering microorganisms: The impact of the gut microbiota on brain and behaviour. *Nature Reviews Neuroscience*, 13(10), 701-712.
+Fodor, J. A. & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition* 28, 3–71.
 
-Dantzer, R., O’Connor, J. C., Freund, G. G., Johnson, R. W., & Kelley, K. W. (2008). From inflammation to sickness and depression: When the immune system subjugates the brain. *Nature Reviews Neuroscience*, 9(1), 46-56.
+Gershon, M. D. & Tack, J. (2007). The serotonin signaling system. *Gastroenterology* 132, 397–414.
 
-Dayan, P., & Balleine, B. W. (2002). Reward, motivation, and reinforcement learning. *Neuron*, 36(2), 285-298.
+Klausen, M. K. et al. (2022). Exenatide once weekly for alcohol use disorder. *JCI Insight* 7, e159863.
 
-Dowlati, Y., Herrmann, N., Swardfager, W., Liu, H., Sham, L., Reim, E. K., & Lanctôt, K. L. (2010). A meta-analysis of cytokines in major depression. *Biological Psychiatry*, 67(5), 446-457.
+Leggio, L. et al. (2023). GLP-1 receptor agonists for alcohol use disorder. *Lancet Psychiatry* 10, 386–394.
 
-Fond, G., Loundou, A., Hamdani, N., Boukouaci, W., Dargel, A., Oliveira, J., … & Boyer, L. (2014). Anxiety and depression comorbidities in irritable bowel syndrome (IBS): A systematic review and meta-analysis. *European Archives of Psychiatry and Clinical Neuroscience*, 264(8), 651-660.
+Lupien, S. J. et al. (2009). Effects of stress throughout the lifespan. *Nat. Rev. Neurosci.* 10, 434–445.
 
-Garnock-Jones, K. P., & Keating, G. M. (2009). Atomoxetine: A review of its use in attention-deficit hyperactivity disorder in children and adolescents. *Pediatric Drugs*, 11(3), 203-226.
+McEwen, B. S. (2008). Central effects of stress hormones in health and disease. *Eur. J. Pharmacol.* 583, 174–185.
 
-Gershon, M. D. (2013). 5-Hydroxytryptamine (serotonin) in the gastrointestinal tract. *Current Opinion in Endocrinology, Diabetes and Obesity*, 20(1), 14-21.
+Mietlicki-Baase, E. G. et al. (2014). Glucagon-like peptide-1 receptor activation in the nucleus accumbens core suppresses feeding. *J. Neurosci.* 34, 6985–6992.
 
-Gershon, M. D., & Tack, J. (2007). The serotonin signaling system: From basic understanding to drug development for functional GI disorders. *Gastroenterology*, 132(1), 397-414.
+Miller, A. H. & Raison, C. L. (2016). The role of inflammation in depression. *Nat. Rev. Immunol.* 16, 22–34.
 
-Hampel, H., Mesulam, M. M., Cuello, A. C., Farlow, M. R., Giacobini, E., Grossberg, G. T., … & Bhattacharya, S. (2018). The cholinergic system in the pathophysiology and treatment of Alzheimer’s disease. *Brain*, 141(7), 1917-1933.
+Molinoff, P. B. (1984). Alpha- and beta-adrenergic receptor subtypes. *Drugs* 28, 1–15.
 
-Hasselmo, M. E., & Sarter, M. (2011). Modes and models of forebrain cholinergic neuromodulation of cognition. *Neuropsychopharmacology*, 36(1), 52-73.
+Müller, T. D. et al. (2019). Glucagon-like peptide 1 (GLP-1). *Mol. Metab.* 30, 72–130.
 
-Hayes, M. R., & Covasa, M. (2005). CCK and 5-HT act synergistically to suppress food intake through simultaneous activation of CCK-1 and 5-HT3 receptors. *Peptides*, 26(11), 2322-2330.
+Murphy, G. L. (1988). Comprehending complex concepts. *Cogn. Sci.* 12, 529–562.
 
-Heijtz, R. D., Wang, S., Anuar, F., Qian, Y., Björkholm, B., Samuelsson, A., … & Pettersson, S. (2011). Normal gut microbiota modulates brain development and behavior. *Proceedings of the National Academy of Sciences*, 108(7), 3047-3052.
+Partee, B. (1995). Lexical semantics and compositionality. In *Invitation to Cognitive Science* Vol. 1 (MIT Press).
 
-Howren, M. B., Lamkin, D. M., & Suls, J. (2009). Associations of depression with C-reactive protein, IL-1, and IL-6: A meta-analysis. *Psychosomatic Medicine*, 71(2), 171-186.
+Richards, J. B. et al. (2023). GLP-1 agonists and neuropsychiatric effects. *JAMA Psychiatry* 80, 577–578.
 
-Köhler, O., Benros, M. E., Nordentoft, M., Farkouh, M. E., Iyengar, R. L., Mors, O., & Krogh, J. (2014). Effect of anti-inflammatory treatment on depression, depressive symptoms, and adverse effects: A systematic review and meta-analysis of randomized clinical trials. *JAMA Psychiatry*, 71(12), 1381-1391.
+Salamone, J. D. et al. (2007). Effort-related functions of nucleus accumbens dopamine. *Psychopharmacology* 191, 461–482.
 
-Krystal, A. D., Thakur, M., & Roth, T. (2008). Sleep disturbance in psychiatric disorders: Effects on function and quality of life in mood disorders, alcoholism, and schizophrenia. *Annals of Clinical Psychiatry*, 20(1), 39-46.
+Sara, S. J. (2009). The locus coeruleus and noradrenergic modulation of cognition. *Nat. Rev. Neurosci.* 10, 211–223.
 
-Kvam, S., Kleppe, C. L., Nordhus, I. H., & Hovland, A. (2016). Exercise as a treatment for depression: A meta-analysis. *Journal of Affective Disorders*, 202, 67-86.
+Seth, A. K. (2013). Interoceptive inference, emotion, and the embodied self. *Trends Cogn. Sci.* 17, 565–573.
 
-Lassale, C., Batty, G. D., Baghdadli, A., Jacka, F., Sánchez-Villegas, A., Kivimäki, M., & Akbaraly, T. (2019). Healthy dietary indices and risk of depressive outcomes: A systematic review and meta-analysis of observational studies. *Molecular Psychiatry*, 24(7), 965-986.
+Shirazi, R. H. et al. (2013). Gut peptide GLP-1 and its analogue, exendin-4, decrease alcohol intake. *PLoS ONE* 8, e61965.
 
-Levite, M. (2016). Dopamine and T cells: Dopamine receptors and potent effects on T cells, dopamine production in T cells, and abnormalities in the dopaminergic system in T cells in autoimmune, neurological and psychiatric diseases. *Acta Physiologica*, 216(1), 42-89.
+Volkow, N. D. et al. (2013). Obesity and addiction: Neurobiological overlaps. *Obes. Rev.* 14, 2–18.
 
-Lowry, C. A., Johnson, P. L., Hay-Schmidt, A., Mikkelsen, J., & Shekhar, A. (2005). Modulation of anxiety circuits by serotonergic systems. *Stress*, 8(4), 233-246.
-
-Lupien, S. J., Maheu, F., Tu, M., Fiocco, A., & Schramek, T. E. (2007). The effects of stress and stress hormones on human cognition: Implications for the field of brain and cognition. *Brain and Cognition*, 65(3), 209-237.
-
-Lupien, S. J., McEwen, B. S., Gunnar, M. R., & Heim, C. (2009). Effects of stress throughout the lifespan on the brain, behaviour and cognition. *Nature Reviews Neuroscience*, 10(6), 434-445.
-
-Mawe, G. M., & Hoffman, J. M. (2013). Serotonin signalling in the gut—functions, dysfunctions and therapeutic targets. *Nature Reviews Gastroenterology & Hepatology*, 10(8), 473-486.
-
-Mayer, E. A. (2011). Gut feelings: The emerging biology of gut–brain communication. *Nature Reviews Neuroscience*, 12(8), 453-466.
-
-Mazzoni, P., Hristova, A., & Krakauer, J. W. (2007). Why don’t we move faster? Parkinson’s disease, movement vigor, and implicit motivation. *Journal of Neuroscience*, 27(27), 7105-7116.
-
-McEwen, B. S. (1998). Stress, adaptation, and disease: Allostasis and allostatic load. *Annals of the New York Academy of Sciences*, 840(1), 33-44.
-
-Miller, A. H., & Raison, C. L. (2016). The role of inflammation in depression: From evolutionary imperative to modern treatment target. *Nature Reviews Immunology*, 16(1), 22-34.
-
-Montague, P. R., Dayan, P., & Sejnowski, T. J. (1996). A framework for mesencephalic dopamine systems based on predictive Hebbian learning. *Journal of Neuroscience*, 16(5), 1936-1947.
-
-Monti, J. M. (2011). Serotonin control of sleep-wake behavior. *Sleep Medicine Reviews*, 15(4), 269-281.
-
-Nesse, R. M. (2000). Is depression an adaptation? *Archives of General Psychiatry*, 57(1), 14-20.
-
-Pascoe, M. C., Thompson, D. R., Jenkins, Z. M., & Ski, C. F. (2017). Mindfulness mediates the physiological markers of stress: Systematic review and meta-analysis. *Journal of Psychiatric Research*, 95, 156-178.
-
-Raison, C. L., Rutherford, R. E., Woolwine, B. J., Shuo, C., Schettler, P., Drake, D. F., … & Miller, A. H. (2013). A randomized controlled trial of the tumor necrosis factor antagonist infliximab for treatment-resistant depression: The role of baseline inflammatory biomarkers. *JAMA Psychiatry*, 70(1), 31-41.
-
-Raskind, M. A., Peterson, K., Williams, T., Hoff, D. J., Hart, K., Holmes, H., … & Peskind, E. R. (2013). A trial of prazosin for combat trauma PTSD with nightmares in active-duty soldiers returned from Iraq and Afghanistan. *American Journal of Psychiatry*, 170(9), 1003-1010.
-
-Reichenberg, A., Yirmiya, R., Schuld, A., Kraus, T., Haack, M., Morag, A., & Pollmächer, T. (2001). Cytokine-associated emotional and cognitive disturbances in humans. *Archives of General Psychiatry*, 58(5), 445-452.
-
-Reis, D. J., Ilardi, S. S., & Punt, S. E. W. (2018). The anxiolytic effect of probiotics: A systematic review and meta-analysis of the clinical and preclinical literature. *PLoS ONE*, 13(6), e0199041.
-
-Ruhé, H. G., Mason, N. S., & Schene, A. H. (2007). Mood is indirectly related to serotonin, norepinephrine and dopamine levels in humans: A meta-analysis of monoamine depletion studies. *Molecular Psychiatry*, 12(4), 331-359.
-
-Salamone, J. D., Correa, M., Farrar, A., & Mingote, S. M. (2007). Effort-related functions of nucleus accumbens dopamine and associated forebrain circuits. *Psychopharmacology*, 191(3), 461-482.
-
-Schultz, W. (1998). Predictive reward signal of dopamine neurons. *Journal of Neurophysiology*, 80(1), 1-27.
-
-Schultz, W. (2015). Neuronal reward and decision signals: From theories to data. *Physiological Reviews*, 95(3), 853-951.
-
-Silverman, M. N., & Sternberg, E. M. (2012). Glucocorticoid regulation of inflammation and its functional correlates: From HPA axis to glucocorticoid receptor dysfunction. *Annals of the New York Academy of Sciences*, 1261(1), 55-63.
-
-Sterling, P. (2012). Allostasis: A model of predictive regulation. *Physiology & Behavior*, 106(1), 5-15.
-
-Sterling, P., & Eyer, J. (1988). Allostasis: A new paradigm to explain arousal pathology. In S. Fisher & J. Reason (Eds.), *Handbook of Life Stress, Cognition and Health* (pp. 629-649). John Wiley & Sons.
-
-Sudo, N., Chida, Y., Aiba, Y., Sonoda, J., Oyama, N., Yu, X. N., … & Koga, Y. (2004). Postnatal microbial colonization programs the hypothalamic-pituitary-adrenal system for stress response in mice. *Journal of Physiology*, 558(1), 263-275.
+Wilding, J. P. H. et al. (2021). Once-weekly semaglutide in adults with overweight or obesity. *N. Engl. J. Med.* 384, 989–1002.
 
 -----
 
-*This paper extends the Abstraction-Intelligence framework (Danan, 2025a-g) to neurochemistry, arguing that major neurochemical systems implement viability regulation spanning brain and body.*
-
-*The mental/physical distinction is not merely incomplete—it is a category error that impedes scientific understanding and clinical practice.*
+*Acknowledgments: This framework connects neurochemical coordination to cognitive science research on compositionality (Fodor & Pylyshyn, 1988), interoception (Craig, 2009; Seth, 2013), and the computational requirements of embedded agency. The question—whether neurochemistry implements compositional self-state abstraction—emerges from applying these frameworks to established patterns of central-peripheral coordination.*
