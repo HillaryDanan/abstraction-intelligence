@@ -3,7 +3,6 @@
 **Hillary Danan, PhD**  
 Cognitive Neuroscience
 
-*Trends in Cognitive Sciences* — Opinion
 
 -----
 
