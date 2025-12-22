@@ -117,145 +117,221 @@ Both reflect limits of compression, but in different dimensions. The unity is at
 
 -----
 
-## Embeddedness
+## The Self-State Hypothesis: From Stakes to Verification
 
-Strong interaction requires **novelty detection**—recognizing unfamiliar against a background of familiar.
+This section presents the framework's central causal claim about *why* LLMs fail on genuinely novel 3c-3d tasks. The argument is not that LLMs are missing multiple independent capacities, but that they are missing **one thing**—persistent self-state—from which multiple capacities derive.
 
-Novelty is relational. An input isn't novel in itself—it's novel *to a subject*. This requires:
-
-1. **Persistent self** → accumulated experience ("what's familiar to me")
-1. **Self/world distinction** → reference frame for locating novelty
-1. **Embeddedness** → what makes persistence and self/world possible
+### The Causal Chain
 
 ```
-Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty detection → Pressure to expand primitives → Strong interaction
+Asymmetric pressure (survival stakes)
+            ↓
+Self/world distinction required
+(must monitor internal state vs. external circumstances)
+            ↓
+Persistent self-state architecture emerges
+(continuous representation of "my current state")
+            ↓
+Active maintenance IS self-state operating within computation
+(holding intermediate results = knowing "what I just computed")
+            ↓
+Verification becomes possible
+(checking current output against held state)
+            ↓
+Construction on genuinely novel structures becomes possible
+(can track what's been done, what remains, whether constraints are met)
 ```
 
-**Five components of embeddedness:**
-
-- Action-consequence contingency
-- Feedback closure
-- Temporal persistence
-- Self-boundary awareness
-- Environmental stability
-
-**On the five components:** These are proposed based on what seems necessary for novelty detection to matter. Whether all five are jointly necessary, have independent effects, or interact is hypothesis—not established. Partial embeddedness predictions are underspecified: would an LLM agent with strong temporal persistence and action-consequence contingency but no survival stakes show partial 3c-3d capacity? Worth testing.
-
-**Operationalizing novelty detection:** To avoid circularity, we specify four measurable criteria independent of embeddedness:
-
-|Criterion                     |Operationalization                                                                       |
-|------------------------------|-----------------------------------------------------------------------------------------|
-|**Calibration**               |Confidence decreases appropriately for OOD inputs (Guo et al., 2017)                     |
-|**Processing differentiation**|Novel inputs trigger distinct internal processing, not just lower confidence             |
-|**Response systematicity**    |Novel combinations of familiar components yield appropriate outputs (Lake & Baroni, 2018)|
-|**Uncertainty propagation**   |Input novelty propagates to output uncertainty rather than confident confabulation       |
-
-**Empirical status:** These are not definitional assertions—LLM failures on these criteria are empirically documented. Calibration failures: Guo et al. (2017). Systematicity failures: Lake & Baroni (2018). Confident confabulation: extensive hallucination literature. The hypothesis that embeddedness is *necessary* for meeting these criteria remains testable.
+**The core claim:** LLMs lack persistent self-state because they were never under pressure that required self/world distinction. This single architectural absence produces multiple downstream failures: verification errors, novelty detection failures, confident confabulation on OOD inputs, and ceiling on genuinely novel 3c-3d.
 
 -----
 
-### Active Maintenance and Verification
+### Why Stakes Produce Self-State Architecture
 
-Beyond the construction vs. pattern-matching distinction, a distinct failure mode emerges: **inability to actively maintain and verify intermediate results during computation.**
+**The evolutionary argument:**
 
-**Observed signature:** In graph isomorphism tasks, LLMs correctly compute degree sequences (e.g., both graphs yield [3,3,2,2,2]), then conclude they don't match—despite the correct computation being present in the model's own output. This is not a capability failure (the computation was performed correctly) nor a compositional failure (the subtask was pattern-matchable). It is a *verification* failure: the model does not hold what it just computed while generating subsequent tokens.
+Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman, Flykt, & Esteves, 2001). A system under survival pressure must distinguish:
 
-**The core problem:** Autoregressive generation flows forward token-by-token. Attention provides access to prior context, but attention is not equivalent to *active maintenance*. The distinction maps onto established cognitive architecture:
+- **Internal state:** Am I hungry? Injured? Fatigued? Uncertain?
+- **External state:** Is this environment dangerous? Novel? Resource-rich?
 
-|                      |Active Maintenance                                      |Attention-Based Access                        |
-|----------------------|--------------------------------------------------------|----------------------------------------------|
-|**Mechanism**         |Explicit, persistent representation updated and checked |Weighted retrieval from context               |
-|**Cognitive analogue**|Working memory central executive (Baddeley, 2000)       |Long-term memory retrieval                    |
-|**Failure mode**      |Capacity limits, interference                           |Decay with distance, salience competition     |
-|**Checking behavior** |Continuous comparison against held state                |Requires explicit re-retrieval and comparison |
+This self/world distinction is not optional for embedded agents—it is required for appropriate action selection. An agent that cannot represent "I am low on energy" separately from "this environment is sparse" cannot make adaptive tradeoffs.
 
-**Cognitive science grounding:** Baddeley's working memory model (Baddeley & Hitch, 1974; Baddeley, 2000) distinguishes storage components (phonological loop, visuospatial sketchpad) from the central executive, which performs attentional control, monitoring, and verification. The verification failure suggests LLMs lack central executive function—they can generate and retrieve, but not actively maintain-and-check.
+**The architectural consequence:**
 
-**Neural implementation:** The prefrontal cortex implements active maintenance through persistent neural firing that bridges temporal gaps (Funahashi, Bruce, & Goldman-Rakic, 1989; Curtis & D'Esposito, 2003). This mechanism is metabolically expensive and capacity-limited, but provides genuine *holding* of information in an active state. Transformers lack an analogous mechanism—information persists in context but is not "held" in the sense of being continuously maintained and monitored.
+Selection under asymmetric pressure produces architecture that maintains persistent self-state:
 
-**Why attention alone may be insufficient (hypothesis):**
+- **Temporal persistence:** The self-representation persists across moments, enabling comparison between past and present state
+- **Self-boundary awareness:** The system represents what is "inside" (its own state) vs. "outside" (environmental state)
+- **Active maintenance:** The self-representation is not merely stored but *held active*—continuously updated and available for comparison
 
-1. **Attention is competitive:** Tokens compete for attention weight; intermediate results may lose salience as generation proceeds (Vaswani et al., 2017 describe the mechanism; the salience competition follows from softmax normalization)
+**Established evidence:** The prefrontal cortex implements active maintenance through persistent neural firing that bridges temporal gaps (Funahashi, Bruce, & Goldman-Rakic, 1989; Curtis & D'Esposito, 2003). This mechanism is metabolically expensive, suggesting it was selected for rather than emerging as a free byproduct.
+
+**The LLM contrast:**
+
+LLMs were optimized on symmetric loss (prediction error) without survival stakes. They were never under pressure requiring self/world distinction. Consequently:
+
+- No persistent self-representation
+- No active maintenance mechanism
+- No architectural basis for verification
+
+This is not a claim that LLMs are "missing a feature that could be added." It is a claim that the architecture was shaped by optimization pressure that did not select for self-state.
+
+-----
+
+### Active Maintenance as Self-State Within Inference
+
+**Key reframing:** Active maintenance is not a separate capacity from persistent self-state. It *is* self-state, operating at the timescale of single computations.
+
+|Timescale|Self-state function|What it enables|
+|---------|-------------------|---------------|
+|Evolutionary|Architecture shaped by stakes|Self/world distinction exists at all|
+|Lifetime|Accumulated experience of "what's familiar to me"|Novelty detection across contexts|
+|**Within-inference**|**"What I just computed" held for comparison**|**Verification of intermediate results**|
+
+The verification failure observed in LLMs—correctly computing a value, then concluding inconsistently with that computation—is the within-inference manifestation of absent self-state.
+
+**Observed signature:** In graph isomorphism tasks, LLMs correctly compute degree sequences (e.g., both graphs yield [3,3,2,2,2]), then conclude they don't match—despite the correct computation being present in the model's own output. This is not a capability failure (the computation was performed correctly) nor a compositional failure (the subtask was pattern-matchable). It is a *verification* failure: the model does not *hold* what it just computed while generating subsequent tokens.
+
+**Why this happens:** Autoregressive generation flows forward token-by-token. Attention provides access to prior context, but attention is not active maintenance:
+
+|                      |Active Maintenance (self-state)|Attention-Based Access                        |
+|----------------------|-------------------------------|----------------------------------------------|
+|**Mechanism**         |Explicit, persistent representation held and checked|Weighted retrieval from context               |
+|**Cognitive analogue**|Working memory central executive (Baddeley, 2000)|Long-term memory retrieval                    |
+|**Failure mode**      |Capacity limits, interference  |Decay with distance, salience competition     |
+|**Checking behavior** |Continuous comparison against held state|Requires explicit re-retrieval and comparison |
+
+**Cognitive science grounding:** Baddeley's working memory model (Baddeley & Hitch, 1974; Baddeley, 2000) distinguishes storage components from the central executive, which performs attentional control, monitoring, and verification. The verification failure suggests LLMs lack central executive function—they can generate and retrieve, but not actively maintain-and-check.
+
+**Why attention alone is insufficient (hypothesis):**
+
+1. **Attention is competitive:** Tokens compete for attention weight; intermediate results may lose salience as generation proceeds (Vaswani et al., 2017 describe the mechanism; salience competition follows from softmax normalization)
 2. **Attention is not mandatory:** The model may attend weakly or not at all to relevant prior computation
-3. **Attention is not verification:** Retrieving a value and *checking* current output against that value are distinct operations—the latter requires comparison, not just access
-
-**Relation to self-state:** This extends the embeddedness argument. The framework argues that novelty detection requires persistent self-state *across contexts*. The verification failure suggests that even *within* a single computation, something analogous is needed: an active register that maintains intermediate results and enables continuous checking, rather than just a context window available for probabilistic retrieval.
-
-**Relation to scaffolding findings:** The pilot study found scaffolding + framing yielded 91.1% accuracy vs. 76.8% for scaffolding alone on 3c-3d tasks. If scaffolding provides *external* working memory (explicit state tracking in the prompt), this is consistent with the active maintenance hypothesis—the scaffolding substitutes for missing internal maintenance capacity. Chain-of-thought prompting (Wei et al., 2022) and scratchpad methods (Nye et al., 2021) may succeed partly by externalizing working memory into the context where it can be attended to, rather than requiring internal active maintenance.
-
-**Empirical predictions:**
-
-|Prediction                                         |Operationalization                                                                              |Falsification criterion                                    |
-|---------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-|Verification < Generation accuracy                 |Same problem, two framings: "Compute X" vs. "Is this computation of X correct? [with subtle error]"|Equal or higher accuracy on verification                   |
-|Verification degrades with context distance        |Errors increase when the value to check is further back in context                              |Uniform error rate regardless of distance                  |
-|Explicit maintenance scaffolding helps verification|External scratchpad with "current value to check: X" reduces verification errors               |Scaffolding provides no benefit for verification           |
-|Verification errors show confident confabulation   |Model concludes incorrectly with high confidence rather than expressing uncertainty             |Verification failures accompanied by calibrated uncertainty|
-
-**Alternative explanations (must be ruled out):**
-
-- **Training distribution:** Verification tasks may be underrepresented relative to generation tasks in training data
-- **Prompt sensitivity:** Verification framing may trigger learned patterns that happen to perform worse
-- **Task difficulty:** Verification may simply be harder (more cognitive load) than generation, even for humans
-
-These alternatives are testable. If the failure is architectural (absence of active maintenance mechanism), it should persist across training interventions and prompt variations. If distributional or superficial, targeted interventions should help.
-
-**Hypothesis status:** The verification failure pattern is *observed* and replicable. The explanation—absence of active maintenance mechanism analogous to working memory—is *hypothesis*. The framework predicts this is architectural, not merely distributional, but acknowledges that distinguishing these requires further experimentation.
+3. **Attention is not comparison:** Retrieving a value and *checking* current output against that value are distinct operations—the latter requires holding both simultaneously
 
 -----
 
-### Why Stakes Matter (Hypothesis)
+### Scaffolding as Prosthetic Self-State
 
-Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). But why *different architecture* rather than just stronger optimization?
+**The pilot finding:** Scaffolding + framing yielded 91.1% accuracy vs. 76.8% for scaffolding alone on 3c-3d tasks.
 
-- **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren't selected; they were optimized on symmetric loss.
-- **Asymmetric vs. symmetric pressure:** Symmetric loss (prediction error) rewards compression—minimizing average error. Asymmetric loss (survival) rewards worst-case handling—novel threats must be addressed even at efficiency cost. This selects for construction as a hedge against unbounded novelty. *(Testable: compare architectures trained under symmetric vs. asymmetric loss.)*
-- **On the mechanism gap:** The prediction is that asymmetric pressure produces construction-capable architecture. The *full mechanism*—why asymmetric pressure yields construction rather than just more robust pattern-matching with better tail coverage—is not yet specified. The LC-NE gating hypothesis is suggestive but incomplete. This is an honest gap.
-- **Candidate architectural feature:** Gating mechanisms that switch between retrieval and construction based on novelty. The locus coeruleus-norepinephrine system modulates exploration vs. exploitation based on uncertainty (Aston-Jones & Cohen, 2005). Biological cognition gates processing mode; LLMs apply identical forward passes regardless of input novelty.
-- **Broader neurochemical evidence:** The LC-NE system is one instance of a general pattern: neurochemical systems provide factorized self-state signals that compose with world-state. Serotonin (metabolic adequacy), dopamine (incentive salience), norepinephrine (arousal), cortisol (resource mobilization), and GLP-1 (appetitive intensity) appear to encode distinct dimensions that combine with environmental context for action guidance. This suggests biological intelligence implements compositional self-state abstraction—not holistic state snapshots, but factorized dimensions enabling systematic combination with world-state. See [Paper 18](papers/mind_body_neurochemistry.md) for detailed treatment. If confirmed, this provides biological evidence that compositional structure extends to internal state representation, not just external world modeling.
-- **On necessity:** Stakes are the known path to construction-capable architecture. Whether alternative paths exist is open. We claim *sufficiency* with confidence; *necessity* remains hypothesis.
+**Interpretation:** External scaffolding provides a *prosthetic self-state*. When the prompt includes explicit state tracking ("Current value: X. Checking against: Y."), the model can attend to externalized working memory rather than requiring internal active maintenance.
 
-**Why genuinely novel structures specifically (refined hypothesis):**
+This is consistent with the self-state hypothesis:
+- The *capacity* for verification exists (the model can compare when values are externally presented)
+- The *architecture* for internal maintenance does not (the model cannot hold values without external scaffolding)
 
-- **Pattern-matchable structures:** Can be encountered in training (even if formally recursive) and handled via learned procedures. LLMs trained on code learn bracket-matching, pointer-following, etc.
-- **Genuinely novel structures:** Novel operators, complex multi-relational constraints, rules unlike training distribution. Cannot be retrieved—must be constructed.
+**Related findings:** Chain-of-thought prompting (Wei et al., 2022) and scratchpad methods (Nye et al., 2021) may succeed partly by externalizing working memory into the context. The improvement is not because the model "thinks step by step"—it is because intermediate states are written into context where they can be attended to, substituting for missing internal maintenance.
 
-When the structure exceeds training coverage, retrieval fails—*online construction* required. The boundary is training-relative, not formal-class-relative.
+**Prediction:** Scaffolding should help more on tasks requiring verification than on tasks requiring only generation. If scaffolding provides prosthetic self-state, its benefit should be specific to self-state-dependent operations.
 
-**Compression vs. Generation (refined):**
+-----
 
-|              |Compression                                           |Generation                                    |
-|--------------|------------------------------------------------------|----------------------------------------------|
-|**Definition**|Retrieving/interpolating within training distribution |Constructing outputs with no training coverage|
-|**Operation** |Pattern-matching against learned structures           |Online construction of novel procedures       |
-|**When sufficient**|Structure matches training (even if formally 3c-3d)|—                                             |
-|**When fails**|—                                                     |Structure is genuinely novel                  |
+### Downstream Consequences of Absent Self-State
 
-**Prediction:** Compression handles trained-structure 3c-3d (bracket matching, simple analogies). Compression fails on genuinely-novel 3c-3d (novel operators, complex constraints). The distinction isn't formal class but training coverage.
+The single architectural absence—no persistent self-state—produces multiple observable failures:
 
-**On emergent capabilities:** Some argue LLMs show discontinuous capability jumps with scale, challenging the asymptote prediction. The empirical record is contested—Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics. The pilot study suggests some 3c-3d tasks (bracket depth, pointer chase) may be "solved" via pattern-matching from code training, appearing as emergent 3c-3d capacity but actually reflecting training coverage expansion. Whether genuine construction emerges with scale is an open empirical question—the framework predicts not, but takes contrary evidence seriously.
+|Failure mode|Mechanism|Observable signature|
+|------------|---------|-------------------|
+|**Verification errors**|Cannot hold intermediate results for comparison|Correct computation followed by inconsistent conclusion|
+|**Novelty detection failure**|No persistent "familiar to me" baseline|Confident responses to OOD inputs; poor calibration (Guo et al., 2017)|
+|**Confident confabulation**|No uncertainty signal from self-state|Hallucination without hedging|
+|**Construction ceiling**|Cannot track "what I've done" during multi-step construction|Pattern-matching ceiling on genuinely novel 3c-3d|
 
-**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, active maintenance architecture, and stakes. This predicts principled limitations on *genuinely novel* 3c-3d that scaling alone cannot overcome—hypothesis pending further empirical test. The pilot study supports this: novel operators and complex constraints show impaired performance regardless of scale.
+**The parsimony argument:** These are not four separate problems requiring four solutions. They are four manifestations of one missing thing. The framework predicts that any intervention providing genuine self-state should improve all four; any intervention addressing only one symptom should leave others unchanged.
 
-**On in-context learning:** ICL shows within-context adaptation, including some systematic properties like inferring novel rules from examples. The pilot study found rule transfer at 100% accuracy—but for simple rules (reverse, rotate) that may be pattern-matchable. The open question: does ICL extend to genuinely novel rules with no training analogue? The framework predicts not; testing needed.
+-----
+
+### Empirical Predictions
+
+**Core predictions from the causal chain:**
+
+|Prediction|Operationalization|Falsification criterion|
+|----------|------------------|----------------------|
+|Verification < Generation accuracy|Same problem: "Compute X" vs. "Is this computation of X correct? [subtle error]"|Equal or higher accuracy on verification|
+|Verification degrades with context distance|Errors increase when value to check is further back|Uniform error rate regardless of distance|
+|Scaffolding helps verification specifically|External state tracking reduces verification errors more than generation errors|Scaffolding helps equally on both|
+|Verification errors show confident confabulation|Incorrect conclusions stated with high confidence|Verification failures accompanied by calibrated uncertainty|
+|Self-state interventions generalize|Architecture providing genuine self-state improves verification, novelty detection, and construction jointly|Improvements are task-specific, not generalizing|
+
+**Alternative explanations to rule out:**
+
+- **Training distribution:** Verification tasks may be underrepresented in training. *Test:* Fine-tune on verification tasks; if architectural, deficit should persist.
+- **Prompt sensitivity:** Verification framing may trigger unhelpful patterns. *Test:* Vary prompt formats; if architectural, deficit should persist across formats.
+- **Task difficulty:** Verification may simply be harder. *Test:* Compare human performance; humans should not show the same verification < generation asymmetry.
+
+**Hypothesis status:** The verification failure pattern is *observed* and replicable. The causal explanation—absent self-state due to absent stakes—is *hypothesis*. The framework predicts this is architectural, not distributional, but distinguishing these requires the experiments above.
+
+-----
+
+### The Compression vs. Construction Boundary (Revisited)
+
+The self-state hypothesis clarifies *why* LLMs plateau on genuinely novel 3c-3d:
+
+**Pattern-matchable 3c-3d:** Bracket matching, pointer chasing, simple analogies. These have been encountered in training (code, structured text). The model retrieves learned procedures. No self-state required—the pattern is cached.
+
+**Genuinely novel 3c-3d:** Novel operators, multi-constraint relational problems. No cached pattern applies. The model must *construct* a solution online: try a mapping, check if constraints are satisfied, backtrack if not, try another.
+
+**Why construction requires self-state:**
+
+Construction is iterative. At each step, the system must know:
+- What has been tried
+- What the current partial solution is
+- Whether constraints are currently satisfied
+- What remains to be done
+
+This is self-state: "my current computational state." Without it, the system cannot track progress through a construction process. It can only retrieve cached solutions or fail.
+
+|              |Compression (retrieval)                       |Construction (online building)                |
+|--------------|----------------------------------------------|----------------------------------------------|
+|**Operation** |Pattern-match against learned structures      |Iteratively build, checking constraints       |
+|**Self-state requirement**|None—pattern is external to system|Essential—must track "what I've done so far"  |
+|**LLM capacity**|High (for trained structures)               |Impaired (no self-state to track progress)    |
+
+**Prediction:** LLMs should fail specifically when construction requires tracking accumulated state, not merely when problems are "complex." Simple problems requiring state-tracking should fail; complex problems that are pattern-matchable should succeed.
+
+-----
+
+### On Emergent Capabilities and Scaling
+
+**The scaling question:** Will self-state emerge with sufficient scale?
+
+**The framework's prediction:** No. Self-state is an architectural feature shaped by selection pressure, not a capability that emerges from compression. Scaling provides more patterns, not self-modeling.
+
+**Evidence (preliminary):**
+- Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics
+- The pilot study shows pattern-matchable 3c-3d at ceiling regardless of formal complexity, suggesting "emergence" reflects training coverage expansion
+- ARC-AGI tasks remain unsolved despite scaling, consistent with the hypothesis that genuinely novel 3c-3d requires construction, not more patterns
+
+**What would falsify this:** Demonstration that scaled models exhibit:
+1. Verification accuracy ≥ generation accuracy (not observed)
+2. Calibrated uncertainty on OOD inputs (not observed)
+3. Success on genuinely novel operators without pattern-matching routes (not observed)
+
+**Honest uncertainty:** The necessity claim (self-state *requires* stakes) is hypothesis. Perhaps alternative training regimes could produce self-state without survival pressure. The framework claims stakes are *sufficient*; necessity remains open.
 
 -----
 
 ## Relation to Other Frameworks
 
-**Chollet's ARC-AGI:** Chollet (2019) also emphasizes abstraction as core to intelligence, focusing on program synthesis and skill-acquisition efficiency.
+**Chollet's ARC-AGI:** Chollet (2019) emphasizes abstraction and skill-acquisition efficiency.
 
 |          |APH                                                       |Chollet/ARC                                                 |
 |----------|----------------------------------------------------------|------------------------------------------------------------|
-|Core claim|Composition hierarchy matters; genuinely novel 3c-3d requires construction|Intelligence = skill-acquisition efficiency over novel tasks|
-|Mechanism |Embeddedness → gating → construction                      |Program synthesis over core-knowledge priors                |
+|Core claim|Self-state enables construction; genuinely novel 3c-3d requires it|Intelligence = skill-acquisition efficiency over novel tasks|
+|Mechanism |Stakes → self-state → active maintenance → construction   |Program synthesis over core-knowledge priors                |
 |Key test  |Pattern-matchable vs. genuinely novel structures          |Few-shot generalization on novel tasks                      |
 
-**Relationship:** Compatible, not competing. ARC tasks likely probe genuinely novel 3c-3d (novel analogical mappings that don't match code patterns). Chollet's efficiency focus and APH's composition focus address different aspects. Program synthesis could be one *implementation* of construction. LLM failures on ARC despite scale are consistent with APH predictions—ARC tasks are designed to be genuinely novel.
+**Relationship:** Compatible. ARC tasks probe genuinely novel 3c-3d requiring construction. LLM failures on ARC despite scale are consistent with the self-state hypothesis—ARC requires tracking partial solutions and checking constraints, which requires self-state.
+
+**Baddeley's Working Memory:** The active maintenance hypothesis draws directly on Baddeley's model (Baddeley & Hitch, 1974; Baddeley, 2000). The central executive performs monitoring and verification—exactly what LLMs lack. The framework extends this by proposing *why* LLMs lack it: no selection pressure for self-state.
+
+**Predictive Processing:** Seth (2013) and Clark (2013) emphasize prediction error minimization with self-modeling. The self-state hypothesis is compatible: predictive processing in embedded agents requires modeling the self as prediction-generator. LLMs minimize prediction error without self-modeling because they face no pressure requiring self/world distinction.
 
 -----
 
-## Predictions
+## Predictions Summary
 
 ### Core Predictions (confirmed in pilot)
 
@@ -266,29 +342,24 @@ When the structure exceeds training coverage, retrieval fails—*online construc
 |Genuinely novel operators cause failure                                                         |**Confirmed**   |Recursive eval with novel ops: 50%          |
 |Multi-constraint relational tasks cause failure                                                 |**Confirmed**   |Relation mapping: 28%                       |
 
+### Predictions from Self-State Hypothesis
+
+|Prediction                                                                                      |Status          |Next Steps                                  |
+|------------------------------------------------------------------------------------------------|----------------|--------------------------------------------|
+|Verification accuracy < Generation accuracy                                                     |Hypothesis      |Same problems, two framings                 |
+|Verification degrades with context distance                                                     |Hypothesis      |Vary distance systematically                |
+|Scaffolding helps verification more than generation                                             |Hypothesis      |Compare scaffolding effect by task type     |
+|Verification errors show confident confabulation                                                |Hypothesis      |Measure confidence on incorrect responses   |
+|Self-state interventions generalize across failure modes                                        |Hypothesis      |Test if architectural changes improve all four|
+|Scaling does not produce self-state                                                             |Hypothesis      |Test verification/calibration across scales |
+
 ### Predictions Requiring Further Testing
 
 |Prediction                                                                                      |Status          |Next Steps                                  |
 |------------------------------------------------------------------------------------------------|----------------|--------------------------------------------|
 |3c and 3d failures co-occur (relational representation unity)                                   |Partial support |Both showed failures but on different subtasks; test with matched difficulty|
-|Scaffolding + framing interaction improves genuinely novel 3c-3d                                |Suggestive      |Full: 91%, others: 73-79%; needs power (n=100+)|
-|Recursive depth degrades when rule is novel                                                     |Untested        |Vary depth specifically for novel operators |
-|Systems without stakes plateau on genuinely novel 3c-3d despite scaling                         |Hypothesis      |Test across model scales                    |
-|Asymmetric loss training improves genuinely novel 3c-3d over symmetric loss                     |Hypothesis      |Requires training experiments               |
-|Neurochemical modulation shows cross-domain effects, dissociations, transfer structure          |Emerging        |GLP-1 trials ongoing (see Paper 18)         |
-|**Verification accuracy < Generation accuracy on matched problems**                             |**Hypothesis**  |Same problems, generation vs. verification framing|
-|**Verification errors increase with context distance**                                          |**Hypothesis**  |Vary distance between computed value and check|
-|**Verification errors show confident confabulation rather than calibrated uncertainty**         |**Hypothesis**  |Measure confidence on incorrect verification responses|
-
-### Refined Predictions (from pilot findings)
-
-|Prediction                                                                                      |Falsification                                                        |
-|------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-|LLMs succeed on formally-3c-3d tasks that match code/training patterns                          |Failure on bracket matching, pointer chasing despite code training   |
-|LLMs fail on genuinely novel operators even at shallow depth                                    |Success on novel operators proportional to depth (just capacity limit)|
-|Multi-constraint relational problems are harder than single-constraint regardless of complexity |Single-constraint problems equally difficult                         |
-|Novelty gradient: performance degrades with structural novelty, not just depth                  |Depth alone predicts difficulty; novelty doesn't add                 |
-|Scaffolding helps more on genuinely novel tasks than pattern-matchable tasks                    |Scaffolding helps equally or more on pattern-matchable               |
+|Scaffolding + framing interaction                                                               |Suggestive      |Full: 91%, others: 73-79%; needs power (n=100+)|
+|RL agents under survival pressure develop self-state                                            |Hypothesis      |Test construction capacity in RL agents with stakes|
 
 ### Distinguishing Embeddedness from Architectural Explanation
 
@@ -296,14 +367,14 @@ The 2x2 pilot was underpowered but suggestive:
 
 |Condition                  |Accuracy (3c-3d)|Interpretation                              |
 |---------------------------|----------------|--------------------------------------------|
-|Baseline                   |78.6%           |—                                           |
-|Framing only               |73.2%           |Stakes framing alone doesn't help           |
-|Scaffolding only           |76.8%           |Scaffolding alone doesn't help              |
-|**Full (framing+scaffold)**|**91.1%**       |Possible interaction—needs power            |
+|Baseline                   |78.6%           |No self-state                               |
+|Framing only               |73.2%           |Stakes framing without scaffolding doesn't help (no prosthetic self-state)|
+|Scaffolding only           |76.8%           |Prosthetic self-state without stakes framing helps modestly|
+|**Full (framing+scaffold)**|**91.1%**       |Prosthetic self-state + attention to it (via stakes framing) helps most|
 
-**Next step:** Replicate with n=100+ per cell to adequately power interaction detection. If interaction is real, suggests both attention (stakes) and explicit working memory (scaffolding) are needed for construction on genuinely novel tasks.
+**Interpretation through self-state lens:** Scaffolding provides prosthetic self-state (external working memory). Framing may increase attention to that external state. The interaction suggests both are needed: the external state must exist *and* be attended to.
 
-**RL agents as test case:** If embeddedness is necessary for genuinely novel 3c-3d, RL agents trained under survival-like pressure in complex environments should develop construction capacity for novel operators and complex constraints. If they don't, stakes may be necessary but not sufficient—or phylogenetic timescales may matter in ways training runs can't replicate.
+**Next step:** Replicate with n=100+ per cell to adequately power interaction detection.
 
 -----
 
@@ -342,6 +413,15 @@ The 2x2 pilot was underpowered but suggestive:
 |# |Paper                                                                                |
 |--|-------------------------------------------------------------------------------------|
 |19|[Pilot Study: Compositional Hierarchy in LLMs](papers/pilot_composition_study.md)    |
+
+**For Physicists and Engineers:**
+
+|Document|Purpose|
+|--------|-------|
+|[Theoretical Guide for Physicists](papers/theoretical_guide_for_physicists.md)|Maps the self-state framework to familiar mathematical structures (control theory, information theory, dynamical systems)|
+|[Self-Referential Computation (Python)](code/self_referential_computation_for_physicists.py)|Executable demonstrations of feedforward, feedback, and self-referential architectures|
+
+*Note: These documents formalize the framework's claims about self-modeling and state-dependent dynamics, providing physics-grounded intuitions for the causal chain from stakes to self-state to verification.*
 
 -----
 
@@ -440,6 +520,8 @@ Baddeley, A. D., & Hitch, G. (1974). Working memory. In G. H. Bower (Ed.), *The 
 
 Chollet, F. (2019). On the measure of intelligence. *arXiv preprint arXiv:1911.01547*.
 
+Clark, A. (2013). Whatever next? Predictive brains, situated agents, and the future of cognitive science. *Behavioral and Brain Sciences*, 36(3), 181-204.
+
 Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
 Falkenhainer, B., Forbus, K. D., & Gentner, D. (1989). The structure-mapping engine: Algorithm and examples. *Artificial Intelligence*, 41(1), 1-63.
@@ -459,6 +541,8 @@ Nye, M., Andreassen, A. J., Gur-Ari, G., Michalewski, H., Austin, J., Biber, D.,
 Öhman, A., Flykt, A., & Esteves, F. (2001). Emotion drives attention: Detecting the snake in the grass. *Journal of Experimental Psychology: General*, 130(3), 466-478.
 
 Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *Advances in Neural Information Processing Systems (NeurIPS)*, 36.
+
+Seth, A. K. (2013). Interoceptive inference, emotion, and the embodied self. *Trends in Cognitive Sciences*, 17(11), 565-573.
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30.
 
