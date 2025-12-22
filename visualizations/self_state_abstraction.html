@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-State in the Information Plane</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #fafbfc 0%, #f0f4f8 100%);
+            min-height: 100vh;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+        
+        h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #1a202c;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            color: #718096;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        
+        .main-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 260px;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 1100px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Left Panel - Controls */
+        .controls-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+            height: fit-content;
+        }
+        
+        .panel-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a0aec0;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .control-label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .control-value {
+            font-weight: 500;
+            color: #2d3748;
+            font-family: 'DM Sans', monospace;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #e2e8f0;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+            transition: transform 0.15s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #4a5568;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        button:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+            color: #2d3748;
+        }
+        
+        button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        
+        button.primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+        }
+        
+        button.active {
+            background: #edf2f7;
+            border-color: #a0aec0;
+        }
+        
+        /* Canvas Container */
+        #canvas-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+            position: relative;
+            min-height: 500px;
+        }
+        
+        #visualization {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: grab;
+        }
+        
+        #visualization:active {
+            cursor: grabbing;
+        }
+        
+        .drag-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(45, 55, 72, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Right Panel - State Display */
+        .state-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+            height: fit-content;
+        }
+        
+        .state-section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f4f8;
+        }
+        
+        .state-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .state-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a0aec0;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .state-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .state-label {
+            color: #718096;
+            font-size: 0.85rem;
+        }
+        
+        .state-value {
+            font-weight: 500;
+            color: #48bb78;
+            font-family: 'DM Sans', monospace;
+        }
+        
+        .state-value.elevated {
+            color: #ed8936;
+        }
+        
+        .state-value.high {
+            color: #e53e3e;
+        }
+        
+        .state-bar {
+            height: 4px;
+            background: #edf2f7;
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        
+        .state-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease, background 0.3s ease;
+            background: #48bb78;
+        }
+        
+        .mode-indicator {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .mode-indicator.patrol {
+            background: #c6f6d5;
+            color: #276749;
+        }
+        
+        .mode-indicator.approaching {
+            background: #feebc8;
+            color: #c05621;
+        }
+        
+        .mode-indicator.investigating {
+            background: #fed7e2;
+            color: #b83280;
+        }
+        
+        .mode-indicator.verifying {
+            background: #e9d8fd;
+            color: #6b46c1;
+        }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            flex-wrap: wrap;
+            background: white;
+            border-radius: 16px;
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #4a5568;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.grid {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #a0aec0, #cbd5e0);
+        }
+        
+        .legend-dot.llm {
+            background: #4299e1;
+            box-shadow: 0 0 8px rgba(66, 153, 225, 0.5);
+        }
+        
+        .legend-dot.agent {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #f687b3, #ed64a6);
+            box-shadow: 0 0 12px rgba(237, 100, 166, 0.5);
+        }
+        
+        .legend-dot.novelty {
+            background: #ecc94b;
+            box-shadow: 0 0 8px rgba(236, 201, 75, 0.5);
+        }
+        
+        /* Explanation Cards */
+        .explanation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+        }
+        
+        .card h3 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 400;
+        }
+        
+        .card.llm-card h3 { color: #2b6cb0; }
+        .card.agent-card h3 { color: #b83280; }
+        
+        .card p {
+            color: #718096;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+        
+        .card strong {
+            color: #4a5568;
+        }
+        
+        /* Causal Chain */
+        .causal-chain {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.03);
+        }
+        
+        .chain-title {
+            text-align: center;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a0aec0;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        
+        .chain-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .chain-item {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 1px solid #e9d8fd;
+            padding: 8px 14px;
+            border-radius: 8px;
+            color: #6b46c1;
+            font-weight: 500;
+        }
+        
+        .chain-arrow {
+            color: #cbd5e0;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            .main-layout { gap: 15px; }
+            .legend { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Self-State in the Information Plane</h1>
+            <p class="subtitle">Pattern matching is fundamentally different from self-abstraction tracking</p>
+        </header>
+        
+        <div class="main-layout">
+            <!-- Left Panel - Controls -->
+            <div class="controls-panel">
+                <div class="panel-title">Agent Controls</div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Base Curvature</span>
+                        <span class="control-value" id="curvature-control-val">1.0</span>
+                    </div>
+                    <input type="range" id="curvature-slider" min="0.5" max="3" step="0.1" value="1.0">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Novelty Sensitivity</span>
+                        <span class="control-value" id="sensitivity-val">0.5</span>
+                    </div>
+                    <input type="range" id="sensitivity-slider" min="0.1" max="1" step="0.05" value="0.5">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Pause Duration</span>
+                        <span class="control-value" id="pause-val">1.0s</span>
+                    </div>
+                    <input type="range" id="pause-slider" min="0.5" max="3" step="0.25" value="1.0">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>LLM Count</span>
+                        <span class="control-value" id="llm-count-val">6</span>
+                    </div>
+                    <input type="range" id="llm-count-slider" min="2" max="12" step="1" value="6">
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>LLM Speed</span>
+                        <span class="control-value" id="llm-speed-val">1.0x</span>
+                    </div>
+                    <input type="range" id="llm-speed-slider" min="0.3" max="2" step="0.1" value="1.0">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="primary" id="btn-add-novelty">Add Novelty</button>
+                    <button id="btn-reset">Reset View</button>
+                    <button id="btn-pause">Pause</button>
+                </div>
+            </div>
+            
+            <!-- Canvas -->
+            <div id="canvas-container">
+                <canvas id="visualization"></canvas>
+                <div class="drag-hint" id="drag-hint">Drag to rotate • Click agent to control</div>
+            </div>
+            
+            <!-- Right Panel - State Display -->
+            <div class="state-panel">
+                <div class="state-section">
+                    <div class="state-section-title">Self-State Agent</div>
+                    <div class="state-row">
+                        <span class="state-label">Novelty Level</span>
+                        <span class="state-value" id="novelty-value">0.00</span>
+                    </div>
+                    <div class="state-bar"><div class="state-bar-fill" id="novelty-bar" style="width: 0%"></div></div>
+                    
+                    <div class="state-row" style="margin-top: 12px;">
+                        <span class="state-label">Uncertainty</span>
+                        <span class="state-value" id="uncertainty-value">0.20</span>
+                    </div>
+                    <div class="state-bar"><div class="state-bar-fill" id="uncertainty-bar" style="width: 20%"></div></div>
+                </div>
+                
+                <div class="state-section">
+                    <div class="state-section-title">Self/World Distinction</div>
+                    <div class="state-row">
+                        <span class="state-label">Familiarity</span>
+                        <span class="state-value" id="familiar-value">High</span>
+                    </div>
+                    <div class="state-row">
+                        <span class="state-label">Curvature</span>
+                        <span class="state-value" id="curvature-value">1.00</span>
+                    </div>
+                </div>
+                
+                <div class="state-section">
+                    <div class="state-section-title">Processing Mode</div>
+                    <div class="state-row">
+                        <span class="state-label">Current</span>
+                        <span class="mode-indicator patrol" id="mode-value">Patrol</span>
+                    </div>
+                    <div class="state-row" style="margin-top: 10px;">
+                        <span class="state-label">Action</span>
+                        <span class="state-value" id="verifying-value">Exploring</span>
+                    </div>
+                </div>
+                
+                <div class="state-section">
+                    <div class="state-section-title">LLMs (Pattern Matchers)</div>
+                    <div class="state-row">
+                        <span class="state-label">Self-state</span>
+                        <span class="state-value" style="color: #a0aec0;">None</span>
+                    </div>
+                    <div class="state-row">
+                        <span class="state-label">Novelty response</span>
+                        <span class="state-value" style="color: #a0aec0;">None</span>
+                    </div>
+                    <div class="state-row">
+                        <span class="state-label">Movement</span>
+                        <span class="state-value" style="color: #4299e1;">On lines only</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot grid"></div>
+                <span>Information plane</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot llm"></div>
+                <span>LLMs (follow lines, ignore novelty)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot agent"></div>
+                <span>Self-state agent (free movement, responds)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot novelty"></div>
+                <span>Novel stimuli</span>
+            </div>
+        </div>
+        
+        <div class="causal-chain">
+            <div class="chain-title">The Causal Chain</div>
+            <div class="chain-flow">
+                <span class="chain-item">Stakes</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Self/World Distinction</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Persistent Self-State</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Active Maintenance</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Verification</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Construction</span>
+            </div>
+        </div>
+        
+        <div class="explanation">
+            <div class="card llm-card">
+                <h3>
+                    <div class="legend-dot llm"></div>
+                    LLMs: Pattern Matching
+                </h3>
+                <p>
+                    LLMs traverse the information plane <strong>on the lines</strong>—following cached patterns. 
+                    They don't deform the plane because they have no mass (no self-state). When they 
+                    encounter novelty, <strong>nothing changes</strong>. Same forward pass. Same processing. 
+                    They cannot verify what they computed because they don't <em>hold</em> anything.
+                </p>
+            </div>
+            
+            <div class="card agent-card">
+                <h3>
+                    <div class="legend-dot agent"></div>
+                    Self-State Agent: Abstraction
+                </h3>
+                <p>
+                    The agent <strong>is</strong> a deformation of the plane—its self-state has mass. 
+                    When it encounters novelty: uncertainty rises, processing mode shifts, curvature deepens. 
+                    It can verify because it <em>holds</em> its current state. It can construct because 
+                    it knows "what I've done so far." <strong>The plane responds to it and it responds to the plane.</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('visualization');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let isDragging = false;
+        let isAgentDragging = false;
+        let lastMouseX, lastMouseY;
+        let rotationX = 0.5;
+        let rotationY = 0.3;
+        let zoom = 1;
+        let isPaused = false;
+        let time = 0;
+        
+        // Grid
+        const gridSize = 24;
+        const gridSpacing = 0.7;
+        let gridPoints = [];
+        
+        // Controls
+        let baseCurvature = 1.0;
+        let noveltySensitivity = 0.5;
+        let pauseDuration = 1.0;
+        let llmCount = 6;
+        let llmSpeedMultiplier = 1.0;
+        
+        // Agent - moves freely, not on lines
+        const agent = {
+            x: 0,
+            z: 0,
+            targetX: 0,
+            targetZ: 0,
+            selfState: {
+                novelty: 0,
+                uncertainty: 0.2,
+                curvature: 1.0,
+                familiar: 1.0,
+                mode: 'patrol',
+                verifying: null,
+                isPaused: false,
+                pauseTimer: 0
+            },
+            wanderAngle: Math.random() * Math.PI * 2,
+            velocity: { x: 0, z: 0 }
+        };
+        
+        // LLMs - they follow grid lines only
+        let llms = [];
+        
+        // Novel stimuli on the grid
+        const novelStimuli = [];
+        
+        function init() {
+            resize();
+            initGrid();
+            initLLMs();
+            addNovelStimulus();
+            addNovelStimulus();
+            addNovelStimulus();
+            
+            window.addEventListener('resize', resize);
+            canvas.addEventListener('mousedown', onMouseDown);
+            canvas.addEventListener('mousemove', onMouseMove);
+            canvas.addEventListener('mouseup', onMouseUp);
+            canvas.addEventListener('mouseleave', onMouseUp);
+            canvas.addEventListener('wheel', onWheel);
+            canvas.addEventListener('touchstart', onTouchStart);
+            canvas.addEventListener('touchmove', onTouchMove);
+            canvas.addEventListener('touchend', onMouseUp);
+            
+            // Control listeners
+            document.getElementById('btn-reset').addEventListener('click', resetView);
+            document.getElementById('btn-add-novelty').addEventListener('click', addNovelStimulus);
+            document.getElementById('btn-pause').addEventListener('click', togglePause);
+            
+            document.getElementById('curvature-slider').addEventListener('input', (e) => {
+                baseCurvature = parseFloat(e.target.value);
+                document.getElementById('curvature-control-val').textContent = baseCurvature.toFixed(1);
+            });
+            
+            document.getElementById('sensitivity-slider').addEventListener('input', (e) => {
+                noveltySensitivity = parseFloat(e.target.value);
+                document.getElementById('sensitivity-val').textContent = noveltySensitivity.toFixed(2);
+            });
+            
+            document.getElementById('pause-slider').addEventListener('input', (e) => {
+                pauseDuration = parseFloat(e.target.value);
+                document.getElementById('pause-val').textContent = pauseDuration.toFixed(2) + 's';
+            });
+            
+            document.getElementById('llm-count-slider').addEventListener('input', (e) => {
+                llmCount = parseInt(e.target.value);
+                document.getElementById('llm-count-val').textContent = llmCount;
+                initLLMs();
+            });
+            
+            document.getElementById('llm-speed-slider').addEventListener('input', (e) => {
+                llmSpeedMultiplier = parseFloat(e.target.value);
+                document.getElementById('llm-speed-val').textContent = llmSpeedMultiplier.toFixed(1) + 'x';
+            });
+            
+            animate();
+            
+            // Hide hint after interaction
+            setTimeout(() => {
+                document.getElementById('drag-hint').style.opacity = '0';
+            }, 5000);
+        }
+        
+        function resize() {
+            const container = document.getElementById('canvas-container');
+            width = container.clientWidth;
+            height = container.clientHeight || 500;
+            canvas.width = width * window.devicePixelRatio;
+            canvas.height = height * window.devicePixelRatio;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        
+        function initGrid() {
+            gridPoints = [];
+            for (let i = 0; i <= gridSize; i++) {
+                gridPoints[i] = [];
+                for (let j = 0; j <= gridSize; j++) {
+                    const x = (i - gridSize/2) * gridSpacing;
+                    const z = (j - gridSize/2) * gridSpacing;
+                    gridPoints[i][j] = { x, y: 0, z };
+                }
+            }
+        }
+        
+        function initLLMs() {
+            llms = [];
+            for (let i = 0; i < llmCount; i++) {
+                // Start at random grid intersection
+                const gridI = Math.floor(Math.random() * (gridSize - 2)) + 1;
+                const gridJ = Math.floor(Math.random() * (gridSize - 2)) + 1;
+                
+                // Direction: 0=right, 1=down, 2=left, 3=up
+                const dir = Math.floor(Math.random() * 4);
+                
+                llms.push({
+                    // Current position (grid coordinates)
+                    gridI: gridI,
+                    gridJ: gridJ,
+                    // Progress along current segment (0 to 1)
+                    progress: 0,
+                    // Direction: 0=+i, 1=+j, 2=-i, 3=-j
+                    direction: dir,
+                    speed: 0.006 + Math.random() * 0.004
+                });
+            }
+        }
+        
+        function addNovelStimulus() {
+            const gridI = Math.floor(Math.random() * (gridSize - 4)) + 2;
+            const gridJ = Math.floor(Math.random() * (gridSize - 4)) + 2;
+            const x = (gridI - gridSize/2) * gridSpacing;
+            const z = (gridJ - gridSize/2) * gridSpacing;
+            
+            novelStimuli.push({
+                x: x,
+                z: z,
+                intensity: 0.7 + Math.random() * 0.3,
+                pulse: Math.random() * Math.PI * 2,
+                consumed: false,
+                age: 0
+            });
+        }
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            document.getElementById('btn-pause').textContent = isPaused ? 'Resume' : 'Pause';
+            document.getElementById('btn-pause').classList.toggle('active', isPaused);
+        }
+        
+        function resetView() {
+            rotationX = 0.5;
+            rotationY = 0.3;
+            zoom = 1;
+        }
+        
+        function getMousePos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+        
+        function screenToWorld(screenX, screenY) {
+            // Simplified inverse projection for dragging
+            const cx = width / 2;
+            const cy = height / 2;
+            const scale = 60 * zoom;
+            
+            const dx = (screenX - cx) / scale;
+            const dy = (screenY - cy) / scale;
+            
+            // Approximate world position
+            const cosY = Math.cos(-rotationY);
+            const sinY = Math.sin(-rotationY);
+            
+            return {
+                x: dx * cosY,
+                z: dx * sinY - dy / Math.cos(rotationX)
+            };
+        }
+        
+        function isNearAgent(screenX, screenY) {
+            const agentY = getDeformation(agent.x, agent.z);
+            const agentProj = project(agent.x, agentY + 0.15, agent.z);
+            const dist = Math.sqrt(Math.pow(screenX - agentProj.x, 2) + Math.pow(screenY - agentProj.y, 2));
+            return dist < 30;
+        }
+        
+        function onMouseDown(e) {
+            const pos = getMousePos(e);
+            
+            if (isNearAgent(pos.x, pos.y)) {
+                isAgentDragging = true;
+                document.getElementById('drag-hint').style.opacity = '0';
+            } else {
+                isDragging = true;
+            }
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        }
+        
+        function onMouseMove(e) {
+            const pos = getMousePos(e);
+            
+            if (isAgentDragging) {
+                const world = screenToWorld(pos.x, pos.y);
+                const bound = gridSize * gridSpacing * 0.45;
+                agent.targetX = Math.max(-bound, Math.min(bound, world.x));
+                agent.targetZ = Math.max(-bound, Math.min(bound, world.z));
+                agent.x += (agent.targetX - agent.x) * 0.15;
+                agent.z += (agent.targetZ - agent.z) * 0.15;
+            } else if (isDragging) {
+                const dx = e.clientX - lastMouseX;
+                const dy = e.clientY - lastMouseY;
+                rotationY += dx * 0.005;
+                rotationX += dy * 0.005;
+                rotationX = Math.max(0.1, Math.min(1.2, rotationX));
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            }
+            
+            // Change cursor when near agent
+            canvas.style.cursor = isNearAgent(pos.x, pos.y) ? 'pointer' : 'grab';
+        }
+        
+        function onMouseUp() {
+            isDragging = false;
+            isAgentDragging = false;
+        }
+        
+        function onWheel(e) {
+            e.preventDefault();
+            zoom *= e.deltaY > 0 ? 0.95 : 1.05;
+            zoom = Math.max(0.5, Math.min(2.5, zoom));
+        }
+        
+        function onTouchStart(e) {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+                
+                if (isNearAgent(pos.x, pos.y)) {
+                    isAgentDragging = true;
+                } else {
+                    isDragging = true;
+                }
+                lastMouseX = touch.clientX;
+                lastMouseY = touch.clientY;
+            }
+        }
+        
+        function onTouchMove(e) {
+            if (e.touches.length !== 1) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+            
+            if (isAgentDragging) {
+                const world = screenToWorld(pos.x, pos.y);
+                const bound = gridSize * gridSpacing * 0.45;
+                agent.targetX = Math.max(-bound, Math.min(bound, world.x));
+                agent.targetZ = Math.max(-bound, Math.min(bound, world.z));
+                agent.x += (agent.targetX - agent.x) * 0.15;
+                agent.z += (agent.targetZ - agent.z) * 0.15;
+            } else if (isDragging) {
+                const dx = touch.clientX - lastMouseX;
+                const dy = touch.clientY - lastMouseY;
+                rotationY += dx * 0.005;
+                rotationX += dy * 0.005;
+                rotationX = Math.max(0.1, Math.min(1.2, rotationX));
+                lastMouseX = touch.clientX;
+                lastMouseY = touch.clientY;
+            }
+        }
+        
+        function project(x, y, z) {
+            const cosY = Math.cos(rotationY);
+            const sinY = Math.sin(rotationY);
+            const x1 = x * cosY - z * sinY;
+            const z1 = x * sinY + z * cosY;
+            
+            const cosX = Math.cos(rotationX);
+            const sinX = Math.sin(rotationX);
+            const y1 = y * cosX - z1 * sinX;
+            const z2 = y * sinX + z1 * cosX;
+            
+            const perspective = 600;
+            const scale = perspective / (perspective + z2 + 12) * zoom;
+            
+            return {
+                x: width/2 + x1 * scale * 60,
+                y: height/2 + y1 * scale * 60,
+                scale: scale,
+                z: z2
+            };
+        }
+        
+        function getDeformation(gx, gz) {
+            const dx = gx - agent.x;
+            const dz = gz - agent.z;
+            const dist = Math.sqrt(dx*dx + dz*dz);
+            
+            const radius = 2.5 + agent.selfState.uncertainty * 1.5;
+            const depth = agent.selfState.curvature * 1.2 * baseCurvature;
+            
+            let deform = 0;
+            if (dist < radius * 2.5) {
+                const falloff = Math.exp(-dist*dist / (radius * radius * 0.8));
+                deform = -falloff * depth;
+                
+                if (agent.selfState.novelty > 0.2) {
+                    const ripple = Math.sin(dist * 2.5 - time * 3) * 0.15 * agent.selfState.novelty;
+                    deform += ripple * Math.exp(-dist * 0.3);
+                }
+            }
+            
+            return deform;
+        }
+        
+        function updateAgent() {
+            if (isAgentDragging) {
+                agent.selfState.mode = 'patrol';
+                agent.selfState.verifying = 'User control';
+                updateStateDisplay();
+                return;
+            }
+            
+            // Handle pause state
+            if (agent.selfState.isPaused) {
+                agent.selfState.pauseTimer -= 0.016;
+                if (agent.selfState.pauseTimer <= 0) {
+                    agent.selfState.isPaused = false;
+                }
+                updateStateDisplay();
+                return;
+            }
+            
+            // Find nearest novel stimulus
+            let nearestDist = Infinity;
+            let nearestStim = null;
+            
+            for (const stim of novelStimuli) {
+                if (stim.consumed) continue;
+                const dx = stim.x - agent.x;
+                const dz = stim.z - agent.z;
+                const dist = Math.sqrt(dx*dx + dz*dz);
+                if (dist < nearestDist) {
+                    nearestDist = dist;
+                    nearestStim = stim;
+                }
+            }
+            
+            const noveltyDecay = 0.02;
+            const noveltyGain = 0.1 * noveltySensitivity;
+            
+            if (nearestDist < 4) {
+                agent.selfState.novelty = Math.min(1, agent.selfState.novelty + noveltyGain * (1 - nearestDist/4));
+                agent.selfState.uncertainty = Math.min(1, 0.2 + agent.selfState.novelty * 0.7);
+                agent.selfState.familiar = Math.max(0, 1 - agent.selfState.novelty);
+                
+                if (nearestDist < 0.8) {
+                    // Pause when reaching novelty
+                    if (!agent.selfState.isPaused && agent.selfState.mode !== 'verifying') {
+                        agent.selfState.isPaused = true;
+                        agent.selfState.pauseTimer = pauseDuration;
+                        agent.selfState.mode = 'verifying';
+                        agent.selfState.verifying = 'Processing novelty...';
+                        
+                        // Consume after pause
+                        setTimeout(() => {
+                            if (nearestStim && !nearestStim.consumed) {
+                                nearestStim.consumed = true;
+                                setTimeout(() => {
+                                    const idx = novelStimuli.indexOf(nearestStim);
+                                    if (idx > -1) novelStimuli.splice(idx, 1);
+                                    addNovelStimulus();
+                                }, 300);
+                            }
+                        }, pauseDuration * 1000);
+                    }
+                } else if (nearestDist < 2) {
+                    agent.selfState.mode = 'investigating';
+                    agent.selfState.verifying = 'Holding state...';
+                } else {
+                    agent.selfState.mode = 'approaching';
+                    agent.selfState.verifying = 'Detecting...';
+                }
+                
+                // Move toward novelty
+                agent.targetX = nearestStim.x;
+                agent.targetZ = nearestStim.z;
+                
+            } else {
+                agent.selfState.novelty = Math.max(0, agent.selfState.novelty - noveltyDecay);
+                agent.selfState.uncertainty = Math.max(0.2, agent.selfState.uncertainty - noveltyDecay * 0.5);
+                agent.selfState.familiar = Math.min(1, agent.selfState.familiar + noveltyDecay);
+                agent.selfState.mode = 'patrol';
+                agent.selfState.verifying = 'Exploring';
+                
+                // Free wandering - not constrained to lines
+                agent.wanderAngle += (Math.random() - 0.5) * 0.1;
+                agent.targetX = agent.x + Math.cos(agent.wanderAngle) * 3;
+                agent.targetZ = agent.z + Math.sin(agent.wanderAngle) * 3;
+            }
+            
+            agent.selfState.curvature = baseCurvature + agent.selfState.novelty * 1.0 + agent.selfState.uncertainty * 0.5;
+            
+            // Smooth movement
+            const moveSpeed = agent.selfState.mode === 'verifying' ? 0.01 : 
+                             agent.selfState.mode === 'investigating' ? 0.02 : 0.03;
+            agent.x += (agent.targetX - agent.x) * moveSpeed;
+            agent.z += (agent.targetZ - agent.z) * moveSpeed;
+            
+            // Bound to grid area
+            const bound = gridSize * gridSpacing * 0.45;
+            agent.x = Math.max(-bound, Math.min(bound, agent.x));
+            agent.z = Math.max(-bound, Math.min(bound, agent.z));
+            
+            updateStateDisplay();
+        }
+        
+        function updateStateDisplay() {
+            const s = agent.selfState;
+            
+            document.getElementById('novelty-value').textContent = s.novelty.toFixed(2);
+            document.getElementById('novelty-value').className = 'state-value' + 
+                (s.novelty > 0.6 ? ' high' : s.novelty > 0.3 ? ' elevated' : '');
+            document.getElementById('novelty-bar').style.width = (s.novelty * 100) + '%';
+            document.getElementById('novelty-bar').style.background = 
+                s.novelty > 0.6 ? '#e53e3e' : s.novelty > 0.3 ? '#ed8936' : '#48bb78';
+            
+            document.getElementById('uncertainty-value').textContent = s.uncertainty.toFixed(2);
+            document.getElementById('uncertainty-value').className = 'state-value' + 
+                (s.uncertainty > 0.6 ? ' high' : s.uncertainty > 0.4 ? ' elevated' : '');
+            document.getElementById('uncertainty-bar').style.width = (s.uncertainty * 100) + '%';
+            document.getElementById('uncertainty-bar').style.background = 
+                s.uncertainty > 0.6 ? '#e53e3e' : s.uncertainty > 0.4 ? '#ed8936' : '#48bb78';
+            
+            document.getElementById('familiar-value').textContent = 
+                s.familiar > 0.7 ? 'High' : s.familiar > 0.4 ? 'Medium' : 'Low';
+            document.getElementById('familiar-value').className = 'state-value' + 
+                (s.familiar < 0.4 ? ' high' : s.familiar < 0.7 ? ' elevated' : '');
+            
+            document.getElementById('curvature-value').textContent = s.curvature.toFixed(2);
+            document.getElementById('curvature-value').className = 'state-value' + 
+                (s.curvature > 2 ? ' high' : s.curvature > 1.5 ? ' elevated' : '');
+            
+            const modeEl = document.getElementById('mode-value');
+            modeEl.textContent = s.mode.charAt(0).toUpperCase() + s.mode.slice(1);
+            modeEl.className = 'mode-indicator ' + s.mode;
+            
+            document.getElementById('verifying-value').textContent = s.verifying || 'Exploring';
+        }
+        
+        function updateLLMs() {
+            for (const llm of llms) {
+                // Move forward along current segment
+                llm.progress += llm.speed * llmSpeedMultiplier;
+                
+                // When reaching end of segment, turn at intersection
+                if (llm.progress >= 1) {
+                    llm.progress = 0;
+                    
+                    // Move to next grid cell based on direction
+                    // Direction: 0=+i, 1=+j, 2=-i, 3=-j
+                    if (llm.direction === 0) llm.gridI++;
+                    else if (llm.direction === 1) llm.gridJ++;
+                    else if (llm.direction === 2) llm.gridI--;
+                    else if (llm.direction === 3) llm.gridJ--;
+                    
+                    // At intersection, choose new direction (always forward-ish, can turn)
+                    // Weighted toward continuing straight, but can turn left/right
+                    const choice = Math.random();
+                    if (choice < 0.6) {
+                        // Continue straight - no change
+                    } else if (choice < 0.8) {
+                        // Turn right
+                        llm.direction = (llm.direction + 1) % 4;
+                    } else {
+                        // Turn left
+                        llm.direction = (llm.direction + 3) % 4;
+                    }
+                    
+                    // Handle boundaries - turn around or redirect if hitting edge
+                    const margin = 1;
+                    if (llm.gridI >= gridSize - margin) {
+                        llm.gridI = gridSize - margin - 1;
+                        if (llm.direction === 0) llm.direction = Math.random() > 0.5 ? 1 : 3;
+                    }
+                    if (llm.gridI <= margin) {
+                        llm.gridI = margin + 1;
+                        if (llm.direction === 2) llm.direction = Math.random() > 0.5 ? 1 : 3;
+                    }
+                    if (llm.gridJ >= gridSize - margin) {
+                        llm.gridJ = gridSize - margin - 1;
+                        if (llm.direction === 1) llm.direction = Math.random() > 0.5 ? 0 : 2;
+                    }
+                    if (llm.gridJ <= margin) {
+                        llm.gridJ = margin + 1;
+                        if (llm.direction === 3) llm.direction = Math.random() > 0.5 ? 0 : 2;
+                    }
+                }
+            }
+        }
+        
+        function getLLMPosition(llm) {
+            // Get current grid point
+            const i = Math.max(0, Math.min(gridSize, llm.gridI));
+            const j = Math.max(0, Math.min(gridSize, llm.gridJ));
+            const p1 = gridPoints[i][j];
+            
+            // Get next grid point based on direction
+            let nextI = i, nextJ = j;
+            if (llm.direction === 0) nextI = Math.min(gridSize, i + 1);
+            else if (llm.direction === 1) nextJ = Math.min(gridSize, j + 1);
+            else if (llm.direction === 2) nextI = Math.max(0, i - 1);
+            else if (llm.direction === 3) nextJ = Math.max(0, j - 1);
+            
+            const p2 = gridPoints[nextI][nextJ];
+            
+            // Interpolate position
+            const t = llm.progress;
+            return {
+                x: p1.x + (p2.x - p1.x) * t,
+                z: p1.z + (p2.z - p1.z) * t
+            };
+        }
+        
+        function render() {
+            // Light gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(1, '#f7fafc');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Update grid deformation
+            for (let i = 0; i <= gridSize; i++) {
+                for (let j = 0; j <= gridSize; j++) {
+                    const p = gridPoints[i][j];
+                    p.y = getDeformation(p.x, p.z);
+                }
+            }
+            
+            const drawables = [];
+            
+            // Grid lines
+            for (let i = 0; i < gridSize; i++) {
+                for (let j = 0; j < gridSize; j++) {
+                    const p1 = gridPoints[i][j];
+                    const p2 = gridPoints[i+1][j];
+                    const p3 = gridPoints[i][j+1];
+                    
+                    const proj1 = project(p1.x, p1.y, p1.z);
+                    const proj2 = project(p2.x, p2.y, p2.z);
+                    const proj3 = project(p3.x, p3.y, p3.z);
+                    
+                    const deform = Math.abs(p1.y);
+                    const alpha = 0.15 + deform * 0.4;
+                    
+                    drawables.push({
+                        type: 'line',
+                        z: (proj1.z + proj2.z) / 2,
+                        x1: proj1.x, y1: proj1.y,
+                        x2: proj2.x, y2: proj2.y,
+                        color: `rgba(160, 174, 192, ${alpha})`,
+                        width: 1 + deform * 2
+                    });
+                    
+                    drawables.push({
+                        type: 'line',
+                        z: (proj1.z + proj3.z) / 2,
+                        x1: proj1.x, y1: proj1.y,
+                        x2: proj3.x, y2: proj3.y,
+                        color: `rgba(160, 174, 192, ${alpha})`,
+                        width: 1 + deform * 2
+                    });
+                }
+            }
+            
+            // Novel stimuli
+            for (const stim of novelStimuli) {
+                if (stim.consumed) continue;
+                const y = getDeformation(stim.x, stim.z);
+                const proj = project(stim.x, y + 0.2, stim.z);
+                const pulse = Math.sin(stim.pulse + time * 2.5) * 0.3 + 0.7;
+                
+                drawables.push({
+                    type: 'stimulus',
+                    z: proj.z,
+                    x: proj.x,
+                    y: proj.y,
+                    scale: proj.scale,
+                    intensity: stim.intensity,
+                    pulse: pulse
+                });
+            }
+            
+            // LLMs
+            for (const llm of llms) {
+                const pos = getLLMPosition(llm);
+                const y = getDeformation(pos.x, pos.z);
+                const proj = project(pos.x, y + 0.05, pos.z);
+                
+                drawables.push({
+                    type: 'llm',
+                    z: proj.z,
+                    x: proj.x,
+                    y: proj.y,
+                    scale: proj.scale
+                });
+            }
+            
+            // Agent
+            const agentY = getDeformation(agent.x, agent.z);
+            const agentProj = project(agent.x, agentY + 0.15, agent.z);
+            
+            drawables.push({
+                type: 'agent',
+                z: agentProj.z,
+                x: agentProj.x,
+                y: agentProj.y,
+                scale: agentProj.scale
+            });
+            
+            // Sort back to front
+            drawables.sort((a, b) => b.z - a.z);
+            
+            // Draw
+            for (const d of drawables) {
+                if (d.type === 'line') {
+                    ctx.beginPath();
+                    ctx.moveTo(d.x1, d.y1);
+                    ctx.lineTo(d.x2, d.y2);
+                    ctx.strokeStyle = d.color;
+                    ctx.lineWidth = d.width;
+                    ctx.stroke();
+                    
+                } else if (d.type === 'llm') {
+                    const size = 5 * d.scale;
+                    
+                    // Motion trail (subtle)
+                    const trailGradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, size * 4);
+                    trailGradient.addColorStop(0, 'rgba(66, 153, 225, 0.25)');
+                    trailGradient.addColorStop(0.5, 'rgba(66, 153, 225, 0.1)');
+                    trailGradient.addColorStop(1, 'rgba(66, 153, 225, 0)');
+                    ctx.fillStyle = trailGradient;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, size * 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Core with inner glow
+                    const coreGradient = ctx.createRadialGradient(d.x - size*0.2, d.y - size*0.2, 0, d.x, d.y, size);
+                    coreGradient.addColorStop(0, '#90cdf4');
+                    coreGradient.addColorStop(0.5, '#4299e1');
+                    coreGradient.addColorStop(1, '#3182ce');
+                    ctx.fillStyle = coreGradient;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Highlight
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                    ctx.beginPath();
+                    ctx.arc(d.x - size*0.25, d.y - size*0.25, size * 0.35, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                } else if (d.type === 'stimulus') {
+                    const size = 8 * d.scale * d.intensity * d.pulse;
+                    
+                    // Pulsing glow
+                    const gradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, size * 3.5);
+                    gradient.addColorStop(0, `rgba(236, 201, 75, ${0.5 * d.pulse})`);
+                    gradient.addColorStop(1, 'rgba(236, 201, 75, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, size * 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#ecc94b';
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Inner bright spot
+                    ctx.fillStyle = '#faf089';
+                    ctx.beginPath();
+                    ctx.arc(d.x - size*0.2, d.y - size*0.2, size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                } else if (d.type === 'agent') {
+                    const s = agent.selfState;
+                    const baseSize = 12 * d.scale;
+                    const size = baseSize * (1 + s.curvature * 0.15);
+                    
+                    // Outer glow - expands with state
+                    const glowSize = size * (2 + s.uncertainty * 2 + s.novelty * 1.5);
+                    const gradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, glowSize);
+                    const glowAlpha = 0.15 + s.novelty * 0.3;
+                    gradient.addColorStop(0, `rgba(237, 100, 166, ${glowAlpha})`);
+                    gradient.addColorStop(0.5, `rgba(237, 100, 166, ${glowAlpha * 0.4})`);
+                    gradient.addColorStop(1, 'rgba(237, 100, 166, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, glowSize, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Ripples when paused/verifying
+                    if (s.isPaused || s.mode === 'verifying') {
+                        ctx.strokeStyle = `rgba(128, 90, 213, ${0.4 + Math.sin(time * 4) * 0.2})`;
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.arc(d.x, d.y, size * 2, 0, Math.PI * 2);
+                        ctx.stroke();
+                        
+                        ctx.strokeStyle = `rgba(128, 90, 213, ${0.2 + Math.sin(time * 4 + 1) * 0.1})`;
+                        ctx.beginPath();
+                        ctx.arc(d.x, d.y, size * 2.8, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    
+                    // Core gradient
+                    const coreGradient = ctx.createRadialGradient(
+                        d.x - size*0.25, d.y - size*0.25, 0, 
+                        d.x, d.y, size
+                    );
+                    coreGradient.addColorStop(0, '#fbb6ce');
+                    coreGradient.addColorStop(0.5, '#ed64a6');
+                    coreGradient.addColorStop(1, '#d53f8c');
+                    ctx.fillStyle = coreGradient;
+                    ctx.beginPath();
+                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Highlight
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+                    ctx.beginPath();
+                    ctx.arc(d.x - size*0.3, d.y - size*0.35, size * 0.35, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+        
+        function animate() {
+            if (!isPaused) {
+                time += 0.016;
+                updateAgent();
+                updateLLMs();
+                
+                for (const stim of novelStimuli) {
+                    stim.pulse += 0.03;
+                }
+            }
+            
+            render();
+            requestAnimationFrame(animate);
+        }
+        
+        init();
+    </script>
+</body>
+</html>
