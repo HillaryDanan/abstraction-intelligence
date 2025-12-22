@@ -24,6 +24,16 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 -----
 
+## Visualizations
+
+Interactive demonstrations of framework concepts:
+
+| Visualization | Description |
+|---------------|-------------|
+| [Self-State in the Information Plane](visualizations/self_state_abstraction.html) | Interactive 3D visualization contrasting pattern-matching (LLMs) with self-state abstraction. Drag the agent, adjust parameters, observe how self-state deforms the information manifold while pattern-matchers glide through unchanged. |
+
+-----
+
 ## The Composition Hierarchy
 
 |Type                 |Structure                  |Example                                   |
