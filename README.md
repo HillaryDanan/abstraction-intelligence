@@ -20,6 +20,8 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 **Scoping the claim:** Non-abstractive processing exists—pure reactive systems with stimulus-response mappings but no symbol formation (thermostats, tropisms, basic reflexes). The framework’s load-bearing element is not “abstraction” as a label, but the *composition hierarchy* and its predicted dissociations. The claim: 3c-3d requires something beyond pattern matching. That’s testable independent of terminology.
 
+**Biological grounding:** Neurochemical systems appear to implement compositional self-state abstraction—factorized dimensions (serotonin, dopamine, norepinephrine, GLP-1) that combine with world-state to produce context-appropriate behavior (see [Paper 18](papers/mind_body_neurochemistry.md)). This provides biological evidence that intelligent systems represent internal state compositionally, not as holistic snapshots.
+
 -----
 
 ## The Composition Hierarchy
@@ -126,8 +128,9 @@ Survival pressure creates asymmetric costs—misclassifying threat as familiar c
 
 - **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren’t selected; they were optimized on symmetric loss.
 - **Asymmetric vs. symmetric pressure:** Symmetric loss (prediction error) rewards compression—minimizing average error. Asymmetric loss (survival) rewards worst-case handling—novel threats must be addressed even at efficiency cost. This selects for construction as a hedge against unbounded novelty. *(Testable: compare architectures trained under symmetric vs. asymmetric loss.)*
-- **On the mechanism gap:** The prediction is that asymmetric loss produces construction-capable architecture. The *full mechanism*—why asymmetric pressure yields construction rather than just more robust pattern-matching with better tail coverage—is not yet specified. The LC-NE gating hypothesis is suggestive but incomplete. This is an honest gap.
+- **On the mechanism gap:** The prediction is that asymmetric pressure produces construction-capable architecture. The *full mechanism*—why asymmetric pressure yields construction rather than just more robust pattern-matching with better tail coverage—is not yet specified. The LC-NE gating hypothesis is suggestive but incomplete. This is an honest gap.
 - **Candidate architectural feature:** Gating mechanisms that switch between retrieval and construction based on novelty. The locus coeruleus-norepinephrine system modulates exploration vs. exploitation based on uncertainty (Aston-Jones & Cohen, 2005). Biological cognition gates processing mode; LLMs apply identical forward passes regardless of input novelty.
+- **Broader neurochemical evidence:** The LC-NE system is one instance of a general pattern: neurochemical systems provide factorized self-state signals that compose with world-state. Serotonin (metabolic adequacy), dopamine (incentive salience), norepinephrine (arousal), cortisol (resource mobilization), and GLP-1 (appetitive intensity) appear to encode distinct dimensions that combine with environmental context for action guidance. This suggests biological intelligence implements compositional self-state abstraction—not holistic state snapshots, but factorized dimensions enabling systematic combination with world-state. See [Paper 18](papers/mind_body_neurochemistry.md) for detailed treatment. If confirmed, this provides biological evidence that compositional structure extends to internal state representation, not just external world modeling.
 - **On necessity:** Stakes are the known path to construction-capable architecture. Whether alternative paths exist is open. We claim *sufficiency* with confidence; *necessity* remains hypothesis.
 
 **Why 3c-3d specifically (hypothesis):**
@@ -182,6 +185,7 @@ When target space is unbounded, retrieval fails—*online construction* required
 |Systematicity failure: novel combinations fail despite component competence                     |Novel combinations succeed proportionally to component familiarity   |
 |Systems without stakes plateau on 3c-3d despite scaling                                         |Scaled systems show continued 3c-3d improvement proportional to scale|
 |Asymmetric loss training improves 3c-3d over symmetric loss                                     |No difference between loss types                                     |
+|Neurochemical modulation shows cross-domain effects, dissociations, transfer structure          |Effects are idiosyncratic across domains with no systematic structure|
 
 **Distinguishing embeddedness from architectural explanation:**
 
@@ -220,7 +224,7 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 |9 |[Self and World](papers/self_world_abstraction.md)                             |
 |10|[Survival Pressure and the Origins of Abstraction](papers/survival_pressure.md)|
 
-**Extensions (11–17):**
+**Extensions (11–18):**
 
 |# |Paper                                                                                |
 |--|-------------------------------------------------------------------------------------|
@@ -231,6 +235,7 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 |15|[Social Dynamics](papers/social_dynamics.md)                                         |
 |16|[Beyond Large Language Models](papers/beyond_llms.md)                                |
 |17|[Dual-Process Theory Reconsidered](papers/dual_process_abstraction.md)               |
+|18|[Neurochemistry as Self-State Abstraction](papers/mind_body_neurochemistry.md)       |
 
 -----
 
