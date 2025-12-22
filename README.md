@@ -35,16 +35,16 @@ The framework distinguishes **how abstract** (developmental stages) from **what 
 
 See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spectrum.md) for full treatment.
 
-### Composition Types (3a-3d)
+### Composition Types (A–D)
 
 |Type|Structure|Example|Required Stage|
 |----|---------|-------|--------------|
-|**3a: Concatenative**|A + B → AB|"blue bird"|Stage 2|
-|**3b: Role-filler**|R(x) + S(y) → R(x)S(y)|AGENT(dog) + ACTION(chased)|Stage 2|
-|**3c: Recursive**|A contains [B contains C]|"The dog [that chased the cat [that…]]"|Stage 3|
-|**3d: Analogical**|Structure(A) → Structure(B)|atom:nucleus :: solar system:sun|Stage 3|
+|**A: Concatenative**|A + B → AB|"blue bird"|Stage 2|
+|**B: Role-filler**|R(x) + S(y) → R(x)S(y)|AGENT(dog) + ACTION(chased)|Stage 2|
+|**C: Recursive**|A contains [B contains C]|"The dog [that chased the cat [that…]]"|Stage 3|
+|**D: Analogical**|Structure(X) → Structure(Y)|atom:nucleus :: solar system:sun|Stage 3|
 
-**Key insight:** 3a-3d describes *types of compositional operations*. Stages 1-4 describe *levels of abstraction capacity*. Stage 4 (self-referential) is **orthogonal** to composition type—you can have Stage 4 capacity on simple 3a tasks or lack it on complex 3d tasks.
+**Key insight:** Types A–D describe *compositional operations*. Stages 1–4 describe *levels of abstraction capacity*. Stage 4 (self-referential) is **orthogonal** to composition type—it monitors and verifies any compositional operation.
 
 ---
 
@@ -54,7 +54,7 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 |Finding|Evidence|Interpretation|
 |-------|--------|--------------|
-|Pattern-matchable 3c-3d at ceiling|Bracket depth, pointer chase: 100%|Stage 3 operations work when pattern-cached|
+|Pattern-matchable C–D at ceiling|Bracket depth, pointer chase: 100%|Stage 3 operations work when pattern-cached|
 |Novel operators cause failure|Recursive eval with invented ops: 50%|Stage 3 fails without cached pattern|
 |Multi-constraint relations cause failure|Relation mapping: 28%|Constraint satisfaction exceeds pattern-matching|
 |Task-specific gen/ver asymmetries|N=700, see below|**Stage 4 deficit** (hold-and-check)|
@@ -63,7 +63,7 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 |Finding|Pilot|Extended|
 |-------|-----|--------|
-|3a-3b vs. 3c-3d uniform dissociation|d=0.71|d=0.00|
+|A–B vs. C–D uniform dissociation|d=0.71|d=0.00|
 
 **Interpretation:** Composition type alone doesn't predict failure. What matters is whether the operation is pattern-matchable (Stage 3 question) and whether self-monitoring is required (Stage 4 question).
 
@@ -126,23 +126,23 @@ LLMs have attention. They lack the central executive function that enables hold-
 |-----|------------|--------|
 |Stage 1: Pattern Extraction|**Full**|Foundation of operation|
 |Stage 2: Symbol Formation|**Substantial**|Compositional generalization (imperfect)|
-|Stage 3: Recursive Composition|**Partial, context-dependent**|Pattern-matchable 3c-3d succeeds; novel fails|
+|Stage 3: Recursive Composition|**Partial, context-dependent**|Pattern-matchable C–D succeeds; novel fails|
 |Stage 4: Self-Referential|**Systematically limited**|Hold-and-check failures; miscalibration|
 
-This profile—strong at Stages 1-2, partial at Stage 3, limited at Stage 4—is what we term **disembodied abstraction**.
+This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—is what we term **disembodied abstraction**.
 
 ---
 
 ## Predictions
 
 ### Confirmed
-- Pattern-matchable 3c-3d succeeds regardless of formal complexity
+- Pattern-matchable C–D succeeds regardless of formal complexity
 - Genuinely novel operators/constraints cause failure (Stage 3 limit)
 - Task-specific generation/verification asymmetries exist (Stage 4 limit)
 
 ### Falsified
 - Uniform verification < generation
-- Composition type (3a-3d) as primary predictor
+- Composition type (A–D) as primary predictor
 
 ### Open Hypotheses
 - Scaffolding helps verification-deficit tasks specifically
