@@ -152,7 +152,59 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 
 **Empirical status:** These are not definitional assertions—LLM failures on these criteria are empirically documented. Calibration failures: Guo et al. (2017). Systematicity failures: Lake & Baroni (2018). Confident confabulation: extensive hallucination literature. The hypothesis that embeddedness is *necessary* for meeting these criteria remains testable.
 
-**Why stakes matter (hypothesis):**
+-----
+
+### Active Maintenance and Verification
+
+Beyond the construction vs. pattern-matching distinction, a distinct failure mode emerges: **inability to actively maintain and verify intermediate results during computation.**
+
+**Observed signature:** In graph isomorphism tasks, LLMs correctly compute degree sequences (e.g., both graphs yield [3,3,2,2,2]), then conclude they don't match—despite the correct computation being present in the model's own output. This is not a capability failure (the computation was performed correctly) nor a compositional failure (the subtask was pattern-matchable). It is a *verification* failure: the model does not hold what it just computed while generating subsequent tokens.
+
+**The core problem:** Autoregressive generation flows forward token-by-token. Attention provides access to prior context, but attention is not equivalent to *active maintenance*. The distinction maps onto established cognitive architecture:
+
+|                      |Active Maintenance                                      |Attention-Based Access                        |
+|----------------------|--------------------------------------------------------|----------------------------------------------|
+|**Mechanism**         |Explicit, persistent representation updated and checked |Weighted retrieval from context               |
+|**Cognitive analogue**|Working memory central executive (Baddeley, 2000)       |Long-term memory retrieval                    |
+|**Failure mode**      |Capacity limits, interference                           |Decay with distance, salience competition     |
+|**Checking behavior** |Continuous comparison against held state                |Requires explicit re-retrieval and comparison |
+
+**Cognitive science grounding:** Baddeley's working memory model (Baddeley & Hitch, 1974; Baddeley, 2000) distinguishes storage components (phonological loop, visuospatial sketchpad) from the central executive, which performs attentional control, monitoring, and verification. The verification failure suggests LLMs lack central executive function—they can generate and retrieve, but not actively maintain-and-check.
+
+**Neural implementation:** The prefrontal cortex implements active maintenance through persistent neural firing that bridges temporal gaps (Funahashi, Bruce, & Goldman-Rakic, 1989; Curtis & D'Esposito, 2003). This mechanism is metabolically expensive and capacity-limited, but provides genuine *holding* of information in an active state. Transformers lack an analogous mechanism—information persists in context but is not "held" in the sense of being continuously maintained and monitored.
+
+**Why attention alone may be insufficient (hypothesis):**
+
+1. **Attention is competitive:** Tokens compete for attention weight; intermediate results may lose salience as generation proceeds (Vaswani et al., 2017 describe the mechanism; the salience competition follows from softmax normalization)
+2. **Attention is not mandatory:** The model may attend weakly or not at all to relevant prior computation
+3. **Attention is not verification:** Retrieving a value and *checking* current output against that value are distinct operations—the latter requires comparison, not just access
+
+**Relation to self-state:** This extends the embeddedness argument. The framework argues that novelty detection requires persistent self-state *across contexts*. The verification failure suggests that even *within* a single computation, something analogous is needed: an active register that maintains intermediate results and enables continuous checking, rather than just a context window available for probabilistic retrieval.
+
+**Relation to scaffolding findings:** The pilot study found scaffolding + framing yielded 91.1% accuracy vs. 76.8% for scaffolding alone on 3c-3d tasks. If scaffolding provides *external* working memory (explicit state tracking in the prompt), this is consistent with the active maintenance hypothesis—the scaffolding substitutes for missing internal maintenance capacity. Chain-of-thought prompting (Wei et al., 2022) and scratchpad methods (Nye et al., 2021) may succeed partly by externalizing working memory into the context where it can be attended to, rather than requiring internal active maintenance.
+
+**Empirical predictions:**
+
+|Prediction                                         |Operationalization                                                                              |Falsification criterion                                    |
+|---------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+|Verification < Generation accuracy                 |Same problem, two framings: "Compute X" vs. "Is this computation of X correct? [with subtle error]"|Equal or higher accuracy on verification                   |
+|Verification degrades with context distance        |Errors increase when the value to check is further back in context                              |Uniform error rate regardless of distance                  |
+|Explicit maintenance scaffolding helps verification|External scratchpad with "current value to check: X" reduces verification errors               |Scaffolding provides no benefit for verification           |
+|Verification errors show confident confabulation   |Model concludes incorrectly with high confidence rather than expressing uncertainty             |Verification failures accompanied by calibrated uncertainty|
+
+**Alternative explanations (must be ruled out):**
+
+- **Training distribution:** Verification tasks may be underrepresented relative to generation tasks in training data
+- **Prompt sensitivity:** Verification framing may trigger learned patterns that happen to perform worse
+- **Task difficulty:** Verification may simply be harder (more cognitive load) than generation, even for humans
+
+These alternatives are testable. If the failure is architectural (absence of active maintenance mechanism), it should persist across training interventions and prompt variations. If distributional or superficial, targeted interventions should help.
+
+**Hypothesis status:** The verification failure pattern is *observed* and replicable. The explanation—absence of active maintenance mechanism analogous to working memory—is *hypothesis*. The framework predicts this is architectural, not merely distributional, but acknowledges that distinguishing these requires further experimentation.
+
+-----
+
+### Why Stakes Matter (Hypothesis)
 
 Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). But why *different architecture* rather than just stronger optimization?
 
@@ -183,7 +235,7 @@ When the structure exceeds training coverage, retrieval fails—*online construc
 
 **On emergent capabilities:** Some argue LLMs show discontinuous capability jumps with scale, challenging the asymptote prediction. The empirical record is contested—Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics. The pilot study suggests some 3c-3d tasks (bracket depth, pointer chase) may be "solved" via pattern-matching from code training, appearing as emergent 3c-3d capacity but actually reflecting training coverage expansion. Whether genuine construction emerges with scale is an open empirical question—the framework predicts not, but takes contrary evidence seriously.
 
-**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled limitations on *genuinely novel* 3c-3d that scaling alone cannot overcome—hypothesis pending further empirical test. The pilot study supports this: novel operators and complex constraints show impaired performance regardless of scale.
+**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, active maintenance architecture, and stakes. This predicts principled limitations on *genuinely novel* 3c-3d that scaling alone cannot overcome—hypothesis pending further empirical test. The pilot study supports this: novel operators and complex constraints show impaired performance regardless of scale.
 
 **On in-context learning:** ICL shows within-context adaptation, including some systematic properties like inferring novel rules from examples. The pilot study found rule transfer at 100% accuracy—but for simple rules (reverse, rotate) that may be pattern-matchable. The open question: does ICL extend to genuinely novel rules with no training analogue? The framework predicts not; testing needed.
 
@@ -224,6 +276,9 @@ When the structure exceeds training coverage, retrieval fails—*online construc
 |Systems without stakes plateau on genuinely novel 3c-3d despite scaling                         |Hypothesis      |Test across model scales                    |
 |Asymmetric loss training improves genuinely novel 3c-3d over symmetric loss                     |Hypothesis      |Requires training experiments               |
 |Neurochemical modulation shows cross-domain effects, dissociations, transfer structure          |Emerging        |GLP-1 trials ongoing (see Paper 18)         |
+|**Verification accuracy < Generation accuracy on matched problems**                             |**Hypothesis**  |Same problems, generation vs. verification framing|
+|**Verification errors increase with context distance**                                          |**Hypothesis**  |Vary distance between computed value and check|
+|**Verification errors show confident confabulation rather than calibrated uncertainty**         |**Hypothesis**  |Measure confidence on incorrect verification responses|
 
 ### Refined Predictions (from pilot findings)
 
@@ -379,21 +434,35 @@ The 2x2 pilot was underpowered but suggestive:
 
 Aston-Jones, G., & Cohen, J. D. (2005). An integrative theory of locus coeruleus-norepinephrine function: Adaptive gain and optimal performance. *Annual Review of Neuroscience*, 28, 403-450.
 
+Baddeley, A. (2000). The episodic buffer: A new component of working memory? *Trends in Cognitive Sciences*, 4(11), 417-423.
+
+Baddeley, A. D., & Hitch, G. (1974). Working memory. In G. H. Bower (Ed.), *The psychology of learning and motivation* (Vol. 8, pp. 47-89). Academic Press.
+
 Chollet, F. (2019). On the measure of intelligence. *arXiv preprint arXiv:1911.01547*.
+
+Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
 Falkenhainer, B., Forbus, K. D., & Gentner, D. (1989). The structure-mapping engine: Algorithm and examples. *Artificial Intelligence*, 41(1), 1-63.
 
 Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture: A critical analysis. *Cognition*, 28(1-2), 3-71.
 
+Funahashi, S., Bruce, C. J., & Goldman-Rakic, P. S. (1989). Mnemonic coding of visual space in the monkey's dorsolateral prefrontal cortex. *Journal of Neurophysiology*, 61(2), 331-349.
+
 Gibson, E. (1998). Linguistic complexity: Locality of syntactic dependencies. *Cognition*, 68(1), 1-76.
 
-Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. *ICML*.
+Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. *Proceedings of the 34th International Conference on Machine Learning (ICML)*, 1321-1330.
 
-Lake, B., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *ICML*.
+Lake, B., & Baroni, M. (2018). Generalization without systematicity: On the compositional skills of sequence-to-sequence recurrent networks. *Proceedings of the 35th International Conference on Machine Learning (ICML)*, 2873-2882.
+
+Nye, M., Andreassen, A. J., Gur-Ari, G., Michalewski, H., Austin, J., Biber, D., ... & Odena, A. (2021). Show your work: Scratchpads for intermediate computation with language models. *arXiv preprint arXiv:2112.00114*.
 
 Öhman, A., Flykt, A., & Esteves, F. (2001). Emotion drives attention: Detecting the snake in the grass. *Journal of Experimental Psychology: General*, 130(3), 466-478.
 
-Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *NeurIPS*.
+Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *Advances in Neural Information Processing Systems (NeurIPS)*, 36.
+
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems (NeurIPS)*, 30.
+
+Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., ... & Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. *Advances in Neural Information Processing Systems (NeurIPS)*, 35, 24824-24837.
 
 -----
 
