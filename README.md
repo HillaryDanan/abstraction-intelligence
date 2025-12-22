@@ -18,7 +18,7 @@ The **Abstraction Primitive Hypothesis (APH)**: intelligence emerges from recurs
 
 Not symbols alone. Not composition alone. Their **mutual refinement through iteration**.
 
-**Scoping the claim:** Non-abstractive processing exists—pure reactive systems with stimulus-response mappings but no symbol formation (thermostats, tropisms, basic reflexes). The framework’s load-bearing element is not “abstraction” as a label, but the *composition hierarchy* and its predicted dissociations. The claim: 3c-3d requires something beyond pattern matching. That’s testable independent of terminology.
+**Scoping the claim:** Non-abstractive processing exists—pure reactive systems with stimulus-response mappings but no symbol formation (thermostats, tropisms, basic reflexes). The framework's load-bearing element is not "abstraction" as a label, but the *composition hierarchy* and its predicted dissociations. The claim: 3c-3d requires something beyond pattern matching. That's testable independent of terminology.
 
 **Biological grounding:** Neurochemical systems appear to implement compositional self-state abstraction—factorized dimensions (serotonin, dopamine, norepinephrine, GLP-1) that combine with world-state to produce context-appropriate behavior (see [Paper 18](papers/mind_body_neurochemistry.md)). This provides biological evidence that intelligent systems represent internal state compositionally, not as holistic snapshots.
 
@@ -28,9 +28,9 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 |Type                 |Structure                  |Example                                   |
 |---------------------|---------------------------|------------------------------------------|
-|**3a: Concatenative**|A + B → AB                 |“blue bird”                               |
+|**3a: Concatenative**|A + B → AB                 |"blue bird"                               |
 |**3b: Role-filler**  |R(x) + S(y) → R(x)S(y)     |AGENT(dog) + ACTION(chased) + PATIENT(cat)|
-|**3c: Recursive**    |A contains [B contains C]  |“The dog [that chased the cat [that…]]”   |
+|**3c: Recursive**    |A contains [B contains C]  |"The dog [that chased the cat [that…]]"   |
 |**3d: Analogical**   |Structure(A) → Structure(B)|atom:nucleus :: solar system:sun          |
 
 **Computational framing:**
@@ -47,43 +47,73 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 - **3a-3b:** Bounded combinatorial space. O(1) operations, finite state machines suffice. Pattern matching covers the space.
 - **3c-3d:** Unbounded spaces. Require mechanisms beyond finite state. Pattern matching cannot precompute all cases.
 
-**3c and 3d are computationally distinct:**
+### Empirical Refinement: Training-Relative Novelty
 
-|                |3c (Recursive)                       |3d (Analogical)                                |
-|----------------|-------------------------------------|-----------------------------------------------|
-|What’s unbounded|Depth                                |Domain pairs                                   |
-|Mechanism       |Fixed (stack + grammar)              |Search over mapping space                      |
-|Complexity      |O(n) space                           |Worst-case exponential                         |
-|Operation       |Apply bounded rule to unbounded depth|Search unbounded space of cross-domain mappings|
+**Pilot study findings** (n=304 trials, Claude Sonnet): The predicted 3a-3b vs. 3c-3d dissociation was confirmed (Cohen's d = 0.71, p < 0.0001). However, the pattern was more nuanced than uniform 3c-3d degradation:
 
-They’re both “unbounded” but in *different dimensions*. This raises the question: why group them?
+|Task                |Type|Accuracy|Interpretation                          |
+|--------------------|----|--------|----------------------------------------|
+|Concatenation       |3a  |100%    |Trivially pattern-matchable             |
+|Slot-filling        |3b  |100%    |Trivially pattern-matchable             |
+|Bracket depth       |3c  |100%    |Matches code-parsing patterns           |
+|Pointer chasing     |3c  |100%    |Matches linked-list patterns            |
+|**Recursive eval**  |3c  |**50%** |Novel operator—no cached pattern        |
+|Graph isomorphism   |3d  |100%    |Small scale, learnable heuristics       |
+|Rule transfer       |3d  |100%    |Simple rules inferrable from examples   |
+|**Relation mapping**|3d  |**28%** |Multi-constraint—genuinely hard         |
 
-**Hypothesized unity:** Both require **representing and manipulating relational structure** as opposed to surface features:
+**Refined hypothesis:** The critical boundary is not formal complexity class alone, but **training-relative novelty**:
 
-- **Recursion:** Relations *between levels* (embedding structure)
-- **Analogy:** Relations *between elements* (mapping structure)
+|                        |Pattern-Matchable                              |Genuinely Novel                            |
+|------------------------|-----------------------------------------------|-------------------------------------------|
+|**Structure**           |Matches training distribution                  |No applicable cached pattern               |
+|**LLM performance**     |High (even if formally 3c-3d)                  |Degraded                                   |
+|**Examples**            |Bracket matching, pointer following, simple rules|Novel operators, multi-relational constraints|
+|**Mechanism**           |Retrieval from compressed representations      |Requires online construction               |
 
-The shared primitive may be: **relational representation + structure-sensitive operations**. Systems that can’t represent relations abstractly (independent of surface features) should fail both.
+**What this means:** LLMs have learned some recursive/relational operations from code training (bracket matching, linked-list traversal). They can apply these *learned patterns* to novel symbols. They fail when the *operation itself* is novel or when constraint satisfaction exceeds pattern-matching capacity.
 
-**Prediction:** 3c and 3d failures should co-occur. Systems that fail recursive depth should also fail analogical mapping, and vice versa—because both depend on relational representation. Dissociation between 3c and 3d would challenge the unity hypothesis and suggest distinct underlying mechanisms.
+**The refined prediction:** Failure occurs when:
+1. The **operator/rule** is genuinely novel (not just novel symbols in familiar structure)
+2. **Multiple constraints** must be satisfied simultaneously
+3. The structure **doesn't map to code/text idioms** in training data
 
-**Prediction:** Systems show 3a-3b success with 3c-3d failure. Bees do role-filler (waggle dance), not recursion. LLMs degrade faster on recursive depth than role-filler novelty.
+This is more precise than "3c-3d is hard"—it identifies *what makes* something hard for compression-based systems.
 
-**Clarification on the boundary:** The claim is not “unlimited 3c-3d vs. zero”—humans also degrade on recursive depth (Gibson, 1998). The distinction is *construction with graceful degradation* vs. *pattern-matching with hard limits*:
+-----
 
-|                 |Embedded (humans)                                        |Non-embedded (LLMs)       |
-|-----------------|---------------------------------------------------------|--------------------------|
-|Degradation curve|Graceful                                                 |Threshold collapse        |
-|Error structure  |Preserves recursive structure (shallower but grammatical)|Loses structural coherence|
-|Scaffolding      |External memory extends capacity                         |Doesn’t help equivalently |
+### 3c and 3d: Unity or Dissociation?
 
-**Operationalizing construction vs. interpolation:** Depth alone isn’t the test—succeeding at depth 6 after training on 1-5 could be interpolation. The signatures:
+**Original hypothesis:** 3c (recursive) and 3d (analogical) failures should co-occur because both require relational representation.
 
-- **Systematicity:** Novel combinations of familiar components (A[B] + C[D] → A[D]) when that combination wasn’t trained
+**Pilot finding:** Partial support. Both showed selective failures, but on different subtasks:
+- 3c failure: recursive evaluation with novel operators
+- 3d failure: relation mapping with multiple constraints
+
+**Refined hypothesis:** 3c and 3d share the property of requiring *structure-sensitive operations*, but the specific failure mode differs:
+- **3c fails** when the *recursive rule itself* is novel
+- **3d fails** when *constraint space* exceeds pattern-matching capacity
+
+Both reflect limits of compression, but in different dimensions. The unity is at the level of "requires construction beyond pattern-matching," not "identical failure patterns."
+
+-----
+
+**Clarification on the boundary:** The claim is not "unlimited 3c-3d vs. zero"—humans also degrade on recursive depth (Gibson, 1998). The distinction is *construction with graceful degradation* vs. *pattern-matching with hard limits*:
+
+|                 |Embedded (humans)                                        |Non-embedded (LLMs)                                      |
+|-----------------|---------------------------------------------------------|---------------------------------------------------------|
+|Degradation curve|Graceful                                                 |Threshold collapse on genuinely novel structures         |
+|Error structure  |Preserves recursive structure (shallower but grammatical)|Loses structural coherence when patterns don't apply     |
+|Scaffolding      |External memory extends capacity                         |Helps on some tasks (suggestive interaction, needs power)|
+
+**Operationalizing construction vs. interpolation:** Depth alone isn't the test—succeeding at depth 6 after training on 1-5 could be interpolation. The signatures:
+
+- **Systematicity:** Novel combinations of familiar components (A[B] + C[D] → A[D]) when that combination wasn't trained
 - **Error structure:** When failing, does output preserve structural coherence or collapse randomly?
 - **Generalization pattern:** Does performance track training distribution boundaries (interpolation) or extend beyond (construction)?
+- **Novel operator handling:** Can the system apply a genuinely new rule recursively, or only rules similar to training?
 
-**On falsifiability:** The framework predicts *qualitative* signatures (error structure, systematicity), not just quantitative differences. But edge cases will be contested—any improvement could be framed as “more coverage” and any failure as “insufficient construction.” The clearest tests are systematicity and error structure, which are harder to explain away. Honest acknowledgment: some cases will be genuinely ambiguous.
+**On falsifiability:** The framework predicts *qualitative* signatures (error structure, systematicity), not just quantitative differences. The pilot study provides initial falsification tests: if the 3a-3b vs. 3c-3d dissociation had not appeared, or if novel operators showed ceiling performance, the framework would require revision. The selective failure pattern (some 3c-3d at ceiling, others degraded) refines rather than falsifies the framework—it sharpens the prediction from "formal class" to "training-relative novelty."
 
 -----
 
@@ -91,9 +121,9 @@ The shared primitive may be: **relational representation + structure-sensitive o
 
 Strong interaction requires **novelty detection**—recognizing unfamiliar against a background of familiar.
 
-Novelty is relational. An input isn’t novel in itself—it’s novel *to a subject*. This requires:
+Novelty is relational. An input isn't novel in itself—it's novel *to a subject*. This requires:
 
-1. **Persistent self** → accumulated experience (“what’s familiar to me”)
+1. **Persistent self** → accumulated experience ("what's familiar to me")
 1. **Self/world distinction** → reference frame for locating novelty
 1. **Embeddedness** → what makes persistence and self/world possible
 
@@ -126,84 +156,99 @@ Embeddedness → Persistent self → Familiar/unfamiliar distinction → Novelty
 
 Survival pressure creates asymmetric costs—misclassifying threat as familiar can be fatal; false alarms merely waste energy (Öhman et al., 2001). But why *different architecture* rather than just stronger optimization?
 
-- **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren’t selected; they were optimized on symmetric loss.
+- **Phylogenetic vs. ontogenetic:** Stakes during *evolution* select for architectures; stakes during *operation* modulate which capacities are used. The claim: selection under stakes produced architecture capable of construction. LLMs weren't selected; they were optimized on symmetric loss.
 - **Asymmetric vs. symmetric pressure:** Symmetric loss (prediction error) rewards compression—minimizing average error. Asymmetric loss (survival) rewards worst-case handling—novel threats must be addressed even at efficiency cost. This selects for construction as a hedge against unbounded novelty. *(Testable: compare architectures trained under symmetric vs. asymmetric loss.)*
 - **On the mechanism gap:** The prediction is that asymmetric pressure produces construction-capable architecture. The *full mechanism*—why asymmetric pressure yields construction rather than just more robust pattern-matching with better tail coverage—is not yet specified. The LC-NE gating hypothesis is suggestive but incomplete. This is an honest gap.
 - **Candidate architectural feature:** Gating mechanisms that switch between retrieval and construction based on novelty. The locus coeruleus-norepinephrine system modulates exploration vs. exploitation based on uncertainty (Aston-Jones & Cohen, 2005). Biological cognition gates processing mode; LLMs apply identical forward passes regardless of input novelty.
 - **Broader neurochemical evidence:** The LC-NE system is one instance of a general pattern: neurochemical systems provide factorized self-state signals that compose with world-state. Serotonin (metabolic adequacy), dopamine (incentive salience), norepinephrine (arousal), cortisol (resource mobilization), and GLP-1 (appetitive intensity) appear to encode distinct dimensions that combine with environmental context for action guidance. This suggests biological intelligence implements compositional self-state abstraction—not holistic state snapshots, but factorized dimensions enabling systematic combination with world-state. See [Paper 18](papers/mind_body_neurochemistry.md) for detailed treatment. If confirmed, this provides biological evidence that compositional structure extends to internal state representation, not just external world modeling.
 - **On necessity:** Stakes are the known path to construction-capable architecture. Whether alternative paths exist is open. We claim *sufficiency* with confidence; *necessity* remains hypothesis.
 
-**Why 3c-3d specifically (hypothesis):**
+**Why genuinely novel structures specifically (refined hypothesis):**
 
-- **3a-3b:** Bounded combinatorial space. Can be encountered in training and stored. Pattern matching suffices.
-- **3c-3d:** Unbounded generative space. Recursive depth extends indefinitely; analogical mappings span arbitrary domains. Cannot be precomputed.
+- **Pattern-matchable structures:** Can be encountered in training (even if formally recursive) and handled via learned procedures. LLMs trained on code learn bracket-matching, pointer-following, etc.
+- **Genuinely novel structures:** Novel operators, complex multi-relational constraints, rules unlike training distribution. Cannot be retrieved—must be constructed.
 
-When target space is unbounded, retrieval fails—*online construction* required. (See [Paper 10](papers/survival_pressure.md).)
+When the structure exceeds training coverage, retrieval fails—*online construction* required. The boundary is training-relative, not formal-class-relative.
 
-**Compression vs. Generation:**
+**Compression vs. Generation (refined):**
 
-|              |Compression                                    |Generation                                    |
-|--------------|-----------------------------------------------|----------------------------------------------|
-|**Definition**|Finding structure within training distribution |Constructing outputs with no training coverage|
-|**Operation** |Interpolation between known points             |Extrapolation into unbounded space            |
-|**3a-3b**     |Sufficient (bounded space is coverable)        |Not required                                  |
-|**3c-3d**     |Insufficient (unbounded space exceeds coverage)|Required                                      |
+|              |Compression                                           |Generation                                    |
+|--------------|------------------------------------------------------|----------------------------------------------|
+|**Definition**|Retrieving/interpolating within training distribution |Constructing outputs with no training coverage|
+|**Operation** |Pattern-matching against learned structures           |Online construction of novel procedures       |
+|**When sufficient**|Structure matches training (even if formally 3c-3d)|—                                             |
+|**When fails**|—                                                     |Structure is genuinely novel                  |
 
-**Prediction:** Compression asymptotes on 3c-3d as coverable space is exhausted. Generation doesn’t asymptote because it’s not coverage-limited. Scaling improves compression; it doesn’t produce generation.
+**Prediction:** Compression handles trained-structure 3c-3d (bracket matching, simple analogies). Compression fails on genuinely-novel 3c-3d (novel operators, complex constraints). The distinction isn't formal class but training coverage.
 
-**On emergent capabilities:** Some argue LLMs show discontinuous capability jumps with scale, challenging the asymptote prediction. The empirical record is contested—Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics. Some “emergent” capabilities may be 3a-3b improvements mistaken for 3c-3d. Whether genuine 3c-3d emergence occurs with scale is an open empirical question the framework takes seriously.
+**On emergent capabilities:** Some argue LLMs show discontinuous capability jumps with scale, challenging the asymptote prediction. The empirical record is contested—Schaeffer et al. (2023) argue apparent emergence often disappears with continuous metrics. The pilot study suggests some 3c-3d tasks (bracket depth, pointer chase) may be "solved" via pattern-matching from code training, appearing as emergent 3c-3d capacity but actually reflecting training coverage expansion. Whether genuine construction emerges with scale is an open empirical question—the framework predicts not, but takes contrary evidence seriously.
 
-**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled 3c-3d limitations that scaling alone cannot overcome—hypothesis pending empirical test. Whether alternative paths to 3c-3d exist remains open.
+**On LLMs:** Within a conversation, LLMs have weak temporal persistence and action-consequence contingency. But they lack self-boundary awareness, cross-context stability, gating mechanisms, and stakes. This predicts principled limitations on *genuinely novel* 3c-3d that scaling alone cannot overcome—hypothesis pending further empirical test. The pilot study supports this: novel operators and complex constraints show impaired performance regardless of scale.
 
-**On in-context learning:** ICL shows within-context adaptation, including some systematic properties like inferring novel rules from examples. The open question: is this genuine construction or sophisticated retrieval? The framework predicts retrieval—ICL improves coverage (compression) rather than enabling construction (generation). But ICL’s systematic properties make this genuinely ambiguous; it’s testable, not settled.
+**On in-context learning:** ICL shows within-context adaptation, including some systematic properties like inferring novel rules from examples. The pilot study found rule transfer at 100% accuracy—but for simple rules (reverse, rotate) that may be pattern-matchable. The open question: does ICL extend to genuinely novel rules with no training analogue? The framework predicts not; testing needed.
 
 -----
 
 ## Relation to Other Frameworks
 
-**Chollet’s ARC-AGI:** Chollet (2019) also emphasizes abstraction as core to intelligence, focusing on program synthesis and skill-acquisition efficiency.
+**Chollet's ARC-AGI:** Chollet (2019) also emphasizes abstraction as core to intelligence, focusing on program synthesis and skill-acquisition efficiency.
 
 |          |APH                                                       |Chollet/ARC                                                 |
 |----------|----------------------------------------------------------|------------------------------------------------------------|
-|Core claim|Composition hierarchy matters; 3c-3d requires construction|Intelligence = skill-acquisition efficiency over novel tasks|
+|Core claim|Composition hierarchy matters; genuinely novel 3c-3d requires construction|Intelligence = skill-acquisition efficiency over novel tasks|
 |Mechanism |Embeddedness → gating → construction                      |Program synthesis over core-knowledge priors                |
-|Key test  |3a-3b vs 3c-3d dissociation                               |Few-shot generalization on novel tasks                      |
+|Key test  |Pattern-matchable vs. genuinely novel structures          |Few-shot generalization on novel tasks                      |
 
-**Relationship:** Compatible, not competing. ARC tasks likely probe 3c-3d capacity (novel analogical mappings). Chollet’s efficiency focus and APH’s composition focus address different aspects. Program synthesis could be one *implementation* of construction. LLM failures on ARC despite scale are consistent with APH predictions.
+**Relationship:** Compatible, not competing. ARC tasks likely probe genuinely novel 3c-3d (novel analogical mappings that don't match code patterns). Chollet's efficiency focus and APH's composition focus address different aspects. Program synthesis could be one *implementation* of construction. LLM failures on ARC despite scale are consistent with APH predictions—ARC tasks are designed to be genuinely novel.
 
 -----
 
 ## Predictions
 
+### Core Predictions (confirmed in pilot)
+
+|Prediction                                                                                      |Status          |Evidence                                    |
+|------------------------------------------------------------------------------------------------|----------------|--------------------------------------------|
+|Composition types dissociate (3a-3b vs. 3c-3d)                                                  |**Confirmed**   |d=0.71, p<0.0001                            |
+|Some 3c-3d tasks show ceiling performance (pattern-matchable)                                   |**Confirmed**   |Bracket depth, pointer chase, graph iso: 100%|
+|Genuinely novel operators cause failure                                                         |**Confirmed**   |Recursive eval with novel ops: 50%          |
+|Multi-constraint relational tasks cause failure                                                 |**Confirmed**   |Relation mapping: 28%                       |
+
+### Predictions Requiring Further Testing
+
+|Prediction                                                                                      |Status          |Next Steps                                  |
+|------------------------------------------------------------------------------------------------|----------------|--------------------------------------------|
+|3c and 3d failures co-occur (relational representation unity)                                   |Partial support |Both showed failures but on different subtasks; test with matched difficulty|
+|Scaffolding + framing interaction improves genuinely novel 3c-3d                                |Suggestive      |Full: 91%, others: 73-79%; needs power (n=100+)|
+|Recursive depth degrades when rule is novel                                                     |Untested        |Vary depth specifically for novel operators |
+|Systems without stakes plateau on genuinely novel 3c-3d despite scaling                         |Hypothesis      |Test across model scales                    |
+|Asymmetric loss training improves genuinely novel 3c-3d over symmetric loss                     |Hypothesis      |Requires training experiments               |
+|Neurochemical modulation shows cross-domain effects, dissociations, transfer structure          |Emerging        |GLP-1 trials ongoing (see Paper 18)         |
+
+### Refined Predictions (from pilot findings)
+
 |Prediction                                                                                      |Falsification                                                        |
 |------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-|Composition types dissociate (3a-3b vs. 3c-3d)                                                  |No differences found                                                 |
-|3c and 3d failures co-occur (relational representation unity)                                   |3c and 3d dissociate                                                 |
-|Recursive depth degrades faster than role-filler novelty                                        |Identical degradation curves                                         |
-|Bees: role-filler yes, recursive no                                                             |Bees succeed at recursion                                            |
-|Non-embedded systems fail novelty criteria (calibration, systematicity, uncertainty propagation)|System without embeddedness meets all four criteria                  |
-|Systematicity failure: novel combinations fail despite component competence                     |Novel combinations succeed proportionally to component familiarity   |
-|Systems without stakes plateau on 3c-3d despite scaling                                         |Scaled systems show continued 3c-3d improvement proportional to scale|
-|Asymmetric loss training improves 3c-3d over symmetric loss                                     |No difference between loss types                                     |
-|Neurochemical modulation shows cross-domain effects, dissociations, transfer structure          |Effects are idiosyncratic across domains with no systematic structure|
+|LLMs succeed on formally-3c-3d tasks that match code/training patterns                          |Failure on bracket matching, pointer chasing despite code training   |
+|LLMs fail on genuinely novel operators even at shallow depth                                    |Success on novel operators proportional to depth (just capacity limit)|
+|Multi-constraint relational problems are harder than single-constraint regardless of complexity |Single-constraint problems equally difficult                         |
+|Novelty gradient: performance degrades with structural novelty, not just depth                  |Depth alone predicts difficulty; novelty doesn't add                 |
+|Scaffolding helps more on genuinely novel tasks than pattern-matchable tasks                    |Scaffolding helps equally or more on pattern-matchable               |
 
-**Distinguishing embeddedness from architectural explanation:**
+### Distinguishing Embeddedness from Architectural Explanation
 
-LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) transformer architecture being compression-optimized for unrelated reasons. To distinguish:
+The 2x2 pilot was underpowered but suggestive:
 
-|Condition           |Loss      |Persistence/Gating|Tests             |
-|--------------------|----------|------------------|------------------|
-|1. Baseline LLM     |Symmetric |No                |—                 |
-|2. Loss only        |Asymmetric|No                |Loss alone        |
-|3. Architecture only|Symmetric |Yes               |Architecture alone|
-|4. Full embeddedness|Asymmetric|Yes               |Interaction       |
+|Condition                  |Accuracy (3c-3d)|Interpretation                              |
+|---------------------------|----------------|--------------------------------------------|
+|Baseline                   |78.6%           |—                                           |
+|Framing only               |73.2%           |Stakes framing alone doesn't help           |
+|Scaffolding only           |76.8%           |Scaffolding alone doesn't help              |
+|**Full (framing+scaffold)**|**91.1%**       |Possible interaction—needs power            |
 
-- If only (4) shows 3c-3d improvement → embeddedness necessary
-- If (2) alone suffices → loss asymmetry is key mechanism
-- If (3) alone suffices → architectural gating is key mechanism
-- If (2) and (3) both help independently → multiple paths exist
+**Next step:** Replicate with n=100+ per cell to adequately power interaction detection. If interaction is real, suggests both attention (stakes) and explicit working memory (scaffolding) are needed for construction on genuinely novel tasks.
 
-**RL agents as test case:** If embeddedness is necessary for 3c-3d, RL agents trained under survival-like pressure in complex environments should develop construction capacity. If they don’t, stakes may be necessary but not sufficient—or phylogenetic timescales may matter in ways training runs can’t replicate.
+**RL agents as test case:** If embeddedness is necessary for genuinely novel 3c-3d, RL agents trained under survival-like pressure in complex environments should develop construction capacity for novel operators and complex constraints. If they don't, stakes may be necessary but not sufficient—or phylogenetic timescales may matter in ways training runs can't replicate.
 
 -----
 
@@ -237,6 +282,12 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 |17|[Dual-Process Theory Reconsidered](papers/dual_process_abstraction.md)               |
 |18|[Neurochemistry as Self-State Abstraction](papers/mind_body_neurochemistry.md)       |
 
+**Empirical:**
+
+|# |Paper                                                                                |
+|--|-------------------------------------------------------------------------------------|
+|19|[Pilot Study: Compositional Hierarchy in LLMs](papers/pilot_composition_study.md)    |
+
 -----
 
 ## Empirical Research Program
@@ -244,6 +295,7 @@ LLM 3c-3d limitations could stem from (a) lack of embeddedness/stakes, or (b) tr
 ### 🧠 Core Framework
 
 [abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) ·
+[composition-testing](https://github.com/HillaryDanan/composition-testing) ·
 [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) ·
 [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) ·
 [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) ·
@@ -351,4 +403,4 @@ Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large
 
 -----
 
-*“Abstraction is all you need ;)”*
+*"Abstraction is all you need ;)"*
