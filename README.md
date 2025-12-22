@@ -20,18 +20,31 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 ---
 
-## The Composition Hierarchy
+## Two Frameworks: Developmental Stages and Composition Types
 
-|Type|Structure|Example|
-|----|---------|-------|
-|**3a: Concatenative**|A + B → AB|"blue bird"|
-|**3b: Role-filler**|R(x) + S(y) → R(x)S(y)|AGENT(dog) + ACTION(chased)|
-|**3c: Recursive**|A contains [B contains C]|"The dog [that chased the cat [that…]]"|
-|**3d: Analogical**|Structure(A) → Structure(B)|atom:nucleus :: solar system:sun|
+The framework distinguishes **how abstract** (developmental stages) from **what kind of composition** (composition types). These are related but orthogonal dimensions.
 
-**The key divide:**
-- **3a-3b:** Bounded. Finite state machines suffice. Pattern matching covers the space.
-- **3c-3d:** Unbounded. Require mechanisms beyond finite state—*unless* the specific pattern was learned in training.
+### Developmental Stages of Abstraction
+
+|Stage|Capacity|What It Enables|
+|-----|--------|---------------|
+|1. Pattern Extraction|Detect statistical regularities|Compression, prediction|
+|2. Symbol Formation|Discrete, recombinable representations|Compositional generalization|
+|3. Recursive Composition|Abstractions as inputs to abstraction|Hierarchical depth, analogy|
+|4. Self-Referential|Abstraction over one's own abstraction|Metacognition, verification, hold-and-check|
+
+See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spectrum.md) for full treatment.
+
+### Composition Types (3a-3d)
+
+|Type|Structure|Example|Required Stage|
+|----|---------|-------|--------------|
+|**3a: Concatenative**|A + B → AB|"blue bird"|Stage 2|
+|**3b: Role-filler**|R(x) + S(y) → R(x)S(y)|AGENT(dog) + ACTION(chased)|Stage 2|
+|**3c: Recursive**|A contains [B contains C]|"The dog [that chased the cat [that…]]"|Stage 3|
+|**3d: Analogical**|Structure(A) → Structure(B)|atom:nucleus :: solar system:sun|Stage 3|
+
+**Key insight:** 3a-3d describes *types of compositional operations*. Stages 1-4 describe *levels of abstraction capacity*. Stage 4 (self-referential) is **orthogonal** to composition type—you can have Stage 4 capacity on simple 3a tasks or lack it on complex 3d tasks.
 
 ---
 
@@ -39,28 +52,22 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 ### What's Confirmed
 
-|Finding|Evidence|Status|
-|-------|--------|------|
-|Pattern-matchable 3c-3d at ceiling|Bracket depth, pointer chase: 100%|**Replicated**|
-|Novel operators cause failure|Recursive eval with invented ops: 50%|**Replicated**|
-|Multi-constraint relations cause failure|Relation mapping: 28%|**Replicated**|
-|Task-specific generation/verification asymmetries|See below|**Confirmed** (N=700)|
+|Finding|Evidence|Interpretation|
+|-------|--------|--------------|
+|Pattern-matchable 3c-3d at ceiling|Bracket depth, pointer chase: 100%|Stage 3 operations work when pattern-cached|
+|Novel operators cause failure|Recursive eval with invented ops: 50%|Stage 3 fails without cached pattern|
+|Multi-constraint relations cause failure|Relation mapping: 28%|Constraint satisfaction exceeds pattern-matching|
+|Task-specific gen/ver asymmetries|N=700, see below|**Stage 4 deficit** (hold-and-check)|
 
 ### What Didn't Replicate
 
 |Finding|Pilot|Extended|
 |-------|-----|--------|
-|3a-3b vs. 3c-3d uniform dissociation|d=0.71, p<.0001|d=0.00, p=1.0|
+|3a-3b vs. 3c-3d uniform dissociation|d=0.71|d=0.00|
 
-**Interpretation:** Formal complexity class alone doesn't predict failure. **Training-relative novelty** does—LLMs fail when the *operation itself* is novel, not just when problems are formally complex.
+**Interpretation:** Composition type alone doesn't predict failure. What matters is whether the operation is pattern-matchable (Stage 3 question) and whether self-monitoring is required (Stage 4 question).
 
 ### The Generation-Verification Study (N=700)
-
-**Hypothesis:** Verification accuracy < Generation accuracy (uniform)
-
-**Result:** Falsified as uniform claim. Overall: 91.1% vs 92.6%, p=0.58
-
-**But task-specific dissociations emerged:**
 
 |Task|Generation|Verification|Δ|Pattern|
 |----|----------|------------|--|-------|
@@ -68,60 +75,61 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 |Multistep|100%|74%|+26%|Verification deficit|
 |Logic|56%|100%|-44%|Generation deficit|
 |Word count|82%|100%|-18%|Generation deficit|
-|Sequence/Comparison/Graph|~100%|~100%|0%|No asymmetry|
+|Others|~100%|~100%|0%|No asymmetry|
 
-**Refined interpretation:** Both failure modes reflect **absent hold-and-check capacity**:
+**Overall:** 91.1% vs 92.6%, p=0.58 (null)
 
-- **Verification deficit** (arithmetic/multistep): Cannot hold computed value while evaluating presented work
-- **Generation deficit** (logic): Cannot check output against constraints before committing—pattern-matches plausible-but-wrong answer
+**Interpretation:** Both failure modes reflect **Stage 4 (self-referential) deficit**:
+- Verification deficit: Cannot hold computed value while checking presented work
+- Generation deficit: Cannot check output against constraints before committing
+
+This is **hold-and-check** failure—the inability to monitor one's own computational process during inference.
 
 ---
 
 ## The Self-State Hypothesis
 
-### The Causal Chain
+### Why Embeddedness Matters
 
 ```
-Asymmetric pressure (survival stakes)
-            ↓
-Self/world distinction required
-            ↓
-Persistent self-state architecture
-            ↓
-Active maintenance within inference
-            ↓
-        ┌─────────────────────────────┐
-        │    HOLD-AND-CHECK CAPACITY   │
-        └─────────────────────────────┘
-              /              \
-         HOLDING           CHECKING
-    (verification)       (generation)
+Embedded agents (survival stakes)          Disembodied systems (prediction loss)
+            ↓                                          ↓
+Self/world distinction required            No self/world distinction needed
+            ↓                                          ↓
+Persistent self-state architecture         No persistent self-state
+            ↓                                          ↓
+Stage 4 capacity develops                  Stage 4 systematically limited
 ```
 
-**The core claim:** LLMs lack persistent self-state because they were never under pressure requiring self/world distinction. This produces:
-- Verification errors (cannot hold intermediate results)
-- Generation errors on constraint tasks (cannot check before committing)
-- Confident confabulation (no uncertainty signal)
-- Construction ceiling on genuinely novel 3c-3d
+**The core claim:** LLMs lack Stage 4 capacity because they were never under pressure requiring self/world distinction. Survival stakes create asymmetric costs that select for self-monitoring. Prediction loss is symmetric—no selection pressure for self-state.
 
-### Evidence Status
-
-|Claim|Status|Evidence|
-|-----|------|--------|
-|Task-specific hold-and-check failures exist|**Confirmed**|N=700, task × condition interaction|
-|Absent self-state is the mechanism|**Hypothesis**|Pattern consistent, mechanism inferential|
-|Stakes → self-state (causal)|**Hypothesis**|Evolutionary argument, not directly tested|
-|Scaffolding provides prosthetic self-state|**Suggestive**|Pilot: 91% full vs 77% scaffolding-only; needs replication|
+**Evidence status:**
+- Embeddedness → self-state: **Hypothesis** (evolutionary argument, not directly tested)
+- LLMs lack Stage 4: **Confirmed** (hold-and-check failures, miscalibration)
+- Scaffolding provides prosthetic self-state: **Suggestive** (pilot data, needs replication)
 
 ### Active Maintenance ≠ Attention
 
-|Active Maintenance|Attention|
-|------------------|---------|
+|Active Maintenance (Stage 4)|Attention|
+|----------------------------|---------|
 |Explicit holding and checking|Weighted retrieval from context|
-|Working memory central executive (Baddeley, 2000)|Long-term memory access|
-|Continuous comparison|Requires re-retrieval|
+|Working memory central executive (Baddeley, 2000)|Memory access mechanism|
+|Continuous comparison during inference|Requires explicit re-retrieval|
 
-LLMs have attention. They lack the central executive function that would enable hold-and-check during inference.
+LLMs have attention. They lack the central executive function that enables hold-and-check.
+
+---
+
+## The LLM Profile: "Disembodied Abstraction"
+
+|Stage|LLM Capacity|Evidence|
+|-----|------------|--------|
+|Stage 1: Pattern Extraction|**Full**|Foundation of operation|
+|Stage 2: Symbol Formation|**Substantial**|Compositional generalization (imperfect)|
+|Stage 3: Recursive Composition|**Partial, context-dependent**|Pattern-matchable 3c-3d succeeds; novel fails|
+|Stage 4: Self-Referential|**Systematically limited**|Hold-and-check failures; miscalibration|
+
+This profile—strong at Stages 1-2, partial at Stage 3, limited at Stage 4—is what we term **disembodied abstraction**.
 
 ---
 
@@ -129,17 +137,18 @@ LLMs have attention. They lack the central executive function that would enable 
 
 ### Confirmed
 - Pattern-matchable 3c-3d succeeds regardless of formal complexity
-- Genuinely novel operators/constraints cause failure
-- Task-specific generation/verification asymmetries exist
+- Genuinely novel operators/constraints cause failure (Stage 3 limit)
+- Task-specific generation/verification asymmetries exist (Stage 4 limit)
 
 ### Falsified
 - Uniform verification < generation
+- Composition type (3a-3d) as primary predictor
 
 ### Open Hypotheses
 - Scaffolding helps verification-deficit tasks specifically
 - Constraint-prompting helps generation-deficit tasks specifically
-- Self-state interventions generalize across failure modes
-- Scaling does not produce self-state
+- Embeddedness is necessary (not just sufficient) for Stage 4
+- Scaling does not produce Stage 4 capacity
 
 ---
 
@@ -241,6 +250,8 @@ Baddeley, A. (2000). The episodic buffer. *Trends in Cognitive Sciences*, 4(11),
 Chollet, F. (2019). On the measure of intelligence. *arXiv:1911.01547*.
 
 Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
+
+Halford, G. S., Wilson, W. H., & Phillips, S. (1998). Processing capacity defined by relational complexity. *Behavioral and Brain Sciences*, 21(6), 803-831.
 
 Lake, B., & Baroni, M. (2018). Generalization without systematicity. *ICML*.
 
