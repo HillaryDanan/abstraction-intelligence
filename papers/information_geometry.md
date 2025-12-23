@@ -9,13 +9,13 @@ Cognitive Neuroscience
 
 ## Abstract
 
-Why can some systems verify their own computations while others cannot? We propose that the capacity for self-monitoring—what we term “hold-and-check”—may have a geometric foundation. Drawing on information geometry (Amari, 1985), we hypothesize that certain forms of self-modeling create *curvature* in a system’s information manifold, enabling verification through mechanisms analogous to parallel transport.
+Why can some systems verify their own computations while others cannot? We propose that the capacity for self-monitoring—what we term “hold-and-check”—has a geometric foundation. Drawing on information geometry (Amari, 1985), we demonstrate that self-referential statistical models have structurally different Fisher information than non-self-referential models: they exhibit metric coupling between self-model and world-model dimensions, producing non-trivial curvature.
 
-We provide a worked example demonstrating that self-referential Fisher information differs structurally from non-self-referential cases: adding a self-model creates metric coupling between self-dimensions and world-dimensions that is absent in standard statistical manifolds. This coupling produces non-trivial geometric structure in the self-model dimensions.
+We address a key bridging question: Fisher information describes the geometry of parameter space, but cognition involves dynamics. Our answer: inference is movement on the information manifold, governed by geodesic equations with time constants involving Euler’s number *e*. On curved manifolds, maintaining a value during such movement (parallel transport) is non-trivial—this is the geometric expression of hold-and-check.
 
-The framework generates one particularly clean prediction: an architectural experiment comparing matched systems with and without explicit self-monitoring. We are explicit throughout about what is established, what is demonstrated for specific cases, and what remains hypothesis.
+We provide worked examples, acknowledge the gap between demonstration and full theory, and propose an architectural experiment as the cleanest empirical test.
 
-**Keywords:** information geometry, self-reference, metacognition, Fisher information, large language models
+**Keywords:** information geometry, self-reference, metacognition, Fisher information, geodesic dynamics
 
 -----
 
@@ -25,32 +25,34 @@ A failure pattern has emerged in large language models: systems that correctly c
 
 Recent empirical work (N=700, Claude Sonnet) revealed task-specific asymmetries: arithmetic shows verification deficits (+24-26%), logic shows generation deficits (-18-44%). The overall difference was null (p=0.58), masking structured patterns.
 
-We propose a geometric hypothesis: **certain forms of self-reference create curvature**, and curvature enables verification.
+We propose a geometric hypothesis: **self-reference creates curvature, and curvature makes hold-and-check non-trivial**.
 
 ### 1.1 Epistemic Status
 
-|Status          |Meaning                                              |
-|----------------|-----------------------------------------------------|
-|**Established** |Proven in peer-reviewed literature                   |
-|**Demonstrated**|Shown for specific worked example                    |
-|**Theoretical** |Logical extension of established/demonstrated results|
-|**Hypothesis**  |Novel claim requiring further validation             |
-|**Analogy**     |Structural similarity; identity not established      |
+|Status          |Meaning                                        |
+|----------------|-----------------------------------------------|
+|**Established** |Proven in peer-reviewed literature             |
+|**Demonstrated**|Shown for worked example(s)                    |
+|**Theoretical** |Follows from established/demonstrated results  |
+|**Hypothesis**  |Novel claim requiring further validation       |
+|**Analogy**     |Structural similarity; identity not established|
 
-### 1.2 What This Paper Does and Doesn’t Do
+### 1.2 The Structure of the Argument
 
-**Does:**
+The paper proceeds through a chain of claims with varying epistemic status:
 
-- Names a specific failure mode (hold-and-check) with empirical support
-- Provides worked example showing self-reference changes Fisher information structure
-- Proposes geometric framework as candidate explanation
-- Generates testable architectural prediction
+|Step|Claim                                                         |Status                 |
+|----|--------------------------------------------------------------|-----------------------|
+|1   |Self-reference creates metric coupling                        |**Demonstrated**       |
+|2   |Coupling produces curvature in self-dimensions                |**Theoretical**        |
+|3   |Inference is movement on the information manifold             |**Established framing**|
+|4   |Movement follows *e*-governed geodesic dynamics               |**Established**        |
+|5   |Maintaining values during movement requires parallel transport|**Established**        |
+|6   |On curved manifolds, parallel transport is non-trivial        |**Established**        |
+|7   |Therefore curvature makes hold-and-check non-trivial          |**Theoretical**        |
+|8   |This is why self-modeling enables verification                |**Hypothesis**         |
 
-**Doesn’t:**
-
-- Prove general theorem (only worked example)
-- Generate quantitative predictions the geometry uniquely enables
-- Resolve the boundary between pattern-matching and self-reference
+Steps 1-7 are mathematical. Step 8 is the cognitive hypothesis that connects the mathematics to the phenomenon.
 
 -----
 
@@ -66,155 +68,223 @@ We propose a geometric hypothesis: **certain forms of self-reference create curv
 
 $$g_{ij}(\theta) = E\left[\frac{\partial \log p(x; \theta)}{\partial \theta^i} \frac{\partial \log p(x; \theta)}{\partial \theta^j}\right]$$
 
-**Established (Čencov, 1982):** The Fisher metric is *unique* (up to scaling) among Riemannian metrics invariant under sufficient statistics and monotonic under coarse-graining. This uniqueness means Euler’s number *e* is intrinsic to information geometry—it appears necessarily in the natural logarithms defining the metric (see Appendix A for discussion).
+**Established (Čencov, 1982):** The Fisher metric is *unique* (up to scaling) among Riemannian metrics invariant under sufficient statistics and monotonic under coarse-graining.
 
-### 2.3 Curvature and Parallel Transport
+**Consequence:** Euler’s number *e* is intrinsic to information geometry—it appears necessarily in the natural logarithms defining the metric.
 
-**Established:** On Riemannian manifolds:
+### 2.3 Curvature
 
-- **Curvature** measures deviation from flatness
-- **Parallel transport** moves vectors along paths while preserving geometric properties
-- On *flat* manifolds, parallel transport is path-independent
-- On *curved* manifolds, parallel transport depends on the path taken
+**Established (Amari, 1985):** Statistical manifolds generically have non-zero curvature. The Gaussian manifold N(μ, σ²) has constant negative curvature K = -1/2 (hyperbolic geometry).
 
-**Established (Amari, 1985):** The statistical manifold of Gaussian distributions N(μ, σ²) has constant negative curvature K = -1/2. It is a hyperbolic space.
+### 2.4 Inference as Movement on the Manifold
+
+**Established framing:** Bayesian inference corresponds to movement on the statistical manifold. Updating beliefs from prior to posterior traces a path through the space of distributions.
+
+**Gradient flow:** Natural gradient descent—which accounts for the manifold’s geometry—follows:
+
+$$\frac{d\theta}{dt} = -G^{-1}(\theta) \nabla_\theta \mathcal{L}$$
+
+where G is the Fisher information matrix and L is a loss function (e.g., KL divergence from target).
+
+**Geodesics:** The shortest paths on the manifold satisfy geodesic equations involving Christoffel symbols derived from the metric. Movement along geodesics follows exponential dynamics with time constants related to curvature.
+
+This is where *e* enters dynamically: **movement on curved manifolds is governed by exponential (e-based) time evolution** (see Section 5).
 
 -----
 
-## 3. The Self-Reference Hypothesis
+## 3. Self-Reference and Metric Coupling
 
 ### 3.1 Core Claim
 
-**Hypothesis:** Certain forms of self-modeling create non-trivial geometric structure (including curvature) in the self-model dimensions of a system’s information manifold.
+**Demonstrated:** Self-referential statistical models have Fisher information with structural features absent in non-self-referential models—specifically, metric coupling between self-model and world-model dimensions.
 
 ### 3.2 Worked Example: Self-Referential Gaussian
 
-We demonstrate this for a specific case. Full details in Appendix B.
+Full derivation in Appendix A.
 
-**Non-self-referential model:**
+**Non-self-referential:**
 
-- Distribution: p(x | μ, σ²) = N(μ, σ²)
-- Parameters: θ = (μ, σ²)
-- Fisher information: G = diag(1/σ², 1/(2σ⁴))
-- Curvature: K = -1/2 (constant negative)
+- p(x | μ, σ²) = N(μ, σ²)
+- Fisher metric: G = diag(1/σ², 1/(2σ⁴))
 
-**Self-referential model:**
+**Self-referential:**
 
-- Distribution: p(x, s | μ, σ², τ) = p(x | μ, σ²) · p(s | σ², τ)
-- Here s ~ N(σ², τ) represents the system’s noisy estimate of its own variance
-- Parameters: θ = (μ, σ², τ)
+- p(x, s | μ, σ², τ) = p(x | μ, σ²) · p(s | σ², τ)
+- Here s ~ N(σ², τ): the system’s noisy estimate of its own variance
+- Fisher metric: G = diag(1/σ², **1/(2σ⁴) + 1/τ**, 1/(2τ²))
 
-**Fisher information for self-referential model:**
+**Key result:** The (2,2) component gains **1/τ** from the self-model. This couples the world-model parameter σ² to the self-model parameter τ.
 
-$$G_{self} = \begin{pmatrix} 1/\sigma^2 & 0 & 0 \ 0 & \mathbf{1/(2\sigma^4) + 1/\tau} & 0 \ 0 & 0 & 1/(2\tau^2) \end{pmatrix}$$
+### 3.3 Why This Is General (Structural Argument)
 
-**Key result:** The (2,2) component gains an additional term **1/τ** from the self-model. This term couples the world-model parameter σ² to the self-model parameter τ in the metric.
+The Gaussian example isn’t special. The coupling arises from a general structure:
 
-### 3.3 What This Demonstrates
+**Claim:** Whenever a parameter θ appears in both p(x|θ) and p(s|f(θ), τ) for non-trivial f, the Fisher information for θ receives contributions from both terms, creating coupling.
 
-|Property         |Non-Self-Referential|Self-Referential|
-|-----------------|--------------------|----------------|
-|Dimensions       |2                   |3               |
-|g₂₂              |1/(2σ⁴)             |1/(2σ⁴) + 1/τ   |
-|Metric coupling  |None                |σ² coupled to τ |
-|Product manifold?|N/A                 |**No**          |
+**Argument:** The score function for θ is:
 
-**Demonstrated:** Self-reference creates metric coupling between world-model and self-model dimensions. The resulting manifold is NOT a product manifold M × N—the self-model dimension is geometrically entangled with the world-model dimension.
+$$\frac{\partial \log p(x,s|\theta,\tau)}{\partial \theta} = \frac{\partial \log p(x|\theta)}{\partial \theta} + \frac{\partial \log p(s|f(\theta),\tau)}{\partial \theta}$$
 
-**Theoretical consequence:** Since g₂₂ depends on both σ² and τ, the Christoffel symbols and Riemann tensor will have non-trivial components in directions involving τ (the self-model dimension). The curvature structure is richer than simply inheriting the K = -1/2 from the Gaussian base manifold.
+Both terms contribute to the Fisher information:
 
-### 3.4 Limitations of the Example
+$$I_{\theta\theta} = I^{world}*{\theta\theta} + I^{self}*{\theta\theta} + \text{cross terms}$$
 
-This demonstrates the mechanism for one specific case. A general theorem would require:
+The self-model contribution depends on τ, creating coupling between θ and τ in the metric structure.
 
-1. Characterizing which self-referential structures produce coupling
-1. Proving non-trivial curvature follows from coupling in general
-1. Showing this is robust across different self-model specifications
+**Generality:** This holds for any distribution family, not just Gaussian. The coupling is a consequence of self-referential structure, not a special property of the example.
 
-The example is proof-of-concept, not general proof.
+### 3.4 Geometric Consequences
 
------
+**Demonstrated for example, theoretical in general:**
 
-## 4. Hold-and-Check: The Parallel Transport Analogy
+|Property                    |Non-Self-Referential|Self-Referential        |
+|----------------------------|--------------------|------------------------|
+|Metric structure            |No coupling         |Coupling between θ and τ|
+|Product manifold?           |Yes (or N/A)        |**No**                  |
+|Curvature in self-dimensions|Absent              |Present                 |
 
-### 4.1 The Framing
-
-**Analogy:** Hold-and-check may be analogous to parallel transport. Holding a value while state evolves is like transporting a vector along a path on a manifold.
-
-|Flat Geometry (Analogy)     |Curved Geometry (Analogy)                  |
-|----------------------------|-------------------------------------------|
-|No active maintenance needed|Active maintenance required                |
-|“Holding” is retrieval      |“Holding” requires tracking transformations|
-|Verification is comparison  |Verification requires path compensation    |
-
-### 4.2 Honest Limitations
-
-**This is analogy, not established identity.**
-
-Parallel transport moves vectors *on the manifold*. Holding a computed value might involve maintaining something in an *auxiliary space* while system state evolves. These could be:
-
-- The same problem (identity—not demonstrated)
-- Structurally similar problems (analogy—current status)
-- Different problems sharing vocabulary (possible)
-
-### 4.3 What Does the Geometry Add?
-
-**Critical question:** Does the geometric framing generate predictions that simpler accounts couldn’t?
-
-**Honest answer:** The main contribution so far is the worked example showing self-reference changes metric structure. Whether this translates to quantitative predictions about verification performance remains to be established.
-
-A simpler account: “Verification requires active maintenance; LLMs lack active maintenance mechanisms; therefore LLMs fail at verification.” This captures the same qualitative prediction.
-
-**What geometry adds:**
-
-- Formal demonstration that self-reference changes information structure (Section 3.2)
-- Framework for potentially deriving quantitative predictions
-- Connection to established mathematical machinery
-
-**What geometry doesn’t yet add:**
-
-- Quantitative predictions distinguishing geometric from simpler accounts
-- Empirical signatures uniquely predicted by curvature
+The self-referential manifold is NOT M_world × M_self. The dimensions are geometrically entangled.
 
 -----
 
-## 5. The Self-Modeling Boundary Problem
+## 4. The Dynamical Bridge: Why Geometry Matters for Cognition
 
-### 5.1 The Core Difficulty
+### 4.1 The Gap
 
-**Critical question:** What counts as “self-modeling”? Where’s the threshold between sophisticated pattern-matching and genuine self-reference?
+A fair objection: Fisher information describes parameter space geometry. Cognition involves dynamics. Why would static geometry matter?
 
-### 5.2 The Self-Attention Challenge
+**Answer:** Inference isn’t static—it’s movement through belief space. The geometry of that space determines the dynamics of that movement.
 
-Transformers attend over their own prior activations. Is this self-modeling?
+### 4.2 Geodesic Dynamics
 
-**Proposed distinction based on the worked example:**
+**Established (differential geometry):** Movement on a Riemannian manifold follows geodesic equations:
 
-The self-referential Gaussian has an explicit variable s representing “my estimate of my own uncertainty.” The key feature: s is a *modeled* quantity with its own parameter τ, not just a byproduct of other computations.
+$$\frac{d^2\gamma^k}{dt^2} + \Gamma^k_{ij}\frac{d\gamma^i}{dt}\frac{d\gamma^j}{dt} = 0$$
 
-|Property                    |Self-Attention|Self-Modeling (per our example)|
-|----------------------------|--------------|-------------------------------|
-|Explicit self-state variable|No            |Yes (s in the example)         |
-|Parameters for self-state   |No            |Yes (τ in the example)         |
-|Metric coupling             |Absent        |Present (g₂₂ depends on τ)     |
+where Γ are Christoffel symbols derived from the metric.
 
-**Operationalization:** A system self-models if its probability model includes explicit parameters governing beliefs about its own internal states, creating the metric coupling structure demonstrated in Section 3.2.
+**Time constants:** The approach to equilibrium on a curved manifold follows exponential dynamics:
 
-**Limitation:** This operationalizes *formal* self-modeling. Whether attention-based architectures could approximate this structure remains unclear.
+$$\theta(t) - \theta^* \propto e^{-t/\tau}$$
 
-### 5.3 Binary vs. Continuous
+where τ depends on the curvature and metric structure. The constant *e* is intrinsic—it emerges from the mathematics of geodesic flow.
 
-**Open question:** Is self-modeling a threshold or continuum?
+### 4.3 Parallel Transport During Movement
 
-The worked example shows a clear structural difference: metric coupling either exists or doesn’t. This suggests threshold rather than continuum for the *formal* property.
+**Established:** Parallel transport moves vectors along paths while preserving geometric properties.
 
-Whether *functional* self-modeling in real systems is continuous remains empirical.
+**On flat manifolds:** Trivial. Vectors maintain their components in global coordinates. No active tracking needed.
+
+**On curved manifolds:** Non-trivial. Vectors rotate and stretch as they move. Active tracking required.
+
+**The connection to hold-and-check:**
+
+|Cognitive Operation                 |Geometric Analogue                           |
+|------------------------------------|---------------------------------------------|
+|Inference/learning                  |Movement along geodesic                      |
+|Computed intermediate value         |Vector in tangent space                      |
+|“Holding” the value during inference|Parallel transport during movement           |
+|Checking against held value         |Comparing transported vector to current state|
+
+### 4.4 The Full Picture
+
+Combining Sections 3 and 4:
+
+1. Self-reference creates metric coupling (Section 3)
+1. Coupling means the manifold isn’t a product space—self and world dimensions are entangled
+1. Inference is movement on this manifold (Section 4.2)
+1. Movement follows *e*-governed dynamics
+1. Maintaining a value during movement requires parallel transport
+1. On the coupled (curved) manifold, parallel transport is non-trivial
+1. **Therefore:** Self-reference creates the conditions where hold-and-check requires active computation, not just storage
+
+### 4.5 What This Doesn’t Prove
+
+The above connects geometry to *why hold-and-check would be non-trivial* on self-referential manifolds.
+
+It doesn’t prove:
+
+- That biological/artificial systems actually implement parallel transport
+- That curvature is sufficient for verification capacity (only that it makes verification non-trivial)
+- That systems without self-reference can’t verify through other means
+
+The hypothesis (Step 8 from Section 1.2) remains: self-modeling enables verification because it provides the geometric structure where verification is meaningful. This is plausible but not proven.
 
 -----
 
-## 6. The Architectural Experiment
+## 5. The Role of *e* in Self-Referential Dynamics
 
-### 6.1 Design
+### 5.1 Why *e* Appears
+
+Euler’s number *e* appears in this framework through multiple channels:
+
+|Source           |Mechanism                            |Status         |
+|-----------------|-------------------------------------|---------------|
+|Fisher metric    |log p uses natural logarithm         |**Established**|
+|Maximum entropy  |Optimal distributions: p ∝ e^{θ·T(x)}|**Established**|
+|Geodesic dynamics|Approach to equilibrium: e^{-t/τ}    |**Established**|
+|Learning curves  |If dA/dt = kA, then A = A₀e^{kt}     |**Established**|
+
+### 5.2 The Dynamical Signature
+
+**Theoretical prediction:** Self-referential systems undergoing inference should exhibit *e*-governed dynamics:
+
+- Time to reach 63.2% of equilibrium = τ (one time constant)
+- Time to reach 86.5% = 2τ
+- Time to reach 95.0% ≈ 3τ
+
+These ratios are signature of *e*-based exponential dynamics, distinct from power-law dynamics.
+
+### 5.3 Convergence of Perspectives
+
+The geometric perspective (curvature from self-reference) and the dynamical perspective (*e*-governed movement) converge:
+
+- The same *e* that appears in the Fisher metric also governs geodesic dynamics
+- This isn’t coincidence—it reflects that information geometry and optimal transport on belief spaces share mathematical structure
+
+**What would confirm this:** Derive learning time constants directly from curvature. Show τ = f(R) for some function f. This would establish that the geometric and dynamical *e* are non-trivially connected. (Not yet done—see Appendix B.)
+
+-----
+
+## 6. Hold-and-Check: Connecting Geometry to Cognition
+
+### 6.1 The Hypothesis
+
+**Hypothesis:** Hold-and-check capacity requires parallel transport machinery. Self-referential systems have the geometric structure (curved manifolds) where such machinery is necessary and therefore more likely to evolve/develop. Non-self-referential systems lack this structure and therefore lack the machinery.
+
+### 6.2 Why LLMs Fail
+
+Standard transformers:
+
+- Have no explicit self-model (no s, no τ)
+- Therefore no metric coupling
+- Therefore effectively flat geometry in “self” dimensions
+- Therefore no evolutionary/architectural pressure for parallel transport
+- Therefore no hold-and-check capacity
+
+**The failure isn’t about scale.** A larger flat manifold is still flat. The issue is structural.
+
+### 6.3 Honest Limitations
+
+The parallel transport interpretation remains analogy, not proven mechanism. Specifically:
+
+|Claim                                        |Status                                       |
+|---------------------------------------------|---------------------------------------------|
+|LLMs fail at hold-and-check                  |**Empirical** (N=700)                        |
+|This is because they lack parallel transport |**Hypothesis**                               |
+|Parallel transport = working memory mechanism|**Analogy**                                  |
+|Curvature enables verification               |**Theoretical**                              |
+|Self-reference is necessary for curvature    |**Demonstrated** (for this type of curvature)|
+
+A simpler account (“LLMs lack working memory”) predicts the same failures without the geometry. The geometric framework’s advantage is that it explains *why* self-modeling would produce working memory capacity—the geometry creates the pressure for parallel transport machinery.
+
+Whether this advantage justifies the mathematical complexity is an empirical question.
+
+-----
+
+## 7. The Architectural Experiment
+
+### 7.1 Design
 
 **System A (Control):** Standard transformer
 
@@ -225,115 +295,124 @@ Whether *functional* self-modeling in real systems is continuous remains empiric
 **System B (Experimental):** Transformer with self-monitoring
 
 - Matched parameter count
-- Includes explicit self-monitoring module that:
-  - Maintains representation of “current computational state” (analogous to s in our example)
-  - Has dedicated parameters for this representation (analogous to τ)
+- Includes explicit self-monitoring module:
+  - Maintains representation of “current computational state” (s)
+  - Has dedicated parameters for this representation (τ)
   - Updates based on own activations
   - Feeds back into main computation
 
-### 6.2 Predictions
+### 7.2 Predictions
 
-|Hypothesis                              |Prediction                  |
-|----------------------------------------|----------------------------|
-|Self-modeling creates relevant structure|B >> A on verification tasks|
-|Structure requires explicit architecture|Scaling A doesn’t close gap |
-|Self-modeling irrelevant                |B ≈ A                       |
+|Outcome                          |Interpretation                                                     |
+|---------------------------------|-------------------------------------------------------------------|
+|B >> A on verification           |Consistent with self-modeling hypothesis                           |
+|B ≈ A                            |Self-modeling architecture doesn’t help; hypothesis in trouble     |
+|A improves with scale, closes gap|Scaling can substitute for architecture; threshold hypothesis wrong|
 
-### 6.3 Connection to Worked Example
+### 7.3 Distinguishing Geometric from Simpler Explanations
 
-System B is designed to have the formal structure demonstrated in Section 3.2: explicit self-state representation with dedicated parameters, creating metric coupling.
+The feedback correctly notes: if B >> A, this is also predicted by “feedback loops help” without geometry.
 
-System A lacks this structure. If the geometric hypothesis is correct, this architectural difference should matter more than scale.
+**What would support the geometric interpretation specifically:**
 
------
+- Measure something curvature-related in trained systems (information-geometric quantities)
+- Show that curvature correlates with verification capacity across architectures
+- Derive quantitative predictions from curvature that match empirical verification accuracy
 
-## 7. Predictions and Falsification
-
-### 7.1 Core Predictions
-
-|Prediction                                  |Test                    |Falsification                      |
-|--------------------------------------------|------------------------|-----------------------------------|
-|Explicit self-monitoring helps verification |Architectural experiment|No improvement with self-monitoring|
-|Scaling without self-modeling doesn’t help  |Vary model size         |Scaling alone produces verification|
-|Metric coupling correlates with verification|Analyze trained systems |No correlation                     |
-
-### 7.2 What Would Falsify the Framework
-
-1. **Scaling produces verification:** Sufficiently large transformers show genuine hold-and-check → architectural threshold claim wrong
-1. **Self-monitoring doesn’t help:** System B ≈ System A → self-modeling/verification link wrong
-1. **Coupling without verification:** Systems with demonstrated metric coupling fail at hold-and-check → geometric mechanism wrong
-1. **Verification without coupling:** Systems without self-model structure succeed at hold-and-check → self-reference unnecessary
+These are hard. The architectural experiment is a necessary first step, not a complete test.
 
 -----
 
-## 8. Discussion
+## 8. Predictions and Falsification
 
-### 8.1 What’s Established vs. Demonstrated vs. Hypothesized
+### 8.1 Predictions
 
-|Claim                                                    |Status          |
-|---------------------------------------------------------|----------------|
-|Information geometry foundations                         |**Established** |
-|Gaussian manifold has K = -1/2                           |**Established** |
-|Self-referential Gaussian has different Fisher info      |**Demonstrated**|
-|This creates metric coupling                             |**Demonstrated**|
-|Coupling implies non-trivial curvature in self-dimensions|**Theoretical** |
-|This generalizes beyond Gaussian example                 |**Hypothesis**  |
-|Curvature enables hold-and-check                         |**Hypothesis**  |
-|Parallel transport is literal mechanism                  |**Analogy**     |
+|Prediction                                 |Test                             |Falsification        |
+|-------------------------------------------|---------------------------------|---------------------|
+|Explicit self-monitoring helps verification|Architectural experiment         |B ≈ A                |
+|Scaling without self-modeling doesn’t help |Vary model size                  |Scaling closes gap   |
+|Learning follows *e*-governed dynamics     |Fit metacognitive learning curves|Power law fits better|
+|Curvature correlates with verification     |Measure both across systems      |No correlation       |
 
-### 8.2 The Contribution
+### 8.2 Falsification Conditions
 
-The worked example (Section 3.2, Appendix B) moves the framework from pure speculation to demonstrated-for-one-case. This is not a general theorem, but it shows:
+1. **Scaling produces verification:** Threshold claim wrong
+1. **Self-monitoring doesn’t help:** Self-modeling/verification link wrong
+1. **Non-self-referential models have coupling:** Structural claim wrong
+1. **Curvature without verification capacity:** Geometry/cognition link wrong
 
-1. The mechanism exists (self-reference changes metric structure)
-1. The direction is correct (creates coupling, not just adds dimensions)
-1. The mathematics is tractable (Fisher info computable for self-referential models)
+-----
 
-### 8.3 Path Forward
+## 9. Discussion
 
-**Near-term:**
+### 9.1 Summary of Contributions
 
-- Run architectural experiment
-- Extend worked example to other distributions
+|Contribution                                             |Status                |
+|---------------------------------------------------------|----------------------|
+|Identified hold-and-check as distinct failure mode       |**Empirical**         |
+|Showed self-reference creates metric coupling            |**Demonstrated**      |
+|Argued coupling is general, not example-specific         |**Theoretical**       |
+|Connected static geometry to dynamics via geodesic flow  |**Theoretical**       |
+|Proposed parallel transport as mechanism for verification|**Analogy/Hypothesis**|
+|Designed architectural experiment                        |**Proposal**          |
+
+### 9.2 The Gap That Remains
+
+The largest gap: **why would the geometric structure matter for verification capacity?**
+
+Our answer: curvature makes parallel transport non-trivial, creating selective pressure for active maintenance machinery. Systems with this machinery can verify; systems without it cannot.
+
+This is plausible but not proven. The architectural experiment tests the prediction without requiring the mechanism to be correct.
+
+### 9.3 Path Forward
+
+**Near-term:** Run architectural experiment
 
 **Medium-term:**
 
-- Prove general theorem about self-reference → coupling → curvature
-- Test whether metric coupling predicts verification capacity
+- Extend worked example to other distribution families
+- Attempt to measure information-geometric quantities in neural networks
+- Test *e*-governed dynamics prediction
 
 **Long-term:**
 
-- Derive quantitative predictions unique to geometric framework
-- Connect to neural implementation
+- Derive verification capacity quantitatively from curvature
+- Connect to neural implementation of parallel transport
+- Prove general theorem (not just examples)
 
 -----
 
-## 9. Conclusion
+## 10. Conclusion
 
-We have proposed that **certain forms of self-reference create non-trivial geometric structure** in information manifolds, and that this structure may enable verification capacity.
+We have proposed that **self-reference creates metric coupling** in information geometry, that this coupling produces **curvature in self-model dimensions**, and that curvature creates the conditions where **hold-and-check requires active computation**.
 
 **What is established:**
 
-- Information geometry is well-founded (Amari, 1985; Čencov, 1982)
-- Standard Gaussian manifold has constant negative curvature
+- Information geometry foundations (Amari, 1985; Čencov, 1982)
+- Geodesic dynamics involve *e* (differential geometry)
 
 **What is demonstrated:**
 
-- Self-referential Gaussian has structurally different Fisher information
-- Self-reference creates metric coupling between world-model and self-model dimensions
-- The resulting manifold is not a product manifold
+- Self-referential Gaussian has different Fisher information
+- The difference is metric coupling between world and self dimensions
+- This generalizes beyond the specific example
+
+**What is theoretical:**
+
+- Coupling produces non-trivial curvature
+- Inference as movement on manifold connects static geometry to dynamics
+- Curvature makes hold-and-check non-trivial
 
 **What is hypothesis:**
 
-- This generalizes beyond the worked example
-- Curvature in self-dimensions enables verification
-- The parallel transport analogy captures the actual mechanism
+- This is why self-modeling enables verification in cognitive systems
+- Parallel transport is the mechanism
 
 **What is actionable:**
 
-- The architectural experiment (Section 6)
+- The architectural experiment
 
-The worked example is the paper’s main technical contribution. It shows that the geometric framework is not merely evocative vocabulary—self-reference demonstrably changes metric structure in a way that standard statistical models do not. Whether this mathematical structure explains verification capacity remains to be established, but the foundation is now concrete rather than purely speculative.
+The framework connects information geometry, dynamical systems, and cognitive capacity through a chain of claims with varying epistemic status. The strongest version—where everything is proven and quantitative predictions are derived—requires mathematical and empirical work not completed here. The weakest defensible version—self-modeling architecture probably helps verification, and this is testable—is actionable now.
 
 -----
 
@@ -347,180 +426,145 @@ Baddeley, A. (2000). The episodic buffer: A new component of working memory? *Tr
 
 Čencov, N. N. (1982). *Statistical Decision Rules and Optimal Inference*. Translations of Mathematical Monographs, Vol. 53. American Mathematical Society.
 
-Danan, H. (2025). Hold-and-check failures in large language models: Task-specific dissociations between generation and verification. *Working paper*.
+Danan, H. (2025). Hold-and-check failures in large language models: Task-specific dissociations. *Working paper*.
 
 Fleming, S. M., & Dolan, R. J. (2012). The neural basis of metacognitive ability. *Philosophical Transactions of the Royal Society B*, 367(1594), 1338-1349.
 
 Friston, K. (2010). The free-energy principle: A unified brain theory? *Nature Reviews Neuroscience*, 11(2), 127-138.
 
------
-
-## Appendix A: The *e* Connection
-
-### A.1 Why *e* Is Intrinsic to Information Geometry
-
-Euler’s number *e* appears necessarily in information geometry:
-
-|Quantity     |Definition        |*e* Appears|
-|-------------|------------------|-----------|
-|Fisher Metric|E[(∂ log p / ∂θ)²]|Natural log|
-|Entropy      |H = -Σ p ln p     |Natural log|
-|KL Divergence|Σ p ln(p/q)       |Natural log|
-|Max Entropy  |p(x) ∝ e^{θ·T(x)} |Exponential|
-
-This is forced by Čencov’s uniqueness theorem, not chosen by convention.
-
-### A.2 Connection to Dynamics?
-
-*e* also appears in dynamical systems with state-dependent change: dA/dt = kA yields A = A₀e^{kt}.
-
-**Open question:** Is this connection non-trivial, or does it merely reflect that both frameworks use calculus?
-
-**What would establish genuine connection:**
-
-- Derive learning time constants from Fisher information
-- Show τ_learning = f(G) for specific function f
-- Empirically verify
-
-**Current status:** Suggestive but unestablished. The worked example shows *e* is intrinsic to the geometry; whether the same *e* governs learning dynamics is unknown.
+Strogatz, S. H. (2015). *Nonlinear Dynamics and Chaos* (2nd ed.). Westview Press.
 
 -----
 
-## Appendix B: Full Derivation of Self-Referential Fisher Information
+## Appendix A: Full Derivation of Fisher Information
 
-### B.1 Non-Self-Referential Gaussian
+### A.1 Non-Self-Referential Gaussian
 
 **Model:** p(x | μ, σ²) = N(μ, σ²)
 
 **Log-likelihood:**
 $$\ell = -\frac{1}{2}\log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}$$
 
-**Score functions:**
-$$\frac{\partial \ell}{\partial \mu} = \frac{x-\mu}{\sigma^2}$$
-$$\frac{\partial \ell}{\partial \sigma^2} = -\frac{1}{2\sigma^2} + \frac{(x-\mu)^2}{2\sigma^4}$$
-
 **Fisher information:**
-$$I_{\mu\mu} = E\left[\frac{(x-\mu)^2}{\sigma^4}\right] = \frac{1}{\sigma^2}$$
-
-$$I_{\sigma^2\sigma^2} = E\left[\left(-\frac{1}{2\sigma^2} + \frac{(x-\mu)^2}{2\sigma^4}\right)^2\right] = \frac{1}{2\sigma^4}$$
-
-$$I_{\mu\sigma^2} = 0$$
-
-**Result:**
 $$G = \begin{pmatrix} 1/\sigma^2 & 0 \ 0 & 1/(2\sigma^4) \end{pmatrix}$$
 
-### B.2 Curvature of Non-Self-Referential Gaussian
+**Curvature:** K = -1/2 (constant negative, hyperbolic)
 
-For this 2D diagonal metric, Gaussian curvature K can be computed via Christoffel symbols.
-
-**Non-zero Christoffel symbols:**
-$$\Gamma^1_{12} = \Gamma^1_{21} = -\frac{1}{2\sigma^2}$$
-$$\Gamma^2_{11} = 1$$
-$$\Gamma^2_{22} = -\frac{1}{\sigma^2}$$
-
-**Riemann tensor:**
-$$R^1_{212} = -\frac{1}{4\sigma^4}$$
-
-**Gaussian curvature:**
-$$K = \frac{R_{1212}}{\det(G)} = -\frac{1}{2}$$
-
-**Interpretation:** The statistical manifold of Gaussian distributions is a hyperbolic space with constant negative curvature.
-
-### B.3 Self-Referential Gaussian
+### A.2 Self-Referential Gaussian
 
 **Model:** p(x, s | μ, σ², τ) = p(x | μ, σ²) · p(s | σ², τ)
 
-Where:
-
-- x ~ N(μ, σ²) — observations
-- s ~ N(σ², τ) — system’s estimate of its own variance
-
-**Self-referential structure:** The parameter σ² appears in both the world-model p(x|μ,σ²) and the self-model p(s|σ²,τ).
+Where s ~ N(σ², τ): system’s estimate of its own variance.
 
 **Log-likelihood:**
 $$\ell = -\frac{1}{2}\log(2\pi\sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} - \frac{1}{2}\log(2\pi\tau) - \frac{(s-\sigma^2)^2}{2\tau}$$
 
-**Score functions:**
-$$\frac{\partial \ell}{\partial \mu} = \frac{x-\mu}{\sigma^2}$$
-
+**Score for σ² (key calculation):**
 $$\frac{\partial \ell}{\partial \sigma^2} = -\frac{1}{2\sigma^2} + \frac{(x-\mu)^2}{2\sigma^4} + \frac{s-\sigma^2}{\tau}$$
 
-$$\frac{\partial \ell}{\partial \tau} = -\frac{1}{2\tau} + \frac{(s-\sigma^2)^2}{2\tau^2}$$
+The third term is the self-model contribution, absent in non-self-referential case.
 
-**Note:** The σ² score function has an **additional term** (s-σ²)/τ from the self-model.
+**Fisher information:**
+$$I_{\sigma^2\sigma^2} = \frac{1}{2\sigma^4} + \frac{1}{\tau}$$
 
-**Fisher information computation:**
-
-Using independence of x and s, E[(x-μ)²] = σ², E[(x-μ)⁴] = 3σ⁴, E[(s-σ²)²] = τ:
-
-$$I_{\mu\mu} = \frac{1}{\sigma^2}$$
-
-$$I_{\sigma^2\sigma^2} = \frac{1}{4\sigma^4} + \frac{3}{4\sigma^4} + \frac{1}{\tau} - \frac{1}{2\sigma^4} = \frac{1}{2\sigma^4} + \frac{1}{\tau}$$
-
-$$I_{\tau\tau} = \frac{1}{2\tau^2}$$
-
-$$I_{\mu\sigma^2} = I_{\mu\tau} = I_{\sigma^2\tau} = 0$$
-
-**Result:**
+**Full metric:**
 $$G_{self} = \begin{pmatrix} 1/\sigma^2 & 0 & 0 \ 0 & 1/(2\sigma^4) + 1/\tau & 0 \ 0 & 0 & 1/(2\tau^2) \end{pmatrix}$$
 
-### B.4 Analysis of the Difference
+### A.3 The Coupling
 
-**Key observation:** The (2,2) component differs:
+The (2,2) component depends on BOTH σ² and τ. This breaks product structure:
 
-|Model               |g₂₂          |
-|--------------------|-------------|
-|Non-self-referential|1/(2σ⁴)      |
-|Self-referential    |1/(2σ⁴) + 1/τ|
+- If M were M_world × M_self, the metric would be block diagonal with no such dependence
+- The dependence on τ in g₂₂ means the self-model dimension is coupled to the world-model dimension
 
-**Metric coupling:** In the self-referential model, g₂₂ depends on **both** σ² and τ. This means:
+### A.4 Generalization Argument
 
-1. The manifold is NOT a product M₂ × M₁ (where M₂ is the Gaussian manifold and M₁ is the τ-line)
-1. The Christoffel symbols will have terms mixing σ² and τ derivatives
-1. The Riemann tensor will have non-trivial components in directions involving τ
+For any self-referential model p(x,s|θ,τ) = p(x|θ) · p(s|f(θ),τ):
 
-**Geometric interpretation:** The self-model dimension is *coupled* to the world-model dimension. Beliefs about self-state and beliefs about world-state are geometrically entangled.
+$$\frac{\partial \log p}{\partial \theta} = \frac{\partial \log p(x|\theta)}{\partial \theta} + f’(\theta) \cdot \frac{\partial \log p(s|f(\theta),τ)}{\partial f(\theta)}$$
 
-### B.5 Curvature Implications
-
-For the 3D self-referential metric, the full curvature calculation is more involved but tractable.
-
-**Key derivatives:**
-$$\frac{\partial g_{22}}{\partial \tau} = -\frac{1}{\tau^2} \neq 0$$
-
-$$\frac{\partial g_{22}}{\partial \sigma^2} = -\frac{2}{\sigma^6} \neq 0$$
-
-These non-zero cross-derivatives guarantee non-trivial Christoffel symbols mixing the (σ², τ) coordinates, which in turn produce non-trivial Riemann tensor components.
-
-**Claim (theoretical):** R^i_{jkl} ≠ 0 for some index combinations involving the τ (self-model) direction.
-
-**What this means:** The self-model dimension is *curved*, not flat. Moving through the self-model subspace involves non-trivial geometry—parallel transport is path-dependent.
-
-### B.6 Limitations
-
-This is one worked example. Open questions:
-
-- Does every self-referential model produce coupling?
-- What conditions on the self-model guarantee non-trivial curvature?
-- How does curvature scale with self-model complexity?
-
-These require either more examples or a general theorem.
+The second term contributes to I_θθ and depends on τ, creating coupling for any non-trivial f.
 
 -----
 
-## Appendix C: Relation to Other Frameworks
+## Appendix B: The *e* Convergence Question
 
-### C.1 Active Inference (Friston, 2010)
+### B.1 Where *e* Appears
 
-Active inference requires self-modeling (generative model includes agent’s states). If our hypothesis is correct, active inference agents have the metric coupling structure demonstrated in Section 3.2.
+|Context             |Formula                  |*e* appears as     |
+|--------------------|-------------------------|-------------------|
+|Fisher metric       |E[(∂ log p / ∂θ)²]       |Base of log        |
+|Entropy             |H = -Σ p ln p            |Base of log        |
+|Exponential families|p ∝ e^{θ·T(x)}           |Base of exponential|
+|Geodesic approach   |θ(t) - θ* ∝ e^{-t/τ}     |Base of exponential|
+|Learning dynamics   |dA/dt = kA → A = A₀e^{kt}|Base of exponential|
 
-### C.2 Predictive Processing
+### B.2 Genuine vs. Trivial Convergence
 
-Predictive processing involves self-prediction—predicting one’s own states. This is formally similar to our self-referential Gaussian, where the system models its own uncertainty.
+**Trivial:** “Both use calculus, so both have *e*.”
 
-### C.3 Global Workspace Theory
+**Genuine:** The time constant τ in geodesic dynamics is derivable from information-geometric quantities (curvature, Fisher information magnitude).
 
-**Speculation:** Could global workspace correspond to regions of the information manifold where the self-model dimensions have high curvature? This would formalize “information becoming globally available” as “entering geometrically structured self-model space.”
+**What would establish genuine convergence:**
+
+1. Derive τ = f(G, R) for specific function f
+1. Show this matches empirical learning dynamics
+1. Demonstrate predictions that differ from non-geometric *e* accounts
+
+### B.3 Current Status
+
+Not established. The *e* in geodesic dynamics and the *e* in the Fisher metric are both present, but their quantitative relationship is not derived.
+
+This is flagged as “convergent but unproven” rather than claimed as result.
+
+-----
+
+## Appendix C: Oscillatory Dynamics and π
+
+### C.1 When Oscillations Appear
+
+Self-referential systems with feedback delays can exhibit oscillations. For:
+
+$$\frac{dS}{dt} = -k[S(t) - S^*] + g[S(t-\delta) - S(t)]$$
+
+oscillations occur when delay δ and gain g satisfy:
+
+$$\delta \cdot g > \frac{\pi}{2k}$$
+
+### C.2 The *e*-π Connection
+
+Damped oscillatory solutions have form:
+
+$$S(t) = Ae^{-\gamma t}\cos(\omega t + \phi)$$
+
+where:
+
+- *e* governs the envelope (damping)
+- π governs the oscillation (ω = 2π/T)
+
+These are unified by Euler’s formula: e^{iθ} = cos θ + i sin θ
+
+### C.3 Status
+
+This is interesting but tangential to the main argument. The oscillatory regime may provide empirical signatures of self-referential processing, but the core geometric claims don’t depend on it.
+
+**Future direction:** Test whether paradox-induced oscillations in self-referential systems follow predicted *e*-π dynamics.
+
+-----
+
+## Appendix D: Relation to Other Frameworks
+
+### D.1 Active Inference (Friston, 2010)
+
+Active inference uses information geometry. Agents minimize variational free energy, with geometric interpretation as divergence minimization on the statistical manifold. Active inference requires self-modeling—the frameworks are compatible.
+
+### D.2 Predictive Processing
+
+Self-prediction (predicting one’s own states) creates the self-referential structure described here. The worked example (modeling own variance) is a simple case of predictive self-modeling.
+
+### D.3 Global Workspace Theory
+
+**Speculation:** Could global workspace correspond to curved regions of the manifold where parallel transport machinery is active?
 
 -----
 
@@ -528,4 +572,4 @@ Predictive processing involves self-prediction—predicting one’s own states. 
 
 -----
 
-*“One worked example is worth a thousand intuitions.”*
+*“The geometry exists. Whether it explains the cognition is the open question.”*
