@@ -58,6 +58,7 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 |Novel operators cause failure|Recursive eval with invented ops: 50%|Stage 3 fails without cached pattern|
 |Multi-constraint relations cause failure|Relation mapping: 28%|Constraint satisfaction exceeds pattern-matching|
 |Task-specific gen/ver asymmetries|N=700, see below|**Stage 4 deficit** (hold-and-check)|
+|Scaffolding shows task-specific effects|N=600, see below|**Cognitive overhead account**|
 
 ### What Didn't Replicate
 
@@ -85,6 +86,19 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 This is **hold-and-check** failure—the inability to monitor one's own computational process during inference.
 
+### The Scaffolding Asymmetry Study (N=600)
+
+|Task|Baseline|Self-Monitor|Constraint|
+|----|--------|------------|----------|
+|Arithmetic (Claude)|70%|**98%** (+28%)|60% (-10%)|
+|Logic (Claude)|64%|32% (-32%)|34% (-30%)|
+|Arithmetic (GPT-4o)|88%|90% (+2%)|66% (-22%)|
+|Logic (GPT-4o)|66%|60% (-6%)|58% (-8%)|
+
+**Key finding:** Self-monitoring scaffolds dramatically improve verification (+28%, p<.001), but **all scaffolding degrades generation**. Crossed scaffold-task pairings hurt worst.
+
+**Interpretation (Cognitive Overhead Account):** Scaffolding imposes processing costs. When the scaffold addresses the task's bottleneck, benefit > cost. When it doesn't, cost dominates. This supports dissociable generation and verification deficits.
+
 ---
 
 ## The Self-State Hypothesis
@@ -106,7 +120,7 @@ Stage 4 capacity develops                  Stage 4 systematically limited
 **Evidence status:**
 - Embeddedness → self-state: **Hypothesis** (evolutionary argument, not directly tested)
 - LLMs lack Stage 4: **Confirmed** (hold-and-check failures, miscalibration)
-- Scaffolding provides prosthetic self-state: **Suggestive** (pilot data, needs replication)
+- Scaffolding provides prosthetic self-state: **Partial** (helps verification, hurts generation)
 
 ### Active Maintenance ≠ Attention
 
@@ -139,16 +153,18 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 - Pattern-matchable C–D succeeds regardless of formal complexity
 - Genuinely novel operators/constraints cause failure (Stage 3 limit)
 - Task-specific generation/verification asymmetries exist (Stage 4 limit)
+- Self-monitoring scaffolds help verification-deficit tasks specifically
+- Scaffolding imposes cognitive overhead (hurts generation tasks)
 
 ### Falsified
 - Uniform verification < generation
 - Composition type (A–D) as primary predictor
+- Scaffolding uniformly helps (it has task-specific costs)
 
 ### Open Hypotheses
-- Scaffolding helps verification-deficit tasks specifically
-- Constraint-prompting helps generation-deficit tasks specifically
 - Embeddedness is necessary (not just sufficient) for Stage 4
 - Scaling does not produce Stage 4 capacity
+- Lighter-touch scaffolds reduce overhead costs
 
 ---
 
@@ -196,6 +212,13 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 |-|-----|
 |19|[Pilot Study: Compositional Hierarchy in LLMs](papers/pilot_composition_study.md)|
 |20|[Hold-and-Check: Task-Specific Dissociations](papers/hold_and_check_study.md)|
+|21|[Scaffolding Asymmetry: Generation vs. Verification](papers/scaffolding_asymmetry.md)|
+
+**Theoretical:**
+
+|#|Paper|
+|-|-----|
+|22|[The Geometry of Self-Reference](papers/information_geometry.md)|
 
 **For Physicists/Engineers:**
 
@@ -209,10 +232,10 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 ## Empirical Research Program
 
 ### 🧠 Core Framework
-[abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) · [composition-testing](https://github.com/HillaryDanan/composition-testing) · [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) · [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) · [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) · [embeddedness-calibration](https://github.com/HillaryDanan/embeddedness-calibration) · [emergent-factorization](https://github.com/HillaryDanan/emergent-factorization) · [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum)
+[abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) · [composition-testing](https://github.com/HillaryDanan/composition-testing) · [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) · [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) · [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) · [embeddedness-calibration](https://github.com/HillaryDanan/embeddedness-calibration) · [emergent-factorization](https://github.com/HillaryDanan/emergent-factorization) · [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum) · [scaffolding-asymmetry](https://github.com/HillaryDanan/scaffolding-asymmetry)
 
 ### 🔄 Self-Reference
-[self-referential-dynamics](https://github.com/HillaryDanan/self-referential-dynamics) · [computational-self-construction](https://github.com/HillaryDanan/computational-self-construction) · [ouroboros-learning](https://github.com/HillaryDanan/ouroboros-learning) · [recursive-reality](https://github.com/HillaryDanan/recursive-reality)
+[self-referential-dynamics](https://github.com/HillaryDanan/self-referential-dynamics) · [computational-self-construction](https://github.com/HillaryDanan/computational-self-construction) · [ouroboros-learning](https://github.com/HillaryDanan/ouroboros-learning) · [recursive-reality](https://github.com/HillaryDanan/recursive-reality) · [geometry-self-reference](https://github.com/HillaryDanan/geometry-self-reference)
 
 ### ⏱️ Temporal
 [TIDE](https://github.com/HillaryDanan/TIDE) · [TIDE-resonance](https://github.com/HillaryDanan/TIDE-resonance) · [TIDE-analysis](https://github.com/HillaryDanan/TIDE-analysis) · [temporal-coherence-llm](https://github.com/HillaryDanan/temporal-coherence-llm) · [temporal-myopia-llm](https://github.com/HillaryDanan/temporal-myopia-llm) · [llm-time-decay](https://github.com/HillaryDanan/llm-time-decay) · [curved-cognition](https://github.com/HillaryDanan/curved-cognition)
@@ -249,11 +272,15 @@ Baddeley, A. (2000). The episodic buffer. *Trends in Cognitive Sciences*, 4(11),
 
 Chollet, F. (2019). On the measure of intelligence. *arXiv:1911.01547*.
 
+Cowan, N. (2001). The magical number 4 in short-term memory. *Behavioral and Brain Sciences*, 24(1), 87-114.
+
 Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
 Halford, G. S., Wilson, W. H., & Phillips, S. (1998). Processing capacity defined by relational complexity. *Behavioral and Brain Sciences*, 21(6), 803-831.
 
 Lake, B., & Baroni, M. (2018). Generalization without systematicity. *ICML*.
+
+Oberauer, K., Farrell, S., Jarrold, C., & Lewandowsky, S. (2016). What limits working memory capacity? *Psychological Bulletin*, 142(7), 758-799.
 
 Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *NeurIPS*.
 
