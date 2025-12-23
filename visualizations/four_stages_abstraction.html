@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Four Stages of Abstraction</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+        }
+        
+        h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #fb923c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Stage Tower */
+        .stage-tower {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0;
+            margin: 40px auto;
+            height: 500px;
+            position: relative;
+        }
+        
+        .stage-column {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            width: 280px;
+        }
+        
+        .stage-block {
+            width: 100%;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stage-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stage-block:hover::before {
+            opacity: 1;
+        }
+        
+        .stage-block:hover {
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .stage-block.active {
+            transform: translateX(12px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+        
+        .stage-1 {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            height: 90px;
+        }
+        
+        .stage-2 {
+            background: linear-gradient(135deg, #1e4d40 0%, #2d7a6a 100%);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            height: 100px;
+        }
+        
+        .stage-3 {
+            background: linear-gradient(135deg, #4c1d5e 0%, #7c3aad 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            height: 110px;
+        }
+        
+        .stage-4 {
+            background: linear-gradient(135deg, #5c1a1a 0%, #9f3a3a 100%);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            height: 120px;
+        }
+        
+        .stage-number {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+        
+        .stage-name {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        
+        .stage-brief {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        /* LLM Capacity Indicator */
+        .capacity-bar {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 6px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .capacity-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .stage-1 .capacity-fill {
+            width: 100%;
+            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+        }
+        
+        .stage-2 .capacity-fill {
+            width: 85%;
+            background: linear-gradient(90deg, #6ee7b7, #34d399);
+        }
+        
+        .stage-3 .capacity-fill {
+            width: 50%;
+            background: linear-gradient(90deg, #c4b5fd, #a78bfa);
+        }
+        
+        .stage-4 .capacity-fill {
+            width: 15%;
+            background: linear-gradient(90deg, #fca5a5, #f87171);
+        }
+        
+        /* Detail Panel */
+        .detail-panel {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 0 auto 40px;
+            max-width: 900px;
+            min-height: 300px;
+            transition: all 0.4s ease;
+        }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .detail-icon.s1 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .detail-icon.s2 { background: linear-gradient(135deg, #34d399, #059669); }
+        .detail-icon.s3 { background: linear-gradient(135deg, #a78bfa, #7c3aed); }
+        .detail-icon.s4 { background: linear-gradient(135deg, #f87171, #dc2626); }
+        
+        .detail-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+        
+        .detail-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        
+        .detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .detail-section {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .detail-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        
+        .detail-section p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        
+        .example-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-family: 'DM Sans', monospace;
+            font-size: 0.85rem;
+            color: #a5b4fc;
+        }
+        
+        .llm-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        
+        .llm-status.full {
+            background: rgba(52, 211, 153, 0.2);
+            color: #6ee7b7;
+        }
+        
+        .llm-status.substantial {
+            background: rgba(96, 165, 250, 0.2);
+            color: #93c5fd;
+        }
+        
+        .llm-status.partial {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fcd34d;
+        }
+        
+        .llm-status.limited {
+            background: rgba(248, 113, 113, 0.2);
+            color: #fca5a5;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-dot.full { background: #34d399; }
+        .status-dot.substantial { background: #60a5fa; }
+        .status-dot.partial { background: #fbbf24; }
+        .status-dot.limited { background: #f87171; }
+        
+        /* Interactive Demo */
+        .demo-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 0 auto 40px;
+            max-width: 900px;
+        }
+        
+        .demo-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .demo-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+        
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-btn:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .demo-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            border-color: transparent;
+        }
+        
+        .demo-display {
+            background: rgba(0,0,0,0.4);
+            border-radius: 16px;
+            padding: 24px;
+            min-height: 200px;
+        }
+        
+        .demo-stage-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .stage-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .stage-dot.active {
+            transform: scale(1.3);
+        }
+        
+        .stage-dot.s1.active { background: #3b82f6; box-shadow: 0 0 20px rgba(59,130,246,0.5); }
+        .stage-dot.s2.active { background: #34d399; box-shadow: 0 0 20px rgba(52,211,153,0.5); }
+        .stage-dot.s3.active { background: #a78bfa; box-shadow: 0 0 20px rgba(167,139,250,0.5); }
+        .stage-dot.s4.active { background: #f87171; box-shadow: 0 0 20px rgba(248,113,113,0.5); }
+        
+        .demo-animation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            min-height: 120px;
+        }
+        
+        .demo-element {
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .demo-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .demo-element.raw {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            color: #d1d5db;
+        }
+        
+        .demo-element.pattern {
+            background: linear-gradient(135deg, #1e3a5f, #2563eb);
+            color: #bfdbfe;
+        }
+        
+        .demo-element.symbol {
+            background: linear-gradient(135deg, #065f46, #059669);
+            color: #a7f3d0;
+        }
+        
+        .demo-element.composed {
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
+            color: #ddd6fe;
+        }
+        
+        .demo-element.self-ref {
+            background: linear-gradient(135deg, #991b1b, #dc2626);
+            color: #fecaca;
+            position: relative;
+        }
+        
+        .demo-element.self-ref::after {
+            content: '↺';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #fbbf24;
+            color: #1f2937;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .demo-arrow {
+            color: #64748b;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .demo-arrow.visible {
+            opacity: 1;
+        }
+        
+        .demo-result {
+            text-align: center;
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .demo-result.visible {
+            opacity: 1;
+        }
+        
+        .demo-result.success {
+            background: rgba(52, 211, 153, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: #6ee7b7;
+        }
+        
+        .demo-result.failure {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            color: #fca5a5;
+        }
+        
+        /* Hold and Check Demo */
+        .hold-check-demo {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            margin: 0 auto 40px;
+            max-width: 900px;
+        }
+        
+        .hc-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .hc-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+        
+        .hc-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .hc-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hc-agent {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .hc-agent-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .hc-agent.llm .hc-agent-title { color: #60a5fa; }
+        .hc-agent.embedded .hc-agent-title { color: #f472b6; }
+        
+        .hc-workspace {
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .hc-value {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'DM Sans', monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .hc-value.computing {
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+        
+        .hc-value.held {
+            background: linear-gradient(135deg, #f472b6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hc-value.lost {
+            opacity: 0.3;
+            text-decoration: line-through;
+        }
+        
+        .hc-status {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        
+        .hc-memory {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .hc-memory-slot {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .hc-memory-slot.active {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+        }
+        
+        .hc-memory-slot.empty {
+            opacity: 0.5;
+        }
+        
+        .hc-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .hc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: #a78bfa;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .causal-chain {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 20px;
+        }
+        
+        .chain-item {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #c4b5fd;
+        }
+        
+        .chain-arrow {
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Four Stages of Abstraction</h1>
+            <p class="subtitle">
+                Intelligence emerges from recursive interaction between symbol formation and compositional structure—and requires <em>self-state</em> for genuine construction beyond pattern matching.
+            </p>
+        </header>
+        
+        <!-- Stage Tower -->
+        <div class="stage-tower">
+            <div class="stage-column">
+                <div class="stage-block stage-1" data-stage="1">
+                    <div class="stage-number">Stage 1</div>
+                    <div class="stage-name">Pattern Extraction</div>
+                    <div class="stage-brief">Statistical regularities</div>
+                    <div class="capacity-bar"><div class="capacity-fill"></div></div>
+                </div>
+                <div class="stage-block stage-2" data-stage="2">
+                    <div class="stage-number">Stage 2</div>
+                    <div class="stage-name">Symbol Formation</div>
+                    <div class="stage-brief">Discrete, recombinable</div>
+                    <div class="capacity-bar"><div class="capacity-fill"></div></div>
+                </div>
+                <div class="stage-block stage-3" data-stage="3">
+                    <div class="stage-number">Stage 3</div>
+                    <div class="stage-name">Recursive Composition</div>
+                    <div class="stage-brief">Abstractions of abstractions</div>
+                    <div class="capacity-bar"><div class="capacity-fill"></div></div>
+                </div>
+                <div class="stage-block stage-4" data-stage="4">
+                    <div class="stage-number">Stage 4</div>
+                    <div class="stage-name">Self-Referential</div>
+                    <div class="stage-brief">Metacognition, verification</div>
+                    <div class="capacity-bar"><div class="capacity-fill"></div></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detail Panel -->
+        <div class="detail-panel" id="detail-panel">
+            <div class="detail-header">
+                <div class="detail-icon s1" id="detail-icon">📊</div>
+                <div>
+                    <div class="detail-title" id="detail-title">Pattern Extraction</div>
+                    <div class="detail-subtitle" id="detail-subtitle">The foundation of all learning systems</div>
+                </div>
+            </div>
+            <div class="detail-content">
+                <div class="detail-section">
+                    <div class="detail-section-title">What It Does</div>
+                    <p id="detail-what">Detects statistical regularities in raw input. Finds patterns that repeat, co-occur, or predict. This is compression and prediction—the foundation of all neural networks.</p>
+                    <div class="example-box" id="detail-example">[1,2,1,2,1,2] → "alternating pattern detected"</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-section-title">LLM Capacity</div>
+                    <p id="detail-llm">LLMs have <strong>full</strong> Stage 1 capacity. This is literally what they're built for—extracting statistical patterns from training data.</p>
+                    <div class="llm-status full" id="llm-status">
+                        <div class="status-dot full"></div>
+                        <span>Full Capacity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Demo -->
+        <div class="demo-section">
+            <div class="demo-title">Watch Abstraction Build</div>
+            <div class="demo-subtitle">Click to see how each stage transforms information</div>
+            
+            <div class="demo-controls">
+                <button class="demo-btn" data-demo="pattern">Pattern → Symbol</button>
+                <button class="demo-btn" data-demo="compose">Symbol → Composition</button>
+                <button class="demo-btn" data-demo="recursive">Recursive Nesting</button>
+                <button class="demo-btn" data-demo="verify">Hold & Check (Stage 4)</button>
+            </div>
+            
+            <div class="demo-display">
+                <div class="demo-stage-indicator">
+                    <div class="stage-dot s1" id="dot-1"></div>
+                    <div class="stage-dot s2" id="dot-2"></div>
+                    <div class="stage-dot s3" id="dot-3"></div>
+                    <div class="stage-dot s4" id="dot-4"></div>
+                </div>
+                <div class="demo-animation" id="demo-animation">
+                    <div class="demo-element raw visible">Click a demo above</div>
+                </div>
+                <div class="demo-result" id="demo-result"></div>
+            </div>
+        </div>
+        
+        <!-- Hold and Check Demo -->
+        <div class="hold-check-demo">
+            <div class="hc-title">The Hold-and-Check Failure</div>
+            <div class="hc-subtitle">Why LLMs can compute but can't verify</div>
+            
+            <div class="hc-comparison">
+                <div class="hc-agent llm">
+                    <div class="hc-agent-title">
+                        <span>🔵</span> LLM (No Self-State)
+                    </div>
+                    <div class="hc-workspace">
+                        <div class="hc-value" id="llm-value">—</div>
+                        <div class="hc-status" id="llm-status-text">Ready</div>
+                        <div class="hc-memory">
+                            <div class="hc-memory-slot empty">—</div>
+                            <div class="hc-memory-slot empty">—</div>
+                            <div class="hc-memory-slot empty">—</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hc-agent embedded">
+                    <div class="hc-agent-title">
+                        <span>🩷</span> Embedded Agent (Self-State)
+                    </div>
+                    <div class="hc-workspace">
+                        <div class="hc-value" id="embedded-value">—</div>
+                        <div class="hc-status" id="embedded-status-text">Ready</div>
+                        <div class="hc-memory" id="embedded-memory">
+                            <div class="hc-memory-slot empty">—</div>
+                            <div class="hc-memory-slot empty">—</div>
+                            <div class="hc-memory-slot empty">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="hc-btn" id="run-hc-demo">Run: Compute 17 × 24, then verify</button>
+            </div>
+            
+            <div class="causal-chain">
+                <span class="chain-item">Compute value</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Hold in memory</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Compare to claim</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-item">Verify/Reject</span>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>Part of the <a href="https://github.com/HillaryDanan/abstraction-intelligence">Abstraction-Intelligence</a> framework</p>
+            <p style="margin-top: 8px;">Hillary Danan, PhD · Cognitive Neuroscience</p>
+        </footer>
+    </div>
+
+    <script>
+        // Stage data
+        const stageData = {
+            1: {
+                icon: '📊',
+                iconClass: 's1',
+                title: 'Pattern Extraction',
+                subtitle: 'The foundation of all learning systems',
+                what: 'Detects statistical regularities in raw input. Finds patterns that repeat, co-occur, or predict. This is compression and prediction—the foundation of all neural networks.',
+                example: '[1,2,1,2,1,2] → "alternating pattern detected"',
+                llm: 'LLMs have <strong>full</strong> Stage 1 capacity. This is literally what they\'re built for—extracting statistical patterns from massive training corpora.',
+                status: 'full',
+                statusText: 'Full Capacity'
+            },
+            2: {
+                icon: '🧩',
+                iconClass: 's2',
+                title: 'Symbol Formation',
+                subtitle: 'From patterns to discrete, recombinable representations',
+                what: 'Patterns become discrete symbols that can be recombined in novel ways. The key insight: [1,2,1,2] and [a,b,a,b] are recognized as the SAME structure—ALTERNATE(x,y).',
+                example: 'ALTERNATE(🌙, ☀️) → [🌙,☀️,🌙,☀️] — novel combination!',
+                llm: 'LLMs have <strong>substantial</strong> Stage 2 capacity. They can generalize compositionally, though imperfectly. They understand that symbols can fill slots.',
+                status: 'substantial',
+                statusText: 'Substantial Capacity'
+            },
+            3: {
+                icon: '🔄',
+                iconClass: 's3',
+                title: 'Recursive Composition',
+                subtitle: 'Abstractions as inputs to other abstractions',
+                what: 'Symbols can take other symbols as arguments. MAP(double, SEQUENCE(1,2,3)) → [2,4,6]. This enables hierarchical depth, nested structure, and analogy.',
+                example: '"The cat [that chased the rat [that ate the cheese]]"',
+                llm: 'LLMs have <strong>partial</strong> Stage 3 capacity. When the recursive operation is pattern-matchable (seen in training), they succeed. With genuinely novel operators, they fail ~50%.',
+                status: 'partial',
+                statusText: 'Partial Capacity'
+            },
+            4: {
+                icon: '🪞',
+                iconClass: 's4',
+                title: 'Self-Referential',
+                subtitle: 'Abstraction over one\'s own abstraction process',
+                what: 'The capacity to monitor, verify, and correct one\'s own processing. This requires HOLDING a computed value while CHECKING it against constraints or claims. This is metacognition.',
+                example: 'Compute 408 → HOLD(408) → Check "is 17×24=410?" → Compare → Reject',
+                llm: 'LLMs are <strong>systematically limited</strong> at Stage 4. They can generate but not verify. They can compute but not hold-and-check. This is the core deficit.',
+                status: 'limited',
+                statusText: 'Systematically Limited'
+            }
+        };
+        
+        // Stage selection
+        const stageBlocks = document.querySelectorAll('.stage-block');
+        const detailPanel = document.getElementById('detail-panel');
+        
+        function updateDetail(stage) {
+            const data = stageData[stage];
+            
+            document.getElementById('detail-icon').textContent = data.icon;
+            document.getElementById('detail-icon').className = 'detail-icon ' + data.iconClass;
+            document.getElementById('detail-title').textContent = data.title;
+            document.getElementById('detail-subtitle').textContent = data.subtitle;
+            document.getElementById('detail-what').textContent = data.what;
+            document.getElementById('detail-example').textContent = data.example;
+            document.getElementById('detail-llm').innerHTML = data.llm;
+            
+            const statusEl = document.getElementById('llm-status');
+            statusEl.className = 'llm-status ' + data.status;
+            statusEl.innerHTML = `<div class="status-dot ${data.status}"></div><span>${data.statusText}</span>`;
+        }
+        
+        stageBlocks.forEach(block => {
+            block.addEventListener('click', () => {
+                stageBlocks.forEach(b => b.classList.remove('active'));
+                block.classList.add('active');
+                updateDetail(block.dataset.stage);
+            });
+        });
+        
+        // Initialize with Stage 1
+        updateDetail(1);
+        
+        // Demo animations
+        const demoBtns = document.querySelectorAll('.demo-btn');
+        const demoAnimation = document.getElementById('demo-animation');
+        const demoResult = document.getElementById('demo-result');
+        
+        const demos = {
+            pattern: {
+                stages: [1, 2],
+                sequence: [
+                    { elements: [{ text: '[1,0,1,0,1,0,1,0]', class: 'raw' }], delay: 0 },
+                    { elements: [{ text: '[1,0,1,0,1,0,1,0]', class: 'raw' }, { text: '→', arrow: true }, { text: 'Pattern: alternating', class: 'pattern' }], delay: 800 },
+                    { elements: [{ text: 'Pattern: alternating', class: 'pattern' }, { text: '→', arrow: true }, { text: 'ALTERNATE(x,y)', class: 'symbol' }], delay: 1600 },
+                ],
+                result: { type: 'success', text: '✓ Pattern becomes reusable symbol: ALTERNATE(🔴,🔵) → [🔴,🔵,🔴,🔵]' }
+            },
+            compose: {
+                stages: [2, 3],
+                sequence: [
+                    { elements: [{ text: 'ALTERNATE', class: 'symbol' }, { text: '+', arrow: true }, { text: 'SEQUENCE', class: 'symbol' }], delay: 0 },
+                    { elements: [{ text: 'MAP(double, SEQUENCE(1,2,3))', class: 'composed' }], delay: 800 },
+                    { elements: [{ text: 'MAP(double, SEQUENCE(1,2,3))', class: 'composed' }, { text: '→', arrow: true }, { text: '[2, 4, 6]', class: 'symbol' }], delay: 1600 },
+                ],
+                result: { type: 'success', text: '✓ Symbols compose into higher-order structures' }
+            },
+            recursive: {
+                stages: [3],
+                sequence: [
+                    { elements: [{ text: 'NEST( NEST( NEST( x ) ) )', class: 'composed' }], delay: 0 },
+                    { elements: [{ text: 'Depth 1', class: 'symbol' }, { text: '→', arrow: true }, { text: 'Depth 2', class: 'composed' }, { text: '→', arrow: true }, { text: 'Depth 3', class: 'composed' }], delay: 800 },
+                    { elements: [{ text: '⚠️ Novel operator?', class: 'raw' }, { text: '→', arrow: true }, { text: '~50% failure', class: 'raw' }], delay: 1600 },
+                ],
+                result: { type: 'failure', text: '⚠ LLMs fail when recursion requires novel (non-cached) operations' }
+            },
+            verify: {
+                stages: [4],
+                sequence: [
+                    { elements: [{ text: 'Compute: 17 × 24', class: 'raw' }], delay: 0 },
+                    { elements: [{ text: '408', class: 'symbol' }, { text: '← computed', arrow: true }], delay: 600 },
+                    { elements: [{ text: '408', class: 'self-ref' }, { text: '← HOLD', arrow: true }], delay: 1200 },
+                    { elements: [{ text: 'CHECK: "Is 17×24 = 410?"', class: 'raw' }], delay: 1800 },
+                    { elements: [{ text: '408 ≠ 410', class: 'self-ref' }, { text: '→', arrow: true }, { text: 'REJECT', class: 'pattern' }], delay: 2400 },
+                ],
+                result: { type: 'failure', text: '✗ LLMs cannot reliably HOLD while CHECKING — Stage 4 deficit' }
+            }
+        };
+        
+        function clearDots() {
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('dot-' + i).classList.remove('active');
+            }
+        }
+        
+        function runDemo(name) {
+            const demo = demos[name];
+            
+            // Clear previous
+            demoAnimation.innerHTML = '';
+            demoResult.classList.remove('visible', 'success', 'failure');
+            clearDots();
+            
+            // Activate dots
+            demo.stages.forEach(s => {
+                document.getElementById('dot-' + s).classList.add('active');
+            });
+            
+            // Run sequence
+            demo.sequence.forEach((step, idx) => {
+                setTimeout(() => {
+                    demoAnimation.innerHTML = '';
+                    step.elements.forEach((el, i) => {
+                        setTimeout(() => {
+                            if (el.arrow) {
+                                const arrow = document.createElement('span');
+                                arrow.className = 'demo-arrow';
+                                arrow.textContent = el.text;
+                                demoAnimation.appendChild(arrow);
+                                setTimeout(() => arrow.classList.add('visible'), 50);
+                            } else {
+                                const elem = document.createElement('div');
+                                elem.className = 'demo-element ' + el.class;
+                                elem.textContent = el.text;
+                                demoAnimation.appendChild(elem);
+                                setTimeout(() => elem.classList.add('visible'), 50);
+                            }
+                        }, i * 200);
+                    });
+                }, step.delay);
+            });
+            
+            // Show result
+            const lastDelay = demo.sequence[demo.sequence.length - 1].delay;
+            setTimeout(() => {
+                demoResult.textContent = demo.result.text;
+                demoResult.classList.add('visible', demo.result.type);
+            }, lastDelay + 800);
+        }
+        
+        demoBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                demoBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                runDemo(btn.dataset.demo);
+            });
+        });
+        
+        // Hold and Check Demo
+        const hcBtn = document.getElementById('run-hc-demo');
+        const llmValue = document.getElementById('llm-value');
+        const embeddedValue = document.getElementById('embedded-value');
+        const llmStatusText = document.getElementById('llm-status-text');
+        const embeddedStatusText = document.getElementById('embedded-status-text');
+        const embeddedMemory = document.getElementById('embedded-memory');
+        
+        hcBtn.addEventListener('click', runHoldCheckDemo);
+        
+        function runHoldCheckDemo() {
+            // Reset
+            llmValue.textContent = '—';
+            llmValue.className = 'hc-value';
+            embeddedValue.textContent = '—';
+            embeddedValue.className = 'hc-value';
+            llmStatusText.textContent = 'Computing...';
+            embeddedStatusText.textContent = 'Computing...';
+            
+            const slots = embeddedMemory.querySelectorAll('.hc-memory-slot');
+            slots.forEach(s => {
+                s.classList.remove('active');
+                s.classList.add('empty');
+                s.textContent = '—';
+            });
+            
+            // Step 1: Compute
+            setTimeout(() => {
+                llmValue.textContent = '408';
+                llmValue.classList.add('computing');
+                embeddedValue.textContent = '408';
+                embeddedValue.classList.add('computing');
+            }, 500);
+            
+            // Step 2: LLM loses it, Embedded holds it
+            setTimeout(() => {
+                llmValue.classList.remove('computing');
+                llmStatusText.textContent = 'Value computed (not held)';
+                
+                embeddedValue.classList.remove('computing');
+                embeddedValue.classList.add('held');
+                embeddedStatusText.textContent = 'HOLDING in self-state';
+                
+                slots[0].classList.remove('empty');
+                slots[0].classList.add('active');
+                slots[0].textContent = '408';
+            }, 1500);
+            
+            // Step 3: Verification challenge
+            setTimeout(() => {
+                llmStatusText.textContent = 'Checking: "Is 17×24 = 410?"';
+                embeddedStatusText.textContent = 'Checking: "Is 17×24 = 410?"';
+            }, 2500);
+            
+            // Step 4: Results
+            setTimeout(() => {
+                // LLM: lost the value, can't reliably compare
+                llmValue.classList.add('lost');
+                llmStatusText.textContent = '❌ Cannot verify (value not held)';
+                
+                // Embedded: still has it, can compare
+                embeddedStatusText.textContent = '✓ 408 ≠ 410 → REJECT claim';
+                
+                slots[1].classList.remove('empty');
+                slots[1].classList.add('active');
+                slots[1].textContent = '410';
+                
+                slots[2].classList.remove('empty');
+                slots[2].classList.add('active');
+                slots[2].textContent = '≠';
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
