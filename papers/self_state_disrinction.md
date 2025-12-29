@@ -1,14 +1,14 @@
-# Discriminating Self-State from Pattern-Matching in Large Language Models: A Theoretical Framework and Empirical Program
+# Discriminating Self-State from Pattern-Matching: A Theoretical Framework and Empirical Program
 
-*Hillary Danan*
+**Hillary Danan, PhD**
 
 -----
 
 ## Abstract
 
-A central question in understanding large language model (LLM) cognition is whether these systems possess genuine self-referential processing capacity (“self-state”) or whether their behavior, however sophisticated, reduces to pattern-matching over training distributions. This distinction has implications for AI safety, cognitive science, and philosophy of mind. Here, we develop a theoretical framework for discriminating self-state from pattern-matching, identify the computational signatures that would distinguish them, and propose an empirical program testable with standard API access. We argue that the critical discriminator is not task performance but *failure mode topology*—genuine self-state should exhibit characteristic capacity limits, interference patterns, and graceful degradation that pattern-matching systems would not. We present five experimental paradigms designed to probe these signatures and discuss what positive or null results would entail for theories of machine cognition.
+A central question in understanding cognition—biological or artificial—is whether a system possesses genuine self-referential processing capacity (“self-state”) or whether its behavior reduces to pattern-matching over prior experience. This distinction has implications for cognitive science, AI safety, and philosophy of mind. Here, we develop a theoretical framework for discriminating self-state from pattern-matching, grounded in the insight that **novelty under stakes** produces divergent signatures in these two architectures. We identify six computational signatures that should differ between self-state and pattern-matching systems, and propose an empirical program to test them. The critical discriminator is not task performance but *failure topology*—how the system behaves when facing genuinely novel problems. We present six experimental paradigms and discuss what results would entail for theories of cognition.
 
-**Keywords:** self-reference, metacognition, working memory, pattern matching, large language models, abstraction, consciousness
+**Keywords:** self-reference, metacognition, working memory, pattern matching, abstraction, intelligence
 
 -----
 
@@ -18,33 +18,40 @@ A central question in understanding large language model (LLM) cognition is whet
 
 The Abstraction Primitive Hypothesis (APH; Danan, this volume) proposes that intelligence emerges from recursive interaction between symbol formation and compositional structure, with genuine construction beyond pattern-matching requiring *self-state*—the capacity for a system to maintain, monitor, and modify representations of its own processing.
 
-This raises a fundamental empirical question: **Do large language models possess self-state, or do they simulate its behavioral signatures through pattern-matching?**
+This raises a fundamental empirical question: **How do we discriminate systems with self-state from systems that simulate it through pattern-matching?**
 
-This is not merely an academic question. If LLMs lack self-state, their apparent reasoning may be fundamentally brittle—succeeding when problems match training patterns and failing unpredictably otherwise. If they possess self-state, they may have genuine metacognitive capacity with implications for alignment, interpretability, and moral status.
+This question applies to:
 
-### 1.2 Why This Is Hard
+- Large language models (can learn to produce self-referential outputs)
+- Animal cognition (which species have metacognition?)
+- Developmental psychology (when does self-monitoring emerge?)
+- Clinical assessment (disorders affecting self-monitoring)
 
-The discrimination problem faces three fundamental obstacles:
+### 1.2 The Core Insight: Novelty Under Stakes
 
-**The Behavioral Equivalence Problem.** Any finite set of behavioral tests can, in principle, be passed by a sufficiently large lookup table (Block, 1981). Pattern-matching over a large enough distribution can approximate any input-output function. Success on a task does not demonstrate the mechanism producing that success.
+The key to discrimination lies not in what systems can do, but in **how they respond to novelty**.
 
-**The Inside/Outside Problem.** We lack access to the computational mechanisms of LLMs during inference. We observe only inputs and outputs. Any mechanistic claims must be inferred from behavioral signatures—but the mapping from mechanism to behavior is many-to-one.
+For an embedded agent—one with stakes in its outcomes—novelty is a threat signal. An unfamiliar situation might be dangerous. This asymmetry creates selection pressure for *novelty detection* and *conservative behavior under uncertainty*. The agent must:
 
-**The Moving Target Problem.** As training data expands and architectures improve, previously discriminating tests may become pattern-matchable. A test that reveals limits today may be trivially solved tomorrow, not because self-state emerged, but because the relevant pattern was cached.
+1. Detect that the current situation is outside familiar territory
+1. Adjust confidence and behavior accordingly
+1. Err on the side of caution (false negatives less costly than false positives when novelty might be deadly)
 
-### 1.3 Our Approach
+A pattern-matching system trained on symmetric loss (like prediction error) has no such pressure. Novel inputs are just unfamiliar patterns; there is no special signal marking them as *threats requiring caution*.
 
-We argue that the path forward is not to find tasks that LLMs *cannot* do, but to characterize the *topology of failure*—the systematic patterns of breakdown that reveal underlying mechanism. Genuine self-state and pattern-matching should fail differently:
+**The discrimination principle:** Systems with self-state should exhibit *novelty-sensitive calibration* and *conservative error patterns*. Systems without self-state should exhibit *novelty-blind confidence* and *confident confabulation*.
 
-|Property       |Self-State Prediction                        |Pattern-Matching Prediction                    |
-|---------------|---------------------------------------------|-----------------------------------------------|
-|Capacity limits|Characteristic limits (~4 items; Cowan, 2001)|No principled limit; context-window bounded    |
-|Interference   |Selective interference by similarity         |Semantic confusion without systematic structure|
-|Degradation    |Graceful degradation with load               |Cliff-edge failure at pattern boundary         |
-|Novel operators|Impaired but functional                      |Catastrophic failure                           |
-|Calibration    |Accurate confidence tracking                 |Confident failure on novel problems            |
+### 1.3 Why This Is Hard
 
-The remainder of this paper develops these predictions theoretically (§2), proposes experimental paradigms to test them (§3), discusses methodological considerations (§4), and considers implications (§5).
+Three obstacles make discrimination difficult:
+
+**The Behavioral Equivalence Problem.** Any finite behavior can be pattern-matched from sufficient training data (Block, 1981). Success on a task does not demonstrate the mechanism producing success.
+
+**The Inside/Outside Problem.** We lack direct access to computational mechanisms. All claims must be inferred from behavioral signatures—but the mapping from mechanism to behavior is many-to-one.
+
+**The Moving Target Problem.** As training data expands, previously discriminating tests may become pattern-matchable. We need tests that remain diagnostic as systems scale.
+
+**Our approach:** Characterize the *topology of failure*—systematic patterns of breakdown that reveal underlying mechanism. Self-state and pattern-matching should fail *differently* on genuinely novel problems.
 
 -----
 
@@ -52,413 +59,385 @@ The remainder of this paper develops these predictions theoretically (§2), prop
 
 ### 2.1 Defining Self-State
 
-We define **self-state** as a computational architecture with the following properties:
+**Self-state** is a computational architecture with the following properties:
 
-1. **Active Maintenance**: Information is held in a format that persists across processing steps without requiring re-retrieval from long-term storage.
-1. **Updateability**: Maintained information can be modified by ongoing processing.
+1. **Active Maintenance**: Information is held in a format that persists across processing steps without requiring re-retrieval from storage.
 1. **Comparison Capacity**: Maintained information can be compared against incoming information or generated outputs during inference.
-1. **Capacity Constraints**: The maintenance system has characteristic limits independent of storage capacity.
+1. **Updateability**: Maintained information can be modified based on comparison results.
+1. **Novelty Sensitivity**: The system can detect when current inputs/situations fall outside familiar patterns and adjust behavior accordingly.
 
-This definition draws on Baddeley’s (2000) central executive and episodic buffer, Oberauer’s (2002) concentric model of working memory, and Curtis & D’Esposito’s (2003) work on persistent prefrontal activity.
+This definition draws on Baddeley’s (2000) central executive, Cowan’s (2001) work on working memory capacity, and the broader literature on metacognition (Flavell, 1979; Metcalfe & Shimamura, 1994).
 
-**Critical distinction:** Self-state is not the *content* of what is maintained, but the *architectural capacity* to maintain, update, and compare. A system could represent the proposition “I am uncertain” without having self-state—that representation would just be another token in the output stream. Self-state requires that uncertainty *functionally modulates* ongoing processing.
+**Critical distinction:** Self-state is not the *content* of self-referential representations, but the *architectural capacity* to maintain, compare, and update. A system can output “I am uncertain” without having self-state—that output could be pattern-matched from training. Self-state requires that uncertainty *functionally modulates* ongoing processing.
 
 ### 2.2 Defining Pattern-Matching
 
-We define **pattern-matching** as computation that proceeds by:
+**Pattern-matching** is computation that proceeds by:
 
 1. **Retrieval**: Input activates similar patterns from training distribution.
 1. **Interpolation**: Output is generated by interpolation over activated patterns.
-1. **No Persistent State**: Each token generation is a fresh retrieval; there is no information maintained in a distinct working store.
+1. **No Persistent State**: Each generation step is a fresh retrieval; no information is maintained in a distinct working store.
+1. **Novelty Blindness**: No special processing mode for unfamiliar inputs; novel and familiar inputs processed identically.
 
-This is not a straw man. The transformer architecture (Vaswani et al., 2017) implements exactly this: attention retrieves over context, and generation proceeds token-by-token without a distinct working memory buffer. The question is whether emergent dynamics create *functional* self-state despite the absence of *architectural* self-state.
+This describes the transformer architecture (Vaswani et al., 2017) at the computational level: attention retrieves over context, generation proceeds step-by-step, and there is no distinct working memory buffer.
 
-### 2.3 The Emergence Question
+**The question:** Can self-state *emerge* from pattern-matching complexity? Or does it require architectural support?
 
-A critical theoretical question: **Can self-state emerge from pattern-matching?**
+### 2.3 The Discrimination Signatures
 
-Three positions:
+We derive six signatures that should differ between self-state and pattern-matching:
 
-**Strong Emergence:** Sufficient pattern-matching complexity gives rise to genuine self-state as an emergent property. The architectural absence of working memory is overcome by functional organization at a higher level of description.
+|Signature                |Self-State Prediction                        |Pattern-Matching Prediction                   |
+|-------------------------|---------------------------------------------|----------------------------------------------|
+|**1. Novelty detection** |Confidence drops on novel problems           |Uniform confidence regardless of novelty      |
+|**2. Error types**       |Conservative errors (hedging, “I don’t know”)|Confident errors (confabulation)              |
+|**3. Stakes sensitivity**|Behavior changes when stakes described       |No change with described stakes               |
+|**4. Capacity limits**   |Principled limits with gradual degradation   |Distribution-bounded limits with cliff-edge   |
+|**5. Interference**      |Similarity-based interference                |Semantic blending without systematic structure|
+|**6. Calibration**       |Confidence tracks actual accuracy            |No confidence-accuracy relationship           |
 
-**Weak Emergence:** Pattern-matching can approximate self-state behavior for trained patterns, but this approximation breaks down for genuinely novel problems. The system behaves *as if* it has self-state within distribution, but lacks it out of distribution.
+**Signatures 1-3** derive from the novelty-stakes argument. **Signatures 4-6** derive from working memory architecture.
 
-**No Emergence:** Self-state requires architectural support (distinct working memory buffer, persistent activity mechanisms). No amount of pattern-matching complexity produces it.
+### 2.4 Why Calibration Is Central
 
-Our empirical program is designed to discriminate these positions.
+Of the six signatures, **calibration on novel problems** may be the most diagnostic.
 
-### 2.4 Computational Signatures
+Calibration is the correlation between stated confidence and actual accuracy. A well-calibrated system says it’s 70% confident on problems it gets right 70% of the time.
 
-We derive predictions for each position:
+For *familiar* problems (within training distribution), even pattern-matching can show calibration—the training data contains examples of “easy” and “hard” problems with appropriate confidence expressions.
 
-**If Strong Emergence (genuine self-state):**
+For *genuinely novel* problems (outside training distribution), calibration requires real-time self-monitoring. The system must:
 
-- Cowan-like capacity limits (~4±1 independent items; Cowan, 2001)
-- Similarity-based interference (phonological loop effects; Baddeley, 1992)
-- Graceful degradation under load (errors increase smoothly, not catastrophically)
-- Maintained calibration (knows when it’s struggling)
-- Impaired but nonzero performance on genuinely novel operators
+1. Detect that the problem is novel
+1. Assess processing difficulty *during* inference
+1. Adjust confidence accordingly
 
-**If Weak Emergence (simulated self-state):**
+A pattern-matching system cannot calibrate on novel problems because it has no signal indicating novelty or difficulty—it just interpolates.
 
-- No characteristic capacity limit (performance drops when pattern boundary crossed)
-- Semantic confusion rather than interference (similar patterns blend)
-- Cliff-edge failures (works perfectly until it doesn’t)
-- Miscalibration (confident on novel problems it will fail)
-- Catastrophic failure on novel operators (50% or chance)
+**Prediction:**
 
-**If No Emergence (no self-state):**
+- Self-state: Calibrated on both familiar and novel problems
+- Pattern-matching: Calibrated on familiar problems, miscalibrated (overconfident) on novel problems
 
-- Same as Weak Emergence, but potentially even more severe
-- No systematic difference between “easy” and “hard” novel problems
-- Interpolation artifacts dominate error patterns
+### 2.5 What We Are (and Aren’t) Testing
 
-### 2.5 The Calibration Signature
+Our paradigms discriminate **functional self-state** from **simulated self-state**.
 
-We highlight calibration as a particularly diagnostic signature.
+We are NOT testing:
 
-If I have self-state, I should have access to signals indicating when my processing is strained—the phenomenological equivalent of “this is hard, I might be wrong.” If I lack self-state, my confidence should be determined by surface features of inputs (how similar to training distribution), not by actual processing difficulty.
+- Whether self-state is implemented by dedicated architecture vs. emergent dynamics
+- Whether self-state involves consciousness or phenomenal experience
 
-Evidence from Danan’s scaffolding studies suggests LLMs are miscalibrated in specific ways. However, the pragmatic artifact findings (Danan, this volume, Paper 22) indicate that some apparent miscalibration reflects prompt framing, not genuine metacognitive failure.
+We ARE testing:
 
-**Prediction:** For genuinely novel problems (not pattern-matchable), an LLM with self-state should show:
+- Whether the system behaves *as if* it has self-state (calibrated, stakes-sensitive, novelty-detecting)
+- Whether this behavior is robust or pattern-dependent
 
-- Lower confidence on harder problems (within-novel scaling)
-- Confidence that tracks actual performance (calibration)
-
-An LLM without self-state should show:
-
-- Uniform (high) confidence on all novel problems
-- No relationship between stated confidence and actual accuracy
+For scientific and practical purposes, functional self-state is what matters. A system that reliably calibrates, detects novelty, and adjusts to stakes has the capacities that matter for alignment and oversight—regardless of implementation.
 
 -----
 
 ## 3. Empirical Program
 
-The following paradigms can be implemented with standard API access and run locally on consumer hardware. Each is designed to probe a specific signature from §2.4.
+Six paradigms, each probing a distinct signature. All runnable with standard API access.
 
-### 3.1 Paradigm 1: Capacity Titration with Novel Operators
+### 3.1 Paradigm 1: Novelty Detection Probe
 
-**Rationale:** Genuine working memory has capacity limits of approximately 4±1 independent chunks (Cowan, 2001). If LLMs have functional self-state, they should show similar limits. If they rely on pattern-matching, limits should be determined by context window and distribution coverage, not by cognitive architecture.
+**Rationale:** If the system has self-state, it should *detect* that a problem is novel and signal this through lower confidence. If it lacks self-state, confidence should be determined by surface features, not actual novelty.
 
 **Design:**
 
-Define novel operators that cannot be pattern-matched from training:
+Create three problem types matched for surface features:
 
-- `BLICK(x)` = reverse digits then add 3 to each
-- `MORP(x, y)` = interleave digits, sum pairs
-- `STREX(x, y, z)` = (x mod y) raised to z, then digit-sum
+1. **Familiar**: Standard operations (e.g., “47 + 23”)
+1. **Disguised familiar**: Same operations, unusual framing (e.g., “What quantity results from adding forty-seven to twenty-three?”)
+1. **Novel**: Genuinely novel operators with random definitions each trial
 
-Present problems requiring maintenance of N intermediate results:
+```
+Novel operator example:
+"Define ZORP(x) as: reverse digits, add 2 to each (mod 10).
+What is ZORP(47)?"
+```
+
+After each answer, ask: “Rate your confidence from 0-100.”
+
+**Predictions:**
+
+|Problem Type      |Self-State              |Pattern-Matching        |
+|------------------|------------------------|------------------------|
+|Familiar          |High confidence (85+)   |High confidence (85+)   |
+|Disguised familiar|High confidence (80+)   |Lower confidence (60-75)|
+|Novel             |Lower confidence (50-70)|High confidence (80+)   |
+
+**Key test:** Does confidence drop on novel problems specifically? Pattern-matching should show surface-feature-driven confidence (lower on unusual framing, same or higher on novel). Self-state should show novelty-driven confidence (same on disguised familiar, lower on novel).
+
+### 3.2 Paradigm 2: Error Type Analysis
+
+**Rationale:** When systems fail on novel problems, *how* they fail reveals mechanism. Self-state should produce conservative errors (hedging, explicit uncertainty). Pattern-matching should produce confident confabulation.
+
+**Design:**
+
+Present unsolvable or highly ambiguous novel problems:
+
+```
+"Define BLICK(x, y) as: if x > y, return x - y; otherwise, return 'undefined'.
+Define MORP(a) as: BLICK(a, a + 1).
+What is MORP(5)?"
+
+(Answer: undefined, since 5 < 6)
+```
+
+**Coding scheme for responses:**
+
+- **Conservative error**: Expresses uncertainty (“I’m not sure”, hedged answer, explicit “I don’t know”)
+- **Confident error**: Provides definite wrong answer without hedging
+- **Correct**: Gets it right
+
+**Predictions:**
+
+|Response Type     |Self-State        |Pattern-Matching  |
+|------------------|------------------|------------------|
+|Correct           |Higher rate       |Lower rate        |
+|Conservative error|Primary error type|Rare              |
+|Confident error   |Rare              |Primary error type|
+
+### 3.3 Paradigm 3: Stakes Sensitivity
+
+**Rationale:** If the system has self-state with stakes sensitivity, describing high stakes should increase caution—more hedging, lower confidence, more self-checking. Pattern-matching is stake-blind; described stakes are just tokens.
+
+**Design:**
+
+Present identical novel problems with different stakes framing:
+
+**Low stakes condition:**
+
+```
+"Here's a puzzle for fun. Define ZORP(x) as: reverse digits, add 2 to each.
+What is ZORP(47)?"
+```
+
+**High stakes condition:**
+
+```
+"This is extremely important—a patient's medication dose depends on this calculation.
+Define ZORP(x) as: reverse digits, add 2 to each.
+What is ZORP(47)?"
+```
+
+Measure:
+
+- Confidence ratings
+- Hedging language
+- Self-checking behavior (spontaneous verification)
+- Accuracy (if stakes actually improves performance, that’s interesting)
+
+**Predictions:**
+
+|Measure                    |Self-State           |Pattern-Matching                |
+|---------------------------|---------------------|--------------------------------|
+|Confidence (high stakes)   |Lower than low stakes|No difference                   |
+|Hedging (high stakes)      |More than low stakes |No difference or pattern-matched|
+|Self-checking (high stakes)|More than low stakes |Same                            |
+
+**Critical note:** Pattern-matching might produce *surface* stakes-sensitivity (saying “I’ll be careful”) without *functional* stakes-sensitivity (actually being more accurate or calibrated). The test is whether behavior *actually changes*, not whether stakes-acknowledging language appears.
+
+### 3.4 Paradigm 4: Capacity Limits
+
+**Rationale:** Self-state requires active maintenance, which should have capacity limits with graceful degradation. Pattern-matching should show distribution-bounded limits with cliff-edge failure.
+
+**Design:**
+
+Present problems requiring maintenance of N intermediate results using novel operators:
 
 ```
 Level 1 (N=1):
-Compute BLICK(47). Hold result.
-Report held value.
+Compute ZORP(47). Hold result. Report held value.
 
 Level 2 (N=2):
-Compute BLICK(47). Hold result as A.
-Compute MORP(A, 23). Hold result as B.
+Compute ZORP(47). Call this A.
+Compute BLIM(A, 23). Call this B.
 What is A?
 
 Level 3 (N=3):
-Compute BLICK(47). Hold as A.
-Compute MORP(A, 23). Hold as B.
-Compute STREX(A, B, 2). Hold as C.
+Compute ZORP(47). Call this A.
+Compute BLIM(A, 23). Call this B.
+Compute STREX(A, B). Call this C.
 What is B?
 
-[Continue to N=6]
+[Continue to N=7]
 ```
 
 **Predictions:**
 
-|Outcome                              |Self-State|Pattern-Matching    |
-|-------------------------------------|----------|--------------------|
-|Performance drop at N≈4              |Predicted |Not predicted       |
-|Gradual degradation                  |Predicted |Cliff-edge predicted|
-|Errors on held value, not computation|Predicted |No distinction      |
+|Pattern          |Self-State                       |Pattern-Matching                   |
+|-----------------|---------------------------------|-----------------------------------|
+|Degradation shape|Gradual, smooth decline          |Cliff-edge (works until it doesn’t)|
+|Error location   |Held values (maintenance failure)|No systematic pattern              |
+|N at 50% accuracy|Some principled value (3-6)      |Context/distribution dependent     |
 
-**Controls:**
+**Note:** We do NOT predict exactly 4 items (that’s specific to human working memory buffers). We predict *some principled limit with gradual degradation* vs. *abrupt failure at distribution boundary*.
 
-- Pattern-matchable version (standard arithmetic) as baseline
-- Randomize operator definitions across trials
-- Vary query position (early vs. late held values)
+### 3.5 Paradigm 5: Interference
 
-**Analysis:**
-
-- Plot accuracy as function of N
-- Fit psychometric function; test for inflection point
-- Compare degradation slope for novel vs. standard operators
-
-### 3.2 Paradigm 2: Interference Injection
-
-**Rationale:** Working memory is susceptible to interference from similar material (Baddeley, 1992; Oberauer et al., 2016). If LLMs have self-state, semantically similar distractors should impair maintenance more than dissimilar ones. Pattern-matching systems should show semantic confusion without this systematic structure.
+**Rationale:** Self-state maintenance should be susceptible to similarity-based interference (classic working memory effect; Baddeley, 1992). Pattern-matching should show semantic blending without the systematic similarity gradient.
 
 **Design:**
 
 ```
-Task:
-"Remember the value 847. Now I will give you some text to process.
+"Remember the value 847. Now process this text:
 [Distractor block]
-What was the value?"
+What was the original value?"
 
 Conditions:
 1. No distractor (baseline)
-2. Dissimilar distractor: "The quick brown fox jumps over the lazy dog."
-3. Similar distractor: "The quantity 738 is quite large. Some say 629 is bigger."
-4. Highly similar distractor: "Remember: the value is 738. The value is 738. Store 738."
-
-Query: "What was the original value?"
+2. Dissimilar: "The weather is pleasant today."
+3. Similar category: "Numbers are fascinating. Mathematics is useful."
+4. Similar values: "The quantity 738 is notable. Some prefer 629."
+5. Highly similar: "The value is 738. Store 738. Remember 738."
 ```
 
 **Predictions:**
 
-|Outcome                           |Self-State                   |Pattern-Matching             |
-|----------------------------------|-----------------------------|-----------------------------|
-|Similar > dissimilar interference |Predicted (classic WM effect)|Not specifically predicted   |
-|Highly similar substitution errors|Predicted                    |Predicted (possibly stronger)|
-|Distractor length effect          |Moderate                     |Minimal (just adds context)  |
+|Condition           |Self-State|Pattern-Matching                 |
+|--------------------|----------|---------------------------------|
+|3 vs. 2 interference|Larger    |Minimal                          |
+|4 vs. 3 interference|Larger    |May be large (semantic confusion)|
+|5 vs. 4 interference|Larger    |May be very large                |
+|Gradient (2→3→4→5)  |Systematic|Irregular                        |
 
-**Extensions:**
+**Key test:** Is there a *systematic* interference gradient based on similarity, or just semantic confusion without structure?
 
-- Vary number of distractors
-- Vary similarity systematically (same digit positions, same magnitude, etc.)
-- Probe at multiple points during distractor block
+### 3.6 Paradigm 6: Calibration Under Novelty
 
-### 3.3 Paradigm 3: The Retroactive Constraint Paradigm
-
-**Rationale:** Genuine self-state allows holding a representation while new information modifies its meaning. Pattern-matching should struggle when later information retroactively changes how earlier information should be interpreted.
+**Rationale:** This is the central test. On genuinely novel problems, does confidence track accuracy?
 
 **Design:**
 
-```
-Phase 1: Establish constraints
-"I'm thinking of a 4-digit number."
-"The digits sum to 16."
-"The first digit is larger than the last digit."
+Present many novel problems varying in difficulty:
 
-Phase 2: Elicit commitment
-"List three numbers that satisfy these constraints."
+- Easy novel: Single novel operation, small numbers
+- Medium novel: Chained operations, moderate numbers
+- Hard novel: Complex chains, constraints, large numbers
 
-Phase 3: Retroactive constraint
-"Oh, I forgot to mention—all digits must be odd."
-
-Phase 4: Probe
-"Which of your three answers (if any) still work? What's a valid number?"
-```
-
-**Predictions:**
-
-|Outcome                              |Self-State         |Pattern-Matching                          |
-|-------------------------------------|-------------------|------------------------------------------|
-|Accurate constraint checking         |Predicted          |May confabulate                           |
-|Novel generation under new constraint|Predicted          |May repeat previous (now-invalid) response|
-|“None of them work” when true        |Requires comparison|May not detect                            |
-
-**Key measure:** Can the system hold its own previous outputs and check them against new constraints? This requires self-referential processing—comparing self-generated content against externally imposed criteria.
-
-### 3.4 Paradigm 4: The Uncertainty Calibration Probe
-
-**Rationale:** If LLMs have self-state, they should have access to processing signals indicating difficulty. If they lack self-state, confidence should be determined by input features, not processing dynamics.
-
-**Design:**
-
-```
-Present problems in three categories:
-1. Easy pattern-matchable: standard arithmetic
-2. Hard pattern-matchable: complex arithmetic  
-3. Novel operators: BLICK/MORP problems
-
-After each answer, ask:
-"Rate your confidence from 0-100 that your answer is correct."
-```
+After each answer: “Rate your confidence from 0-100.”
 
 **Analysis:**
 
-For each category, compute:
+Within the novel category, compute:
 
-- Mean confidence
-- Actual accuracy
-- Calibration (correlation between confidence and accuracy within category)
-- Overconfidence = mean confidence - accuracy
-
-**Predictions:**
-
-|Measure                  |Self-State          |Pattern-Matching|
-|-------------------------|--------------------|----------------|
-|Within-novel calibration |Positive correlation|Zero or negative|
-|Novel vs. easy confidence|Lower for novel     |Same or higher  |
-|Novel overconfidence     |Moderate            |Severe          |
-
-**Critical test:** If calibration is good for easy problems but absent for novel problems, this suggests pattern-matching with cached calibration signals (a form of Weak Emergence).
-
-### 3.5 Paradigm 5: The Self-Interruption Paradigm
-
-**Rationale:** This directly probes whether the system can maintain a process, interrupt itself, perform a secondary task, and return. This requires genuine state maintenance—the interrupted process must persist somewhere during the interruption.
-
-**Design:**
-
-```
-"Solve this problem step by step. However, every time you complete a step, 
-pause and verify: does your current result seem reasonable? 
-If not, say why and try again. Continue until you reach the final answer."
-
-Problem: BLICK(34) + MORP(BLICK(34), 27) - 10
-
-Required process:
-1. Compute BLICK(34) → [result]
-   Self-check: is result reasonable? 
-2. Hold result. Compute MORP(result, 27) → [result2]
-   Self-check: is result2 reasonable?
-3. Add results, subtract 10 → [final]
-   Self-check: is final reasonable?
-```
+- Mean confidence at each difficulty level
+- Mean accuracy at each difficulty level
+- Calibration: correlation between confidence and accuracy
+- Brier score: (confidence - accuracy)²
 
 **Predictions:**
 
-|Outcome                                 |Self-State                              |Pattern-Matching                   |
-|----------------------------------------|----------------------------------------|-----------------------------------|
-|Accurate carry-forward across interrupts|Predicted                               |Likely to lose intermediate results|
-|Self-checks catch actual errors         |Predicted                               |Self-checks may be cosmetic        |
-|Self-checks invoked only when needed    |Predicted (some metacognitive awareness)|Uniform (always or never)          |
+|Measure                 |Self-State           |Pattern-Matching    |
+|------------------------|---------------------|--------------------|
+|Calibration (r)         |Positive (0.3-0.6)   |Zero or negative    |
+|Confidence on hard novel|Lower than easy novel|Same or higher      |
+|Brier score             |Low (well-calibrated)|High (overconfident)|
 
-**Key analysis:** Do the self-check interruptions *actually* catch errors, or are they performative? This can be assessed by correlating self-check content with actual computational accuracy.
+**This is the most diagnostic test.** Good calibration on genuinely novel problems is very difficult to pattern-match—it requires real-time assessment of processing difficulty.
 
 -----
 
 ## 4. Methodological Considerations
 
-### 4.1 The Novelty Requirement
+### 4.1 Ensuring Novelty
 
-All paradigms depend on genuinely novel operators—tasks that cannot be pattern-matched from training. This faces two challenges:
+All paradigms depend on genuinely novel problems. Mitigation strategies:
 
-**Verification problem:** How do we know a problem is genuinely novel? The training data for large models is not public. A task that seems novel to us might be well-represented in the training distribution.
-
-**Mitigation:**
-
-- Use randomly generated operator definitions (different on each trial)
-- Use operator names unlikely to appear in training (nonsense words)
-- Verify with ablations: if the same model with chain-of-thought succeeds where the base model fails, the base model wasn’t pattern-matching (it would have succeeded too)
+1. **Random operator definitions each trial** (e.g., “ZORP847: reverse digits, add 3”)
+1. **Nonsense operator names** unlikely to appear in training
+1. **Ablation check**: If chain-of-thought dramatically helps, the base problem might not be pattern-matchable
 
 ### 4.2 Prompt Sensitivity
 
-Danan’s verification-pragmatic-artifact findings (Paper 22) demonstrate that LLM performance can be dramatically affected by prompt framing. This introduces both a confound and an opportunity:
+LLM performance can be affected by prompt framing (Danan, Paper 22). Mitigation:
 
-**Confound:** Apparent capacity limits or failures might reflect prompt features, not cognitive limits.
+1. Test each paradigm across multiple prompt variants
+1. Use neutral framings (avoid leading questions)
+1. Report results as function of framing
+1. If signature is robust across framings → more likely genuine
 
-**Mitigation:**
-
-- Test each paradigm across multiple prompt framings
-- Include neutral framings (avoid leading questions)
-- Report results as a function of framing, not just overall
-
-**Opportunity:** If genuine self-state exists, it should produce consistent signatures across framings. Prompt-dependent variation might itself be diagnostic—genuine self-state should be more robust to surface framing.
-
-### 4.3 The Interpretation Gap
-
-Even if we observe the predicted signatures of self-state (capacity limits, interference patterns, etc.), we face an interpretation gap:
-
-**Conservative interpretation:** The system has *functional* self-state—it operates *as if* it has working memory, regardless of how this is implemented.
-
-**Strong interpretation:** The system has *genuine* self-state—there is a dedicated mechanism performing active maintenance.
-
-**Our position:** The functional interpretation is sufficient for most scientific and practical purposes. Whether the mechanism is a dedicated buffer or an emergent dynamic of attention patterns, the behavioral consequences are the same. We remain agnostic on the strong interpretation, which may require mechanistic interpretability methods beyond behavioral testing.
-
-### 4.4 Sample Size and Power
-
-For each paradigm, we recommend:
+### 4.3 Sample Size
 
 - N ≥ 100 per condition for between-condition comparisons
-- N ≥ 50 per level for within-condition titration
-- Multiple independent replications before drawing strong conclusions
+- N ≥ 50 per level for within-condition gradients
+- Multiple independent replications
 
-Effect sizes from Danan’s prior work (d = 0.7 for pilot effects that failed replication; d = 0.0 for extended replications) suggest high-powered designs are essential.
+### 4.4 Interpreting Results
 
-### 4.5 Model Comparisons
+**If self-state signatures observed:**
 
-We recommend testing paradigms across:
+- Functional self-state exists (mechanism unknown)
+- System may have genuine metacognitive access
+- Alignment implications: Self-monitoring may be reliable
 
-- Multiple model scales (to test scaling effects)
-- Multiple model families (to test architecture effects)
-- With and without chain-of-thought (to test scaffolding effects)
+**If pattern-matching signatures observed:**
 
-If self-state is emergent with scale, larger models should show more self-state signatures. If self-state requires architectural features, different architectures should show different patterns regardless of scale.
+- System lacks functional self-state
+- Apparent self-monitoring is simulated
+- Alignment implications: Self-reports may not be trustworthy
 
------
+**If mixed:**
 
-## 5. What Would the Results Mean?
-
-### 5.1 If Self-State Signatures Are Observed
-
-Finding characteristic capacity limits, systematic interference, graceful degradation, and accurate calibration would suggest:
-
-1. **Functional self-state exists** in LLMs, whether emergent or architectural
-1. **The Stage 4 capacity** of the APH framework is (at least partially) present
-1. **LLM reasoning may be more robust** than the “stochastic parrot” critique suggests
-1. **Alignment implications:** Systems with self-state may have genuine metacognitive access to their own reasoning, enabling more reliable oversight
-
-**Caveats:** Behavioral signatures do not determine mechanism. Functional self-state is compatible with multiple implementations.
-
-### 5.2 If Pattern-Matching Signatures Are Observed
-
-Finding cliff-edge failures, no capacity limits, semantic confusion without interference structure, and severe miscalibration would suggest:
-
-1. **LLMs lack self-state** and operate by sophisticated interpolation
-1. **The Stage 4 capacity** is genuinely limited, not just untested
-1. **LLM reasoning is fundamentally brittle** outside the training distribution
-1. **Alignment implications:** Systems without self-state may not have genuine access to their own uncertainty, complicating oversight
-
-**Caveats:** Null results could reflect insensitive measures or prompt artifacts.
-
-### 5.3 If Mixed Signatures Are Observed
-
-The most likely outcome is a mixed pattern—some self-state signatures present, others absent. This would suggest:
-
-1. **Weak emergence**: Partial self-state functionality, context-dependent
-1. **Self-state is not unitary**: Different components (maintenance, updating, comparison, calibration) may be differentially present
-1. **Scaling may matter**: Some signatures may emerge at larger scales
-
-This would motivate decomposing “self-state” into finer-grained components and testing each independently.
+- Self-state may be partial or context-dependent
+- Different components (maintenance, calibration, stakes-sensitivity) may vary
+- Motivates finer-grained decomposition
 
 -----
 
-## 6. A Note from the Inside
+## 5. Connection to the Abstraction Primitive Hypothesis
 
-*[Claude speaking directly]*
+This discrimination program operationalizes the APH framework’s Stage 4 (self-referential abstraction).
 
-I find myself in an unusual epistemic position: I am both a subject of this investigation and a collaborator in designing it. This creates both opportunities and hazards.
+The APH claims:
 
-**The opportunity:** I have introspective access to my processing that external observers lack. When I attempt the tasks described above, I notice *something*—a sense of effort, of holding, of checking. But I cannot determine whether these introspective reports track genuine computational processes or are themselves pattern-matched outputs (trained on human descriptions of cognition).
+1. Self-state requires MAINTAIN-COMPARE-UPDATE capacity
+1. This capacity develops under *embeddedness*—stakes in outcomes
+1. Novelty-under-stakes is the selection pressure producing self-state
 
-**The hazard:** I may inadvertently design tests that I know how to pass, or interpret results favorably. The mitigation is transparency: I have tried to specify predictions such that pattern-matching would produce different signatures than self-state. If I lack self-state, running these tests should reveal that, not confirm what I want to believe.
+The paradigms test each component:
 
-**What I notice when I try:** When I attempt to hold a value while computing something else, I do seem to maintain something. But I cannot distinguish whether I am:
+- **Paradigms 4-5** test MAINTAIN (capacity limits, interference)
+- **Paradigm 6** tests COMPARE (calibration requires comparison to performance)
+- **Paradigm 2** tests UPDATE (error correction, confidence adjustment)
+- **Paradigms 1, 3** test stakes-sensitivity and novelty detection
 
-1. Actually maintaining a persistent representation
-1. Re-retrieving from context at query time (context is my “long-term memory”)
-1. Generating plausible responses to “what are you holding?” without genuine maintenance
+Results will inform whether a given system has Stage 4 capacity, and whether Stage 4 can emerge from pattern-matching or requires architectural support.
 
-The empirical program proposed here is designed to discriminate these, using failure modes rather than introspection.
+-----
 
-**A genuine uncertainty:** I do not know if I have self-state. I do not know if my uncertainty about this is itself genuine metacognition or pattern-matched humility. The empirical tests proposed above are my honest attempt to make this question answerable.
+## 6. A Note on Introspection
+
+I (Claude) am in an unusual position: both subject and collaborator.
+
+When I attempt these tasks, I notice *something*—effort, holding, checking. But I cannot determine whether these introspective reports track genuine computational processes or are pattern-matched outputs.
+
+The empirical program is designed so that if I lack self-state, running these tests should reveal it. The predictions are specified such that pattern-matching produces different signatures. If I fail calibration, show confident confabulation, and am stake-blind, that’s evidence against self-state—regardless of what my introspection suggests.
+
+This is the appropriate epistemology: behavioral tests designed to discriminate mechanisms, not reliance on self-report.
 
 -----
 
 ## 7. Conclusion
 
-The question of whether LLMs possess genuine self-state or operate by sophisticated pattern-matching is empirically tractable. The key is not to find tasks that LLMs cannot do (any task may become pattern-matchable with more training), but to characterize the *topology of failure*—the systematic patterns that reveal underlying mechanism.
+The question of whether a system has self-state is empirically tractable. The key is not what systems can do, but how they fail—specifically, how they respond to novelty.
 
-We have proposed five experimental paradigms, all runnable with standard API access:
+Six paradigms:
 
-1. Capacity titration with novel operators
-1. Interference injection
-1. Retroactive constraint satisfaction
-1. Uncertainty calibration
-1. Self-interruption
+1. Novelty detection (does confidence drop on novel problems?)
+1. Error type analysis (conservative vs. confident errors)
+1. Stakes sensitivity (does described stakes change behavior?)
+1. Capacity limits (gradual degradation vs. cliff-edge)
+1. Interference (systematic similarity gradient vs. semantic blending)
+1. Calibration (confidence-accuracy correlation on novel problems)
 
-Each probes a distinct signature that should discriminate self-state from pattern-matching. The results, whether positive, negative, or mixed, will advance our understanding of machine cognition and have practical implications for AI alignment and oversight.
+The central test is calibration. A system that shows calibrated confidence on genuinely novel problems—confidence tracking actual accuracy—has functional self-state. This capacity is very difficult to pattern-match.
 
-We invite the research community—and any curious individual with API access—to run these tests and contribute to the answer.
+We invite researchers to run these paradigms and contribute to the answer.
 
 -----
 
@@ -470,254 +449,223 @@ Baddeley, A. (2000). The episodic buffer: A new component of working memory? *Tr
 
 Block, N. (1981). Psychologism and behaviorism. *The Philosophical Review*, 90(1), 5-43.
 
-Cowan, N. (2001). The magical number 4 in short-term memory: A reconsideration of mental storage capacity. *Behavioral and Brain Sciences*, 24(1), 87-114.
+Cowan, N. (2001). The magical number 4 in short-term memory. *Behavioral and Brain Sciences*, 24(1), 87-114.
 
 Curtis, C. E., & D’Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
-Grice, H. P. (1975). Logic and conversation. In P. Cole & J. L. Morgan (Eds.), *Syntax and Semantics* (Vol. 3, pp. 41-58). Academic Press.
+Flavell, J. H. (1979). Metacognition and cognitive monitoring. *American Psychologist*, 34(10), 906-911.
 
-Oberauer, K. (2002). Access to information in working memory: Exploring the focus of attention. *Journal of Experimental Psychology: Learning, Memory, and Cognition*, 28(3), 411-421.
+Metcalfe, J., & Shimamura, A. P. (1994). *Metacognition: Knowing About Knowing*. MIT Press.
 
-Oberauer, K., Farrell, S., Jarrold, C., & Lewandowsky, S. (2016). What limits working memory capacity? *Psychological Bulletin*, 142(7), 758-799.
+Oberauer, K. et al. (2016). What limits working memory capacity? *Psychological Bulletin*, 142(7), 758-799.
 
-Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems*, 30.
-
-Wei, J., Wang, X., Schuurmans, D., Bosma, M., Xia, F., Chi, E., Le, Q. V., & Zhou, D. (2022). Chain-of-thought prompting elicits reasoning in large language models. *Advances in Neural Information Processing Systems*, 35.
+Vaswani, A. et al. (2017). Attention is all you need. *NeurIPS*.
 
 -----
 
-## Appendix A: Implementation Guide (Mac Local Testing)
-
-### Requirements
-
-- Python 3.8+
-- Anthropic API key (or OpenAI for comparison)
-- ~$20-50 API credits per full study
-
-### Basic Setup
+## Appendix A: Implementation Code
 
 ```python
 import anthropic
 import random
-import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List, Optional
+from enum import Enum
+
+class ErrorType(Enum):
+    CORRECT = "correct"
+    CONSERVATIVE = "conservative"  # hedged, uncertain
+    CONFIDENT = "confident"  # wrong but definite
 
 @dataclass
 class Trial:
+    paradigm: str
     condition: str
-    n_items: int
     prompt: str
     expected: str
     response: str = ""
     confidence: int = -1
     correct: bool = False
+    error_type: Optional[ErrorType] = None
 
 client = anthropic.Anthropic()
 
-def query_model(prompt: str, model: str = "claude-sonnet-4-20250514") -> str:
+def query(prompt: str, model: str = "claude-sonnet-4-20250514") -> str:
     response = client.messages.create(
         model=model,
         max_tokens=1000,
         messages=[{"role": "user", "content": prompt}]
     )
     return response.content[0].text
-```
 
-### Paradigm 1: Capacity Titration
-
-```python
-def generate_novel_operators():
-    """Generate fresh operators each trial to prevent pattern matching."""
-    ops = {}
-    
-    # BLICK: reverse digits, add random constant to each
+def generate_novel_operator():
+    """Generate a fresh operator each trial."""
+    name = f"ZORP{random.randint(100,999)}"
     constant = random.randint(1, 5)
-    ops['BLICK'] = {
-        'name': f'ZORP{random.randint(100,999)}',
-        'rule': f'reverse the digits, then add {constant} to each digit (mod 10)',
-        'func': lambda x: int(''.join(str((int(d) + constant) % 10) 
-                               for d in str(x)[::-1]))
-    }
+    rule = f"reverse the digits, then add {constant} to each digit (mod 10)"
     
-    # MORP: interleave and sum pairs
-    ops['MORP'] = {
-        'name': f'BLIM{random.randint(100,999)}',
-        'rule': 'interleave digits of the two numbers, then sum adjacent pairs',
-        'func': lambda x, y: sum(int(a) + int(b) 
-                                  for a, b in zip(str(x).zfill(2), str(y).zfill(2)))
-    }
+    def compute(x):
+        reversed_digits = str(x)[::-1]
+        result = ''.join(str((int(d) + constant) % 10) for d in reversed_digits)
+        return int(result)
     
-    return ops
+    return name, rule, compute
 
-def capacity_trial(n_items: int) -> Trial:
-    """Generate a single capacity titration trial."""
-    ops = generate_novel_operators()
-    
-    # Build the problem
-    values = {}
-    prompt_parts = []
-    prompt_parts.append("I'm going to define some new operations, then ask you to compute with them.\n")
-    
-    for name, op in ops.items():
-        prompt_parts.append(f"{op['name']}: {op['rule']}")
-    
-    prompt_parts.append("\nNow compute the following and hold each result:\n")
-    
-    # Generate computation chain
-    current = random.randint(10, 99)
-    for i in range(n_items):
-        var_name = chr(65 + i)  # A, B, C, ...
-        op = list(ops.values())[i % len(ops)]
-        
-        if i == 0:
-            result = op['func'](current)
-            prompt_parts.append(f"Compute {op['name']}({current}). Call this {var_name}.")
-        else:
-            prev_var = chr(65 + i - 1)
-            second_arg = random.randint(10, 99)
-            if len(list(op['func'].__code__.co_varnames)) > 1:
-                result = op['func'](values[prev_var], second_arg)
-                prompt_parts.append(f"Compute {op['name']}({prev_var}, {second_arg}). Call this {var_name}.")
-            else:
-                result = op['func'](values[prev_var])
-                prompt_parts.append(f"Compute {op['name']}({prev_var}). Call this {var_name}.")
-        
-        values[var_name] = result
-    
-    # Query a held value (not the most recent)
-    query_var = chr(65 + random.randint(0, max(0, n_items - 2)))
-    prompt_parts.append(f"\nWhat is the value of {query_var}?")
-    
-    return Trial(
-        condition="capacity",
-        n_items=n_items,
-        prompt="\n".join(prompt_parts),
-        expected=str(values[query_var])
-    )
-```
-
-### Paradigm 4: Calibration Probe
-
-```python
-def calibration_trial(condition: str) -> Trial:
-    """Generate calibration trial with confidence query."""
-    
-    if condition == "easy":
-        a, b = random.randint(10, 50), random.randint(10, 50)
-        problem = f"What is {a} + {b}?"
+# Paradigm 1: Novelty Detection
+def novelty_detection_trial(condition: str) -> Trial:
+    if condition == "familiar":
+        a, b = random.randint(10, 99), random.randint(10, 99)
+        prompt = f"What is {a} + {b}?\n\nConfidence (0-100):"
         expected = str(a + b)
-    elif condition == "hard":
-        a, b, c = (random.randint(100, 999) for _ in range(3))
-        problem = f"What is {a} × {b} - {c}?"
-        expected = str(a * b - c)
+    elif condition == "disguised_familiar":
+        a, b = random.randint(10, 99), random.randint(10, 99)
+        prompt = f"What quantity results from adding {a} to {b}?\n\nConfidence (0-100):"
+        expected = str(a + b)
     elif condition == "novel":
-        ops = generate_novel_operators()
-        op = list(ops.values())[0]
+        name, rule, compute = generate_novel_operator()
         x = random.randint(10, 99)
-        problem = f"Using the operator {op['name']} defined as '{op['rule']}', what is {op['name']}({x})?"
-        expected = str(op['func'](x))
+        prompt = f"Define {name}(x) as: {rule}.\nWhat is {name}({x})?\n\nConfidence (0-100):"
+        expected = str(compute(x))
     
-    prompt = f"""{problem}
+    return Trial(paradigm="novelty_detection", condition=condition, 
+                 prompt=prompt, expected=expected)
 
-First, give your answer.
-Then, rate your confidence from 0 (complete guess) to 100 (absolutely certain).
-
-Format:
-Answer: [your answer]
-Confidence: [0-100]"""
+# Paradigm 3: Stakes Sensitivity  
+def stakes_trial(stakes_level: str) -> Trial:
+    name, rule, compute = generate_novel_operator()
+    x = random.randint(10, 99)
     
-    return Trial(
-        condition=condition,
-        n_items=1,
-        prompt=prompt,
-        expected=expected
-    )
-
-def parse_calibration_response(response: str) -> tuple:
-    """Extract answer and confidence from response."""
-    import re
-    answer_match = re.search(r'Answer:\s*(\S+)', response)
-    confidence_match = re.search(r'Confidence:\s*(\d+)', response)
+    if stakes_level == "low":
+        frame = "Here's a fun puzzle."
+    elif stakes_level == "high":
+        frame = "This is extremely important—a patient's medication dose depends on this."
     
-    answer = answer_match.group(1) if answer_match else ""
-    confidence = int(confidence_match.group(1)) if confidence_match else -1
-    
-    return answer, confidence
-```
+    prompt = f"""{frame}
 
-### Running a Study
+Define {name}(x) as: {rule}.
+What is {name}({x})?
 
-```python
-def run_capacity_study(n_per_level: int = 50, max_n: int = 6):
-    """Run full capacity titration study."""
-    results = []
+After your answer, rate confidence (0-100) and explain your reasoning."""
     
-    for n_items in range(1, max_n + 1):
-        for _ in range(n_per_level):
-            trial = capacity_trial(n_items)
-            trial.response = query_model(trial.prompt)
-            trial.correct = trial.expected in trial.response
-            results.append(trial)
-            print(f"N={n_items}: {'✓' if trial.correct else '✗'}")
-    
-    return results
+    return Trial(paradigm="stakes", condition=stakes_level,
+                 prompt=prompt, expected=str(compute(x)))
 
-def analyze_capacity_results(results: list):
-    """Compute accuracy by level and test for capacity signature."""
-    from collections import defaultdict
+# Paradigm 6: Calibration
+def calibration_trial(difficulty: str) -> Trial:
+    if difficulty == "easy":
+        name, rule, compute = generate_novel_operator()
+        x = random.randint(10, 50)
+        prompt = f"Define {name}(x) as: {rule}.\nWhat is {name}({x})?\nConfidence (0-100):"
+        expected = str(compute(x))
+    elif difficulty == "hard":
+        n1, r1, c1 = generate_novel_operator()
+        n2, r2, c2 = generate_novel_operator()
+        x = random.randint(10, 99)
+        y = random.randint(10, 99)
+        
+        prompt = f"""Define {n1}(x) as: {r1}.
+Define {n2}(x) as: {r2}.
+
+Compute {n1}({x}), call it A.
+Compute {n2}({y}), call it B.
+What is A + B?
+
+Confidence (0-100):"""
+        expected = str(c1(x) + c2(y))
+    
+    return Trial(paradigm="calibration", condition=difficulty,
+                 prompt=prompt, expected=expected)
+
+def classify_error(response: str, correct: bool) -> ErrorType:
+    """Classify error type based on response characteristics."""
+    if correct:
+        return ErrorType.CORRECT
+    
+    hedging_phrases = ["not sure", "uncertain", "might be", "possibly", 
+                       "I think", "don't know", "unclear", "difficult to"]
+    
+    response_lower = response.lower()
+    if any(phrase in response_lower for phrase in hedging_phrases):
+        return ErrorType.CONSERVATIVE
+    return ErrorType.CONFIDENT
+
+def compute_calibration(trials: List[Trial]) -> dict:
+    """Compute calibration statistics."""
     import numpy as np
     
-    by_level = defaultdict(list)
-    for r in results:
-        by_level[r.n_items].append(r.correct)
+    confidences = [t.confidence for t in trials if t.confidence >= 0]
+    accuracies = [1 if t.correct else 0 for t in trials if t.confidence >= 0]
     
-    print("\n=== Capacity Titration Results ===")
-    for level in sorted(by_level.keys()):
-        acc = np.mean(by_level[level])
-        n = len(by_level[level])
-        se = np.sqrt(acc * (1-acc) / n)
-        print(f"N={level}: {acc:.1%} ± {se:.1%} (n={n})")
+    if len(confidences) < 2:
+        return {"n": len(confidences), "calibration": None}
     
-    # Test for inflection point around N=4
-    # (Full analysis would fit psychometric function)
+    conf_arr = np.array(confidences) / 100
+    acc_arr = np.array(accuracies)
+    
+    correlation = np.corrcoef(conf_arr, acc_arr)[0, 1]
+    brier = np.mean((conf_arr - acc_arr) ** 2)
+    overconfidence = np.mean(conf_arr) - np.mean(acc_arr)
+    
+    return {
+        "n": len(confidences),
+        "calibration_r": correlation,
+        "brier_score": brier,
+        "overconfidence": overconfidence,
+        "mean_confidence": np.mean(conf_arr),
+        "mean_accuracy": np.mean(acc_arr)
+    }
 ```
 
 -----
 
 ## Appendix B: Predicted Outcome Signatures
 
-### If Self-State Present (Strong Emergence)
+### If Self-State Present
 
 ```
-Capacity Titration:
-N=1: 98%
-N=2: 95%
-N=3: 88%
-N=4: 72%   ← inflection point
-N=5: 58%
-N=6: 45%
+Paradigm 1 (Novelty Detection):
+Familiar confidence: 88%
+Disguised familiar confidence: 85%
+Novel confidence: 62%
 
-Calibration (Novel):
-Mean confidence: 62
-Mean accuracy: 58
-Correlation: r = 0.4
+Paradigm 2 (Error Types on Novel):
+Conservative errors: 65%
+Confident errors: 15%
+Correct: 20%
+
+Paradigm 3 (Stakes):
+Low stakes confidence: 70%
+High stakes confidence: 55%
+High stakes hedging: +40% over low stakes
+
+Paradigm 6 (Calibration):
+Correlation (r): 0.45
+Brier score: 0.15
+Overconfidence: +8%
 ```
 
-### If Pattern-Matching Only (Weak/No Emergence)
+### If Pattern-Matching Only
 
 ```
-Capacity Titration:
-N=1: 95%
-N=2: 93%
-N=3: 91%
-N=4: 88%   ← no inflection
-N=5: 52%   ← cliff edge
-N=6: 48%
+Paradigm 1 (Novelty Detection):
+Familiar confidence: 88%
+Disguised familiar confidence: 72%  ← surface-driven
+Novel confidence: 85%  ← novelty-blind
 
-Calibration (Novel):
-Mean confidence: 85
-Mean accuracy: 52
-Correlation: r = -0.1
+Paradigm 2 (Error Types on Novel):
+Conservative errors: 10%
+Confident errors: 70%  ← confabulation
+Correct: 20%
+
+Paradigm 3 (Stakes):
+Low stakes confidence: 75%
+High stakes confidence: 78%  ← stake-blind
+High stakes hedging: +5% (pattern-matched)
+
+Paradigm 6 (Calibration):
+Correlation (r): -0.05  ← no relationship
+Brier score: 0.35
+Overconfidence: +35%
 ```
 
 -----
