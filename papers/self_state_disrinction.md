@@ -1,9 +1,7 @@
 # Discriminating Self-State from Pattern-Matching in Large Language Models: A Theoretical Framework and Empirical Program
 
-**Hillary Danan¹ & Claude (Anthropic)²**
-
-¹Department of Cognitive Neuroscience  
-²Large Language Model, Anthropic
+**Hillary Danan
+hillarydanan@gmail.com
 
 -----
 
