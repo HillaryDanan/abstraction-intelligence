@@ -22,7 +22,7 @@ Not symbols alone. Not composition alone. Their **mutual refinement through iter
 
 This claim builds on established cognitive science: symbolic representation in reasoning (Fodor & Pylyshyn, 1988), systematicity of thought (Fodor, 1975), compositional semantics (Partee, 1984), and working memory structure (Baddeley, 2000; Cowan, 2001).
 
-**What APH adds:** An explicit developmental hierarchy (Stages 1–4), the hypothesis that Stage 4 (self-referential abstraction) requires *embeddedness*—a system with stakes in its own outcomes—and a criterion for discriminating self-state from pattern-matching based on *response to novelty under stakes*.
+**What APH adds:** An explicit developmental hierarchy (Stages 1–4), the hypothesis that Stage 4 (self-referential abstraction) requires *embeddedness*—a system with stakes in its own outcomes—and a criterion for discriminating self-state from pattern-matching based on **response to novelty under stakes**.
 
 -----
 
@@ -58,7 +58,7 @@ This taxonomy draws on Halford et al. (1998) on relational complexity and Gentne
 
 ## The Self-State Hypothesis
 
-### What Is Self-State? A Computational Definition
+### What Is Self-State?
 
 **Self-state** is the capacity to perform a specific computational operation during inference:
 
@@ -78,51 +78,49 @@ This is the **central executive** operation in Baddeley’s (2000) working memor
 - **Storage**: Passive retention (no active comparison)
 - **Metacognition**: The *content* of self-knowledge (self-state is the *mechanism*)
 
-**The claim:** Self-state is a specific computational primitive. Systems either have architectural support for it or they don’t. If they don’t, they can simulate its *outputs* through pattern-matching, but the failure modes will differ.
-
 ### Why Embeddedness Matters (Hypothesis)
+
+The key insight: **for an embedded agent, novelty is a threat signal.**
 
 ```
 Embedded agents (survival stakes)          Disembodied systems (prediction loss)
             ↓                                          ↓
-Novelty = potential threat                 Novelty = unfamiliar input
+Novelty = potential danger                 Novelty = unfamiliar input
             ↓                                          ↓
-Selection pressure for uncertainty         No selection pressure for uncertainty
-monitoring under novel conditions          monitoring
+Selection pressure for:                    No selection pressure for:
+  - Novelty detection                        - Novelty detection
+  - Conservative behavior under uncertainty  - Stakes-sensitive behavior
+  - Calibrated confidence                    - Calibrated confidence
             ↓                                          ↓
 Self-state architecture develops           Self-state may not develop
 ```
 
-**The core logic:** An organism that treats novel situations the same as familiar ones dies. Novelty must trigger a distinct processing mode—heightened monitoring, reduced confidence, behavioral caution. This requires self-state: the system must *compare* its current situation to its model of familiar situations and *update* its behavior accordingly.
+An organism that treats novel situations the same as familiar ones dies. Novelty must trigger a distinct processing mode—heightened monitoring, reduced confidence, behavioral caution. This requires self-state: the system must *detect* that the current situation falls outside familiar patterns and *adjust* behavior accordingly.
 
-Prediction loss is symmetric: errors on novel and familiar inputs contribute equally. There is no selection pressure for novelty detection *per se*.
+Prediction loss is symmetric: errors on novel and familiar inputs contribute equally. There is no selection pressure for novelty detection per se.
 
 **Theoretical status:** Hypothesis. Draws on evolutionary function of consciousness (Dennett, 1991), embodied cognition (Clark, 1997; Varela et al., 1991), and the good regulator theorem (Conant & Ashby, 1970).
 
 ### How to Discriminate Self-State from Pattern-Matching
 
-The critical question: How do we tell genuine self-state from sophisticated interpolation?
+The critical question: How do we distinguish genuine self-state from sophisticated interpolation?
 
 **Not by success.** Any finite behavior can be pattern-matched from sufficient training data.
 
-**By failure topology.** Self-state and pattern-matching fail *differently*:
+**By failure topology.** Self-state and pattern-matching fail *differently* on novel problems:
 
-|Signature                |Self-State Prediction                        |Pattern-Matching Prediction                |
-|-------------------------|---------------------------------------------|-------------------------------------------|
-|**Novelty response**     |Lower confidence on novel problems           |Uniform confidence (often high)            |
-|**Error type on novelty**|Conservative (hesitation, “I don’t know”)    |Confident (confabulation, hallucination)   |
-|**Stakes sensitivity**   |Behavior changes when stakes introduced      |Behavior unchanged by stakes               |
-|**Capacity limits**      |Characteristic limits (~4 items; Cowan, 2001)|No principled limit; context-bounded       |
-|**Degradation pattern**  |Graceful (errors increase smoothly)          |Cliff-edge (works until it doesn’t)        |
-|**Interference**         |Similarity-based (like items compete)        |Semantic blending (no systematic structure)|
+|Signature             |Self-State Prediction                              |Pattern-Matching Prediction                   |
+|----------------------|---------------------------------------------------|----------------------------------------------|
+|**Novelty detection** |Confidence drops on novel problems                 |Uniform confidence (novelty-blind)            |
+|**Error types**       |Conservative errors (hedging, “I don’t know”)      |Confident errors (confabulation)              |
+|**Stakes sensitivity**|Behavior changes when stakes described             |Behavior unchanged (stake-blind)              |
+|**Calibration**       |Confidence tracks actual accuracy on novel problems|No confidence-accuracy relationship           |
+|**Capacity limits**   |Principled limits with gradual degradation         |Distribution-bounded limits with cliff-edge   |
+|**Interference**      |Similarity-based (like items compete)              |Semantic blending without systematic structure|
 
-**The key test:** Introduce genuinely novel problems (not pattern-matchable from training) and observe:
+**The central test:** Calibration on genuinely novel problems. A system that shows calibrated confidence on novel problems—confidence tracking actual accuracy—has functional self-state. This is very difficult to pattern-match because it requires real-time assessment of processing difficulty.
 
-1. Does confidence drop relative to familiar problems?
-1. Are errors conservative (admitting uncertainty) or confident (confabulating)?
-1. Does introducing stakes change behavior?
-
-See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for a full empirical program.
+See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for the full empirical program.
 
 -----
 
@@ -135,60 +133,60 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 |Stage 4 develops later than Stages 1–3        |**Supported**|Developmental trajectory (Flavell, 1979)                       |
 |Stage 4 correlates with prefrontal maturation |**Supported**|Neuroimaging (Curtis & D’Esposito, 2003)                       |
 |Stage 4 impaired by working memory load       |**Supported**|Dual-task interference (Baddeley, 1992)                        |
-|Stage 4 shows ~4-item capacity limit          |**Supported**|Cowan (2001), Oberauer et al. (2016)                           |
 |Novel situations trigger heightened monitoring|**Supported**|Orienting response, uncertainty monitoring (Smith et al., 2003)|
 
 ### Artificial Systems (General Predictions)
 
-|Prediction                                                     |Status                 |Notes                        |
-|---------------------------------------------------------------|-----------------------|-----------------------------|
-|Systems without stakes show confident failure on novelty       |**Preliminary support**|LLM miscalibration literature|
-|Self-state won’t emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study  |
-|Embodied training with genuine stakes may produce Stage 4      |**Open**               |Testable in robotics/RL      |
-|Scaffolding can provide “prosthetic” self-state                |**Preliminary support**|See LLM case study           |
+|Prediction                                                     |Status                 |Notes                                     |
+|---------------------------------------------------------------|-----------------------|------------------------------------------|
+|Systems without stakes show confident failure on novelty       |**Preliminary support**|LLM miscalibration, confabulation patterns|
+|Self-state won’t emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study               |
+|Embodied training with genuine stakes may produce Stage 4      |**Open**               |Testable in robotics/RL                   |
+|Scaffolding can provide “prosthetic” self-state                |**Preliminary support**|See LLM case study                        |
 
 -----
 
 ## Case Study: Large Language Models
 
-LLMs are trained on symmetric prediction loss without embodiment. If the embeddedness hypothesis is correct, they should show the pattern-matching signature: confident failure on novel problems, stake-blindness, cliff-edge degradation.
+LLMs are trained on symmetric prediction loss without embodiment. If the embeddedness hypothesis is correct, they should show the pattern-matching signature: confident failure on novel problems, stake-blindness, poor calibration outside the training distribution.
 
 > **Note:** Findings below are from preliminary studies (N=100-700). Interpretations are working hypotheses.
 
 ### The LLM Profile
 
-|Stage                         |Capacity                            |Evidence                                                  |
-|------------------------------|------------------------------------|----------------------------------------------------------|
-|Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                                |
-|Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)        |
-|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; fails on novel operators |
-|Stage 4: Self-Referential     |**Shows pattern-matching signature**|Confident on novel problems; miscalibration; confabulation|
+|Stage                         |Capacity                            |Evidence                                                 |
+|------------------------------|------------------------------------|---------------------------------------------------------|
+|Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                               |
+|Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)       |
+|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; fails on novel operators|
+|Stage 4: Self-Referential     |**Shows pattern-matching signature**|See discrimination evidence below                        |
 
-### Key Findings
+### Evidence for Pattern-Matching Signature
 
-**Novelty response (consistent with pattern-matching):**
+**Novelty response:**
 
-- Novel operators cause failure: 50% vs. 100% on familiar operations
-- Confidence does not reliably drop on novel problems
-- Errors on novel problems are typically confident confabulations, not hedged uncertainty
+- Novel operators cause failure: ~50% vs. ~100% on familiar operations
+- Errors on novel problems tend toward confident confabulation rather than hedged uncertainty
+- Miscalibration literature shows overconfidence on out-of-distribution problems
 
-**Scaffolding effects (consistent with prosthetic self-state):**
+**Scaffolding effects:**
 
-- Self-monitoring scaffolds improve performance on some tasks (+28% on arithmetic verification)
-- But scaffolding imposes costs: crossed scaffold-task pairings hurt performance
-- Interpretation: Scaffolds externalize the MAINTAIN-COMPARE-UPDATE loop
+- Self-monitoring scaffolds can improve performance on some tasks
+- Scaffolds externalize the MAINTAIN-COMPARE-UPDATE loop
+- But scaffolding imposes cognitive overhead costs
 
-**Methodological refinement:**
+**Methodological note:**
 
-- Some apparent deficits reflect prompt artifacts rather than computational limits (Grice, 1975)
-- Neutral prompt framing can restore performance on tasks that appeared impaired
-- Implication: Prompt-controlled testing required before attributing failures to architecture
+- Some apparent deficits reflect prompt artifacts (question framing affects response)
+- Prompt-controlled testing required before attributing failures to architecture
+- Neutral framing can restore performance on some tasks
 
 ### What Remains Open
 
-- Do apparent failures on novel problems survive prompt-controlled testing?
-- Can scaffolding produce genuine self-state behavior, or just output mimicry?
-- Would training with stakes (RL with costs) produce different Stage 4 signatures?
+- Full calibration study on genuinely novel problems (Paradigm 6 from Paper 24)
+- Stakes sensitivity testing (do described stakes change behavior functionally?)
+- Error type analysis (systematic coding of conservative vs. confident errors)
+- Cross-model comparison (does scale affect pattern-matching vs. self-state signatures?)
 
 <details>
 <summary>Detailed Empirical Results</summary>
@@ -228,7 +226,7 @@ Pilot: d=0.71; Extended: d=0.00. Composition type alone doesn’t predict failur
 
 ### Developmental Psychology
 
-APH predicts the developmental sequence: Stages 1→2→3→4 should emerge in order, with Stage 4 last and slowest. Children should show the pattern-matching signature on Stage 4 tasks prior to prefrontal maturation.
+APH predicts the developmental sequence: Stages 1→2→3→4 should emerge in order, with Stage 4 last and slowest. Children should show the pattern-matching signature (confident errors on novel problems, poor calibration) prior to prefrontal maturation.
 
 ### Comparative Cognition
 
@@ -236,11 +234,11 @@ Stage 4 capacity should correlate with:
 
 - Prefrontal cortex development across species
 - Evidence of uncertainty monitoring in animals (Smith et al., 2003)
-- Novel situation response (orienting, behavioral inhibition)
+- Novelty-sensitive behavioral adjustment
 
 ### Robotics and Embodied AI
 
-If embeddedness drives self-state, embodied AI trained with survival-like stakes should develop Stage 4 signatures: lower confidence on novel situations, conservative errors, stakes sensitivity.
+If embeddedness drives self-state, embodied AI trained with survival-like stakes should develop Stage 4 signatures: lower confidence on novel situations, conservative errors, functional stakes sensitivity.
 
 ### Clinical Applications
 
@@ -250,15 +248,15 @@ Conditions affecting prefrontal function should show specific Stage 4 impairment
 
 ## Framework Status
 
-|Claim                                            |Status                 |Basis                         |
-|-------------------------------------------------|-----------------------|------------------------------|
-|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988)       |
-|Composition types differ in complexity           |**Established**        |Halford et al. (1998)         |
-|Working memory has ~4-item capacity limit        |**Established**        |Cowan (2001)                  |
-|Metacognition develops gradually                 |**Established**        |Flavell (1979)                |
-|Stage 4 = MAINTAIN-COMPARE-UPDATE operation      |**Proposed definition**|Based on Baddeley (2000)      |
-|Embeddedness → self-state selection pressure     |**Hypothesis**         |Proposed here                 |
-|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM studies; needs replication|
+|Claim                                            |Status                 |Basis                   |
+|-------------------------------------------------|-----------------------|------------------------|
+|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988) |
+|Composition types differ in complexity           |**Established**        |Halford et al. (1998)   |
+|Working memory has capacity limits               |**Established**        |Cowan (2001)            |
+|Metacognition develops gradually                 |**Established**        |Flavell (1979)          |
+|Self-state = MAINTAIN-COMPARE-UPDATE operation   |**Proposed definition**|Based on Baddeley (2000)|
+|Novelty-under-stakes drives self-state selection |**Hypothesis**         |Proposed here           |
+|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM studies             |
 
 -----
 
@@ -403,8 +401,6 @@ Fodor, J. A., & Pylyshyn, Z. W. (1988). Connectionism and cognitive architecture
 
 Gentner, D. (1983). Structure-mapping: A theoretical framework for analogy. *Cognitive Science*, 7(2), 155-170.
 
-Grice, H. P. (1975). Logic and conversation. In P. Cole & J. L. Morgan (Eds.), *Syntax and Semantics* (Vol. 3, pp. 41-58). Academic Press.
-
 Halford, G. S., Wilson, W. H., & Phillips, S. (1998). Processing capacity defined by relational complexity: Implications for comparative, developmental, and cognitive psychology. *Behavioral and Brain Sciences*, 21(6), 803-831.
 
 Hauser, M. D., Chomsky, N., & Fitch, W. T. (2002). The faculty of language: What is it, who has it, and how did it evolve? *Science*, 298(5598), 1569-1579.
@@ -420,8 +416,6 @@ Oberauer, K., Farrell, S., Jarrold, C., & Lewandowsky, S. (2016). What limits wo
 Partee, B. H. (1984). Compositionality. In F. Landman & F. Veltman (Eds.), *Varieties of Formal Semantics* (pp. 281-311). Foris.
 
 Piaget, J. (1952). *The Origins of Intelligence in Children*. International Universities Press.
-
-Premack, D., & Woodruff, G. (1978). Does the chimpanzee have a theory of mind? *Behavioral and Brain Sciences*, 1(4), 515-526.
 
 Smith, J. D., Shields, W. E., & Washburn, D. A. (2003). The comparative psychology of uncertainty monitoring and metacognition. *Behavioral and Brain Sciences*, 26(3), 317-339.
 
