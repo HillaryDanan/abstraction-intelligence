@@ -1,6 +1,7 @@
 # Discriminating Self-State from Pattern-Matching in Large Language Models: A Theoretical Framework and Empirical Program
 
-**Hillary Danan
+*Hillary Danan*
+
 hillarydanan@gmail.com
 
 -----
@@ -723,4 +724,4 @@ Correlation: r = -0.1
 
 -----
 
-*Corresponding author: Hillary Danan (hdanan@[institution].edu)*
+*Corresponding author: Hillary Danan (hillarydanan@gmail.com)*
