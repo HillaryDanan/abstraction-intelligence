@@ -50,15 +50,25 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 ## Empirical Findings
 
-### What's Confirmed
+> **Note:** All findings below are from preliminary studies with limited sample sizes (N=100-700). These are initial tests; interpretations are working hypotheses requiring replication with larger samples and cross-model testing.
+
+### What's Confirmed (Effects)
 
 |Finding|Evidence|Interpretation|
 |-------|--------|--------------|
 |Pattern-matchable C–D at ceiling|Bracket depth, pointer chase: 100%|Stage 3 operations work when pattern-cached|
 |Novel operators cause failure|Recursive eval with invented ops: 50%|Stage 3 fails without cached pattern|
 |Multi-constraint relations cause failure|Relation mapping: 28%|Constraint satisfaction exceeds pattern-matching|
-|Task-specific gen/ver asymmetries|N=700, see below|**Stage 4 deficit** (hold-and-check)|
-|Scaffolding shows task-specific effects|N=600, see below|**Cognitive overhead account**|
+|Generation-verification asymmetries exist|See studies below|Task-specific; mechanism varies (see below)|
+|Scaffolding shows task-specific effects|N=600, see below|**Cognitive overhead account** (working hypothesis)|
+
+### What's Been Reinterpreted
+
+|Original Claim|New Evidence|Updated Interpretation|
+|--------------|------------|----------------------|
+|Arithmetic verification deficit = Stage 4 hold-and-check failure|Prompt variant study (N=150): "Does it equal?" achieves 96.7% vs. 10% for "Is X=Y?" format|**Pragmatic inference artifact** (Grice, 1975), not computational limitation. Question format implies doubt, biasing toward rejection.|
+
+**Critical finding:** Reversing question polarity ("Is X≠Y?") also failed (20%), ruling out simple response bias. The deficit is prompt-format dependent, not a fundamental verification incapacity.
 
 ### What Didn't Replicate
 
@@ -80,11 +90,9 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 **Overall:** 91.1% vs 92.6%, p=0.58 (null)
 
-**Interpretation:** Both failure modes reflect **Stage 4 (self-referential) deficit**:
-- Verification deficit: Cannot hold computed value while checking presented work
-- Generation deficit: Cannot check output against constraints before committing
-
-This is **hold-and-check** failure—the inability to monitor one's own computational process during inference.
+**Updated interpretation:** 
+- **Arithmetic verification deficit:** Now understood as **pragmatic inference artifact** based on follow-up testing (N=150). Neutral prompt framing ("Does it equal?") restores verification to 96.7%. This is NOT evidence for hold-and-check failure.
+- **Logic generation deficit:** Mechanism untested for prompt effects. May reflect genuine Stage 4 limit OR may also be prompt-dependent. Requires similar prompt-variant testing.
 
 ### The Scaffolding Asymmetry Study (N=600)
 
@@ -95,9 +103,11 @@ This is **hold-and-check** failure—the inability to monitor one's own computat
 |Arithmetic (GPT-4o)|88%|90% (+2%)|66% (-22%)|
 |Logic (GPT-4o)|66%|60% (-6%)|58% (-8%)|
 
-**Key finding:** Self-monitoring scaffolds dramatically improve verification (+28%, p<.001), but **all scaffolding degrades generation**. Crossed scaffold-task pairings hurt worst.
+**Key finding:** Self-monitoring scaffolds dramatically improve arithmetic verification (+28%, p<.001), but **all scaffolding degrades generation**. Crossed scaffold-task pairings hurt worst.
 
-**Interpretation (Cognitive Overhead Account):** Scaffolding imposes processing costs. When the scaffold addresses the task's bottleneck, benefit > cost. When it doesn't, cost dominates. This supports dissociable generation and verification deficits.
+**Interpretation (Cognitive Overhead Account):** Scaffolding imposes processing costs. When the scaffold addresses the task's bottleneck, benefit > cost. When it doesn't, cost dominates.
+
+**Caution:** Given the pragmatic artifact findings, the +28% scaffolding benefit for arithmetic may partially reflect prompt framing effects (the scaffold avoids doubt-implying question structure) rather than "prosthetic self-state." Further testing needed.
 
 ---
 
@@ -119,8 +129,8 @@ Stage 4 capacity develops                  Stage 4 systematically limited
 
 **Evidence status:**
 - Embeddedness → self-state: **Hypothesis** (evolutionary argument, not directly tested)
-- LLMs lack Stage 4: **Confirmed** (hold-and-check failures, miscalibration)
-- Scaffolding provides prosthetic self-state: **Partial** (helps verification, hurts generation)
+- LLMs lack Stage 4: **Partially supported** (miscalibration, some task failures) but **arithmetic verification deficit ruled out as evidence** (it's a prompt artifact)
+- Scaffolding provides prosthetic self-state: **Uncertain** (may be prompt framing effects)
 
 ### Active Maintenance ≠ Attention
 
@@ -130,7 +140,7 @@ Stage 4 capacity develops                  Stage 4 systematically limited
 |Working memory central executive (Baddeley, 2000)|Memory access mechanism|
 |Continuous comparison during inference|Requires explicit re-retrieval|
 
-LLMs have attention. They lack the central executive function that enables hold-and-check.
+LLMs have attention. Whether they lack the central executive function that enables hold-and-check remains an open question—the arithmetic evidence previously cited does not support this claim.
 
 ---
 
@@ -141,9 +151,9 @@ LLMs have attention. They lack the central executive function that enables hold-
 |Stage 1: Pattern Extraction|**Full**|Foundation of operation|
 |Stage 2: Symbol Formation|**Substantial**|Compositional generalization (imperfect)|
 |Stage 3: Recursive Composition|**Partial, context-dependent**|Pattern-matchable C–D succeeds; novel fails|
-|Stage 4: Self-Referential|**Systematically limited**|Hold-and-check failures; miscalibration|
+|Stage 4: Self-Referential|**Unclear**|Some evidence (miscalibration, logic generation deficit) but arithmetic verification deficit ruled out|
 
-This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—is what we term **disembodied abstraction**.
+This profile—strong at Stages 1–2, partial at Stage 3, uncertain at Stage 4—is what we term **disembodied abstraction** (working characterization pending further testing).
 
 ---
 
@@ -152,19 +162,21 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 ### Confirmed
 - Pattern-matchable C–D succeeds regardless of formal complexity
 - Genuinely novel operators/constraints cause failure (Stage 3 limit)
-- Task-specific generation/verification asymmetries exist (Stage 4 limit)
-- Self-monitoring scaffolds help verification-deficit tasks specifically
-- Scaffolding imposes cognitive overhead (hurts generation tasks)
+- Task-specific generation/verification asymmetries exist (mechanism varies)
+- Prompt framing dramatically affects verification accuracy
 
 ### Falsified
 - Uniform verification < generation
 - Composition type (A–D) as primary predictor
 - Scaffolding uniformly helps (it has task-specific costs)
+- **Arithmetic verification deficit as evidence for hold-and-check failure** (it's a pragmatic inference artifact)
 
 ### Open Hypotheses
 - Embeddedness is necessary (not just sufficient) for Stage 4
 - Scaling does not produce Stage 4 capacity
 - Lighter-touch scaffolds reduce overhead costs
+- **Which gen/ver asymmetries reflect genuine Stage 4 limits vs. prompt artifacts?**
+- **Does the logic generation deficit survive prompt-controlled testing?**
 
 ---
 
@@ -213,12 +225,13 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 |19|[Pilot Study: Compositional Hierarchy in LLMs](papers/pilot_composition_study.md)|
 |20|[Hold-and-Check: Task-Specific Dissociations](papers/hold_and_check_study.md)|
 |21|[Scaffolding Asymmetry: Generation vs. Verification](papers/scaffolding_asymmetry.md)|
+|22|[Verification Deficit as Pragmatic Artifact](papers/verification_pragmatic_artifact.md) *(new)*|
 
 **Theoretical:**
 
 |#|Paper|
 |-|-----|
-|22|[The Geometry of Self-Reference](papers/information_geometry.md)|
+|23|[The Geometry of Self-Reference](papers/information_geometry.md)|
 
 **For Physicists/Engineers:**
 
@@ -233,6 +246,9 @@ This profile—strong at Stages 1–2, partial at Stage 3, limited at Stage 4—
 
 ### 🧠 Core Framework
 [abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) · [composition-testing](https://github.com/HillaryDanan/composition-testing) · [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) · [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) · [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) · [embeddedness-calibration](https://github.com/HillaryDanan/embeddedness-calibration) · [emergent-factorization](https://github.com/HillaryDanan/emergent-factorization) · [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum) · [scaffolding-asymmetry](https://github.com/HillaryDanan/scaffolding-asymmetry)
+
+### 🔬 Verification Studies
+[verification-deficit-replication](https://github.com/HillaryDanan/verification-deficit-replication) · [verification-prompt-variants](https://github.com/HillaryDanan/verification-prompt-variants)
 
 ### 🔄 Self-Reference
 [self-referential-dynamics](https://github.com/HillaryDanan/self-referential-dynamics) · [computational-self-construction](https://github.com/HillaryDanan/computational-self-construction) · [ouroboros-learning](https://github.com/HillaryDanan/ouroboros-learning) · [recursive-reality](https://github.com/HillaryDanan/recursive-reality) · [geometry-self-reference](https://github.com/HillaryDanan/geometry-self-reference)
@@ -275,6 +291,8 @@ Chollet, F. (2019). On the measure of intelligence. *arXiv:1911.01547*.
 Cowan, N. (2001). The magical number 4 in short-term memory. *Behavioral and Brain Sciences*, 24(1), 87-114.
 
 Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
+
+Grice, H. P. (1975). Logic and conversation. In P. Cole & J. L. Morgan (Eds.), *Syntax and Semantics* (Vol. 3, pp. 41–58). Academic Press.
 
 Halford, G. S., Wilson, W. H., & Phillips, S. (1998). Processing capacity defined by relational complexity. *Behavioral and Brain Sciences*, 21(6), 803-831.
 
