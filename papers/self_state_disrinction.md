@@ -2,8 +2,6 @@
 
 *Hillary Danan*
 
-hillarydanan@gmail.com
-
 -----
 
 ## Abstract
