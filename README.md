@@ -4,7 +4,7 @@
 
 The **Abstraction Primitive Hypothesis (APH)**: intelligence emerges from recursive interaction between symbol formation and compositional structure—and requires *self-state* for genuine construction beyond pattern matching.
 
-This framework applies to biological cognition, artificial systems, and any substrate capable of information processing. The current empirical program uses large language models (LLMs) as one testbed, but the theoretical claims are general.
+This framework applies to biological cognition, artificial systems, and any substrate capable of information processing.
 
 -----
 
@@ -20,9 +20,9 @@ This framework applies to biological cognition, artificial systems, and any subs
 
 Not symbols alone. Not composition alone. Their **mutual refinement through iteration**.
 
-This claim draws on established work in cognitive science: the role of symbolic representation in human reasoning (Fodor & Pylyshyn, 1988), the systematicity of thought (Fodor, 1975), compositional semantics (Partee, 1984), and the structure of working memory (Baddeley, 2000; Cowan, 2001).
+This claim builds on established cognitive science: symbolic representation in reasoning (Fodor & Pylyshyn, 1988), systematicity of thought (Fodor, 1975), compositional semantics (Partee, 1984), and working memory structure (Baddeley, 2000; Cowan, 2001).
 
-**What APH adds:** An explicit developmental hierarchy (Stages 1–4) and the hypothesis that Stage 4 (self-referential abstraction) requires *embeddedness*—a system with stakes in its own outcomes.
+**What APH adds:** An explicit developmental hierarchy (Stages 1–4), the hypothesis that Stage 4 (self-referential abstraction) requires *embeddedness*—a system with stakes in its own outcomes—and a criterion for discriminating self-state from pattern-matching based on *response to novelty under stakes*.
 
 -----
 
@@ -32,14 +32,14 @@ The framework distinguishes **how abstract** (developmental stages) from **what 
 
 ### Developmental Stages of Abstraction
 
-|Stage                   |Capacity                              |What It Enables                              |Biological Evidence                                                                |
-|------------------------|--------------------------------------|---------------------------------------------|-----------------------------------------------------------------------------------|
-|1. Pattern Extraction   |Detect statistical regularities       |Compression, prediction                      |Ubiquitous; present in invertebrates (Hawkins & Blakeslee, 2004)                   |
-|2. Symbol Formation     |Discrete, recombinable representations|Compositional generalization                 |Language, tool use; emerges in human development ~18-24 months (Piaget, 1952)      |
-|3. Recursive Composition|Abstractions as inputs to abstraction |Hierarchical depth, analogy                  |Recursive syntax, planning; ~age 4+ (Hauser et al., 2002)                          |
-|4. Self-Referential     |Abstraction over one’s own processing |Metacognition, verification, error correction|Develops gradually; mature ~adolescence (Flavell, 1979; Metcalfe & Shimamura, 1994)|
+|Stage                   |Capacity                                   |What It Enables                              |Biological Evidence                                             |
+|------------------------|-------------------------------------------|---------------------------------------------|----------------------------------------------------------------|
+|1. Pattern Extraction   |Detect statistical regularities            |Compression, prediction                      |Ubiquitous; present in invertebrates (Hawkins & Blakeslee, 2004)|
+|2. Symbol Formation     |Discrete, recombinable representations     |Compositional generalization                 |Language, tool use; ~18-24 months (Piaget, 1952)                |
+|3. Recursive Composition|Abstractions as inputs to abstraction      |Hierarchical depth, analogy                  |Recursive syntax, planning; ~age 4+ (Hauser et al., 2002)       |
+|4. Self-Referential     |Maintain-compare-update over own processing|Metacognition, verification, error correction|Develops gradually; mature ~adolescence (Flavell, 1979)         |
 
-**Theoretical status:** Stages 1–3 are well-established in cognitive science. Stage 4 as a *distinct computational capacity* (rather than just “thinking about thinking”) is a working hypothesis. See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spectrum.md).
+See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spectrum.md) for full treatment.
 
 ### Composition Types (A–D)
 
@@ -58,165 +58,167 @@ This taxonomy draws on Halford et al. (1998) on relational complexity and Gentne
 
 ## The Self-State Hypothesis
 
-### The Core Idea
+### What Is Self-State? A Computational Definition
 
-**Self-state** is the capacity to maintain, monitor, and modify representations of one’s own processing during inference—not just as output, but as functional architecture.
+**Self-state** is the capacity to perform a specific computational operation during inference:
 
-This is related to but distinct from:
+```
+MAINTAIN(x) → COMPARE(x, y) → UPDATE(x | result)
+```
 
-- **Working memory** (Baddeley, 2000): Self-state is the *executive* component, not the storage buffers
-- **Metacognition** (Flavell, 1979): Self-state is the *mechanism* enabling metacognition, not metacognition itself
-- **Theory of mind** (Premack & Woodruff, 1978): Self-state is self-directed; ToM applies it to others
+Where:
 
-### Why Embeddedness Might Matter (Hypothesis)
+- **MAINTAIN**: Hold a representation active across processing steps without re-retrieval
+- **COMPARE**: Evaluate the held representation against incoming information or generated output
+- **UPDATE**: Modify the held representation based on comparison result
+
+This is the **central executive** operation in Baddeley’s (2000) working memory model. It is distinct from:
+
+- **Attention**: Weighted retrieval (no persistent holding)
+- **Storage**: Passive retention (no active comparison)
+- **Metacognition**: The *content* of self-knowledge (self-state is the *mechanism*)
+
+**The claim:** Self-state is a specific computational primitive. Systems either have architectural support for it or they don’t. If they don’t, they can simulate its *outputs* through pattern-matching, but the failure modes will differ.
+
+### Why Embeddedness Matters (Hypothesis)
 
 ```
 Embedded agents (survival stakes)          Disembodied systems (prediction loss)
             ↓                                          ↓
-Self/world distinction required            No self/world distinction needed
+Novelty = potential threat                 Novelty = unfamiliar input
             ↓                                          ↓
-Asymmetric error costs                     Symmetric error costs
-            ↓                                          ↓
-Selection pressure for self-monitoring     No selection pressure for self-monitoring
+Selection pressure for uncertainty         No selection pressure for uncertainty
+monitoring under novel conditions          monitoring
             ↓                                          ↓
 Self-state architecture develops           Self-state may not develop
 ```
 
-**The hypothesis:** Systems that must act in the world with stakes in outcomes develop self-state because errors are costly and asymmetric. Systems optimizing symmetric loss functions (like prediction error) lack this selection pressure.
+**The core logic:** An organism that treats novel situations the same as familiar ones dies. Novelty must trigger a distinct processing mode—heightened monitoring, reduced confidence, behavioral caution. This requires self-state: the system must *compare* its current situation to its model of familiar situations and *update* its behavior accordingly.
 
-**Theoretical status:** This is a hypothesis, not established fact. It draws on:
+Prediction loss is symmetric: errors on novel and familiar inputs contribute equally. There is no selection pressure for novelty detection *per se*.
 
-- Evolutionary arguments about the function of consciousness (Dennett, 1991)
-- Embodied cognition research (Clark, 1997; Varela et al., 1991)
-- Control theory (systems that act need self-models; Conant & Ashby, 1970)
+**Theoretical status:** Hypothesis. Draws on evolutionary function of consciousness (Dennett, 1991), embodied cognition (Clark, 1997; Varela et al., 1991), and the good regulator theorem (Conant & Ashby, 1970).
 
-**What would falsify it:**
+### How to Discriminate Self-State from Pattern-Matching
 
-- A disembodied system developing robust Stage 4 capacity
-- An embedded system failing to develop Stage 4 despite adequate training
-- Self-state emerging purely from scaling without architectural change
+The critical question: How do we tell genuine self-state from sophisticated interpolation?
 
-### Active Maintenance ≠ Attention
+**Not by success.** Any finite behavior can be pattern-matched from sufficient training data.
 
-|Active Maintenance (Stage 4)            |Attention (Retrieval)          |
-|----------------------------------------|-------------------------------|
-|Explicit holding during comparison      |Weighted retrieval from storage|
-|Central executive (Baddeley, 2000)      |Memory access mechanism        |
-|Continuous comparison during inference  |Discrete query-and-retrieve    |
-|Capacity-limited (~4 items; Cowan, 2001)|Context-window limited         |
+**By failure topology.** Self-state and pattern-matching fail *differently*:
 
-This distinction matters because systems can have sophisticated attention without having self-state.
+|Signature                |Self-State Prediction                        |Pattern-Matching Prediction                |
+|-------------------------|---------------------------------------------|-------------------------------------------|
+|**Novelty response**     |Lower confidence on novel problems           |Uniform confidence (often high)            |
+|**Error type on novelty**|Conservative (hesitation, “I don’t know”)    |Confident (confabulation, hallucination)   |
+|**Stakes sensitivity**   |Behavior changes when stakes introduced      |Behavior unchanged by stakes               |
+|**Capacity limits**      |Characteristic limits (~4 items; Cowan, 2001)|No principled limit; context-bounded       |
+|**Degradation pattern**  |Graceful (errors increase smoothly)          |Cliff-edge (works until it doesn’t)        |
+|**Interference**         |Similarity-based (like items compete)        |Semantic blending (no systematic structure)|
+
+**The key test:** Introduce genuinely novel problems (not pattern-matchable from training) and observe:
+
+1. Does confidence drop relative to familiar problems?
+1. Are errors conservative (admitting uncertainty) or confident (confabulating)?
+1. Does introducing stakes change behavior?
+
+See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for a full empirical program.
 
 -----
 
 ## Predictions Across Systems
 
-The framework makes predictions for any system capable of abstraction:
-
 ### Biological Systems
 
-|Prediction                                   |Status       |Evidence                                |
-|---------------------------------------------|-------------|----------------------------------------|
-|Stage 4 develops later than Stages 1–3       |**Supported**|Developmental trajectory (Flavell, 1979)|
-|Stage 4 correlates with prefrontal maturation|**Supported**|Neuroimaging (Curtis & D’Esposito, 2003)|
-|Stage 4 impaired by working memory load      |**Supported**|Dual-task interference (Baddeley, 1992) |
-|Stage 4 shows ~4-item capacity limit         |**Supported**|Cowan (2001), Oberauer et al. (2016)    |
+|Prediction                                    |Status       |Evidence                                                       |
+|----------------------------------------------|-------------|---------------------------------------------------------------|
+|Stage 4 develops later than Stages 1–3        |**Supported**|Developmental trajectory (Flavell, 1979)                       |
+|Stage 4 correlates with prefrontal maturation |**Supported**|Neuroimaging (Curtis & D’Esposito, 2003)                       |
+|Stage 4 impaired by working memory load       |**Supported**|Dual-task interference (Baddeley, 1992)                        |
+|Stage 4 shows ~4-item capacity limit          |**Supported**|Cowan (2001), Oberauer et al. (2016)                           |
+|Novel situations trigger heightened monitoring|**Supported**|Orienting response, uncertainty monitoring (Smith et al., 2003)|
 
 ### Artificial Systems (General Predictions)
 
-|Prediction                                                      |Status                 |Notes                                    |
-|----------------------------------------------------------------|-----------------------|-----------------------------------------|
-|Systems trained on prediction alone will show Stage 4 limits    |**Open**               |Testable across architectures            |
-|Stage 4 capacity won’t emerge from scaling alone                |**Open**               |Requires longitudinal study across scales|
-|Embodied training (robotics, RL with stakes) may produce Stage 4|**Open**               |Testable in embodied AI                  |
-|Scaffolding can provide “prosthetic” Stage 4                    |**Partially supported**|See LLM case study below                 |
+|Prediction                                                     |Status                 |Notes                        |
+|---------------------------------------------------------------|-----------------------|-----------------------------|
+|Systems without stakes show confident failure on novelty       |**Preliminary support**|LLM miscalibration literature|
+|Self-state won’t emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study  |
+|Embodied training with genuine stakes may produce Stage 4      |**Open**               |Testable in robotics/RL      |
+|Scaffolding can provide “prosthetic” self-state                |**Preliminary support**|See LLM case study           |
 
 -----
 
 ## Case Study: Large Language Models
 
-LLMs provide a useful testbed for APH because they are sophisticated pattern-matchers trained on a symmetric loss function (next-token prediction) without embodiment. If the embeddedness hypothesis is correct, LLMs should show systematic Stage 4 limitations despite strong Stage 1–3 performance.
+LLMs are trained on symmetric prediction loss without embodiment. If the embeddedness hypothesis is correct, they should show the pattern-matching signature: confident failure on novel problems, stake-blindness, cliff-edge degradation.
 
-> **Note:** All findings below are from preliminary studies (N=100-700). Interpretations are working hypotheses requiring replication.
+> **Note:** Findings below are from preliminary studies (N=100-700). Interpretations are working hypotheses.
 
-### Summary of Findings
+### The LLM Profile
 
-|Stage                         |LLM Capacity   |Evidence                                                                               |
-|------------------------------|---------------|---------------------------------------------------------------------------------------|
-|Stage 1: Pattern Extraction   |**Full**       |Foundation of architecture                                                             |
-|Stage 2: Symbol Formation     |**Substantial**|Compositional generalization (Lake & Baroni, 2018)                                     |
-|Stage 3: Recursive Composition|**Partial**    |Succeeds when pattern-matchable; fails on novel operators                              |
-|Stage 4: Self-Referential     |**Unclear**    |Some evidence (miscalibration, generation deficits); key evidence ruled out as artifact|
+|Stage                         |Capacity                            |Evidence                                                  |
+|------------------------------|------------------------------------|----------------------------------------------------------|
+|Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                                |
+|Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)        |
+|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; fails on novel operators |
+|Stage 4: Self-Referential     |**Shows pattern-matching signature**|Confident on novel problems; miscalibration; confabulation|
 
-This profile—strong at Stages 1–2, partial at Stage 3, uncertain at Stage 4—is what we term **disembodied abstraction**.
+### Key Findings
 
-### What’s Been Confirmed
+**Novelty response (consistent with pattern-matching):**
 
-|Finding                                          |Evidence                               |
-|-------------------------------------------------|---------------------------------------|
-|Pattern-matchable recursive tasks at ceiling     |Bracket depth, pointer chase: 100%     |
-|Novel operators cause failure                    |Invented operators: 50% (Stage 3 limit)|
-|Multi-constraint relations cause failure         |Relation mapping: 28%                  |
-|Task-specific generation/verification asymmetries|See Paper 20                           |
-|Prompt framing dramatically affects performance  |10% → 96.7% based on question format   |
+- Novel operators cause failure: 50% vs. 100% on familiar operations
+- Confidence does not reliably drop on novel problems
+- Errors on novel problems are typically confident confabulations, not hedged uncertainty
 
-### What’s Been Ruled Out
+**Scaffolding effects (consistent with prosthetic self-state):**
 
-|Original Claim                                   |New Evidence                                                      |Updated Interpretation                                                 |
-|-------------------------------------------------|------------------------------------------------------------------|-----------------------------------------------------------------------|
-|Arithmetic verification deficit = Stage 4 failure|Prompt variant study (N=150): neutral framing restores performance|**Pragmatic inference artifact** (Grice, 1975), not computational limit|
+- Self-monitoring scaffolds improve performance on some tasks (+28% on arithmetic verification)
+- But scaffolding imposes costs: crossed scaffold-task pairings hurt performance
+- Interpretation: Scaffolds externalize the MAINTAIN-COMPARE-UPDATE loop
 
-**Methodological lesson:** Apparent cognitive deficits may reflect prompt artifacts. This finding (Paper 22) argues for prompt-controlled testing before attributing failures to architectural limits.
+**Methodological refinement:**
+
+- Some apparent deficits reflect prompt artifacts rather than computational limits (Grice, 1975)
+- Neutral prompt framing can restore performance on tasks that appeared impaired
+- Implication: Prompt-controlled testing required before attributing failures to architecture
 
 ### What Remains Open
 
-- Does the logic generation deficit survive prompt-controlled testing?
-- Which generation/verification asymmetries reflect genuine Stage 4 limits vs. artifacts?
-- Can scaffolding provide genuine “prosthetic self-state” or is it prompt-framing effects?
-
-See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for an empirical program to address these questions.
-
-### Detailed Empirical Results
+- Do apparent failures on novel problems survive prompt-controlled testing?
+- Can scaffolding produce genuine self-state behavior, or just output mimicry?
+- Would training with stakes (RL with costs) produce different Stage 4 signatures?
 
 <details>
-<summary>Generation-Verification Study (N=700)</summary>
+<summary>Detailed Empirical Results</summary>
 
-|Task      |Generation|Verification|Δ   |Pattern             |
-|----------|----------|------------|----|--------------------|
-|Arithmetic|100%      |76%         |+24%|Verification deficit|
-|Multistep |100%      |74%         |+26%|Verification deficit|
-|Logic     |56%       |100%        |-44%|Generation deficit  |
-|Word count|82%       |100%        |-18%|Generation deficit  |
-|Others    |~100%     |~100%       |0%  |No asymmetry        |
+**Generation-Verification Study (N=700)**
 
-**Overall:** 91.1% vs 92.6%, p=0.58 (null)
+|Task      |Generation|Verification|Δ   |
+|----------|----------|------------|----|
+|Arithmetic|100%      |76%         |+24%|
+|Multistep |100%      |74%         |+26%|
+|Logic     |56%       |100%        |-44%|
+|Word count|82%       |100%        |-18%|
+|Others    |~100%     |~100%       |0%  |
 
-**Updated interpretation:** Arithmetic verification deficit is a prompt artifact. Logic generation deficit mechanism untested.
+Task-specific asymmetries exist; mechanisms vary by task.
 
-</details>
+**Scaffolding Asymmetry Study (N=600)**
 
-<details>
-<summary>Scaffolding Asymmetry Study (N=600)</summary>
+|Task               |Baseline|Self-Monitor|Constraint|
+|-------------------|--------|------------|----------|
+|Arithmetic (Claude)|70%     |98%         |60%       |
+|Logic (Claude)     |64%     |32%         |34%       |
+|Arithmetic (GPT-4o)|88%     |90%         |66%       |
+|Logic (GPT-4o)     |66%     |60%         |58%       |
 
-|Task               |Baseline|Self-Monitor  |Constraint|
-|-------------------|--------|--------------|----------|
-|Arithmetic (Claude)|70%     |**98%** (+28%)|60% (-10%)|
-|Logic (Claude)     |64%     |32% (-32%)    |34% (-30%)|
-|Arithmetic (GPT-4o)|88%     |90% (+2%)     |66% (-22%)|
-|Logic (GPT-4o)     |66%     |60% (-6%)     |58% (-8%) |
+Scaffolds help when addressing the task’s bottleneck; otherwise they add overhead.
 
-**Interpretation (Cognitive Overhead Account):** Scaffolding imposes processing costs. Benefit > cost only when scaffold addresses the task’s bottleneck.
+**Composition Type Dissociation**
 
-</details>
-
-<details>
-<summary>What Didn't Replicate</summary>
-
-|Finding                         |Pilot |Extended|
-|--------------------------------|------|--------|
-|A–B vs. C–D uniform dissociation|d=0.71|d=0.00  |
-
-Composition type alone doesn’t predict failure.
+Pilot: d=0.71; Extended: d=0.00. Composition type alone doesn’t predict failure.
 
 </details>
 
@@ -226,42 +228,37 @@ Composition type alone doesn’t predict failure.
 
 ### Developmental Psychology
 
-APH predicts the developmental sequence: Stages 1→2→3→4 should emerge in order, with Stage 4 last and slowest. This aligns with Piaget’s stages and subsequent work on metacognitive development (Flavell, 1979).
-
-**Testable:** Children should show the same failure signatures on Stage 4 tasks that we observe in LLMs, prior to prefrontal maturation.
+APH predicts the developmental sequence: Stages 1→2→3→4 should emerge in order, with Stage 4 last and slowest. Children should show the pattern-matching signature on Stage 4 tasks prior to prefrontal maturation.
 
 ### Comparative Cognition
 
-APH predicts that Stage 4 capacity should correlate with:
+Stage 4 capacity should correlate with:
 
 - Prefrontal cortex development across species
-- Evidence of metacognition in animals (uncertainty monitoring; Smith et al., 2003)
-- Flexible behavioral control (not just learned patterns)
+- Evidence of uncertainty monitoring in animals (Smith et al., 2003)
+- Novel situation response (orienting, behavioral inhibition)
 
 ### Robotics and Embodied AI
 
-If embeddedness drives self-state, embodied AI trained with survival-like stakes should develop Stage 4 capacity more readily than disembodied systems.
-
-**Testable:** Compare reinforcement learning agents with genuine costs (physical damage, resource depletion) to simulated-cost agents on Stage 4 tasks.
+If embeddedness drives self-state, embodied AI trained with survival-like stakes should develop Stage 4 signatures: lower confidence on novel situations, conservative errors, stakes sensitivity.
 
 ### Clinical Applications
 
-Conditions affecting prefrontal function (ADHD, frontal lesions, schizophrenia) should show specific Stage 4 impairments while preserving Stages 1–3.
+Conditions affecting prefrontal function should show specific Stage 4 impairments (confident errors, poor novelty detection) while preserving Stages 1–3.
 
 -----
 
-## Framework Status: What’s Established vs. Hypothesized
+## Framework Status
 
-|Claim                                              |Status                 |Basis                                |
-|---------------------------------------------------|-----------------------|-------------------------------------|
-|Abstraction involves symbol formation + composition|**Established**        |Fodor & Pylyshyn (1988), Fodor (1975)|
-|Composition types differ in complexity             |**Established**        |Halford et al. (1998)                |
-|Working memory has ~4-item capacity limit          |**Established**        |Cowan (2001)                         |
-|Metacognition develops gradually                   |**Established**        |Flavell (1979)                       |
-|Stage 4 as distinct computational capacity         |**Hypothesis**         |Proposed here; needs testing         |
-|Embeddedness necessary for Stage 4                 |**Hypothesis**         |Proposed here; needs testing         |
-|LLMs systematically lack Stage 4                   |**Partially supported**|Some evidence; key evidence ruled out|
-|Scaling won’t produce Stage 4                      |**Open**               |Untested                             |
+|Claim                                            |Status                 |Basis                         |
+|-------------------------------------------------|-----------------------|------------------------------|
+|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988)       |
+|Composition types differ in complexity           |**Established**        |Halford et al. (1998)         |
+|Working memory has ~4-item capacity limit        |**Established**        |Cowan (2001)                  |
+|Metacognition develops gradually                 |**Established**        |Flavell (1979)                |
+|Stage 4 = MAINTAIN-COMPARE-UPDATE operation      |**Proposed definition**|Based on Baddeley (2000)      |
+|Embeddedness → self-state selection pressure     |**Hypothesis**         |Proposed here                 |
+|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM studies; needs replication|
 
 -----
 
@@ -303,14 +300,14 @@ Conditions affecting prefrontal function (ADHD, frontal lesions, schizophrenia) 
 |17|[Dual-Process Theory Reconsidered](papers/dual_process_abstraction.md)               |System 1/System 2         |
 |18|[Neurochemistry as Self-State Abstraction](papers/mind_body_neurochemistry.md)       |Neural substrates         |
 
-### Empirical (LLM Case Study)
+### Empirical
 
-|# |Paper                                                                                  |Focus                    |
-|--|---------------------------------------------------------------------------------------|-------------------------|
-|19|[Pilot Study: Compositional Hierarchy](papers/pilot_composition_study.md)              |Initial findings         |
-|20|[Hold-and-Check: Task-Specific Dissociations](papers/hold_and_check_study.md)          |Gen/ver asymmetries      |
-|21|[Scaffolding Asymmetry](papers/scaffolding_asymmetry.md)                               |Scaffold effects         |
-|22|[Verification Deficit as Pragmatic Artifact](papers/verification_pragmatic_artifact.md)|Methodological correction|
+|# |Paper                                                                            |Focus                    |
+|--|---------------------------------------------------------------------------------|-------------------------|
+|19|[Pilot Study: Compositional Hierarchy](papers/pilot_composition_study.md)        |Initial findings         |
+|20|[Hold-and-Check: Task-Specific Dissociations](papers/hold_and_check_study.md)    |Gen/ver asymmetries      |
+|21|[Scaffolding Asymmetry](papers/scaffolding_asymmetry.md)                         |Scaffold effects         |
+|22|[Prompt Sensitivity in LLM Evaluation](papers/verification_pragmatic_artifact.md)|Methodological refinement|
 
 ### Theoretical
 
@@ -425,8 +422,6 @@ Partee, B. H. (1984). Compositionality. In F. Landman & F. Veltman (Eds.), *Vari
 Piaget, J. (1952). *The Origins of Intelligence in Children*. International Universities Press.
 
 Premack, D., & Woodruff, G. (1978). Does the chimpanzee have a theory of mind? *Behavioral and Brain Sciences*, 1(4), 515-526.
-
-Schaeffer, R., Miranda, B., & Koyejo, S. (2023). Are emergent abilities of large language models a mirage? *NeurIPS*.
 
 Smith, J. D., Shields, W. E., & Washburn, D. A. (2003). The comparative psychology of uncertainty monitoring and metacognition. *Behavioral and Brain Sciences*, 26(3), 317-339.
 
