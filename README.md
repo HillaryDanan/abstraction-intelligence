@@ -232,6 +232,8 @@ This profile—strong at Stages 1–2, partial at Stage 3, uncertain at Stage 4�
 |#|Paper|
 |-|-----|
 |23|[The Geometry of Self-Reference](papers/information_geometry.md)|
+|24|[Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) *(new)*|
+
 
 **For Physicists/Engineers:**
 
