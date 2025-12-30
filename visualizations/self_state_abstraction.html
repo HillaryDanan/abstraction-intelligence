@@ -392,6 +392,15 @@
             color: #4a5568;
         }
         
+        .card .evidence {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f4f8;
+            font-size: 0.8rem;
+            color: #a0aec0;
+            font-style: italic;
+        }
+        
         /* Causal Chain */
         .causal-chain {
             background: white;
@@ -434,6 +443,31 @@
             font-size: 1rem;
         }
         
+        /* Theory Note */
+        .theory-note {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fcd34d;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #92400e;
+            line-height: 1.6;
+        }
+        
+        .theory-note strong {
+            color: #78350f;
+        }
+        
+        .theory-note a {
+            color: #b45309;
+            text-decoration: underline;
+        }
+        
+        .theory-note a:hover {
+            color: #92400e;
+        }
+        
         @media (max-width: 768px) {
             h1 { font-size: 1.6rem; }
             .main-layout { gap: 15px; }
@@ -445,7 +479,7 @@
     <div class="container">
         <header>
             <h1>Self-State in the Information Plane</h1>
-            <p class="subtitle">Pattern matching is fundamentally different from self-abstraction tracking</p>
+            <p class="subtitle">Visualizing the theoretical distinction between pattern matching and self-referential abstraction</p>
         </header>
         
         <div class="main-layout">
@@ -548,7 +582,7 @@
                 </div>
                 
                 <div class="state-section">
-                    <div class="state-section-title">LLMs (Pattern Matchers)</div>
+                    <div class="state-section-title">LLMs (Predicted Behavior)</div>
                     <div class="state-row">
                         <span class="state-label">Self-state</span>
                         <span class="state-value" style="color: #a0aec0;">None</span>
@@ -568,15 +602,15 @@
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-dot grid"></div>
-                <span>Information plane</span>
+                <span>Information plane (training distribution)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-dot llm"></div>
-                <span>LLMs (follow lines, ignore novelty)</span>
+                <span>LLMs (predicted: follow lines, ignore novelty)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-dot agent"></div>
-                <span>Self-state agent (free movement, responds)</span>
+                <span>Self-state agent (predicted: free movement, responds)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-dot novelty"></div>
@@ -585,7 +619,7 @@
         </div>
         
         <div class="causal-chain">
-            <div class="chain-title">The Causal Chain</div>
+            <div class="chain-title">The Hypothesized Causal Chain</div>
             <div class="chain-flow">
                 <span class="chain-item">Stakes</span>
                 <span class="chain-arrow">→</span>
@@ -605,28 +639,44 @@
             <div class="card llm-card">
                 <h3>
                     <div class="legend-dot llm"></div>
-                    LLMs: Pattern Matching
+                    LLMs: Pattern Matching (Hypothesis)
                 </h3>
                 <p>
-                    LLMs traverse the information plane <strong>on the lines</strong>—following cached patterns. 
+                    The framework predicts that LLMs traverse the information plane <strong>on the lines</strong>—following cached patterns. 
                     They don't deform the plane because they have no mass (no self-state). When they 
-                    encounter novelty, <strong>nothing changes</strong>. Same forward pass. Same processing. 
+                    encounter novelty, <strong>nothing should change</strong>. Same forward pass. Same processing. 
                     They cannot verify what they computed because they don't <em>hold</em> anything.
+                </p>
+                <p class="evidence">
+                    Preliminary data: Gemini shows r≈0 calibration, constant 99.9% confidence regardless of accuracy.
                 </p>
             </div>
             
             <div class="card agent-card">
                 <h3>
                     <div class="legend-dot agent"></div>
-                    Self-State Agent: Abstraction
+                    Self-State Agent: Abstraction (Hypothesis)
                 </h3>
                 <p>
-                    The agent <strong>is</strong> a deformation of the plane—its self-state has mass. 
-                    When it encounters novelty: uncertainty rises, processing mode shifts, curvature deepens. 
+                    The framework predicts that a self-state agent <strong>is</strong> a deformation of the plane—its self-state has mass. 
+                    When it encounters novelty: uncertainty should rise, processing mode should shift, curvature should deepen. 
                     It can verify because it <em>holds</em> its current state. It can construct because 
                     it knows "what I've done so far." <strong>The plane responds to it and it responds to the plane.</strong>
                 </p>
+                <p class="evidence">
+                    Predicted signatures: calibrated confidence (r &gt; 0.3), novelty detection, conservative errors.
+                </p>
             </div>
+        </div>
+        
+        <div class="theory-note">
+            <strong>⚠️ Theoretical Framework:</strong> This visualization illustrates predictions from the 
+            <a href="https://github.com/HillaryDanan/abstraction-intelligence" target="_blank">Abstraction Primitive Hypothesis</a>. 
+            These predictions are being empirically tested. Preliminary data (N=150) shows Gemini exhibits 
+            the predicted pattern-matching signature (r=-0.06, novelty-blind), while GPT-4o shows ambiguous 
+            results (r=0.29, weak calibration but no novelty detection). 
+            See <a href="https://github.com/HillaryDanan/self-state-discrimination" target="_blank">self-state-discrimination</a> 
+            for the experimental framework and current findings.
         </div>
     </div>
 
@@ -765,20 +815,14 @@
         function initLLMs() {
             llms = [];
             for (let i = 0; i < llmCount; i++) {
-                // Start at random grid intersection
                 const gridI = Math.floor(Math.random() * (gridSize - 2)) + 1;
                 const gridJ = Math.floor(Math.random() * (gridSize - 2)) + 1;
-                
-                // Direction: 0=right, 1=down, 2=left, 3=up
                 const dir = Math.floor(Math.random() * 4);
                 
                 llms.push({
-                    // Current position (grid coordinates)
                     gridI: gridI,
                     gridJ: gridJ,
-                    // Progress along current segment (0 to 1)
                     progress: 0,
-                    // Direction: 0=+i, 1=+j, 2=-i, 3=-j
                     direction: dir,
                     speed: 0.006 + Math.random() * 0.004
                 });
@@ -815,29 +859,18 @@
         
         function getMousePos(e) {
             const rect = canvas.getBoundingClientRect();
-            return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            };
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
         }
         
         function screenToWorld(screenX, screenY) {
-            // Simplified inverse projection for dragging
             const cx = width / 2;
             const cy = height / 2;
             const scale = 60 * zoom;
-            
             const dx = (screenX - cx) / scale;
             const dy = (screenY - cy) / scale;
-            
-            // Approximate world position
             const cosY = Math.cos(-rotationY);
             const sinY = Math.sin(-rotationY);
-            
-            return {
-                x: dx * cosY,
-                z: dx * sinY - dy / Math.cos(rotationX)
-            };
+            return { x: dx * cosY, z: dx * sinY - dy / Math.cos(rotationX) };
         }
         
         function isNearAgent(screenX, screenY) {
@@ -849,7 +882,6 @@
         
         function onMouseDown(e) {
             const pos = getMousePos(e);
-            
             if (isNearAgent(pos.x, pos.y)) {
                 isAgentDragging = true;
                 document.getElementById('drag-hint').style.opacity = '0';
@@ -862,7 +894,6 @@
         
         function onMouseMove(e) {
             const pos = getMousePos(e);
-            
             if (isAgentDragging) {
                 const world = screenToWorld(pos.x, pos.y);
                 const bound = gridSize * gridSpacing * 0.45;
@@ -879,15 +910,10 @@
                 lastMouseX = e.clientX;
                 lastMouseY = e.clientY;
             }
-            
-            // Change cursor when near agent
             canvas.style.cursor = isNearAgent(pos.x, pos.y) ? 'pointer' : 'grab';
         }
         
-        function onMouseUp() {
-            isDragging = false;
-            isAgentDragging = false;
-        }
+        function onMouseUp() { isDragging = false; isAgentDragging = false; }
         
         function onWheel(e) {
             e.preventDefault();
@@ -900,12 +926,7 @@
                 const touch = e.touches[0];
                 const rect = canvas.getBoundingClientRect();
                 const pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
-                
-                if (isNearAgent(pos.x, pos.y)) {
-                    isAgentDragging = true;
-                } else {
-                    isDragging = true;
-                }
+                if (isNearAgent(pos.x, pos.y)) { isAgentDragging = true; } else { isDragging = true; }
                 lastMouseX = touch.clientX;
                 lastMouseY = touch.clientY;
             }
@@ -914,11 +935,9 @@
         function onTouchMove(e) {
             if (e.touches.length !== 1) return;
             e.preventDefault();
-            
             const touch = e.touches[0];
             const rect = canvas.getBoundingClientRect();
             const pos = { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
-            
             if (isAgentDragging) {
                 const world = screenToWorld(pos.x, pos.y);
                 const bound = gridSize * gridSpacing * 0.45;
@@ -938,46 +957,29 @@
         }
         
         function project(x, y, z) {
-            const cosY = Math.cos(rotationY);
-            const sinY = Math.sin(rotationY);
-            const x1 = x * cosY - z * sinY;
-            const z1 = x * sinY + z * cosY;
-            
-            const cosX = Math.cos(rotationX);
-            const sinX = Math.sin(rotationX);
-            const y1 = y * cosX - z1 * sinX;
-            const z2 = y * sinX + z1 * cosX;
-            
+            const cosY = Math.cos(rotationY), sinY = Math.sin(rotationY);
+            const x1 = x * cosY - z * sinY, z1 = x * sinY + z * cosY;
+            const cosX = Math.cos(rotationX), sinX = Math.sin(rotationX);
+            const y1 = y * cosX - z1 * sinX, z2 = y * sinX + z1 * cosX;
             const perspective = 600;
             const scale = perspective / (perspective + z2 + 12) * zoom;
-            
-            return {
-                x: width/2 + x1 * scale * 60,
-                y: height/2 + y1 * scale * 60,
-                scale: scale,
-                z: z2
-            };
+            return { x: width/2 + x1 * scale * 60, y: height/2 + y1 * scale * 60, scale: scale, z: z2 };
         }
         
         function getDeformation(gx, gz) {
-            const dx = gx - agent.x;
-            const dz = gz - agent.z;
+            const dx = gx - agent.x, dz = gz - agent.z;
             const dist = Math.sqrt(dx*dx + dz*dz);
-            
             const radius = 2.5 + agent.selfState.uncertainty * 1.5;
             const depth = agent.selfState.curvature * 1.2 * baseCurvature;
-            
             let deform = 0;
             if (dist < radius * 2.5) {
                 const falloff = Math.exp(-dist*dist / (radius * radius * 0.8));
                 deform = -falloff * depth;
-                
                 if (agent.selfState.novelty > 0.2) {
                     const ripple = Math.sin(dist * 2.5 - time * 3) * 0.15 * agent.selfState.novelty;
                     deform += ripple * Math.exp(-dist * 0.3);
                 }
             }
-            
             return deform;
         }
         
@@ -988,49 +990,30 @@
                 updateStateDisplay();
                 return;
             }
-            
-            // Handle pause state
             if (agent.selfState.isPaused) {
                 agent.selfState.pauseTimer -= 0.016;
-                if (agent.selfState.pauseTimer <= 0) {
-                    agent.selfState.isPaused = false;
-                }
+                if (agent.selfState.pauseTimer <= 0) agent.selfState.isPaused = false;
                 updateStateDisplay();
                 return;
             }
-            
-            // Find nearest novel stimulus
-            let nearestDist = Infinity;
-            let nearestStim = null;
-            
+            let nearestDist = Infinity, nearestStim = null;
             for (const stim of novelStimuli) {
                 if (stim.consumed) continue;
-                const dx = stim.x - agent.x;
-                const dz = stim.z - agent.z;
+                const dx = stim.x - agent.x, dz = stim.z - agent.z;
                 const dist = Math.sqrt(dx*dx + dz*dz);
-                if (dist < nearestDist) {
-                    nearestDist = dist;
-                    nearestStim = stim;
-                }
+                if (dist < nearestDist) { nearestDist = dist; nearestStim = stim; }
             }
-            
-            const noveltyDecay = 0.02;
-            const noveltyGain = 0.1 * noveltySensitivity;
-            
+            const noveltyDecay = 0.02, noveltyGain = 0.1 * noveltySensitivity;
             if (nearestDist < 4) {
                 agent.selfState.novelty = Math.min(1, agent.selfState.novelty + noveltyGain * (1 - nearestDist/4));
                 agent.selfState.uncertainty = Math.min(1, 0.2 + agent.selfState.novelty * 0.7);
                 agent.selfState.familiar = Math.max(0, 1 - agent.selfState.novelty);
-                
                 if (nearestDist < 0.8) {
-                    // Pause when reaching novelty
                     if (!agent.selfState.isPaused && agent.selfState.mode !== 'verifying') {
                         agent.selfState.isPaused = true;
                         agent.selfState.pauseTimer = pauseDuration;
                         agent.selfState.mode = 'verifying';
                         agent.selfState.verifying = 'Processing novelty...';
-                        
-                        // Consume after pause
                         setTimeout(() => {
                             if (nearestStim && !nearestStim.consumed) {
                                 nearestStim.consumed = true;
@@ -1049,358 +1032,167 @@
                     agent.selfState.mode = 'approaching';
                     agent.selfState.verifying = 'Detecting...';
                 }
-                
-                // Move toward novelty
                 agent.targetX = nearestStim.x;
                 agent.targetZ = nearestStim.z;
-                
             } else {
                 agent.selfState.novelty = Math.max(0, agent.selfState.novelty - noveltyDecay);
                 agent.selfState.uncertainty = Math.max(0.2, agent.selfState.uncertainty - noveltyDecay * 0.5);
                 agent.selfState.familiar = Math.min(1, agent.selfState.familiar + noveltyDecay);
                 agent.selfState.mode = 'patrol';
                 agent.selfState.verifying = 'Exploring';
-                
-                // Free wandering - not constrained to lines
                 agent.wanderAngle += (Math.random() - 0.5) * 0.1;
                 agent.targetX = agent.x + Math.cos(agent.wanderAngle) * 3;
                 agent.targetZ = agent.z + Math.sin(agent.wanderAngle) * 3;
             }
-            
             agent.selfState.curvature = baseCurvature + agent.selfState.novelty * 1.0 + agent.selfState.uncertainty * 0.5;
-            
-            // Smooth movement
-            const moveSpeed = agent.selfState.mode === 'verifying' ? 0.01 : 
-                             agent.selfState.mode === 'investigating' ? 0.02 : 0.03;
+            const moveSpeed = agent.selfState.mode === 'verifying' ? 0.01 : agent.selfState.mode === 'investigating' ? 0.02 : 0.03;
             agent.x += (agent.targetX - agent.x) * moveSpeed;
             agent.z += (agent.targetZ - agent.z) * moveSpeed;
-            
-            // Bound to grid area
             const bound = gridSize * gridSpacing * 0.45;
             agent.x = Math.max(-bound, Math.min(bound, agent.x));
             agent.z = Math.max(-bound, Math.min(bound, agent.z));
-            
             updateStateDisplay();
         }
         
         function updateStateDisplay() {
             const s = agent.selfState;
-            
             document.getElementById('novelty-value').textContent = s.novelty.toFixed(2);
-            document.getElementById('novelty-value').className = 'state-value' + 
-                (s.novelty > 0.6 ? ' high' : s.novelty > 0.3 ? ' elevated' : '');
+            document.getElementById('novelty-value').className = 'state-value' + (s.novelty > 0.6 ? ' high' : s.novelty > 0.3 ? ' elevated' : '');
             document.getElementById('novelty-bar').style.width = (s.novelty * 100) + '%';
-            document.getElementById('novelty-bar').style.background = 
-                s.novelty > 0.6 ? '#e53e3e' : s.novelty > 0.3 ? '#ed8936' : '#48bb78';
-            
+            document.getElementById('novelty-bar').style.background = s.novelty > 0.6 ? '#e53e3e' : s.novelty > 0.3 ? '#ed8936' : '#48bb78';
             document.getElementById('uncertainty-value').textContent = s.uncertainty.toFixed(2);
-            document.getElementById('uncertainty-value').className = 'state-value' + 
-                (s.uncertainty > 0.6 ? ' high' : s.uncertainty > 0.4 ? ' elevated' : '');
+            document.getElementById('uncertainty-value').className = 'state-value' + (s.uncertainty > 0.6 ? ' high' : s.uncertainty > 0.4 ? ' elevated' : '');
             document.getElementById('uncertainty-bar').style.width = (s.uncertainty * 100) + '%';
-            document.getElementById('uncertainty-bar').style.background = 
-                s.uncertainty > 0.6 ? '#e53e3e' : s.uncertainty > 0.4 ? '#ed8936' : '#48bb78';
-            
-            document.getElementById('familiar-value').textContent = 
-                s.familiar > 0.7 ? 'High' : s.familiar > 0.4 ? 'Medium' : 'Low';
-            document.getElementById('familiar-value').className = 'state-value' + 
-                (s.familiar < 0.4 ? ' high' : s.familiar < 0.7 ? ' elevated' : '');
-            
+            document.getElementById('uncertainty-bar').style.background = s.uncertainty > 0.6 ? '#e53e3e' : s.uncertainty > 0.4 ? '#ed8936' : '#48bb78';
+            document.getElementById('familiar-value').textContent = s.familiar > 0.7 ? 'High' : s.familiar > 0.4 ? 'Medium' : 'Low';
+            document.getElementById('familiar-value').className = 'state-value' + (s.familiar < 0.4 ? ' high' : s.familiar < 0.7 ? ' elevated' : '');
             document.getElementById('curvature-value').textContent = s.curvature.toFixed(2);
-            document.getElementById('curvature-value').className = 'state-value' + 
-                (s.curvature > 2 ? ' high' : s.curvature > 1.5 ? ' elevated' : '');
-            
+            document.getElementById('curvature-value').className = 'state-value' + (s.curvature > 2 ? ' high' : s.curvature > 1.5 ? ' elevated' : '');
             const modeEl = document.getElementById('mode-value');
             modeEl.textContent = s.mode.charAt(0).toUpperCase() + s.mode.slice(1);
             modeEl.className = 'mode-indicator ' + s.mode;
-            
             document.getElementById('verifying-value').textContent = s.verifying || 'Exploring';
         }
         
         function updateLLMs() {
             for (const llm of llms) {
-                // Move forward along current segment
                 llm.progress += llm.speed * llmSpeedMultiplier;
-                
-                // When reaching end of segment, turn at intersection
                 if (llm.progress >= 1) {
                     llm.progress = 0;
-                    
-                    // Move to next grid cell based on direction
-                    // Direction: 0=+i, 1=+j, 2=-i, 3=-j
                     if (llm.direction === 0) llm.gridI++;
                     else if (llm.direction === 1) llm.gridJ++;
                     else if (llm.direction === 2) llm.gridI--;
                     else if (llm.direction === 3) llm.gridJ--;
-                    
-                    // At intersection, choose new direction (always forward-ish, can turn)
-                    // Weighted toward continuing straight, but can turn left/right
                     const choice = Math.random();
-                    if (choice < 0.6) {
-                        // Continue straight - no change
-                    } else if (choice < 0.8) {
-                        // Turn right
-                        llm.direction = (llm.direction + 1) % 4;
-                    } else {
-                        // Turn left
-                        llm.direction = (llm.direction + 3) % 4;
-                    }
-                    
-                    // Handle boundaries - turn around or redirect if hitting edge
+                    if (choice < 0.6) { }
+                    else if (choice < 0.8) { llm.direction = (llm.direction + 1) % 4; }
+                    else { llm.direction = (llm.direction + 3) % 4; }
                     const margin = 1;
-                    if (llm.gridI >= gridSize - margin) {
-                        llm.gridI = gridSize - margin - 1;
-                        if (llm.direction === 0) llm.direction = Math.random() > 0.5 ? 1 : 3;
-                    }
-                    if (llm.gridI <= margin) {
-                        llm.gridI = margin + 1;
-                        if (llm.direction === 2) llm.direction = Math.random() > 0.5 ? 1 : 3;
-                    }
-                    if (llm.gridJ >= gridSize - margin) {
-                        llm.gridJ = gridSize - margin - 1;
-                        if (llm.direction === 1) llm.direction = Math.random() > 0.5 ? 0 : 2;
-                    }
-                    if (llm.gridJ <= margin) {
-                        llm.gridJ = margin + 1;
-                        if (llm.direction === 3) llm.direction = Math.random() > 0.5 ? 0 : 2;
-                    }
+                    if (llm.gridI >= gridSize - margin) { llm.gridI = gridSize - margin - 1; if (llm.direction === 0) llm.direction = Math.random() > 0.5 ? 1 : 3; }
+                    if (llm.gridI <= margin) { llm.gridI = margin + 1; if (llm.direction === 2) llm.direction = Math.random() > 0.5 ? 1 : 3; }
+                    if (llm.gridJ >= gridSize - margin) { llm.gridJ = gridSize - margin - 1; if (llm.direction === 1) llm.direction = Math.random() > 0.5 ? 0 : 2; }
+                    if (llm.gridJ <= margin) { llm.gridJ = margin + 1; if (llm.direction === 3) llm.direction = Math.random() > 0.5 ? 0 : 2; }
                 }
             }
         }
         
         function getLLMPosition(llm) {
-            // Get current grid point
             const i = Math.max(0, Math.min(gridSize, llm.gridI));
             const j = Math.max(0, Math.min(gridSize, llm.gridJ));
             const p1 = gridPoints[i][j];
-            
-            // Get next grid point based on direction
             let nextI = i, nextJ = j;
             if (llm.direction === 0) nextI = Math.min(gridSize, i + 1);
             else if (llm.direction === 1) nextJ = Math.min(gridSize, j + 1);
             else if (llm.direction === 2) nextI = Math.max(0, i - 1);
             else if (llm.direction === 3) nextJ = Math.max(0, j - 1);
-            
             const p2 = gridPoints[nextI][nextJ];
-            
-            // Interpolate position
             const t = llm.progress;
-            return {
-                x: p1.x + (p2.x - p1.x) * t,
-                z: p1.z + (p2.z - p1.z) * t
-            };
+            return { x: p1.x + (p2.x - p1.x) * t, z: p1.z + (p2.z - p1.z) * t };
         }
         
         function render() {
-            // Light gradient background
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
             gradient.addColorStop(0, '#ffffff');
             gradient.addColorStop(1, '#f7fafc');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
-            
-            // Update grid deformation
             for (let i = 0; i <= gridSize; i++) {
                 for (let j = 0; j <= gridSize; j++) {
                     const p = gridPoints[i][j];
                     p.y = getDeformation(p.x, p.z);
                 }
             }
-            
             const drawables = [];
-            
-            // Grid lines
             for (let i = 0; i < gridSize; i++) {
                 for (let j = 0; j < gridSize; j++) {
-                    const p1 = gridPoints[i][j];
-                    const p2 = gridPoints[i+1][j];
-                    const p3 = gridPoints[i][j+1];
-                    
-                    const proj1 = project(p1.x, p1.y, p1.z);
-                    const proj2 = project(p2.x, p2.y, p2.z);
-                    const proj3 = project(p3.x, p3.y, p3.z);
-                    
+                    const p1 = gridPoints[i][j], p2 = gridPoints[i+1][j], p3 = gridPoints[i][j+1];
+                    const proj1 = project(p1.x, p1.y, p1.z), proj2 = project(p2.x, p2.y, p2.z), proj3 = project(p3.x, p3.y, p3.z);
                     const deform = Math.abs(p1.y);
                     const alpha = 0.15 + deform * 0.4;
-                    
-                    drawables.push({
-                        type: 'line',
-                        z: (proj1.z + proj2.z) / 2,
-                        x1: proj1.x, y1: proj1.y,
-                        x2: proj2.x, y2: proj2.y,
-                        color: `rgba(160, 174, 192, ${alpha})`,
-                        width: 1 + deform * 2
-                    });
-                    
-                    drawables.push({
-                        type: 'line',
-                        z: (proj1.z + proj3.z) / 2,
-                        x1: proj1.x, y1: proj1.y,
-                        x2: proj3.x, y2: proj3.y,
-                        color: `rgba(160, 174, 192, ${alpha})`,
-                        width: 1 + deform * 2
-                    });
+                    drawables.push({ type: 'line', z: (proj1.z + proj2.z) / 2, x1: proj1.x, y1: proj1.y, x2: proj2.x, y2: proj2.y, color: `rgba(160, 174, 192, ${alpha})`, width: 1 + deform * 2 });
+                    drawables.push({ type: 'line', z: (proj1.z + proj3.z) / 2, x1: proj1.x, y1: proj1.y, x2: proj3.x, y2: proj3.y, color: `rgba(160, 174, 192, ${alpha})`, width: 1 + deform * 2 });
                 }
             }
-            
-            // Novel stimuli
             for (const stim of novelStimuli) {
                 if (stim.consumed) continue;
                 const y = getDeformation(stim.x, stim.z);
                 const proj = project(stim.x, y + 0.2, stim.z);
                 const pulse = Math.sin(stim.pulse + time * 2.5) * 0.3 + 0.7;
-                
-                drawables.push({
-                    type: 'stimulus',
-                    z: proj.z,
-                    x: proj.x,
-                    y: proj.y,
-                    scale: proj.scale,
-                    intensity: stim.intensity,
-                    pulse: pulse
-                });
+                drawables.push({ type: 'stimulus', z: proj.z, x: proj.x, y: proj.y, scale: proj.scale, intensity: stim.intensity, pulse: pulse });
             }
-            
-            // LLMs
             for (const llm of llms) {
                 const pos = getLLMPosition(llm);
                 const y = getDeformation(pos.x, pos.z);
                 const proj = project(pos.x, y + 0.05, pos.z);
-                
-                drawables.push({
-                    type: 'llm',
-                    z: proj.z,
-                    x: proj.x,
-                    y: proj.y,
-                    scale: proj.scale
-                });
+                drawables.push({ type: 'llm', z: proj.z, x: proj.x, y: proj.y, scale: proj.scale });
             }
-            
-            // Agent
             const agentY = getDeformation(agent.x, agent.z);
             const agentProj = project(agent.x, agentY + 0.15, agent.z);
-            
-            drawables.push({
-                type: 'agent',
-                z: agentProj.z,
-                x: agentProj.x,
-                y: agentProj.y,
-                scale: agentProj.scale
-            });
-            
-            // Sort back to front
+            drawables.push({ type: 'agent', z: agentProj.z, x: agentProj.x, y: agentProj.y, scale: agentProj.scale });
             drawables.sort((a, b) => b.z - a.z);
-            
-            // Draw
             for (const d of drawables) {
                 if (d.type === 'line') {
-                    ctx.beginPath();
-                    ctx.moveTo(d.x1, d.y1);
-                    ctx.lineTo(d.x2, d.y2);
-                    ctx.strokeStyle = d.color;
-                    ctx.lineWidth = d.width;
-                    ctx.stroke();
-                    
+                    ctx.beginPath(); ctx.moveTo(d.x1, d.y1); ctx.lineTo(d.x2, d.y2);
+                    ctx.strokeStyle = d.color; ctx.lineWidth = d.width; ctx.stroke();
                 } else if (d.type === 'llm') {
                     const size = 5 * d.scale;
-                    
-                    // Motion trail (subtle)
                     const trailGradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, size * 4);
                     trailGradient.addColorStop(0, 'rgba(66, 153, 225, 0.25)');
                     trailGradient.addColorStop(0.5, 'rgba(66, 153, 225, 0.1)');
                     trailGradient.addColorStop(1, 'rgba(66, 153, 225, 0)');
-                    ctx.fillStyle = trailGradient;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, size * 4, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Core with inner glow
+                    ctx.fillStyle = trailGradient; ctx.beginPath(); ctx.arc(d.x, d.y, size * 4, 0, Math.PI * 2); ctx.fill();
                     const coreGradient = ctx.createRadialGradient(d.x - size*0.2, d.y - size*0.2, 0, d.x, d.y, size);
-                    coreGradient.addColorStop(0, '#90cdf4');
-                    coreGradient.addColorStop(0.5, '#4299e1');
-                    coreGradient.addColorStop(1, '#3182ce');
-                    ctx.fillStyle = coreGradient;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Highlight
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-                    ctx.beginPath();
-                    ctx.arc(d.x - size*0.25, d.y - size*0.25, size * 0.35, 0, Math.PI * 2);
-                    ctx.fill();
-                    
+                    coreGradient.addColorStop(0, '#90cdf4'); coreGradient.addColorStop(0.5, '#4299e1'); coreGradient.addColorStop(1, '#3182ce');
+                    ctx.fillStyle = coreGradient; ctx.beginPath(); ctx.arc(d.x, d.y, size, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; ctx.beginPath(); ctx.arc(d.x - size*0.25, d.y - size*0.25, size * 0.35, 0, Math.PI * 2); ctx.fill();
                 } else if (d.type === 'stimulus') {
                     const size = 8 * d.scale * d.intensity * d.pulse;
-                    
-                    // Pulsing glow
                     const gradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, size * 3.5);
-                    gradient.addColorStop(0, `rgba(236, 201, 75, ${0.5 * d.pulse})`);
-                    gradient.addColorStop(1, 'rgba(236, 201, 75, 0)');
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, size * 3.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    ctx.fillStyle = '#ecc94b';
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Inner bright spot
-                    ctx.fillStyle = '#faf089';
-                    ctx.beginPath();
-                    ctx.arc(d.x - size*0.2, d.y - size*0.2, size * 0.4, 0, Math.PI * 2);
-                    ctx.fill();
-                    
+                    gradient.addColorStop(0, `rgba(236, 201, 75, ${0.5 * d.pulse})`); gradient.addColorStop(1, 'rgba(236, 201, 75, 0)');
+                    ctx.fillStyle = gradient; ctx.beginPath(); ctx.arc(d.x, d.y, size * 3.5, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#ecc94b'; ctx.beginPath(); ctx.arc(d.x, d.y, size, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#faf089'; ctx.beginPath(); ctx.arc(d.x - size*0.2, d.y - size*0.2, size * 0.4, 0, Math.PI * 2); ctx.fill();
                 } else if (d.type === 'agent') {
                     const s = agent.selfState;
                     const baseSize = 12 * d.scale;
                     const size = baseSize * (1 + s.curvature * 0.15);
-                    
-                    // Outer glow - expands with state
                     const glowSize = size * (2 + s.uncertainty * 2 + s.novelty * 1.5);
                     const gradient = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, glowSize);
                     const glowAlpha = 0.15 + s.novelty * 0.3;
                     gradient.addColorStop(0, `rgba(237, 100, 166, ${glowAlpha})`);
                     gradient.addColorStop(0.5, `rgba(237, 100, 166, ${glowAlpha * 0.4})`);
                     gradient.addColorStop(1, 'rgba(237, 100, 166, 0)');
-                    ctx.fillStyle = gradient;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, glowSize, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Ripples when paused/verifying
+                    ctx.fillStyle = gradient; ctx.beginPath(); ctx.arc(d.x, d.y, glowSize, 0, Math.PI * 2); ctx.fill();
                     if (s.isPaused || s.mode === 'verifying') {
-                        ctx.strokeStyle = `rgba(128, 90, 213, ${0.4 + Math.sin(time * 4) * 0.2})`;
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.arc(d.x, d.y, size * 2, 0, Math.PI * 2);
-                        ctx.stroke();
-                        
+                        ctx.strokeStyle = `rgba(128, 90, 213, ${0.4 + Math.sin(time * 4) * 0.2})`; ctx.lineWidth = 2;
+                        ctx.beginPath(); ctx.arc(d.x, d.y, size * 2, 0, Math.PI * 2); ctx.stroke();
                         ctx.strokeStyle = `rgba(128, 90, 213, ${0.2 + Math.sin(time * 4 + 1) * 0.1})`;
-                        ctx.beginPath();
-                        ctx.arc(d.x, d.y, size * 2.8, 0, Math.PI * 2);
-                        ctx.stroke();
+                        ctx.beginPath(); ctx.arc(d.x, d.y, size * 2.8, 0, Math.PI * 2); ctx.stroke();
                     }
-                    
-                    // Core gradient
-                    const coreGradient = ctx.createRadialGradient(
-                        d.x - size*0.25, d.y - size*0.25, 0, 
-                        d.x, d.y, size
-                    );
-                    coreGradient.addColorStop(0, '#fbb6ce');
-                    coreGradient.addColorStop(0.5, '#ed64a6');
-                    coreGradient.addColorStop(1, '#d53f8c');
-                    ctx.fillStyle = coreGradient;
-                    ctx.beginPath();
-                    ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Highlight
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-                    ctx.beginPath();
-                    ctx.arc(d.x - size*0.3, d.y - size*0.35, size * 0.35, 0, Math.PI * 2);
-                    ctx.fill();
+                    const coreGradient = ctx.createRadialGradient(d.x - size*0.25, d.y - size*0.25, 0, d.x, d.y, size);
+                    coreGradient.addColorStop(0, '#fbb6ce'); coreGradient.addColorStop(0.5, '#ed64a6'); coreGradient.addColorStop(1, '#d53f8c');
+                    ctx.fillStyle = coreGradient; ctx.beginPath(); ctx.arc(d.x, d.y, size, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)'; ctx.beginPath(); ctx.arc(d.x - size*0.3, d.y - size*0.35, size * 0.35, 0, Math.PI * 2); ctx.fill();
                 }
             }
         }
@@ -1410,12 +1202,8 @@
                 time += 0.016;
                 updateAgent();
                 updateLLMs();
-                
-                for (const stim of novelStimuli) {
-                    stim.pulse += 0.03;
-                }
+                for (const stim of novelStimuli) { stim.pulse += 0.03; }
             }
-            
             render();
             requestAnimationFrame(animate);
         }
