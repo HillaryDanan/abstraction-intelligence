@@ -135,14 +135,14 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 |Stage 4 impaired by working memory load       |**Supported**|Dual-task interference (Baddeley, 1992)                        |
 |Novel situations trigger heightened monitoring|**Supported**|Orienting response, uncertainty monitoring (Smith et al., 2003)|
 
-### Artificial Systems (General Predictions)
+### Artificial Systems (Predictions)
 
-|Prediction                                                     |Status                 |Notes                                     |
-|---------------------------------------------------------------|-----------------------|------------------------------------------|
-|Systems without stakes show confident failure on novelty       |**Preliminary support**|See LLM calibration study below           |
-|Self-state won't emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study               |
-|Embodied training with genuine stakes may produce Stage 4      |**Open**               |Testable in robotics/RL                   |
-|Scaffolding can provide "prosthetic" self-state                |**Preliminary support**|See LLM case study                        |
+|Prediction                                                     |Status       |Notes                                            |
+|---------------------------------------------------------------|-------------|-------------------------------------------------|
+|Systems without stakes show confident failure on novelty       |**Testable** |See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination) for empirical program|
+|Self-state won't emerge from scaling prediction-trained systems|**Open**     |Requires longitudinal study across model scales  |
+|Embodied training with genuine stakes may produce Stage 4      |**Open**     |Testable in robotics/RL with survival-like stakes|
+|Scaffolding can provide "prosthetic" self-state                |**Open**     |External monitors may substitute for internal    |
 
 -----
 
@@ -150,49 +150,38 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 
 LLMs are trained on symmetric prediction loss without embodiment. If the embeddedness hypothesis is correct, they should show the pattern-matching signature: confident failure on novel problems, stake-blindness, poor calibration outside the training distribution.
 
-> **Note:** Findings below include preliminary data from controlled studies (N=150 per paradigm). Interpretations are working hypotheses pending replication.
+### The LLM Profile (Theoretical Prediction)
 
-### The LLM Profile
-
-|Stage                         |Capacity                            |Evidence                                                 |
+|Stage                         |Capacity                            |Evidence                                                  |
 |------------------------------|------------------------------------|---------------------------------------------------------|
-|Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                               |
-|Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)       |
-|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; variable on novel operators|
-|Stage 4: Self-Referential     |**Shows pattern-matching signature**|See discrimination evidence below                        |
+|Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                                |
+|Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)        |
+|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; variable on novel tasks  |
+|Stage 4: Self-Referential     |**Predicted absent**                |Systems lack embeddedness; see empirical testing below    |
 
-### Preliminary Evidence: Self-State Discrimination Study
+The embeddedness hypothesis predicts LLMs should show the pattern-matching signature (novelty-blind confidence, confident errors, poor calibration on genuinely novel problems) because they lack survival stakes.
 
-Using genuinely novel mathematical operators (randomized names, definitions, and parameters to ensure problems fall outside training distributions), we tested calibration signatures in frontier models (N=150 trials per paradigm; see [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)).
+### Empirical Testing
 
-**Key finding: Dissociable calibration across models.**
+The discrimination framework above generates testable predictions. Using genuinely novel mathematical operators (randomized names, definitions, and parameters designed to fall outside training distributions), we test whether frontier models show the pattern-matching signature or the self-state signature.
 
-|Model             |Calibration r|Overconfidence|Novelty Detection|Conservative Errors|
-|------------------|-------------|--------------|-----------------|-------------------|
-|GPT-4o            |0.29*        |30.5%         |1.4% (n.s.)      |0%                 |
-|Gemini-2.0-Flash  |-0.06 (n.s.) |24.9%         |0.0%             |0%                 |
+**For methodology, implementation, and current results, see [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination).**
 
-*p < 0.01; threshold for "well-calibrated": r > 0.30
+The empirical repo contains:
+- Experimental paradigms for novelty detection, error types, stakes sensitivity, and calibration
+- Code for testing GPT-4o, Gemini, Claude, and other models
+- Preliminary data (N=150 per paradigm per model) with statistical analysis
+- Discussion of findings and their interpretation
 
-**Interpretation:**
-
-- **Gemini** shows clear pattern-matching signature: zero calibration (r ≈ 0), constant 99.9% confidence regardless of accuracy, no novelty detection, no hedging when wrong.
-
-- **GPT-4o** shows ambiguous/borderline results: weak positive calibration (r = 0.29, just below threshold), but still no novelty detection and no conservative errors. The weak calibration could reflect emergent partial self-monitoring OR surface-feature correlation without genuine metacognition.
-
-- **Both models** achieved high accuracy (67-75%) on novel operators, demonstrating task capability. Poor calibration is not due to floor effects.
-
-- **Both models** showed 100% confident errors when wrong—no hedging, no expressions of uncertainty.
-
-**Theoretical status:** Preliminary support for pattern-matching signature, with unexpected between-model variation in calibration. The absence of novelty detection in both models (including GPT-4o despite its weak calibration) suggests that even partial calibration may not reflect genuine self-state.
+**Theoretical status:** Theory and data are maintained separately. The framework's validity does not depend on any particular model's performance—it provides testable predictions that empirical work can support, refute, or complicate.
 
 ### What Remains Open
 
-- Cross-model comparison with Claude and other architectures
-- Mechanism underlying GPT-4o's weak positive calibration
 - Whether any current systems exhibit the full self-state signature profile
+- Mechanism underlying between-model variation in calibration
 - Stakes sensitivity with genuine (not described) consequences
-- Larger sample sizes for error-type analysis (current N limited by high accuracy)
+- Longitudinal study of whether self-state emerges from scaling
+- Embodied training paradigms with survival-like stakes
 
 <details>
 <summary>Additional Empirical Results</summary>
@@ -254,23 +243,25 @@ Conditions affecting prefrontal function should show specific Stage 4 impairment
 
 ## Framework Status
 
-|Claim                                            |Status                 |Basis                   |
-|-------------------------------------------------|-----------------------|------------------------|
-|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988) |
-|Composition types differ in complexity           |**Established**        |Halford et al. (1998)   |
-|Working memory has capacity limits               |**Established**        |Cowan (2001)            |
-|Metacognition develops gradually                 |**Established**        |Flavell (1979)          |
-|Self-state = MAINTAIN-COMPARE-UPDATE operation   |**Proposed definition**|Based on Baddeley (2000)|
-|Novelty-under-stakes drives self-state selection |**Hypothesis**         |Proposed here           |
-|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM calibration study   |
+|Claim                                            |Status                 |Basis                                          |
+|-------------------------------------------------|-----------------------|-----------------------------------------------|
+|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988)                        |
+|Composition types differ in complexity           |**Established**        |Halford et al. (1998)                          |
+|Working memory has capacity limits               |**Established**        |Cowan (2001)                                   |
+|Metacognition develops gradually                 |**Established**        |Flavell (1979)                                 |
+|Self-state = MAINTAIN-COMPARE-UPDATE operation   |**Proposed definition**|Based on Baddeley (2000)                       |
+|Novelty-under-stakes drives self-state selection |**Hypothesis**         |Proposed here                                  |
+|Pattern-matching shows distinct failure signature|**Testable**           |See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
 
 -----
 
 ## Visualizations
 
-|Visualization                                                                    |Description                                                |
-|---------------------------------------------------------------------------------|-----------------------------------------------------------|
-|[Self-State in the Information Plane](visualizations/self_state_abstraction.html)|Interactive 3D: pattern-matching vs. self-state abstraction|
+|Visualization                                                                    |Description                                                          |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------------|
+|[Self-State in the Information Plane](visualizations/self_state_abstraction.html)|Interactive 3D: pattern-matching vs. self-state (theoretical model) |
+
+Note: The visualization illustrates the theoretical distinction being empirically tested. See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination) for current findings.
 
 -----
 
