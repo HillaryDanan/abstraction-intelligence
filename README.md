@@ -45,9 +45,9 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 |Type                |Structure                  |Example                                |Required Stage|
 |--------------------|---------------------------|---------------------------------------|--------------|
-|**A: Concatenative**|A + B → AB                 |“blue bird”                            |Stage 2       |
+|**A: Concatenative**|A + B → AB                 |"blue bird"                            |Stage 2       |
 |**B: Role-filler**  |R(x) + S(y) → R(x)S(y)     |AGENT(dog) + ACTION(chased)            |Stage 2       |
-|**C: Recursive**    |A contains [B contains C]  |“The dog [that chased the cat [that…]]”|Stage 3       |
+|**C: Recursive**    |A contains [B contains C]  |"The dog [that chased the cat [that…]]"|Stage 3       |
 |**D: Analogical**   |Structure(X) → Structure(Y)|atom:nucleus :: solar system:sun       |Stage 3       |
 
 This taxonomy draws on Halford et al. (1998) on relational complexity and Gentner (1983) on analogical mapping.
@@ -72,7 +72,7 @@ Where:
 - **COMPARE**: Evaluate the held representation against incoming information or generated output
 - **UPDATE**: Modify the held representation based on comparison result
 
-This is the **central executive** operation in Baddeley’s (2000) working memory model. It is distinct from:
+This is the **central executive** operation in Baddeley's (2000) working memory model. It is distinct from:
 
 - **Attention**: Weighted retrieval (no persistent holding)
 - **Storage**: Passive retention (no active comparison)
@@ -112,7 +112,7 @@ The critical question: How do we distinguish genuine self-state from sophisticat
 |Signature             |Self-State Prediction                              |Pattern-Matching Prediction                   |
 |----------------------|---------------------------------------------------|----------------------------------------------|
 |**Novelty detection** |Confidence drops on novel problems                 |Uniform confidence (novelty-blind)            |
-|**Error types**       |Conservative errors (hedging, “I don’t know”)      |Confident errors (confabulation)              |
+|**Error types**       |Conservative errors (hedging, "I don't know")      |Confident errors (confabulation)              |
 |**Stakes sensitivity**|Behavior changes when stakes described             |Behavior unchanged (stake-blind)              |
 |**Calibration**       |Confidence tracks actual accuracy on novel problems|No confidence-accuracy relationship           |
 |**Capacity limits**   |Principled limits with gradual degradation         |Distribution-bounded limits with cliff-edge   |
@@ -120,7 +120,7 @@ The critical question: How do we distinguish genuine self-state from sophisticat
 
 **The central test:** Calibration on genuinely novel problems. A system that shows calibrated confidence on novel problems—confidence tracking actual accuracy—has functional self-state. This is very difficult to pattern-match because it requires real-time assessment of processing difficulty.
 
-See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for the full empirical program.
+See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_state_discrimination.md) for the full empirical program, and [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination) for experimental implementation and preliminary data.
 
 -----
 
@@ -131,7 +131,7 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 |Prediction                                    |Status       |Evidence                                                       |
 |----------------------------------------------|-------------|---------------------------------------------------------------|
 |Stage 4 develops later than Stages 1–3        |**Supported**|Developmental trajectory (Flavell, 1979)                       |
-|Stage 4 correlates with prefrontal maturation |**Supported**|Neuroimaging (Curtis & D’Esposito, 2003)                       |
+|Stage 4 correlates with prefrontal maturation |**Supported**|Neuroimaging (Curtis & D'Esposito, 2003)                       |
 |Stage 4 impaired by working memory load       |**Supported**|Dual-task interference (Baddeley, 1992)                        |
 |Novel situations trigger heightened monitoring|**Supported**|Orienting response, uncertainty monitoring (Smith et al., 2003)|
 
@@ -139,10 +139,10 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 
 |Prediction                                                     |Status                 |Notes                                     |
 |---------------------------------------------------------------|-----------------------|------------------------------------------|
-|Systems without stakes show confident failure on novelty       |**Preliminary support**|LLM miscalibration, confabulation patterns|
-|Self-state won’t emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study               |
+|Systems without stakes show confident failure on novelty       |**Preliminary support**|See LLM calibration study below           |
+|Self-state won't emerge from scaling prediction-trained systems|**Open**               |Requires longitudinal study               |
 |Embodied training with genuine stakes may produce Stage 4      |**Open**               |Testable in robotics/RL                   |
-|Scaffolding can provide “prosthetic” self-state                |**Preliminary support**|See LLM case study                        |
+|Scaffolding can provide "prosthetic" self-state                |**Preliminary support**|See LLM case study                        |
 
 -----
 
@@ -150,7 +150,7 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 
 LLMs are trained on symmetric prediction loss without embodiment. If the embeddedness hypothesis is correct, they should show the pattern-matching signature: confident failure on novel problems, stake-blindness, poor calibration outside the training distribution.
 
-> **Note:** Findings below are from preliminary studies (N=100-700). Interpretations are working hypotheses.
+> **Note:** Findings below include preliminary data from controlled studies (N=150 per paradigm). Interpretations are working hypotheses pending replication.
 
 ### The LLM Profile
 
@@ -158,38 +158,44 @@ LLMs are trained on symmetric prediction loss without embodiment. If the embedde
 |------------------------------|------------------------------------|---------------------------------------------------------|
 |Stage 1: Pattern Extraction   |**Full**                            |Foundation of architecture                               |
 |Stage 2: Symbol Formation     |**Substantial**                     |Compositional generalization (Lake & Baroni, 2018)       |
-|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; fails on novel operators|
+|Stage 3: Recursive Composition|**Partial**                         |Succeeds when pattern-matchable; variable on novel operators|
 |Stage 4: Self-Referential     |**Shows pattern-matching signature**|See discrimination evidence below                        |
 
-### Evidence for Pattern-Matching Signature
+### Preliminary Evidence: Self-State Discrimination Study
 
-**Novelty response:**
+Using genuinely novel mathematical operators (randomized names, definitions, and parameters to ensure problems fall outside training distributions), we tested calibration signatures in frontier models (N=150 trials per paradigm; see [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)).
 
-- Novel operators cause failure: ~50% vs. ~100% on familiar operations
-- Errors on novel problems tend toward confident confabulation rather than hedged uncertainty
-- Miscalibration literature shows overconfidence on out-of-distribution problems
+**Key finding: Dissociable calibration across models.**
 
-**Scaffolding effects:**
+|Model             |Calibration r|Overconfidence|Novelty Detection|Conservative Errors|
+|------------------|-------------|--------------|-----------------|-------------------|
+|GPT-4o            |0.29*        |30.5%         |1.4% (n.s.)      |0%                 |
+|Gemini-2.0-Flash  |-0.06 (n.s.) |24.9%         |0.0%             |0%                 |
 
-- Self-monitoring scaffolds can improve performance on some tasks
-- Scaffolds externalize the MAINTAIN-COMPARE-UPDATE loop
-- But scaffolding imposes cognitive overhead costs
+*p < 0.01; threshold for "well-calibrated": r > 0.30
 
-**Methodological note:**
+**Interpretation:**
 
-- Some apparent deficits reflect prompt artifacts (question framing affects response)
-- Prompt-controlled testing required before attributing failures to architecture
-- Neutral framing can restore performance on some tasks
+- **Gemini** shows clear pattern-matching signature: zero calibration (r ≈ 0), constant 99.9% confidence regardless of accuracy, no novelty detection, no hedging when wrong.
+
+- **GPT-4o** shows ambiguous/borderline results: weak positive calibration (r = 0.29, just below threshold), but still no novelty detection and no conservative errors. The weak calibration could reflect emergent partial self-monitoring OR surface-feature correlation without genuine metacognition.
+
+- **Both models** achieved high accuracy (67-75%) on novel operators, demonstrating task capability. Poor calibration is not due to floor effects.
+
+- **Both models** showed 100% confident errors when wrong—no hedging, no expressions of uncertainty.
+
+**Theoretical status:** Preliminary support for pattern-matching signature, with unexpected between-model variation in calibration. The absence of novelty detection in both models (including GPT-4o despite its weak calibration) suggests that even partial calibration may not reflect genuine self-state.
 
 ### What Remains Open
 
-- Full calibration study on genuinely novel problems (Paradigm 6 from Paper 24)
-- Stakes sensitivity testing (do described stakes change behavior functionally?)
-- Error type analysis (systematic coding of conservative vs. confident errors)
-- Cross-model comparison (does scale affect pattern-matching vs. self-state signatures?)
+- Cross-model comparison with Claude and other architectures
+- Mechanism underlying GPT-4o's weak positive calibration
+- Whether any current systems exhibit the full self-state signature profile
+- Stakes sensitivity with genuine (not described) consequences
+- Larger sample sizes for error-type analysis (current N limited by high accuracy)
 
 <details>
-<summary>Detailed Empirical Results</summary>
+<summary>Additional Empirical Results</summary>
 
 **Generation-Verification Study (N=700)**
 
@@ -212,11 +218,11 @@ Task-specific asymmetries exist; mechanisms vary by task.
 |Arithmetic (GPT-4o)|88%     |90%         |66%       |
 |Logic (GPT-4o)     |66%     |60%         |58%       |
 
-Scaffolds help when addressing the task’s bottleneck; otherwise they add overhead.
+Scaffolds help when addressing the task's bottleneck; otherwise they add overhead.
 
 **Composition Type Dissociation**
 
-Pilot: d=0.71; Extended: d=0.00. Composition type alone doesn’t predict failure.
+Pilot: d=0.71; Extended: d=0.00. Composition type alone doesn't predict failure.
 
 </details>
 
@@ -256,7 +262,7 @@ Conditions affecting prefrontal function should show specific Stage 4 impairment
 |Metacognition develops gradually                 |**Established**        |Flavell (1979)          |
 |Self-state = MAINTAIN-COMPARE-UPDATE operation   |**Proposed definition**|Based on Baddeley (2000)|
 |Novelty-under-stakes drives self-state selection |**Hypothesis**         |Proposed here           |
-|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM studies             |
+|Pattern-matching shows distinct failure signature|**Preliminary support**|LLM calibration study   |
 
 -----
 
@@ -276,7 +282,7 @@ Conditions affecting prefrontal function should show specific Stage 4 impairment
 |--|-------------------------------------------------------------------------------|----------------------------|
 |1 |[Abstraction Is All You Need](papers/abstraction_is_all_you_need.md)           |Central thesis              |
 |2 |[The Computational Structure of Abstraction](papers/abstraction_defined.md)    |Formal definitions          |
-|3 |[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)     |Why compression isn’t enough|
+|3 |[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)     |Why compression isn't enough|
 |4 |[Abstraction Constrained](papers/abstraction_constrained.md)                   |Capacity limits             |
 |5 |[Prediction Requires Abstraction](papers/prediction_requires_abstraction.md)   |Relationship to prediction  |
 |6 |[Recursive Abstraction](papers/recursive_abstraction.md)                       |Stage 3 mechanics           |
@@ -329,9 +335,9 @@ Conditions affecting prefrontal function should show specific Stage 4 impairment
 
 [abstraction-intelligence](https://github.com/HillaryDanan/abstraction-intelligence) · [composition-testing](https://github.com/HillaryDanan/composition-testing) · [composition-type-dissociation](https://github.com/HillaryDanan/composition-type-dissociation) · [compositional-abstraction](https://github.com/HillaryDanan/compositional-abstraction) · [compositional-dual-process](https://github.com/HillaryDanan/compositional-dual-process) · [embeddedness-calibration](https://github.com/HillaryDanan/embeddedness-calibration) · [emergent-factorization](https://github.com/HillaryDanan/emergent-factorization) · [reasoning-in-vacuum](https://github.com/HillaryDanan/reasoning-in-vacuum) · [scaffolding-asymmetry](https://github.com/HillaryDanan/scaffolding-asymmetry)
 
-### 🔬 Verification Studies
+### 🔬 Verification & Calibration Studies
 
-[verification-deficit-replication](https://github.com/HillaryDanan/verification-deficit-replication) · [verification-prompt-variants](https://github.com/HillaryDanan/verification-prompt-variants)
+[verification-deficit-replication](https://github.com/HillaryDanan/verification-deficit-replication) · [verification-prompt-variants](https://github.com/HillaryDanan/verification-prompt-variants) · [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)
 
 ### 🔄 Self-Reference
 
@@ -389,7 +395,7 @@ Conant, R. C., & Ashby, W. R. (1970). Every good regulator of a system must be a
 
 Cowan, N. (2001). The magical number 4 in short-term memory: A reconsideration of mental storage capacity. *Behavioral and Brain Sciences*, 24(1), 87-114.
 
-Curtis, C. E., & D’Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
+Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
 Dennett, D. C. (1991). *Consciousness Explained*. Little, Brown and Company.
 
@@ -431,4 +437,4 @@ Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large la
 
 -----
 
-*“Abstraction is all you need ;)”*
+*"Abstraction is all you need ;)"*
