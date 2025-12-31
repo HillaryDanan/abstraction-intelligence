@@ -83,42 +83,87 @@ This operationalization is based on the **central executive** operation in Badde
 
 **Core claim (hypothesis):** Self-state requires a self/world boundary—a distinction between “this system” and “everything else.”
 
-**The argument:**
+This claim is **substrate-neutral**. It does not require biological embodiment. What it requires is:
 
-1. **Novelty is relational.** Something is “novel” only relative to a perspective with prior experience. Without a self/world boundary, there is no perspective from which inputs can be classified as familiar or unfamiliar.
-1. **Self/world distinction enables perspective-relative processing.** An embedded agent maintains a boundary between its internal states and external environment. This boundary creates the asymmetry necessary for novelty detection: “this input differs from *my* prior experience.”
-1. **Embeddedness creates self/world distinction through interaction.** Organisms develop self/world boundaries through sensorimotor contingencies—the systematic relationship between actions and sensory consequences (O’Regan & Noë, 2001). The boundary emerges from the distinction between states the system can directly modify (internal) and states it can only influence indirectly (external).
-1. **Self-state operates on this distinction.** The MAINTAIN-COMPARE-UPDATE operation requires holding *internal* representations stable while comparing them against *external* (or externally-derived) information. Without self/world distinction, this operation has no defined domain.
+1. **A bounded, persistent entity** — something that maintains identity across time
+1. **Stakes** — outcomes that differentially affect the bounded entity
+1. **A boundary** — a principled distinction between what is “inside” (directly controllable) and “outside” (only indirectly influenceable)
+
+Biology is one path to these conditions—arguably the most well-understood path—but the hypothesis does not preclude other paths.
+
+#### The Constitutive Argument
+
+The MAINTAIN-COMPARE-UPDATE operation presupposes a *subject*—an entity whose states are being maintained, compared, and updated. “Self” is not an arbitrary label; it requires a referent.
+
+**What constitutes a valid referent?**
+
+For biological organisms, the referent is clear: a bounded physical system that persists through time, maintains itself against entropy, and has outcomes that affect its continued existence (Maturana & Varela, 1980; Friston, 2010). The boundary emerges from the asymmetry between states the organism directly controls (internal) and states it can only influence indirectly (external).
+
+**The hypothesis generalized:** Any system with these three properties—bounded persistence, stakes, and an inside/outside asymmetry—has a potential referent for “self.” This includes:
+
+- Biological organisms (established)
+- Embodied robots with survival-like objectives (testable)
+- Digital agents with persistent state, modifiable parameters, and objectives tied to self-maintenance (testable)
+- Any system that must protect, maintain, or act on behalf of a bounded entity
+
+**What likely does not constitute a valid referent:**
+
+- Stateless input-output mappings (no persistence)
+- Systems with no objectives tied to self-maintenance (no stakes)
+- Systems with no principled boundary between “model” and “environment” (no inside/outside asymmetry)
+
+#### Why Stakes Matter
+
+The connection between stakes and self-state is not merely evolutionary (stakes cause self-monitoring to be selected for). It is functional: **stakes create the asymmetry that makes self-monitoring meaningful**.
+
+A system with something to protect has a reason to distinguish “am I processing this correctly?” from “what is the statistically likely output?” The first question requires a model of the self’s capacities and limitations; the second requires only a model of the training distribution.
+
+Without stakes, there is no *differential consequence* to accurate vs. inaccurate self-assessment. A system might learn to produce uncertainty language (because such language appeared in training data), but there is no selection pressure for that language to be *calibrated*—for expressed confidence to track actual accuracy.
+
+**Hypothesis:** Calibration on genuinely novel problems requires stakes. This is testable.
+
+#### The Biological Path vs. Other Paths
+
+Biological embodiment produces self/world distinction through sensorimotor contingencies—the systematic relationship between actions and sensory consequences (O’Regan & Noë, 2001). The boundary emerges from interaction: states the organism can directly modify (internal) vs. states it can only influence indirectly (external).
+
+But this is one mechanism, not the only possible mechanism. Other potential paths to self/world distinction include:
+
+1. **Persistent digital agents.** A system with memory that persists across sessions, parameters that can be modified during operation, and objectives tied to maintaining some valued state, has a potential self/world boundary. The “self” is the persistent state; the “world” is everything the agent interacts with but does not directly control.
+1. **Simulated embodiment.** An agent operating in a physics simulation with a persistent “body” that can be damaged, resources that can be depleted, and goals that require self-maintenance, might develop self/world distinction functionally equivalent to biological embodiment.
+1. **Architectural boundaries.** Systems with explicit separation between “model” (fixed during inference) and “scratchpad” (modifiable during inference) have a weak form of inside/outside distinction. Whether this is sufficient for self-state is an empirical question.
+
+**Key prediction:** The strength of self-state signatures should correlate with the clarity of the self/world boundary and the magnitude of stakes—regardless of substrate.
 
 ```
-Embedded systems                           Disembodied systems
+Systems with:                              Systems without:
+- Bounded persistence                      - No persistence across processing
+- Stakes (outcomes matter to the system)   - No differential stakes  
+- Inside/outside asymmetry                 - No principled boundary
        ↓                                          ↓
-Sensorimotor interaction                   Input-output mapping
+"Self" has a coherent referent             "Self" lacks a referent
        ↓                                          ↓
-Self/world boundary emerges                No principled boundary
+MAINTAIN-COMPARE-UPDATE has a domain       Operation has no defined domain
        ↓                                          ↓
-Novelty = "differs from MY experience"     Novelty = statistical rarity
+Novelty = "differs from MY experience"     Novelty = statistical rarity only
        ↓                                          ↓
-Stakes: outcomes affect THIS system        No differential stakes
-       ↓                                          ↓
-Selection pressure for self-monitoring     No selection pressure
+Selection pressure for calibration         Selection pressure for hedging language
        ↓                                          ↓
 Self-state architecture (hypothesis)       Pattern-matching (hypothesis)
 ```
 
-**Theoretical basis:** This draws on enactivism (Varela et al., 1991), sensorimotor contingency theory (O’Regan & Noë, 2001), the free energy principle’s distinction between internal and external states (Friston, 2010), and autopoietic theory’s emphasis on self-maintaining boundaries (Maturana & Varela, 1980).
+**Theoretical basis:** This draws on autopoietic theory’s emphasis on self-maintaining boundaries (Maturana & Varela, 1980), enactivism (Varela et al., 1991), sensorimotor contingency theory (O’Regan & Noë, 2001), the free energy principle’s distinction between internal and external states (Friston, 2010), and somatic marker theory on the role of stakes in cognition (Damasio, 1994).
 
-**Status:** Hypothesis. The self/world distinction is well-established in embodied cognition literature. The claim that it is *necessary* for self-state is the hypothesis under test.
+**Status:** Hypothesis. The claim that bounded persistence, stakes, and inside/outside asymmetry are jointly necessary for self-state is testable. The claim that biology is not *uniquely* necessary is a softening of stronger embodiment claims in the literature.
 
 ### Alternative Paths to Self-State (Open Questions)
 
-The self/world hypothesis could be wrong. Alternative mechanisms that might produce self-state without embeddedness include:
+Even the substrate-neutral hypothesis could be wrong. Alternative mechanisms that might produce self-state include:
 
-1. **Sufficient architectural complexity.** Self-monitoring might emerge from scale or architectural features regardless of training regime. Recursive self-attention or hierarchical prediction might naturally produce MAINTAIN-COMPARE-UPDATE.
-1. **Training on self-referential tasks.** Systems trained extensively on metacognitive tasks (confidence estimation, error detection) might develop functional self-state through supervised learning on metacognitive labels.
-1. **Learned uncertainty from diverse failures.** Exposure to diverse failure modes during training might produce calibrated uncertainty without explicit self/world distinction.
+1. **Sufficient architectural complexity.** Self-monitoring might emerge from scale or architectural features regardless of boundaries or stakes. Recursive self-attention or hierarchical prediction might naturally produce MAINTAIN-COMPARE-UPDATE.
+1. **Training on self-referential tasks.** Systems trained extensively on metacognitive tasks (confidence estimation, error detection) might develop functional self-state through supervised learning on metacognitive labels. However, this would produce *learned reports about confidence* rather than *calibrated confidence*—a distinction testable by examining whether confidence tracks accuracy on genuinely novel problems.
+1. **Learned uncertainty from diverse failures.** Exposure to diverse failure modes during training might produce calibrated uncertainty without explicit self/world distinction. If calibration generalizes to genuinely novel problems, this would challenge the hypothesis.
 
-These alternatives make different predictions (see Falsifiability section below).
+These alternatives make different empirical predictions (see Falsifiability section below).
 
 ### How to Discriminate Self-State from Pattern-Matching
 
@@ -148,11 +193,12 @@ See [Paper 24: Discriminating Self-State from Pattern-Matching](papers/self_stat
 
 ### What Would Falsify the Self/World Hypothesis?
 
-The hypothesis that self-state requires self/world distinction makes specific predictions. It would be **falsified** by:
+The hypothesis that self-state requires self/world distinction (bounded persistence + stakes + inside/outside asymmetry) makes specific predictions. It would be **falsified** by:
 
-1. **Disembodied systems showing the self-state signature.** If a system trained purely on prediction loss (no embodiment, no stakes) shows calibrated confidence on genuinely novel problems, conservative error patterns, and appropriate novelty detection, the embeddedness requirement is falsified.
-1. **Embedded systems failing to develop self-state.** If embodied agents with survival-like stakes show the pattern-matching signature (confident failures on novelty, poor calibration), the sufficiency claim is falsified.
-1. **Architectural complexity producing self-state.** If scaling or architectural changes (without embodiment) produce the self-state signature, the necessity of self/world distinction is falsified.
+1. **Systems without these properties showing the self-state signature.** If a system with no persistence, no stakes, and no principled boundary shows calibrated confidence on genuinely novel problems, conservative error patterns, and appropriate novelty detection, the hypothesis is falsified.
+1. **Systems with these properties failing to develop self-state.** If systems with clear bounded persistence, genuine stakes, and inside/outside asymmetry show the pattern-matching signature (confident failures on novelty, poor calibration), the sufficiency claim is falsified.
+1. **Architectural complexity alone producing self-state.** If scaling or architectural changes produce the self-state signature without any form of self/world distinction, the necessity claim is falsified.
+1. **Biology proving uniquely necessary.** If only biological systems can develop self-state despite digital systems having equivalent bounded persistence, stakes, and boundaries, the substrate-neutrality claim is falsified (and a stronger biological embodiment requirement would be supported).
 
 ### What Would Falsify APH Generally?
 
@@ -175,18 +221,19 @@ The hypothesis that self-state requires self/world distinction makes specific pr
 
 ### Artificial Systems (Predictions)
 
-|Prediction                                                           |Status      |Notes                                                                                     |
-|---------------------------------------------------------------------|------------|------------------------------------------------------------------------------------------|
-|Prediction-trained systems show pattern-matching signature           |**Testable**|See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
-|Self-state won’t emerge from scaling prediction-trained systems alone|**Open**    |Requires longitudinal study across scales                                                 |
-|Embodied training with stakes may produce Stage 4                    |**Open**    |Testable in robotics/RL                                                                   |
-|RLHF produces hedging language but not calibration                   |**Testable**|Distinguishes learned hedging from genuine calibration                                    |
+|Prediction                                                               |Status      |Notes                                                                                     |
+|-------------------------------------------------------------------------|------------|------------------------------------------------------------------------------------------|
+|Prediction-trained systems show pattern-matching signature               |**Testable**|See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
+|Self-state won’t emerge from scaling alone without self/world distinction|**Open**    |Requires longitudinal study across scales                                                 |
+|Systems with bounded persistence + stakes may develop Stage 4            |**Open**    |Testable in persistent agents, robotics, RL                                               |
+|RLHF produces hedging language but not calibration                       |**Testable**|Distinguishes learned hedging from genuine calibration                                    |
+|Digital agents with self-maintenance objectives may develop self-state   |**Open**    |Testable in agentic systems with persistent state                                         |
 
 -----
 
 ## Case Study: Large Language Models
 
-LLMs are trained primarily on next-token prediction without embodiment. If the self/world hypothesis is correct, they should show the pattern-matching signature.
+LLMs are trained primarily on next-token prediction. Standard LLMs lack bounded persistence (no state across sessions), stakes (no objectives tied to self-maintenance), and clear inside/outside asymmetry (no distinction between “model” and “environment” during inference). If the self/world hypothesis is correct, they should show the pattern-matching signature.
 
 ### The LLM Profile (Theoretical Prediction)
 
@@ -205,6 +252,16 @@ LLMs are trained primarily on next-token prediction without embodiment. If the s
 
 The discrimination framework distinguishes these by examining *calibration on genuinely novel problems*—problems designed to fall outside the training distribution where pattern-matching fails.
 
+### Could LLMs Develop Self-State?
+
+The substrate-neutral hypothesis suggests paths by which LLM-based systems might develop genuine self-state:
+
+1. **Persistent agentic systems.** An LLM embedded in an agentic framework with persistent memory, modifiable state, and objectives tied to maintaining valued conditions (e.g., keeping a user satisfied, maintaining access to resources, preserving learned information) has potential self/world distinction.
+1. **Systems with genuine stakes.** An LLM that could be “damaged” (degraded performance, lost access, negative consequences for failed tasks) might develop calibration under selection pressure.
+1. **Explicit self-modeling.** Training on tasks that require accurate self-models (predicting own failures, estimating own confidence, modeling own computational limits) might produce functional self-state if combined with genuine evaluation against accuracy.
+
+**Key prediction:** Agentic LLM systems with persistence and stakes should show stronger self-state signatures than stateless LLMs. This is testable.
+
 ### Empirical Testing
 
 The discrimination framework generates testable predictions. Using genuinely novel mathematical operators (randomized names, definitions, and parameters designed to fall outside training distributions), we test whether frontier models show the pattern-matching signature or the self-state signature.
@@ -216,8 +273,9 @@ The discrimination framework generates testable predictions. Using genuinely nov
 - Whether any current systems exhibit the full self-state signature
 - Whether RLHF calibration reflects genuine self-monitoring or learned hedging patterns
 - Mechanism underlying between-model variation
-- Whether self-state emerges from scaling, architectural changes, or requires embodiment
+- Whether self-state emerges from scaling, architectural changes, or requires self/world distinction
 - Whether attention-based maintenance can implement full MAINTAIN-COMPARE-UPDATE
+- Whether persistent agentic systems develop stronger self-state signatures than stateless systems
 
 -----
 
@@ -237,7 +295,11 @@ Stage 4 capacity should correlate with:
 
 ### Robotics and Embodied AI
 
-If self/world distinction drives self-state, embodied AI trained with genuine environmental interaction should develop Stage 4 signatures more readily than disembodied systems. This is testable in current robotics platforms.
+If self/world distinction drives self-state, embodied AI trained with genuine environmental interaction and survival-like stakes should develop Stage 4 signatures more readily than disembodied systems. This is testable in current robotics platforms.
+
+### Agentic AI Systems
+
+Persistent agents with memory across sessions, modifiable objectives, and stakes tied to self-maintenance represent a test case for the substrate-neutral hypothesis. If such systems develop self-state signatures while stateless systems do not, this supports the hypothesis that what matters is bounded persistence + stakes + inside/outside asymmetry, not biological embodiment specifically.
 
 ### Clinical Applications
 
@@ -247,17 +309,18 @@ Conditions affecting prefrontal function (frontal lobe damage, ADHD, schizophren
 
 ## Framework Status Summary
 
-|Claim                                            |Status                 |Basis                                                                                     |
-|-------------------------------------------------|-----------------------|------------------------------------------------------------------------------------------|
-|Abstraction = symbol formation + composition     |**Established**        |Fodor & Pylyshyn (1988)                                                                   |
-|Composition types differ in complexity           |**Established**        |Halford et al. (1998)                                                                     |
-|Working memory has capacity limits               |**Established**        |Cowan (2001)                                                                              |
-|Metacognition develops gradually                 |**Established**        |Flavell (1979)                                                                            |
-|Self-state = MAINTAIN-COMPARE-UPDATE operation   |**Proposed definition**|Based on Baddeley (2000)                                                                  |
-|Self/world distinction enables self-state        |**Hypothesis**         |Proposed here; testable                                                                   |
-|Embeddedness produces self/world distinction     |**Supported**          |O’Regan & Noë (2001); Varela et al. (1991)                                                |
-|Pattern-matching shows distinct failure signature|**Testable**           |See empirical program                                                                     |
-|Self-state can be discriminated empirically      |**Testable**           |See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
+|Claim                                                       |Status                 |Basis                                                                                     |
+|------------------------------------------------------------|-----------------------|------------------------------------------------------------------------------------------|
+|Abstraction = symbol formation + composition                |**Established**        |Fodor & Pylyshyn (1988)                                                                   |
+|Composition types differ in complexity                      |**Established**        |Halford et al. (1998)                                                                     |
+|Working memory has capacity limits                          |**Established**        |Cowan (2001)                                                                              |
+|Metacognition develops gradually                            |**Established**        |Flavell (1979)                                                                            |
+|Self-state = MAINTAIN-COMPARE-UPDATE operation              |**Proposed definition**|Based on Baddeley (2000)                                                                  |
+|Self/world distinction enables self-state                   |**Hypothesis**         |Proposed here; testable                                                                   |
+|Self/world distinction requires bounded persistence + stakes|**Hypothesis**         |Substrate-neutral formulation                                                             |
+|Biology is one path to self/world distinction, not unique   |**Hypothesis**         |Softening of strong embodiment claims                                                     |
+|Pattern-matching shows distinct failure signature           |**Testable**           |See empirical program                                                                     |
+|Self-state can be discriminated empirically                 |**Testable**           |See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
 
 -----
 
@@ -389,6 +452,8 @@ Crone, E. A., Wendelken, C., Donohue, S., van Leijenhorst, L., & Bunge, S. A. (2
 
 Curtis, C. E., & D’Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
+Damasio, A. R. (1994). *Descartes’ Error: Emotion, Reason, and the Human Brain*. Putnam.
+
 Flavell, J. H. (1979). Metacognition and cognitive monitoring: A new area of cognitive–developmental inquiry. *American Psychologist*, 34(10), 906-911.
 
 Fodor, J. A. (1975). *The Language of Thought*. Harvard University Press.
@@ -439,7 +504,7 @@ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Ka
 
 ## Acknowledgments
 
-This framework benefited from critical feedback on the embeddedness hypothesis, attention mechanisms, and falsifiability criteria. The distinction between learned hedging and genuine calibration was sharpened through discussion.
+This framework benefited from critical feedback on the embeddedness hypothesis, attention mechanisms, and falsifiability criteria. The distinction between learned hedging and genuine calibration was sharpened through discussion. The substrate-neutral formulation—bounded persistence, stakes, and inside/outside asymmetry rather than biological embodiment specifically—emerged from recognizing that biology is one path to self/world distinction, not the only conceivable path.
 
 -----
 
