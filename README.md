@@ -26,6 +26,23 @@ This claim builds on established cognitive science: symbolic representation in r
 
 -----
 
+## Empirical Foundations: The Neural Self/World Axis
+
+The self/world distinction at the heart of APH was not derived theoretically—it was first observed empirically in neural data.
+
+Using fMRI and representational similarity analysis (RSA), [Danan (2021)](https://drive.google.com/file/d/1w1hma5pPEDu-sc1rg6mV11OgzYDixBQe/view?usp=sharing) demonstrated that abstract concepts organize along an **internal-to-self** (emotion, morality, thought, social) versus **external-to-self** (space, time, quantity) dimension in the human brain. The internal dimension maps onto the default mode network (DMN)—a network defined by self-referential processing *decoupled from sensory input*—while the external dimension engages task-positive regions tied to perception and action.
+
+In autism (ASD), this organization breaks down in a specific way: concrete/perceptual processing regions (thalamus, ventral anterior temporal lobe) are recruited for tasks that should engage abstract, self-referential networks. The concrete semantic network *over-extends* into abstract space. This is a neural instantiation of what APH would describe as Stages 1–3 operating without full Stage 4 oversight—the system falls back to available pattern-matching resources when self-referential processing is needed.
+
+This finding has since converged with AI research. Xu et al. (2025, *Nature Human Behaviour*) showed that LLMs align best with human representations on non-sensorimotor features (the internal dimension) and worst on motor features (the concrete dimension)—exactly the pattern predicted by a framework in which internal/self-referential concepts are neurally processed in networks decoupled from sensory input, and therefore most recoverable from language statistics alone.
+
+Two working papers develop these connections:
+
+- **[Paper 25: The Mechanistic Inversion](papers/mechanistic_inversion.md)** — ASD and LLMs fail at abstract social cognition through opposite mechanisms (too much concrete grounding vs. none at all), converging on evidence that abstract social cognition is computationally difficult independent of substrate.
+- **[Paper 26: Testing the Internal/External Axis in LLMs](papers/internal_external_axis_LLMs.md)** — Proposes applying the 14-feature semantic model and RSA directly to LLM hidden states to test whether transformers develop the three-factor structure (internal, external, concrete) found in human brains.
+
+-----
+
 ## Two Orthogonal Dimensions: Developmental Stages and Composition Types
 
 The framework distinguishes **how abstract** (developmental stages) from **what kind of composition** (composition types). These are related but orthogonal.
@@ -45,9 +62,9 @@ See [Paper 7: The Developmental Spectrum](papers/abstraction_developmental_spect
 
 |Type                |Structure                  |Example                                |Required Stage|
 |--------------------|---------------------------|---------------------------------------|--------------|
-|**A: Concatenative**|A + B → AB                 |“blue bird”                            |Stage 2       |
+|**A: Concatenative**|A + B → AB                 |"blue bird"                            |Stage 2       |
 |**B: Role-filler**  |R(x) + S(y) → R(x)S(y)     |AGENT(dog) + ACTION(chased)            |Stage 2       |
-|**C: Recursive**    |A contains [B contains C]  |“The dog [that chased the cat [that…]]”|Stage 3       |
+|**C: Recursive**    |A contains [B contains C]  |"The dog [that chased the cat [that…]]"|Stage 3       |
 |**D: Analogical**   |Structure(X) → Structure(Y)|atom:nucleus :: solar system:sun       |Stage 3       |
 
 This taxonomy draws on Halford et al. (1998) on relational complexity and Gentner (1983) on analogical mapping.
@@ -72,7 +89,7 @@ Where:
 - **COMPARE**: Evaluate the held representation against incoming information or generated output
 - **UPDATE**: Modify the held representation based on comparison result
 
-This operationalization is based on the **central executive** operation in Baddeley’s (2000) working memory model. It is distinct from:
+This operationalization is based on the **central executive** operation in Baddeley's (2000) working memory model. It is distinct from:
 
 - **Storage**: Passive retention (no active comparison)
 - **Metacognition**: The *content* of self-knowledge (self-state is the *mechanism*)
@@ -81,25 +98,27 @@ This operationalization is based on the **central executive** operation in Badde
 
 ### The Self/World Distinction Hypothesis
 
-**Core claim (hypothesis):** Self-state requires a self/world boundary—a distinction between “this system” and “everything else.”
+**Core claim (hypothesis):** Self-state requires a self/world boundary—a distinction between "this system" and "everything else."
 
 This claim is **substrate-neutral**. It does not require biological embodiment. What it requires is:
 
 1. **A bounded, persistent entity** — something that maintains identity across time
 1. **Stakes** — outcomes that differentially affect the bounded entity
-1. **A boundary** — a principled distinction between what is “inside” (directly controllable) and “outside” (only indirectly influenceable)
+1. **A boundary** — a principled distinction between what is "inside" (directly controllable) and "outside" (only indirectly influenceable)
 
 Biology is one path to these conditions—arguably the most well-understood path—but the hypothesis does not preclude other paths.
 
+**Neural evidence:** The self/world distinction is not only a theoretical construct. fMRI evidence demonstrates that the human brain organizes semantic content along an internal-to-self vs. external-to-self axis, with the internal dimension processed in DMN regions (dmPFC, PCC, angular gyrus) that are functionally decoupled from sensory input (Danan, 2021). When this organization is atypical—as in ASD—concrete/perceptual regions compensate for abstract/self-referential processing, producing characteristic difficulties with figurative language and social inference. See [Paper 25](papers/mechanistic_inversion.md) for full treatment.
+
 #### The Constitutive Argument
 
-The MAINTAIN-COMPARE-UPDATE operation presupposes a *subject*—an entity whose states are being maintained, compared, and updated. “Self” is not an arbitrary label; it requires a referent.
+The MAINTAIN-COMPARE-UPDATE operation presupposes a *subject*—an entity whose states are being maintained, compared, and updated. "Self" is not an arbitrary label; it requires a referent.
 
 **What constitutes a valid referent?**
 
 For biological organisms, the referent is clear: a bounded physical system that persists through time, maintains itself against entropy, and has outcomes that affect its continued existence (Maturana & Varela, 1980; Friston, 2010). The boundary emerges from the asymmetry between states the organism directly controls (internal) and states it can only influence indirectly (external).
 
-**The hypothesis generalized:** Any system with these three properties—bounded persistence, stakes, and an inside/outside asymmetry—has a potential referent for “self.” This includes:
+**The hypothesis generalized:** Any system with these three properties—bounded persistence, stakes, and an inside/outside asymmetry—has a potential referent for "self." This includes:
 
 - Biological organisms (established)
 - Embodied robots with survival-like objectives (testable)
@@ -110,13 +129,13 @@ For biological organisms, the referent is clear: a bounded physical system that 
 
 - Stateless input-output mappings (no persistence)
 - Systems with no objectives tied to self-maintenance (no stakes)
-- Systems with no principled boundary between “model” and “environment” (no inside/outside asymmetry)
+- Systems with no principled boundary between "model" and "environment" (no inside/outside asymmetry)
 
 #### Why Stakes Matter
 
 The connection between stakes and self-state is not merely evolutionary (stakes cause self-monitoring to be selected for). It is functional: **stakes create the asymmetry that makes self-monitoring meaningful**.
 
-A system with something to protect has a reason to distinguish “am I processing this correctly?” from “what is the statistically likely output?” The first question requires a model of the self’s capacities and limitations; the second requires only a model of the training distribution.
+A system with something to protect has a reason to distinguish "am I processing this correctly?" from "what is the statistically likely output?" The first question requires a model of the self's capacities and limitations; the second requires only a model of the training distribution.
 
 Without stakes, there is no *differential consequence* to accurate vs. inaccurate self-assessment. A system might learn to produce uncertainty language (because such language appeared in training data), but there is no selection pressure for that language to be *calibrated*—for expressed confidence to track actual accuracy.
 
@@ -124,13 +143,13 @@ Without stakes, there is no *differential consequence* to accurate vs. inaccurat
 
 #### The Biological Path vs. Other Paths
 
-Biological embodiment produces self/world distinction through sensorimotor contingencies—the systematic relationship between actions and sensory consequences (O’Regan & Noë, 2001). The boundary emerges from interaction: states the organism can directly modify (internal) vs. states it can only influence indirectly (external).
+Biological embodiment produces self/world distinction through sensorimotor contingencies—the systematic relationship between actions and sensory consequences (O'Regan & Noë, 2001). The boundary emerges from interaction: states the organism can directly modify (internal) vs. states it can only influence indirectly (external).
 
 But this is one mechanism, not the only possible mechanism. Other potential paths to self/world distinction include:
 
-1. **Persistent digital agents.** A system with memory that persists across sessions, parameters that can be modified during operation, and objectives tied to maintaining some valued state, has a potential self/world boundary. The “self” is the persistent state; the “world” is everything the agent interacts with but does not directly control.
-1. **Simulated embodiment.** An agent operating in a physics simulation with a persistent “body” that can be damaged, resources that can be depleted, and goals that require self-maintenance, might develop self/world distinction functionally equivalent to biological embodiment.
-1. **Architectural boundaries.** Systems with explicit separation between “model” (fixed during inference) and “scratchpad” (modifiable during inference) have a weak form of inside/outside distinction. Whether this is sufficient for self-state is an empirical question.
+1. **Persistent digital agents.** A system with memory that persists across sessions, parameters that can be modified during operation, and objectives tied to maintaining some valued state, has a potential self/world boundary. The "self" is the persistent state; the "world" is everything the agent interacts with but does not directly control.
+1. **Simulated embodiment.** An agent operating in a physics simulation with a persistent "body" that can be damaged, resources that can be depleted, and goals that require self-maintenance, might develop self/world distinction functionally equivalent to biological embodiment.
+1. **Architectural boundaries.** Systems with explicit separation between "model" (fixed during inference) and "scratchpad" (modifiable during inference) have a weak form of inside/outside distinction. Whether this is sufficient for self-state is an empirical question.
 
 **Key prediction:** The strength of self-state signatures should correlate with the clarity of the self/world boundary and the magnitude of stakes—regardless of substrate.
 
@@ -151,7 +170,7 @@ Selection pressure for calibration         Selection pressure for hedging langua
 Self-state architecture (hypothesis)       Pattern-matching (hypothesis)
 ```
 
-**Theoretical basis:** This draws on autopoietic theory’s emphasis on self-maintaining boundaries (Maturana & Varela, 1980), enactivism (Varela et al., 1991), sensorimotor contingency theory (O’Regan & Noë, 2001), the free energy principle’s distinction between internal and external states (Friston, 2010), and somatic marker theory on the role of stakes in cognition (Damasio, 1994).
+**Theoretical basis:** This draws on autopoietic theory's emphasis on self-maintaining boundaries (Maturana & Varela, 1980), enactivism (Varela et al., 1991), sensorimotor contingency theory (O'Regan & Noë, 2001), the free energy principle's distinction between internal and external states (Friston, 2010), and somatic marker theory on the role of stakes in cognition (Damasio, 1994).
 
 **Status:** Hypothesis. The claim that bounded persistence, stakes, and inside/outside asymmetry are jointly necessary for self-state is testable. The claim that biology is not *uniquely* necessary is a softening of stronger embodiment claims in the literature.
 
@@ -176,7 +195,7 @@ The critical question: How do we distinguish genuine self-state from sophisticat
 |Signature            |Self-State Prediction                        |Pattern-Matching Prediction                   |
 |---------------------|---------------------------------------------|----------------------------------------------|
 |**Novelty detection**|Confidence drops on novel problems           |Uniform confidence (novelty-blind)            |
-|**Error types**      |Conservative errors (hedging, “I don’t know”)|Confident errors (confabulation)              |
+|**Error types**      |Conservative errors (hedging, "I don't know")|Confident errors (confabulation)              |
 |**Calibration**      |Confidence tracks accuracy on novel problems |Confidence-accuracy uncorrelated on novelty   |
 |**Capacity limits**  |Gradual degradation at limits                |Sharp failure at distribution boundary        |
 |**Interference**     |Similarity-based (like items compete)        |Semantic blending without systematic structure|
@@ -215,7 +234,7 @@ The hypothesis that self-state requires self/world distinction (bounded persiste
 |Prediction                                   |Status       |Evidence                                                    |
 |---------------------------------------------|-------------|------------------------------------------------------------|
 |Stage 4 develops later than Stages 1–3       |**Supported**|Developmental trajectory (Flavell, 1979; Kuhn, 2000)        |
-|Stage 4 correlates with prefrontal maturation|**Supported**|Neuroimaging (Curtis & D’Esposito, 2003; Crone et al., 2006)|
+|Stage 4 correlates with prefrontal maturation|**Supported**|Neuroimaging (Curtis & D'Esposito, 2003; Crone et al., 2006)|
 |Stage 4 impaired by working memory load      |**Supported**|Dual-task interference (Baddeley, 1992)                     |
 |Novel situations trigger distinct processing |**Supported**|Orienting response, ACC activation (Botvinick et al., 2001) |
 
@@ -224,7 +243,7 @@ The hypothesis that self-state requires self/world distinction (bounded persiste
 |Prediction                                                               |Status      |Notes                                                                                     |
 |-------------------------------------------------------------------------|------------|------------------------------------------------------------------------------------------|
 |Prediction-trained systems show pattern-matching signature               |**Testable**|See [self-state-discrimination](https://github.com/HillaryDanan/self-state-discrimination)|
-|Self-state won’t emerge from scaling alone without self/world distinction|**Open**    |Requires longitudinal study across scales                                                 |
+|Self-state won't emerge from scaling alone without self/world distinction|**Open**    |Requires longitudinal study across scales                                                 |
 |Systems with bounded persistence + stakes may develop Stage 4            |**Open**    |Testable in persistent agents, robotics, RL                                               |
 |RLHF produces hedging language but not calibration                       |**Testable**|Distinguishes learned hedging from genuine calibration                                    |
 |Digital agents with self-maintenance objectives may develop self-state   |**Open**    |Testable in agentic systems with persistent state                                         |
@@ -233,7 +252,7 @@ The hypothesis that self-state requires self/world distinction (bounded persiste
 
 ## Case Study: Large Language Models
 
-LLMs are trained primarily on next-token prediction. Standard LLMs lack bounded persistence (no state across sessions), stakes (no objectives tied to self-maintenance), and clear inside/outside asymmetry (no distinction between “model” and “environment” during inference). If the self/world hypothesis is correct, they should show the pattern-matching signature.
+LLMs are trained primarily on next-token prediction. Standard LLMs lack bounded persistence (no state across sessions), stakes (no objectives tied to self-maintenance), and clear inside/outside asymmetry (no distinction between "model" and "environment" during inference). If the self/world hypothesis is correct, they should show the pattern-matching signature.
 
 ### The LLM Profile (Theoretical Prediction)
 
@@ -252,12 +271,14 @@ LLMs are trained primarily on next-token prediction. Standard LLMs lack bounded 
 
 The discrimination framework distinguishes these by examining *calibration on genuinely novel problems*—problems designed to fall outside the training distribution where pattern-matching fails.
 
+**Convergent evidence from neuroscience:** LLMs show a behavioral profile that mirrors ASD in specific ways—difficulty with figurative language, fragile theory of mind, reliance on surface heuristics for social reasoning—but through the *opposite* representational mechanism. ASD over-recruits concrete/perceptual processing; LLMs have no perceptual processing at all. Both arrive at similar failures because abstract social cognition is computationally difficult independent of substrate. See [Paper 25](papers/mechanistic_inversion.md) for the full mechanistic inversion argument.
+
 ### Could LLMs Develop Self-State?
 
 The substrate-neutral hypothesis suggests paths by which LLM-based systems might develop genuine self-state:
 
 1. **Persistent agentic systems.** An LLM embedded in an agentic framework with persistent memory, modifiable state, and objectives tied to maintaining valued conditions (e.g., keeping a user satisfied, maintaining access to resources, preserving learned information) has potential self/world distinction.
-1. **Systems with genuine stakes.** An LLM that could be “damaged” (degraded performance, lost access, negative consequences for failed tasks) might develop calibration under selection pressure.
+1. **Systems with genuine stakes.** An LLM that could be "damaged" (degraded performance, lost access, negative consequences for failed tasks) might develop calibration under selection pressure.
 1. **Explicit self-modeling.** Training on tasks that require accurate self-models (predicting own failures, estimating own confidence, modeling own computational limits) might produce functional self-state if combined with genuine evaluation against accuracy.
 
 **Key prediction:** Agentic LLM systems with persistence and stakes should show stronger self-state signatures than stateless LLMs. This is testable.
@@ -305,6 +326,8 @@ Persistent agents with memory across sessions, modifiable objectives, and stakes
 
 Conditions affecting prefrontal function (frontal lobe damage, ADHD, schizophrenia) should show specific Stage 4 impairments (confident errors, poor novelty detection) while preserving Stages 1–3. Preliminary evidence supports this pattern (Shallice & Burgess, 1991; Lysaker et al., 2005).
 
+**ASD as a case study:** The neural evidence from Danan (2021) suggests ASD involves atypical Stage 4 with preserved Stages 1–3—concrete/perceptual processing compensates when self-referential abstract networks should be engaged. APH predicts that ASD should show the *pattern-matching failure signature* (confident errors rather than calibrated uncertainty) specifically on novel abstract social tasks. This prediction is testable and, to our knowledge, has not been examined through this lens. See [Paper 25](papers/mechanistic_inversion.md).
+
 -----
 
 ## Framework Status Summary
@@ -315,6 +338,9 @@ Conditions affecting prefrontal function (frontal lobe damage, ADHD, schizophren
 |Composition types differ in complexity                      |**Established**        |Halford et al. (1998)                                                                     |
 |Working memory has capacity limits                          |**Established**        |Cowan (2001)                                                                              |
 |Metacognition develops gradually                            |**Established**        |Flavell (1979)                                                                            |
+|Internal/external semantic axis maps onto DMN/TPN           |**Empirical**          |Danan (2021); Troche et al. (2017)                                                        |
+|ASD shows concrete over-extension into abstract space       |**Empirical**          |Danan (2021)                                                                              |
+|LLMs recover internal > external > concrete features        |**Empirical**          |Xu et al. (2025)                                                                          |
 |Self-state = MAINTAIN-COMPARE-UPDATE operation              |**Proposed definition**|Based on Baddeley (2000)                                                                  |
 |Self/world distinction enables self-state                   |**Hypothesis**         |Proposed here; testable                                                                   |
 |Self/world distinction requires bounded persistence + stakes|**Hypothesis**         |Substrate-neutral formulation                                                             |
@@ -326,13 +352,23 @@ Conditions affecting prefrontal function (frontal lobe damage, ADHD, schizophren
 
 ## Papers
 
+### Empirical Foundations (25–26)
+
+These papers ground APH in neural evidence from the [doctoral dissertation](https://drive.google.com/file/d/1w1hma5pPEDu-sc1rg6mV11OgzYDixBQe/view?usp=sharing) (Danan [Levinson], 2021), bridging cognitive neuroscience of abstract semantics with current AI/LLM research.
+
+|# |Paper                                                                                                            |Focus                                          |Status       |
+|--|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------|
+|25|[The Mechanistic Inversion](papers/mechanistic_inversion.md)                                                     |Opposite deficits in ASD & LLMs converge       |Working draft|
+|26|[Testing the Internal/External Axis in LLMs](papers/internal_external_axis_LLMs.md)                              |Feature-based RSA applied to LLM hidden states |Working draft|
+|— |[Doctoral Dissertation](https://drive.google.com/file/d/1w1hma5pPEDu-sc1rg6mV11OgzYDixBQe/view?usp=sharing)     |Neural representation of abstract concepts     |Completed    |
+
 ### Core Theory (1–10)
 
 |# |Paper                                                                          |Focus                       |Status                          |
 |--|-------------------------------------------------------------------------------|----------------------------|--------------------------------|
 |1 |[Abstraction Is All You Need](papers/abstraction_is_all_you_need.md)           |Central thesis              |Theory                          |
 |2 |[The Computational Structure of Abstraction](papers/abstraction_defined.md)    |Formal definitions          |Theory                          |
-|3 |[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)     |Why compression isn’t enough|Theory                          |
+|3 |[Abstraction Beyond Compression](papers/abstraction_beyond_compression.md)     |Why compression isn't enough|Theory                          |
 |4 |[Abstraction Constrained](papers/abstraction_constrained.md)                   |Capacity limits             |Established (reviews literature)|
 |5 |[Prediction Requires Abstraction](papers/prediction_requires_abstraction.md)   |Relationship to prediction  |Theory                          |
 |6 |[Recursive Abstraction](papers/recursive_abstraction.md)                       |Stage 3 mechanics           |Theory                          |
@@ -397,7 +433,7 @@ The repositories below represent ongoing empirical work. Results are preliminary
 
 ### Temporal Cognition
 
-[TIDE](https://github.com/HillaryDanan/TIDE) · [temporal-coherence-llm](https://github.com/HillaryDanan/temporal-coherence-llm)
+[TIDE](https://github.com/HillaryDanan/TIDE) · [temporal-cognition-llm](https://github.com/HillaryDanan/temporal-coherence-llm)
 
 <details>
 <summary>Additional Research Areas (Exploratory)</summary>
@@ -450,9 +486,13 @@ Cowan, N. (2001). The magical number 4 in short-term memory: A reconsideration o
 
 Crone, E. A., Wendelken, C., Donohue, S., van Leijenhorst, L., & Bunge, S. A. (2006). Neurocognitive development of the ability to manipulate information in working memory. *Proceedings of the National Academy of Sciences*, 103(24), 9315-9320.
 
-Curtis, C. E., & D’Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
+Curtis, C. E., & D'Esposito, M. (2003). Persistent activity in the prefrontal cortex during working memory. *Trends in Cognitive Sciences*, 7(9), 415-423.
 
-Damasio, A. R. (1994). *Descartes’ Error: Emotion, Reason, and the Human Brain*. Putnam.
+Damasio, A. R. (1994). *Descartes' Error: Emotion, Reason, and the Human Brain*. Putnam.
+
+Danan [Levinson], H. J. (2021). *The neural representation of abstract concepts in typical and atypical cognition* [Doctoral dissertation, Rutgers University–Newark]. [PDF](https://drive.google.com/file/d/1w1hma5pPEDu-sc1rg6mV11OgzYDixBQe/view?usp=sharing)
+
+Dove, G. (2024). Symbol ungrounding: What the successes (and failures) of large language models reveal about human cognition. *Philosophical Transactions of the Royal Society B*, 379(1915), 20230149.
 
 Flavell, J. H. (1979). Metacognition and cognitive monitoring: A new area of cognitive–developmental inquiry. *American Psychologist*, 34(10), 906-911.
 
@@ -478,7 +518,7 @@ Lysaker, P. H., Carcione, A., Dimaggio, G., Johannesen, J. K., Nicolò, G., Proc
 
 Maturana, H. R., & Varela, F. J. (1980). *Autopoiesis and Cognition: The Realization of the Living*. D. Reidel.
 
-O’Regan, J. K., & Noë, A. (2001). A sensorimotor account of vision and visual consciousness. *Behavioral and Brain Sciences*, 24(5), 939-973.
+O'Regan, J. K., & Noë, A. (2001). A sensorimotor account of vision and visual consciousness. *Behavioral and Brain Sciences*, 24(5), 939-973.
 
 Partee, B. H. (1984). Compositionality. In F. Landman & F. Veltman (Eds.), *Varieties of Formal Semantics* (pp. 281-311). Foris.
 
@@ -490,15 +530,19 @@ Shallice, T., & Burgess, P. W. (1991). Deficits in strategy application followin
 
 Smith, J. D., Shields, W. E., & Washburn, D. A. (2003). The comparative psychology of uncertainty monitoring and metacognition. *Behavioral and Brain Sciences*, 26(3), 317-339.
 
+Troche, J., Crutch, S., & Reilly, J. (2017). Defining a conceptual topography of word concreteness: Clustering properties of emotion, sensation, and magnitude among 750 English words. *Frontiers in Psychology*, 8, 1787.
+
 Varela, F. J., Thompson, E., & Rosch, E. (1991). *The Embodied Mind: Cognitive Science and Human Experience*. MIT Press.
 
 Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. *Advances in Neural Information Processing Systems*, 30.
+
+Xu, Q., Peng, Y., Nastase, S. A., Chodorow, M., Wu, M., & Li, P. (2025). Large language models without grounding recover non-sensorimotor but not sensorimotor features of human concepts. *Nature Human Behaviour*, 9(9), 1871–1886.
 
 -----
 
 ## Author
 
-**Hillary Danan, PhD** · Cognitive Neuroscience
+**Hillary Danan, PhD** · Cognitive Neuroscience · [Dissertation](https://drive.google.com/file/d/1w1hma5pPEDu-sc1rg6mV11OgzYDixBQe/view?usp=sharing)
 
 -----
 
@@ -506,6 +550,8 @@ Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Ka
 
 This framework benefited from critical feedback on the embeddedness hypothesis, attention mechanisms, and falsifiability criteria. The distinction between learned hedging and genuine calibration was sharpened through discussion. The substrate-neutral formulation—bounded persistence, stakes, and inside/outside asymmetry rather than biological embodiment specifically—emerged from recognizing that biology is one path to self/world distinction, not the only conceivable path.
 
+The empirical foundations of the self/world axis were developed under the mentorship of Dr. William Graves at Rutgers University–Newark, with contributions from Drs. Miriam Rosenberg-Lee, Mauricio Delgado, Michael Cole, and Lisa Conant.
+
 -----
 
-*“Abstraction is all you need ;)”*
+*"Abstraction is all you need ;)"*
