@@ -555,3 +555,17 @@ The empirical foundations of the self/world axis were developed under the mentor
 -----
 
 *"Abstraction is all you need ;)"*
+
+## Swarm Scaffolding Experiment (Self-Monitoring Testbed)
+
+To test the repository's key claim about self-monitoring signatures on novelty, run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7
+```
+
+This compares an **unscaffolded** agent swarm versus a **scaffolded** swarm with external supports (novelty detection, confidence gating, verifier-weighted arbitration, and shared memory). The intended signature of improved self-monitoring is:
+
+- lower confident errors on novel tasks,
+- higher confidence/accuracy calibration on novel tasks,
+- slightly higher abstention on difficult novelty (conservative fallback).
