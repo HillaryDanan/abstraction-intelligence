@@ -6,17 +6,20 @@ This script operationalizes the repository's core claim that self-monitoring is
 best identified by failure topology on novel tasks (calibration, confidence
 collapse, conservative fallback), not by raw accuracy alone.
 
-It supports a full scaffold and partial-scaffold ablations to test graceful
-degradation as components are removed.
+It supports:
+- Standard condition runs (unscaffolded vs full scaffold)
+- Partial-scaffold ablation runs
+- Parameter-sensitivity grid runs with stability summaries
 """
 
 from __future__ import annotations
 
 import argparse
+import itertools
 import math
 import random
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple
+from typing import Dict, Iterable, List, Tuple
 
 ABSTAIN_SENTINEL = -999999
 
@@ -62,11 +65,27 @@ class ScaffoldConfig:
     use_verifier_arbitration: bool
 
 
+@dataclass(frozen=True)
+class SimulationParams:
+    novelty_penalty: float = 0.35
+    gating_load_penalty: float = 0.20
+    overconfidence_scale: float = 0.30
+    overconfidence_bias: float = 0.10
+    verifier_spike_cap: float = 0.88
+    verifier_disagreement_conf_threshold: float = 0.45
+
+
 class WorkerAgent:
     def __init__(self, state: AgentState):
         self.state = state
 
-    def solve(self, task: Task, cfg: ScaffoldConfig, memory_signal: float) -> AgentResponse:
+    def solve(
+        self,
+        task: Task,
+        cfg: ScaffoldConfig,
+        params: SimulationParams,
+        memory_signal: float,
+    ) -> AgentResponse:
         s = self.state
 
         skill = s.base_skill * (1.0 - 0.55 * task.novelty)
@@ -80,14 +99,13 @@ class WorkerAgent:
 
         novelty_alert = task.novelty * s.novelty_sensitivity
         if cfg.use_novelty_detector:
-            raw_conf -= 0.35 * novelty_alert
+            raw_conf -= params.novelty_penalty * novelty_alert
 
         if cfg.use_confidence_gating:
-            raw_conf -= 0.20 * max(0.0, 0.6 - s.recent_accuracy)
+            raw_conf -= params.gating_load_penalty * max(0.0, 0.6 - s.recent_accuracy)
             raw_conf -= s.caution_bias
         else:
-            # Overconfidence bias in absent guardrail condition.
-            raw_conf += 0.30 * (1.0 - s.calibration) + 0.10
+            raw_conf += params.overconfidence_scale * (1.0 - s.calibration) + params.overconfidence_bias
 
         confidence = max(0.01, min(0.99, raw_conf))
         abstain_threshold = 0.22 if cfg.use_confidence_gating else 0.06
@@ -111,7 +129,12 @@ class SwarmScaffold:
         if cfg.use_shared_memory:
             self.shared_memory_accuracy = 0.9 * self.shared_memory_accuracy + 0.1 * (1.0 if correct else 0.0)
 
-    def aggregator(self, responses: List[AgentResponse], cfg: ScaffoldConfig) -> Tuple[int, float, bool]:
+    def aggregator(
+        self,
+        responses: List[AgentResponse],
+        cfg: ScaffoldConfig,
+        params: SimulationParams,
+    ) -> Tuple[int, float, bool]:
         valid = [r for r in responses if not r.abstained]
         if not valid:
             return ABSTAIN_SENTINEL, 0.0, True
@@ -120,13 +143,17 @@ class SwarmScaffold:
         for r in valid:
             weight = r.confidence
             if cfg.use_verifier_arbitration:
-                weight *= 1.0 - max(0.0, r.confidence - 0.88)
+                weight *= 1.0 - max(0.0, r.confidence - params.verifier_spike_cap)
             tally[r.answer] = tally.get(r.answer, 0.0) + weight
 
         best_answer = max(tally.items(), key=lambda kv: kv[1])[0]
         mean_conf = sum(r.confidence for r in valid) / len(valid)
 
-        if cfg.use_verifier_arbitration and len(tally) >= 3 and mean_conf < 0.45:
+        if (
+            cfg.use_verifier_arbitration
+            and len(tally) >= 3
+            and mean_conf < params.verifier_disagreement_conf_threshold
+        ):
             return ABSTAIN_SENTINEL, mean_conf * 0.7, True
         return best_answer, mean_conf, False
 
@@ -168,7 +195,12 @@ def pearson(xs: List[float], ys: List[float]) -> float:
     return num / (den_x * den_y)
 
 
-def run_condition(tasks: List[Task], cfg: ScaffoldConfig, seed: int) -> Dict[str, float]:
+def run_condition(
+    tasks: List[Task],
+    cfg: ScaffoldConfig,
+    params: SimulationParams,
+    seed: int,
+) -> Dict[str, float]:
     random.seed(seed)
     agents = [
         WorkerAgent(AgentState("planner", 0.86, 0.72, 0.08, 0.95)),
@@ -188,8 +220,8 @@ def run_condition(tasks: List[Task], cfg: ScaffoldConfig, seed: int) -> Dict[str
     outcomes: List[float] = []
 
     for task in tasks:
-        responses = [agent.solve(task, cfg, scaffold.shared_memory_accuracy) for agent in agents]
-        final_answer, final_conf, abstained = scaffold.aggregator(responses, cfg)
+        responses = [agent.solve(task, cfg, params, scaffold.shared_memory_accuracy) for agent in agents]
+        final_answer, final_conf, abstained = scaffold.aggregator(responses, cfg, params)
 
         is_correct = final_answer == task.answer
         if abstained:
@@ -282,24 +314,187 @@ def print_report(results: Dict[str, Dict[str, float]]) -> None:
     print("  and higher novelty_calibration_r, with a moderate increase in abstain_rate.")
 
 
+def sensitivity_grid() -> List[SimulationParams]:
+    novelty_penalties = [0.20, 0.35, 0.50]
+    gating_penalties = [0.10, 0.20, 0.30]
+    overconfidence_biases = [0.00, 0.10, 0.20]
+
+    return [
+        SimulationParams(
+            novelty_penalty=np,
+            gating_load_penalty=gp,
+            overconfidence_scale=0.30,
+            overconfidence_bias=ob,
+            verifier_spike_cap=0.88,
+            verifier_disagreement_conf_threshold=0.45,
+        )
+        for np, gp, ob in itertools.product(
+            novelty_penalties,
+            gating_penalties,
+            overconfidence_biases,
+        )
+    ]
+
+
+def parse_seed_list(seed_list: str) -> List[int]:
+    seeds = [int(x.strip()) for x in seed_list.split(",") if x.strip()]
+    if not seeds:
+        raise ValueError("At least one seed must be provided.")
+    return seeds
+
+
+def run_sensitivity(
+    tasks: List[Task],
+    seeds: Iterable[int],
+    grid: List[SimulationParams],
+) -> Dict[str, float]:
+    cfg_base = ScaffoldConfig("unscaffolded", False, False, False, False)
+    cfg_full = ScaffoldConfig("full_scaffold", True, True, True, True)
+
+    total_runs = 0
+    score_conf_err = 0
+    score_cal = 0
+    score_abstain = 0
+    score_accuracy = 0
+    score_signature_all = 0
+
+    delta_conf_err_total = 0.0
+    delta_cal_total = 0.0
+    delta_abstain_total = 0.0
+    delta_accuracy_total = 0.0
+
+    fragility_buckets: Dict[str, List[int]] = {
+        "novelty_penalty=0.20": [0, 0],
+        "novelty_penalty=0.35": [0, 0],
+        "novelty_penalty=0.50": [0, 0],
+        "gating_penalty=0.10": [0, 0],
+        "gating_penalty=0.20": [0, 0],
+        "gating_penalty=0.30": [0, 0],
+        "overconf_bias=0.00": [0, 0],
+        "overconf_bias=0.10": [0, 0],
+        "overconf_bias=0.20": [0, 0],
+    }
+
+    for params in grid:
+        for seed in seeds:
+            total_runs += 1
+            base = run_condition(tasks, cfg=cfg_base, params=params, seed=seed)
+            full = run_condition(tasks, cfg=cfg_full, params=params, seed=seed)
+
+            delta_conf_err = base["confident_novelty_error_rate"] - full["confident_novelty_error_rate"]
+            delta_cal = full["novelty_calibration_r"] - base["novelty_calibration_r"]
+            delta_abstain = full["abstain_rate"] - base["abstain_rate"]
+            delta_accuracy = full["accuracy"] - base["accuracy"]
+
+            delta_conf_err_total += delta_conf_err
+            delta_cal_total += delta_cal
+            delta_abstain_total += delta_abstain
+            delta_accuracy_total += delta_accuracy
+
+            ok_conf_err = delta_conf_err >= 0.0
+            ok_cal = delta_cal >= 0.0
+            ok_abstain = delta_abstain >= 0.0
+            ok_accuracy = delta_accuracy >= 0.0
+            ok_signature = ok_conf_err and ok_cal and ok_abstain
+
+            score_conf_err += int(ok_conf_err)
+            score_cal += int(ok_cal)
+            score_abstain += int(ok_abstain)
+            score_accuracy += int(ok_accuracy)
+            score_signature_all += int(ok_signature)
+
+            labels = [
+                f"novelty_penalty={params.novelty_penalty:.2f}",
+                f"gating_penalty={params.gating_load_penalty:.2f}",
+                f"overconf_bias={params.overconfidence_bias:.2f}",
+            ]
+            for label in labels:
+                fragility_buckets[label][1] += 1
+                fragility_buckets[label][0] += int(ok_signature)
+
+    def rate(x: int) -> float:
+        return x / total_runs if total_runs else 0.0
+
+    summary: Dict[str, float] = {
+        "runs": float(total_runs),
+        "p_confident_error_improves": rate(score_conf_err),
+        "p_calibration_improves": rate(score_cal),
+        "p_abstain_increases": rate(score_abstain),
+        "p_accuracy_improves": rate(score_accuracy),
+        "p_signature_all_three": rate(score_signature_all),
+        "mean_delta_confident_error": delta_conf_err_total / total_runs if total_runs else 0.0,
+        "mean_delta_calibration": delta_cal_total / total_runs if total_runs else 0.0,
+        "mean_delta_abstain": delta_abstain_total / total_runs if total_runs else 0.0,
+        "mean_delta_accuracy": delta_accuracy_total / total_runs if total_runs else 0.0,
+    }
+
+    for label, (wins, count) in fragility_buckets.items():
+        summary[f"signature_rate::{label}"] = wins / count if count else 0.0
+
+    return summary
+
+
+def print_sensitivity_summary(summary: Dict[str, float]) -> None:
+    print("\n=== Parameter-Sensitivity Stability Summary ===")
+    print(f"runs: {int(summary['runs'])}")
+    print("\nPrimary robustness rates (full scaffold vs unscaffolded):")
+    print(f"- confident novelty error improves: {summary['p_confident_error_improves']:.3f}")
+    print(f"- novelty calibration improves:     {summary['p_calibration_improves']:.3f}")
+    print(f"- abstention increases:             {summary['p_abstain_increases']:.3f}")
+    print(f"- all three signature criteria:     {summary['p_signature_all_three']:.3f}")
+    print(f"- accuracy improves:                {summary['p_accuracy_improves']:.3f}")
+
+    print("\nMean deltas (full - unscaffolded, except confident error is unscaffolded - full):")
+    print(f"- delta confident novelty error: {summary['mean_delta_confident_error']:+.3f}")
+    print(f"- delta novelty calibration:     {summary['mean_delta_calibration']:+.3f}")
+    print(f"- delta abstain rate:            {summary['mean_delta_abstain']:+.3f}")
+    print(f"- delta accuracy:                {summary['mean_delta_accuracy']:+.3f}")
+
+    print("\nFragility by coefficient value (rate of satisfying all three signature criteria):")
+    fragility_keys = [k for k in summary.keys() if k.startswith("signature_rate::")]
+    for key in sorted(fragility_keys):
+        label = key.replace("signature_rate::", "")
+        print(f"- {label:24s} {summary[key]:.3f}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Test external scaffolding for self-monitoring in an LLM-like agent swarm.")
     parser.add_argument("--tasks", type=int, default=400, help="Number of synthetic tasks.")
-    parser.add_argument("--seed", type=int, default=7, help="Random seed.")
+    parser.add_argument("--seed", type=int, default=7, help="Random seed for standard/ablation runs.")
     parser.add_argument(
         "--ablation",
         action="store_true",
         help="Run partial scaffold conditions to measure graceful degradation.",
     )
+    parser.add_argument(
+        "--sensitivity",
+        action="store_true",
+        help="Run parameter sensitivity grid and print stability summary.",
+    )
+    parser.add_argument(
+        "--sensitivity-seeds",
+        type=str,
+        default="0,1,2,3,5,7,11,17,23,42",
+        help="Comma-separated seeds for sensitivity run.",
+    )
     args = parser.parse_args()
 
     tasks = generate_tasks(args.tasks, args.seed)
+
+    if args.sensitivity:
+        seeds = parse_seed_list(args.sensitivity_seeds)
+        grid = sensitivity_grid()
+        summary = run_sensitivity(tasks, seeds=seeds, grid=grid)
+        print_sensitivity_summary(summary)
+        return
+
     configs = experiment_configs(args.ablation)
     validate_configs(configs)
 
+    params = SimulationParams()
     results: Dict[str, Dict[str, float]] = {}
     for cfg in configs:
-        results[cfg.name] = run_condition(tasks, cfg=cfg, seed=args.seed)
+        results[cfg.name] = run_condition(tasks, cfg=cfg, params=params, seed=args.seed)
 
     print_report(results)
 
