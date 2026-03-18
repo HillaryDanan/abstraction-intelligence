@@ -234,7 +234,7 @@ def experiment_configs(ablation: bool) -> List[ScaffoldConfig]:
     return [
         base[0],
         ScaffoldConfig("memory_only", True, False, False, False),
-        ScaffoldConfig("memory_no_novelty", True, False, True, True),
+        ScaffoldConfig("memory_gating_no_novelty", True, False, True, False),
         ScaffoldConfig("gating_no_arbitration", False, True, True, False),
         ScaffoldConfig("full_no_memory", False, True, True, True),
         ScaffoldConfig("full_no_novelty", True, False, True, True),
@@ -242,6 +242,25 @@ def experiment_configs(ablation: bool) -> List[ScaffoldConfig]:
         ScaffoldConfig("full_no_verifier", True, True, True, False),
         base[1],
     ]
+
+
+def validate_configs(configs: List[ScaffoldConfig]) -> None:
+    seen_names = set()
+    seen_shapes = set()
+    for cfg in configs:
+        if cfg.name in seen_names:
+            raise ValueError(f"Duplicate condition name: {cfg.name}")
+        seen_names.add(cfg.name)
+
+        shape = (
+            cfg.use_shared_memory,
+            cfg.use_novelty_detector,
+            cfg.use_confidence_gating,
+            cfg.use_verifier_arbitration,
+        )
+        if shape in seen_shapes:
+            raise ValueError(f"Duplicate scaffold shape detected for condition: {cfg.name}")
+        seen_shapes.add(shape)
 
 
 def print_report(results: Dict[str, Dict[str, float]]) -> None:
@@ -276,6 +295,7 @@ def main() -> None:
 
     tasks = generate_tasks(args.tasks, args.seed)
     configs = experiment_configs(args.ablation)
+    validate_configs(configs)
 
     results: Dict[str, Dict[str, float]] = {}
     for cfg in configs:
