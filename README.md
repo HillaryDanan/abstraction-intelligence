@@ -564,8 +564,15 @@ To test the repository's key claim about self-monitoring signatures on novelty, 
 python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7
 ```
 
-This compares an **unscaffolded** agent swarm versus a **scaffolded** swarm with external supports (novelty detection, confidence gating, verifier-weighted arbitration, and shared memory). The intended signature of improved self-monitoring is:
+For decomposition of partial guardrails (including memory-only and leave-one-out variants of the full scaffold), run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --ablation
+```
+
+The experiment compares an **unscaffolded** swarm to **partial** and **full** scaffold conditions using external supports (shared memory, novelty-aware confidence shaping, confidence gating, verifier-weighted arbitration), so you can see how signatures change when one component is absent. The intended signature of improved self-monitoring is:
 
 - lower confident errors on novel tasks,
 - higher confidence/accuracy calibration on novel tasks,
-- slightly higher abstention on difficult novelty (conservative fallback).
+- slightly higher abstention on difficult novelty (conservative fallback),
+- graceful degradation as scaffolding components are removed.
