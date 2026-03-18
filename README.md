@@ -610,9 +610,9 @@ To run the same paired framework on real APIs (with cost), use:
 
 ```bash
 python3 code/api_multimodel_rigorous_study.py \
-  --openai-model gpt-4.1-mini \
-  --anthropic-model claude-3-5-sonnet-latest \
-  --gemini-model gemini-2.0-flash \
+  --openai-model gpt-5.4 \
+  --anthropic-model claude-sonnet-4-6 \
+  --gemini-model gemini-3-flash-preview \
   --trials 50 --tasks-per-trial 100
 ```
 
