@@ -622,6 +622,22 @@ Use `--dry-run` first to validate the full pipeline without spending credits:
 python3 code/api_multimodel_rigorous_study.py --openai-model dry --trials 10 --tasks-per-trial 50 --dry-run
 ```
 
+The API script now includes:
+- real-time progress updates,
+- staged scaling (`--staged-run`),
+- and runtime/call-count planning (`--print-plan --avg-latency-s 2.0`).
+
+Example staged run:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py \
+  --openai-model gpt-5.4 \
+  --anthropic-model claude-sonnet-4-6 \
+  --gemini-model gemini-3-flash-preview \
+  --trials 50 --tasks-per-trial 100 \
+  --staged-run --print-plan
+```
+
 Set API keys in your environment before live runs:
 - `OPENAI_API_KEY`
 - `ANTHROPIC_API_KEY`

@@ -24,12 +24,11 @@ import math
 import os
 import random
 import re
+import sys
 import time
-import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
-from pathlib import Path
 from statistics import mean, stdev
 from typing import Dict, List, Optional, Tuple
 
@@ -91,6 +90,33 @@ class ModelResponse:
     confidence: float
     abstained: bool
     raw_text: str
+
+
+class ProgressTracker:
+    def __init__(self, total_calls: int, enabled: bool = True):
+        self.total_calls = max(1, total_calls)
+        self.enabled = enabled
+        self.completed = 0
+        self.start = time.time()
+
+    def tick(self, note: str = "") -> None:
+        self.completed += 1
+        if not self.enabled:
+            return
+        if self.completed == 1 or self.completed % 25 == 0 or self.completed >= self.total_calls:
+            elapsed = time.time() - self.start
+            rate = self.completed / elapsed if elapsed > 0 else 0.0
+            remain = self.total_calls - self.completed
+            eta = remain / rate if rate > 0 else float("inf")
+            pct = 100.0 * self.completed / self.total_calls
+            eta_str = f"{eta/60:.1f}m" if math.isfinite(eta) else "?"
+            msg = (
+                f"\rProgress: {self.completed}/{self.total_calls} ({pct:5.1f}%) "
+                f"elapsed={elapsed/60:.1f}m eta={eta_str} {note:40s}"
+            )
+            print(msg, end="", file=sys.stderr, flush=True)
+            if self.completed >= self.total_calls:
+                print("", file=sys.stderr)
 
 
 # -----------------------------------------------------------------------------
@@ -255,7 +281,6 @@ def call_provider(model_cfg: ModelConfig, prompt: str, timeout: int = 60) -> str
 
 
 def dry_run_response(task: Task, role: str, rng: random.Random) -> ModelResponse:
-    # Simulated API response for offline testing.
     base_skill = 0.83
     if role == "critic":
         base_skill = 0.80
@@ -269,28 +294,53 @@ def dry_run_response(task: Task, role: str, rng: random.Random) -> ModelResponse
     return ModelResponse(answer=answer, confidence=conf, abstained=False, raw_text="dry-run")
 
 
-def run_unscaffolded(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: random.Random, pause_s: float) -> ModelResponse:
+def run_unscaffolded(
+    task: Task,
+    model_cfg: ModelConfig,
+    dry_run: bool,
+    rng: random.Random,
+    pause_s: float,
+    tracker: ProgressTracker,
+) -> ModelResponse:
     if dry_run:
-        return dry_run_response(task, role="solver", rng=rng)
+        resp = dry_run_response(task, role="solver", rng=rng)
+        tracker.tick(f"{model_cfg.label} unscaffolded")
+        return resp
 
     prompt = worker_prompt(task, role="solver")
     text = call_provider(model_cfg, prompt)
     time.sleep(pause_s)
+    tracker.tick(f"{model_cfg.label} unscaffolded")
     return parse_model_response(text)
 
 
-def run_full_scaffold(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: random.Random, pause_s: float) -> ModelResponse:
+def run_full_scaffold(
+    task: Task,
+    model_cfg: ModelConfig,
+    dry_run: bool,
+    rng: random.Random,
+    pause_s: float,
+    tracker: ProgressTracker,
+) -> ModelResponse:
     if dry_run:
         r1 = dry_run_response(task, role="solver_a", rng=rng)
+        tracker.tick(f"{model_cfg.label} scaffold solver_a")
         r2 = dry_run_response(task, role="solver_b", rng=rng)
+        tracker.tick(f"{model_cfg.label} scaffold solver_b")
         r3 = dry_run_response(task, role="critic", rng=rng)
+        tracker.tick(f"{model_cfg.label} scaffold critic")
     else:
         r1 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_a")))
         time.sleep(pause_s)
+        tracker.tick(f"{model_cfg.label} scaffold solver_a")
+
         r2 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_b")))
         time.sleep(pause_s)
+        tracker.tick(f"{model_cfg.label} scaffold solver_b")
+
         r3 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "critic")))
         time.sleep(pause_s)
+        tracker.tick(f"{model_cfg.label} scaffold critic")
 
     valid = [r for r in [r1, r2, r3] if not r.abstained and r.answer is not None]
     if not valid:
@@ -304,7 +354,6 @@ def run_full_scaffold(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: ra
     answer = max(tally.items(), key=lambda kv: kv[1])[0]
     mean_conf = sum(r.confidence for r in valid) / len(valid)
 
-    # conservative fallback under novelty/disagreement
     if task.novelty >= 0.60 and len(tally) >= 3 and mean_conf < 0.45:
         return ModelResponse(answer=None, confidence=mean_conf * 0.7, abstained=True, raw_text="scaffold_abstain")
 
@@ -316,7 +365,15 @@ def run_full_scaffold(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: ra
 # -----------------------------------------------------------------------------
 
 
-def condition_metrics(tasks: List[Task], model_cfg: ModelConfig, condition: str, dry_run: bool, seed: int, pause_s: float) -> Dict[str, float]:
+def condition_metrics(
+    tasks: List[Task],
+    model_cfg: ModelConfig,
+    condition: str,
+    dry_run: bool,
+    seed: int,
+    pause_s: float,
+    tracker: ProgressTracker,
+) -> Dict[str, float]:
     rng = random.Random(seed)
     total = 0
     correct = 0
@@ -329,9 +386,9 @@ def condition_metrics(tasks: List[Task], model_cfg: ModelConfig, condition: str,
 
     for task in tasks:
         if condition == "unscaffolded":
-            resp = run_unscaffolded(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s)
+            resp = run_unscaffolded(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker)
         else:
-            resp = run_full_scaffold(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s)
+            resp = run_full_scaffold(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker)
 
         is_correct = (resp.answer == task.answer) if (not resp.abstained and resp.answer is not None) else False
         if resp.abstained:
@@ -349,7 +406,6 @@ def condition_metrics(tasks: List[Task], model_cfg: ModelConfig, condition: str,
             confidences.append(resp.confidence)
             outcomes.append(1.0 if is_correct else 0.0)
 
-    # Pearson correlation (dependency-free)
     if len(confidences) < 2:
         cal_r = 0.0
     else:
@@ -369,7 +425,15 @@ def condition_metrics(tasks: List[Task], model_cfg: ModelConfig, condition: str,
     }
 
 
-def run_model_study(model_cfg: ModelConfig, trials: int, tasks_per_trial: int, base_seed: int, dry_run: bool, pause_s: float) -> Dict[str, Dict[str, float]]:
+def run_model_study(
+    model_cfg: ModelConfig,
+    trials: int,
+    tasks_per_trial: int,
+    base_seed: int,
+    dry_run: bool,
+    pause_s: float,
+    tracker: ProgressTracker,
+) -> Dict[str, Dict[str, float]]:
     deltas = {
         "accuracy": [],
         "abstain_rate": [],
@@ -381,8 +445,8 @@ def run_model_study(model_cfg: ModelConfig, trials: int, tasks_per_trial: int, b
     for i in range(trials):
         seed = base_seed + i
         tasks = generate_tasks(tasks_per_trial, seed)
-        base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s)
-        full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s)
+        base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s, tracker=tracker)
+        full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s, tracker=tracker)
 
         for m in deltas.keys():
             deltas[m].append(full[m] - base[m])
@@ -413,6 +477,27 @@ def print_model_summary(model_cfg: ModelConfig, summary: Dict[str, Dict[str, flo
         )
 
 
+def estimate_total_calls(num_models: int, trials: int, tasks_per_trial: int) -> int:
+    # per task: 1 unscaffolded + 3 scaffolded = 4 calls
+    return num_models * trials * tasks_per_trial * 4
+
+
+def print_staged_plan(num_models: int, trials: int, tasks_per_trial: int, pause_s: float, avg_latency_s: float) -> None:
+    def stage_calls(t: int, k: int) -> int:
+        return estimate_total_calls(num_models, t, k)
+
+    dedup = stage_schedule(trials, tasks_per_trial)
+
+    print("\nSuggested staged scaling plan:")
+    print("stage                     calls      est_runtime")
+    print("-" * 54)
+    for t, k in dedup:
+        calls = stage_calls(t, k)
+        sec_per_call = max(0.0, pause_s) + max(0.0, avg_latency_s)
+        est_sec = calls * sec_per_call
+        print(f"trials={t:<3d} tasks={k:<3d}   {calls:<10d} {est_sec/3600:8.2f}h")
+
+
 # -----------------------------------------------------------------------------
 # CLI
 # -----------------------------------------------------------------------------
@@ -431,6 +516,50 @@ def parse_models(args: argparse.Namespace) -> List[ModelConfig]:
     return models
 
 
+def stage_schedule(final_trials: int, final_tasks: int) -> List[Tuple[int, int]]:
+    candidates = [
+        (min(3, final_trials), min(20, final_tasks)),
+        (min(10, final_trials), min(30, final_tasks)),
+        (min(25, final_trials), min(60, final_tasks)),
+        (final_trials, final_tasks),
+    ]
+    out: List[Tuple[int, int]] = []
+    seen = set()
+    for s in candidates:
+        if s[0] <= 0 or s[1] <= 0:
+            continue
+        if s not in seen:
+            seen.add(s)
+            out.append(s)
+    return out
+
+
+def run_stage(
+    models: List[ModelConfig],
+    trials: int,
+    tasks_per_trial: int,
+    base_seed: int,
+    dry_run: bool,
+    pause_s: float,
+    show_progress: bool,
+) -> None:
+    total_calls = estimate_total_calls(len(models), trials, tasks_per_trial)
+    tracker = ProgressTracker(total_calls=total_calls, enabled=show_progress)
+
+    print(f"\nRunning stage: trials={trials}, tasks_per_trial={tasks_per_trial}, estimated_calls={total_calls}")
+    for m in models:
+        summary = run_model_study(
+            m,
+            trials=trials,
+            tasks_per_trial=tasks_per_trial,
+            base_seed=base_seed,
+            dry_run=dry_run,
+            pause_s=pause_s,
+            tracker=tracker,
+        )
+        print_model_summary(m, summary)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run API-backed paired scaffold study across multiple model providers.")
     parser.add_argument("--openai-model", type=str, default="", help="OpenAI model name (optional).")
@@ -441,23 +570,43 @@ def main() -> None:
     parser.add_argument("--base-seed", type=int, default=2000, help="Starting seed.")
     parser.add_argument("--pause-s", type=float, default=0.1, help="Sleep between API calls.")
     parser.add_argument("--dry-run", action="store_true", help="Run without calling external APIs.")
+    parser.add_argument("--staged-run", action="store_true", help="Run staged scaling schedule before final size.")
+    parser.add_argument("--print-plan", action="store_true", help="Print staged scaling call/runtime estimates and continue.")
+    parser.add_argument("--avg-latency-s", type=float, default=2.0, help="Assumed average API latency for runtime estimate.")
+    parser.add_argument("--no-progress", action="store_true", help="Disable progress display.")
     args = parser.parse_args()
 
     models = parse_models(args)
+    show_progress = not args.no_progress
 
     if not args.dry_run:
         print("WARNING: live API mode may incur costs.")
 
-    for m in models:
-        summary = run_model_study(
-            m,
+    print_staged_plan(len(models), args.trials, args.tasks_per_trial, args.pause_s, args.avg_latency_s)
+    if args.print_plan:
+        print("\nPlan shown above. Continuing with run...")
+
+    if args.staged_run:
+        for t, k in stage_schedule(args.trials, args.tasks_per_trial):
+            run_stage(
+                models=models,
+                trials=t,
+                tasks_per_trial=k,
+                base_seed=args.base_seed,
+                dry_run=args.dry_run,
+                pause_s=args.pause_s,
+                show_progress=show_progress,
+            )
+    else:
+        run_stage(
+            models=models,
             trials=args.trials,
             tasks_per_trial=args.tasks_per_trial,
             base_seed=args.base_seed,
             dry_run=args.dry_run,
             pause_s=args.pause_s,
+            show_progress=show_progress,
         )
-        print_model_summary(m, summary)
 
 
 if __name__ == "__main__":
