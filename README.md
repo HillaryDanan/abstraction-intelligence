@@ -578,10 +578,16 @@ The experiment compares an **unscaffolded** swarm to **partial** and **full** sc
 - graceful degradation as scaffolding components are removed.
 
 
-For a parameter-sensitivity pass (coarse grid over novelty penalty, gating pressure, and overconfidence bias), run:
+For a parameter-sensitivity pass (coarse grid), run:
 
 ```bash
 python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --sensitivity
 ```
 
-This prints a stability summary showing how often the full scaffold beats the unscaffolded baseline on the key self-monitoring signature criteria across grid points and seeds.
+For a wider/harsher fragility sweep, run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --sensitivity --sensitivity-grid wide
+```
+
+This prints a stability summary showing how often the full scaffold beats the unscaffolded baseline on key self-monitoring signature criteria across grid points and seeds (with a fresh task set generated per seed and matched between conditions).

@@ -314,26 +314,42 @@ def print_report(results: Dict[str, Dict[str, float]]) -> None:
     print("  and higher novelty_calibration_r, with a moderate increase in abstain_rate.")
 
 
-def sensitivity_grid() -> List[SimulationParams]:
-    novelty_penalties = [0.20, 0.35, 0.50]
-    gating_penalties = [0.10, 0.20, 0.30]
-    overconfidence_biases = [0.00, 0.10, 0.20]
+def sensitivity_grid(mode: str = "coarse") -> List[SimulationParams]:
+    if mode == "coarse":
+        novelty_penalties = [0.20, 0.35, 0.50]
+        gating_penalties = [0.10, 0.20, 0.30]
+        overconfidence_biases = [0.00, 0.10, 0.20]
+        overconfidence_scales = [0.30]
+        verifier_thresholds = [0.45]
+    elif mode == "wide":
+        # Wider/harsher sweep to expose fragility boundaries.
+        novelty_penalties = [0.00, 0.15, 0.35, 0.60, 0.85]
+        gating_penalties = [0.00, 0.10, 0.25, 0.40, 0.60]
+        overconfidence_biases = [0.00, 0.10, 0.20, 0.35]
+        overconfidence_scales = [0.10, 0.30, 0.60]
+        verifier_thresholds = [0.30, 0.45, 0.60]
+    else:
+        raise ValueError(f"Unknown sensitivity grid mode: {mode}")
 
-    return [
-        SimulationParams(
-            novelty_penalty=np,
-            gating_load_penalty=gp,
-            overconfidence_scale=0.30,
-            overconfidence_bias=ob,
-            verifier_spike_cap=0.88,
-            verifier_disagreement_conf_threshold=0.45,
+    grid: List[SimulationParams] = []
+    for np, gp, ob, os, vt in itertools.product(
+        novelty_penalties,
+        gating_penalties,
+        overconfidence_biases,
+        overconfidence_scales,
+        verifier_thresholds,
+    ):
+        grid.append(
+            SimulationParams(
+                novelty_penalty=np,
+                gating_load_penalty=gp,
+                overconfidence_scale=os,
+                overconfidence_bias=ob,
+                verifier_spike_cap=0.88,
+                verifier_disagreement_conf_threshold=vt,
+            )
         )
-        for np, gp, ob in itertools.product(
-            novelty_penalties,
-            gating_penalties,
-            overconfidence_biases,
-        )
-    ]
+    return grid
 
 
 def parse_seed_list(seed_list: str) -> List[int]:
@@ -343,8 +359,18 @@ def parse_seed_list(seed_list: str) -> List[int]:
     return seeds
 
 
+def parameter_labels(params: SimulationParams) -> List[str]:
+    return [
+        f"novelty_penalty={params.novelty_penalty:.2f}",
+        f"gating_penalty={params.gating_load_penalty:.2f}",
+        f"overconf_bias={params.overconfidence_bias:.2f}",
+        f"overconf_scale={params.overconfidence_scale:.2f}",
+        f"verifier_thresh={params.verifier_disagreement_conf_threshold:.2f}",
+    ]
+
+
 def run_sensitivity(
-    tasks: List[Task],
+    task_count: int,
     seeds: Iterable[int],
     grid: List[SimulationParams],
 ) -> Dict[str, float]:
@@ -363,21 +389,15 @@ def run_sensitivity(
     delta_abstain_total = 0.0
     delta_accuracy_total = 0.0
 
-    fragility_buckets: Dict[str, List[int]] = {
-        "novelty_penalty=0.20": [0, 0],
-        "novelty_penalty=0.35": [0, 0],
-        "novelty_penalty=0.50": [0, 0],
-        "gating_penalty=0.10": [0, 0],
-        "gating_penalty=0.20": [0, 0],
-        "gating_penalty=0.30": [0, 0],
-        "overconf_bias=0.00": [0, 0],
-        "overconf_bias=0.10": [0, 0],
-        "overconf_bias=0.20": [0, 0],
-    }
+    fragility_buckets: Dict[str, List[int]] = {}
+    for params in grid:
+        for label in parameter_labels(params):
+            fragility_buckets.setdefault(label, [0, 0])
 
     for params in grid:
         for seed in seeds:
             total_runs += 1
+            tasks = generate_tasks(task_count, seed)
             base = run_condition(tasks, cfg=cfg_base, params=params, seed=seed)
             full = run_condition(tasks, cfg=cfg_full, params=params, seed=seed)
 
@@ -403,12 +423,7 @@ def run_sensitivity(
             score_accuracy += int(ok_accuracy)
             score_signature_all += int(ok_signature)
 
-            labels = [
-                f"novelty_penalty={params.novelty_penalty:.2f}",
-                f"gating_penalty={params.gating_load_penalty:.2f}",
-                f"overconf_bias={params.overconfidence_bias:.2f}",
-            ]
-            for label in labels:
+            for label in parameter_labels(params):
                 fragility_buckets[label][1] += 1
                 fragility_buckets[label][0] += int(ok_signature)
 
@@ -437,6 +452,7 @@ def run_sensitivity(
 def print_sensitivity_summary(summary: Dict[str, float]) -> None:
     print("\n=== Parameter-Sensitivity Stability Summary ===")
     print(f"runs: {int(summary['runs'])}")
+    print("(Each seed regenerates a fresh task set; full vs unscaffolded are compared on matched tasks per seed.)")
     print("\nPrimary robustness rates (full scaffold vs unscaffolded):")
     print(f"- confident novelty error improves: {summary['p_confident_error_improves']:.3f}")
     print(f"- novelty calibration improves:     {summary['p_calibration_improves']:.3f}")
@@ -477,14 +493,22 @@ def main() -> None:
         default="0,1,2,3,5,7,11,17,23,42",
         help="Comma-separated seeds for sensitivity run.",
     )
+    parser.add_argument(
+        "--sensitivity-grid",
+        type=str,
+        default="coarse",
+        choices=["coarse", "wide"],
+        help="Grid definition for sensitivity sweep.",
+    )
     args = parser.parse_args()
 
     tasks = generate_tasks(args.tasks, args.seed)
 
     if args.sensitivity:
         seeds = parse_seed_list(args.sensitivity_seeds)
-        grid = sensitivity_grid()
-        summary = run_sensitivity(tasks, seeds=seeds, grid=grid)
+        grid = sensitivity_grid(mode=args.sensitivity_grid)
+        summary = run_sensitivity(task_count=args.tasks, seeds=seeds, grid=grid)
+        print(f"Running sensitivity grid mode: {args.sensitivity_grid} ({len(grid)} parameter combinations)")
         print_sensitivity_summary(summary)
         return
 
