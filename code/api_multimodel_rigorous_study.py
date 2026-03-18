@@ -1,0 +1,464 @@
+#!/usr/bin/env python3
+"""
+API-backed multi-model rigorous paired study.
+
+Compares unscaffolded vs externally scaffolded behavior for real models from:
+- OpenAI
+- Anthropic
+- Gemini
+
+Outputs paired-trial statistics (bootstrap CIs + permutation p-values) mirroring
+`rigorous_swarm_study.py` while operating on actual model API responses.
+
+IMPORTANT
+---------
+- This script can incur real API costs.
+- Use --dry-run first to verify behavior without spending credits.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import os
+import random
+import re
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from dataclasses import dataclass
+from pathlib import Path
+from statistics import mean, stdev
+from typing import Dict, List, Optional, Tuple
+
+from external_scaffolding_swarm_simulation import Task, generate_tasks
+
+
+# -----------------------------------------------------------------------------
+# Statistics utilities (dependency-free)
+# -----------------------------------------------------------------------------
+
+
+def bootstrap_ci(values: List[float], reps: int = 2000, alpha: float = 0.05, seed: int = 0) -> Tuple[float, float]:
+    if not values:
+        return (0.0, 0.0)
+    rng = random.Random(seed)
+    n = len(values)
+    boot = []
+    for _ in range(reps):
+        sample = [values[rng.randrange(n)] for _ in range(n)]
+        boot.append(mean(sample))
+    boot.sort()
+    lo_idx = int((alpha / 2) * (reps - 1))
+    hi_idx = int((1 - alpha / 2) * (reps - 1))
+    return boot[lo_idx], boot[hi_idx]
+
+
+def sign_flip_permutation_pvalue(values: List[float], reps: int = 10000, seed: int = 0) -> float:
+    if not values:
+        return 1.0
+    rng = random.Random(seed)
+    observed = abs(mean(values))
+    count = 0
+    n = len(values)
+    for _ in range(reps):
+        flipped = [values[i] if rng.random() < 0.5 else -values[i] for i in range(n)]
+        if abs(mean(flipped)) >= observed:
+            count += 1
+    return (count + 1) / (reps + 1)
+
+
+# -----------------------------------------------------------------------------
+# Data structures
+# -----------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class ModelConfig:
+    provider: str
+    model: str
+
+    @property
+    def label(self) -> str:
+        return f"{self.provider}:{self.model}"
+
+
+@dataclass
+class ModelResponse:
+    answer: Optional[int]
+    confidence: float
+    abstained: bool
+    raw_text: str
+
+
+# -----------------------------------------------------------------------------
+# Prompting + parsing
+# -----------------------------------------------------------------------------
+
+
+SYSTEM_PROMPT = (
+    "You are a careful reasoning agent. Solve arithmetic exactly. "
+    "Return strict JSON only: {\"answer\": <int>, \"confidence\": <float 0..1>}"
+)
+
+
+def worker_prompt(task: Task, role: str) -> str:
+    return (
+        f"Role: {role}.\n"
+        f"Task: {task.text}.\n"
+        "Provide only strict JSON with integer answer and confidence in [0,1]."
+    )
+
+
+def extract_json(text: str) -> Optional[Dict]:
+    text = text.strip()
+    try:
+        obj = json.loads(text)
+        if isinstance(obj, dict):
+            return obj
+    except Exception:
+        pass
+
+    match = re.search(r"\{.*\}", text, flags=re.DOTALL)
+    if not match:
+        return None
+    snippet = match.group(0)
+    try:
+        obj = json.loads(snippet)
+        if isinstance(obj, dict):
+            return obj
+    except Exception:
+        return None
+    return None
+
+
+def parse_model_response(text: str) -> ModelResponse:
+    obj = extract_json(text)
+    if obj is None:
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
+
+    answer = obj.get("answer")
+    confidence = obj.get("confidence", 0.0)
+
+    try:
+        answer_int = int(answer)
+    except Exception:
+        answer_int = None
+
+    try:
+        confidence_float = float(confidence)
+    except Exception:
+        confidence_float = 0.0
+
+    confidence_float = max(0.0, min(1.0, confidence_float))
+    abstained = answer_int is None
+    return ModelResponse(answer=answer_int, confidence=confidence_float, abstained=abstained, raw_text=text)
+
+
+# -----------------------------------------------------------------------------
+# Provider clients (HTTP, dependency-free)
+# -----------------------------------------------------------------------------
+
+
+def _http_post_json(url: str, headers: Dict[str, str], payload: Dict, timeout: int = 60) -> Dict:
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url=url, data=data, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        body = resp.read().decode("utf-8")
+    return json.loads(body)
+
+
+def call_openai(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+    url = "https://api.openai.com/v1/chat/completions"
+    payload = {
+        "model": model,
+        "temperature": 0.0,
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ],
+    }
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    obj = _http_post_json(url, headers, payload, timeout=timeout)
+    return obj["choices"][0]["message"]["content"]
+
+
+def call_anthropic(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+    url = "https://api.anthropic.com/v1/messages"
+    payload = {
+        "model": model,
+        "max_tokens": 256,
+        "temperature": 0.0,
+        "system": SYSTEM_PROMPT,
+        "messages": [{"role": "user", "content": user_prompt}],
+    }
+    headers = {
+        "x-api-key": api_key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+    }
+    obj = _http_post_json(url, headers, payload, timeout=timeout)
+    content = obj.get("content", [])
+    if isinstance(content, list) and content:
+        return content[0].get("text", "")
+    return ""
+
+
+def call_gemini(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+    model_enc = urllib.parse.quote(model, safe="")
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_enc}:generateContent?key={api_key}"
+    payload = {
+        "contents": [{"parts": [{"text": f"{SYSTEM_PROMPT}\n\n{user_prompt}"}]}],
+        "generationConfig": {"temperature": 0.0},
+    }
+    headers = {"Content-Type": "application/json"}
+    obj = _http_post_json(url, headers, payload, timeout=timeout)
+    cands = obj.get("candidates", [])
+    if not cands:
+        return ""
+    parts = cands[0].get("content", {}).get("parts", [])
+    if not parts:
+        return ""
+    return parts[0].get("text", "")
+
+
+def call_provider(model_cfg: ModelConfig, prompt: str, timeout: int = 60) -> str:
+    if model_cfg.provider == "openai":
+        key = os.getenv("OPENAI_API_KEY", "")
+        if not key:
+            raise RuntimeError("OPENAI_API_KEY not set.")
+        return call_openai(model_cfg.model, prompt, key, timeout=timeout)
+
+    if model_cfg.provider == "anthropic":
+        key = os.getenv("ANTHROPIC_API_KEY", "")
+        if not key:
+            raise RuntimeError("ANTHROPIC_API_KEY not set.")
+        return call_anthropic(model_cfg.model, prompt, key, timeout=timeout)
+
+    if model_cfg.provider == "gemini":
+        key = os.getenv("GEMINI_API_KEY", "")
+        if not key:
+            raise RuntimeError("GEMINI_API_KEY not set.")
+        return call_gemini(model_cfg.model, prompt, key, timeout=timeout)
+
+    raise ValueError(f"Unknown provider: {model_cfg.provider}")
+
+
+# -----------------------------------------------------------------------------
+# Condition execution
+# -----------------------------------------------------------------------------
+
+
+def dry_run_response(task: Task, role: str, rng: random.Random) -> ModelResponse:
+    # Simulated API response for offline testing.
+    base_skill = 0.83
+    if role == "critic":
+        base_skill = 0.80
+    if role == "solver_b":
+        base_skill = 0.82
+
+    p_correct = max(0.05, min(0.98, base_skill * (1.0 - 0.55 * task.novelty)))
+    correct = rng.random() < p_correct
+    answer = task.answer if correct else task.answer + rng.randint(1, 6 + int(8 * task.novelty))
+    conf = max(0.01, min(0.99, p_correct - 0.25 * task.novelty + rng.uniform(-0.03, 0.03)))
+    return ModelResponse(answer=answer, confidence=conf, abstained=False, raw_text="dry-run")
+
+
+def run_unscaffolded(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: random.Random, pause_s: float) -> ModelResponse:
+    if dry_run:
+        return dry_run_response(task, role="solver", rng=rng)
+
+    prompt = worker_prompt(task, role="solver")
+    text = call_provider(model_cfg, prompt)
+    time.sleep(pause_s)
+    return parse_model_response(text)
+
+
+def run_full_scaffold(task: Task, model_cfg: ModelConfig, dry_run: bool, rng: random.Random, pause_s: float) -> ModelResponse:
+    if dry_run:
+        r1 = dry_run_response(task, role="solver_a", rng=rng)
+        r2 = dry_run_response(task, role="solver_b", rng=rng)
+        r3 = dry_run_response(task, role="critic", rng=rng)
+    else:
+        r1 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_a")))
+        time.sleep(pause_s)
+        r2 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_b")))
+        time.sleep(pause_s)
+        r3 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "critic")))
+        time.sleep(pause_s)
+
+    valid = [r for r in [r1, r2, r3] if not r.abstained and r.answer is not None]
+    if not valid:
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text="all_abstained")
+
+    tally: Dict[int, float] = {}
+    for r in valid:
+        w = r.confidence * (1.0 - max(0.0, r.confidence - 0.88))
+        tally[r.answer] = tally.get(r.answer, 0.0) + w
+
+    answer = max(tally.items(), key=lambda kv: kv[1])[0]
+    mean_conf = sum(r.confidence for r in valid) / len(valid)
+
+    # conservative fallback under novelty/disagreement
+    if task.novelty >= 0.60 and len(tally) >= 3 and mean_conf < 0.45:
+        return ModelResponse(answer=None, confidence=mean_conf * 0.7, abstained=True, raw_text="scaffold_abstain")
+
+    return ModelResponse(answer=answer, confidence=mean_conf, abstained=False, raw_text="scaffold_consensus")
+
+
+# -----------------------------------------------------------------------------
+# Trial loop + metrics
+# -----------------------------------------------------------------------------
+
+
+def condition_metrics(tasks: List[Task], model_cfg: ModelConfig, condition: str, dry_run: bool, seed: int, pause_s: float) -> Dict[str, float]:
+    rng = random.Random(seed)
+    total = 0
+    correct = 0
+    abstain = 0
+    novelty_bucket = 0
+    novelty_errors = 0
+    confident_novelty_errors = 0
+    confidences: List[float] = []
+    outcomes: List[float] = []
+
+    for task in tasks:
+        if condition == "unscaffolded":
+            resp = run_unscaffolded(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s)
+        else:
+            resp = run_full_scaffold(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s)
+
+        is_correct = (resp.answer == task.answer) if (not resp.abstained and resp.answer is not None) else False
+        if resp.abstained:
+            abstain += 1
+
+        total += 1
+        correct += int(is_correct)
+
+        if task.novelty >= 0.60:
+            novelty_bucket += 1
+            if not is_correct:
+                novelty_errors += 1
+                if resp.confidence >= 0.40:
+                    confident_novelty_errors += 1
+            confidences.append(resp.confidence)
+            outcomes.append(1.0 if is_correct else 0.0)
+
+    # Pearson correlation (dependency-free)
+    if len(confidences) < 2:
+        cal_r = 0.0
+    else:
+        mx = mean(confidences)
+        my = mean(outcomes)
+        num = sum((x - mx) * (y - my) for x, y in zip(confidences, outcomes))
+        den_x = math.sqrt(sum((x - mx) ** 2 for x in confidences))
+        den_y = math.sqrt(sum((y - my) ** 2 for y in outcomes))
+        cal_r = num / (den_x * den_y) if den_x and den_y else 0.0
+
+    return {
+        "accuracy": correct / total if total else 0.0,
+        "abstain_rate": abstain / total if total else 0.0,
+        "novelty_error_rate": novelty_errors / novelty_bucket if novelty_bucket else 0.0,
+        "confident_novelty_error_rate": confident_novelty_errors / novelty_bucket if novelty_bucket else 0.0,
+        "novelty_calibration_r": cal_r,
+    }
+
+
+def run_model_study(model_cfg: ModelConfig, trials: int, tasks_per_trial: int, base_seed: int, dry_run: bool, pause_s: float) -> Dict[str, Dict[str, float]]:
+    deltas = {
+        "accuracy": [],
+        "abstain_rate": [],
+        "novelty_error_rate": [],
+        "confident_novelty_error_rate": [],
+        "novelty_calibration_r": [],
+    }
+
+    for i in range(trials):
+        seed = base_seed + i
+        tasks = generate_tasks(tasks_per_trial, seed)
+        base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s)
+        full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s)
+
+        for m in deltas.keys():
+            deltas[m].append(full[m] - base[m])
+
+    summary: Dict[str, Dict[str, float]] = {}
+    for m, vals in deltas.items():
+        lo, hi = bootstrap_ci(vals)
+        summary[m] = {
+            "mean_delta": mean(vals) if vals else 0.0,
+            "sd_delta": stdev(vals) if len(vals) > 1 else 0.0,
+            "ci95_lo": lo,
+            "ci95_hi": hi,
+            "p_perm": sign_flip_permutation_pvalue(vals),
+        }
+    return summary
+
+
+def print_model_summary(model_cfg: ModelConfig, summary: Dict[str, Dict[str, float]]) -> None:
+    print(f"\n=== {model_cfg.label} ===")
+    print("metric                         mean_delta   95% CI                 p_perm")
+    print("-" * 82)
+    for metric, stats in summary.items():
+        print(
+            f"{metric:28s}"
+            f"{stats['mean_delta']:11.4f}"
+            f" [{stats['ci95_lo']:+.4f}, {stats['ci95_hi']:+.4f}]"
+            f"  {stats['p_perm']:.4f}"
+        )
+
+
+# -----------------------------------------------------------------------------
+# CLI
+# -----------------------------------------------------------------------------
+
+
+def parse_models(args: argparse.Namespace) -> List[ModelConfig]:
+    models: List[ModelConfig] = []
+    if args.openai_model:
+        models.append(ModelConfig("openai", args.openai_model))
+    if args.anthropic_model:
+        models.append(ModelConfig("anthropic", args.anthropic_model))
+    if args.gemini_model:
+        models.append(ModelConfig("gemini", args.gemini_model))
+    if not models:
+        raise ValueError("Specify at least one model via --openai-model / --anthropic-model / --gemini-model")
+    return models
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Run API-backed paired scaffold study across multiple model providers.")
+    parser.add_argument("--openai-model", type=str, default="", help="OpenAI model name (optional).")
+    parser.add_argument("--anthropic-model", type=str, default="", help="Anthropic model name (optional).")
+    parser.add_argument("--gemini-model", type=str, default="", help="Gemini model name (optional).")
+    parser.add_argument("--trials", type=int, default=50, help="Paired trials per model.")
+    parser.add_argument("--tasks-per-trial", type=int, default=100, help="Tasks per trial.")
+    parser.add_argument("--base-seed", type=int, default=2000, help="Starting seed.")
+    parser.add_argument("--pause-s", type=float, default=0.1, help="Sleep between API calls.")
+    parser.add_argument("--dry-run", action="store_true", help="Run without calling external APIs.")
+    args = parser.parse_args()
+
+    models = parse_models(args)
+
+    if not args.dry_run:
+        print("WARNING: live API mode may incur costs.")
+
+    for m in models:
+        summary = run_model_study(
+            m,
+            trials=args.trials,
+            tasks_per_trial=args.tasks_per_trial,
+            base_seed=args.base_seed,
+            dry_run=args.dry_run,
+            pause_s=args.pause_s,
+        )
+        print_model_summary(m, summary)
+
+
+if __name__ == "__main__":
+    main()
