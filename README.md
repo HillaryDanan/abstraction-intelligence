@@ -591,3 +591,38 @@ python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --sen
 ```
 
 This prints a stability summary showing how often the full scaffold beats the unscaffolded baseline on key self-monitoring signature criteria across grid points and seeds (with a fresh task set generated per seed and matched between conditions).
+
+### Rigorous Paired Statistical Study
+
+For a higher-rigor run with paired trials, bootstrap confidence intervals, permutation p-values, and rough sample-size estimates:
+
+```bash
+python3 code/rigorous_swarm_study.py --trials 300 --tasks-per-trial 400
+```
+
+This writes per-trial metrics to CSV (default: `artifacts/rigorous_swarm_study_trials.csv`) and prints effect sizes + uncertainty for full scaffold minus unscaffolded under matched task sets per trial seed.
+
+
+
+### Multi-Provider API Study (OpenAI / Anthropic / Gemini)
+
+To run the same paired framework on real APIs (with cost), use:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py \
+  --openai-model gpt-4.1-mini \
+  --anthropic-model claude-3-5-sonnet-latest \
+  --gemini-model gemini-2.0-flash \
+  --trials 50 --tasks-per-trial 100
+```
+
+Use `--dry-run` first to validate the full pipeline without spending credits:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py --openai-model dry --trials 10 --tasks-per-trial 50 --dry-run
+```
+
+Set API keys in your environment before live runs:
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+- `GEMINI_API_KEY`
