@@ -639,6 +639,11 @@ python3 code/api_multimodel_rigorous_study.py \
   --staged-run --print-plan
 ```
 
+
+You can control stochastic diversity between conditions:
+- `--unscaffolded-temperature` (default `0.0`)
+- `--scaffold-temperature` (default `0.7`)
+
 Set API keys in your environment before live runs:
 - `OPENAI_API_KEY`
 - `ANTHROPIC_API_KEY`

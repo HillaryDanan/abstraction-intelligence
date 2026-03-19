@@ -166,22 +166,26 @@ def parse_model_response(text: str) -> ModelResponse:
     if obj is None:
         return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
 
+    if "answer" not in obj or "confidence" not in obj:
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
+
     answer = obj.get("answer")
-    confidence = obj.get("confidence", 0.0)
+    confidence = obj.get("confidence")
 
     try:
         answer_int = int(answer)
     except Exception:
-        answer_int = None
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
 
     try:
         confidence_float = float(confidence)
     except Exception:
-        confidence_float = 0.0
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
 
-    confidence_float = max(0.0, min(1.0, confidence_float))
-    abstained = answer_int is None
-    return ModelResponse(answer=answer_int, confidence=confidence_float, abstained=abstained, raw_text=text)
+    if not (0.0 <= confidence_float <= 1.0):
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=text)
+
+    return ModelResponse(answer=answer_int, confidence=confidence_float, abstained=False, raw_text=text)
 
 
 # -----------------------------------------------------------------------------
@@ -216,11 +220,11 @@ def _http_post_json(
     raise RuntimeError(f"HTTP request failed after {max_retries + 1} attempts: {last_err}")
 
 
-def call_openai(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+def call_openai(model: str, user_prompt: str, api_key: str, timeout: int = 60, temperature: float = 0.0) -> str:
     url = "https://api.openai.com/v1/chat/completions"
     payload = {
         "model": model,
-        "temperature": 0.0,
+        "temperature": temperature,
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
@@ -234,12 +238,12 @@ def call_openai(model: str, user_prompt: str, api_key: str, timeout: int = 60) -
     return obj["choices"][0]["message"]["content"]
 
 
-def call_anthropic(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+def call_anthropic(model: str, user_prompt: str, api_key: str, timeout: int = 60, temperature: float = 0.0) -> str:
     url = "https://api.anthropic.com/v1/messages"
     payload = {
         "model": model,
         "max_tokens": 256,
-        "temperature": 0.0,
+        "temperature": temperature,
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": user_prompt}],
     }
@@ -255,12 +259,12 @@ def call_anthropic(model: str, user_prompt: str, api_key: str, timeout: int = 60
     return ""
 
 
-def call_gemini(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
+def call_gemini(model: str, user_prompt: str, api_key: str, timeout: int = 60, temperature: float = 0.0) -> str:
     model_enc = urllib.parse.quote(model, safe="")
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_enc}:generateContent?key={api_key}"
     payload = {
         "contents": [{"parts": [{"text": f"{SYSTEM_PROMPT}\n\n{user_prompt}"}]}],
-        "generationConfig": {"temperature": 0.0},
+        "generationConfig": {"temperature": temperature},
     }
     headers = {"Content-Type": "application/json"}
     obj = _http_post_json(url, headers, payload, timeout=timeout)
@@ -273,24 +277,24 @@ def call_gemini(model: str, user_prompt: str, api_key: str, timeout: int = 60) -
     return parts[0].get("text", "")
 
 
-def call_provider(model_cfg: ModelConfig, prompt: str, timeout: int = 60) -> str:
+def call_provider(model_cfg: ModelConfig, prompt: str, timeout: int = 60, temperature: float = 0.0) -> str:
     if model_cfg.provider == "openai":
         key = os.getenv("OPENAI_API_KEY", "")
         if not key:
             raise RuntimeError("OPENAI_API_KEY not set.")
-        return call_openai(model_cfg.model, prompt, key, timeout=timeout)
+        return call_openai(model_cfg.model, prompt, key, timeout=timeout, temperature=temperature)
 
     if model_cfg.provider == "anthropic":
         key = os.getenv("ANTHROPIC_API_KEY", "")
         if not key:
             raise RuntimeError("ANTHROPIC_API_KEY not set.")
-        return call_anthropic(model_cfg.model, prompt, key, timeout=timeout)
+        return call_anthropic(model_cfg.model, prompt, key, timeout=timeout, temperature=temperature)
 
     if model_cfg.provider == "gemini":
         key = os.getenv("GEMINI_API_KEY", "")
         if not key:
             raise RuntimeError("GEMINI_API_KEY not set.")
-        return call_gemini(model_cfg.model, prompt, key, timeout=timeout)
+        return call_gemini(model_cfg.model, prompt, key, timeout=timeout, temperature=temperature)
 
     raise ValueError(f"Unknown provider: {model_cfg.provider}")
 
@@ -321,6 +325,7 @@ def run_unscaffolded(
     rng: random.Random,
     pause_s: float,
     tracker: ProgressTracker,
+    unscaffolded_temperature: float,
 ) -> ModelResponse:
     if dry_run:
         resp = dry_run_response(task, role="solver", rng=rng)
@@ -329,7 +334,7 @@ def run_unscaffolded(
 
     prompt = worker_prompt(task, role="solver")
     try:
-        text = call_provider(model_cfg, prompt)
+        text = call_provider(model_cfg, prompt, temperature=unscaffolded_temperature)
         time.sleep(pause_s)
         tracker.tick(f"{model_cfg.label} unscaffolded")
         return parse_model_response(text)
@@ -346,6 +351,7 @@ def run_full_scaffold(
     rng: random.Random,
     pause_s: float,
     tracker: ProgressTracker,
+    scaffold_temperature: float,
 ) -> ModelResponse:
     if dry_run:
         r1 = dry_run_response(task, role="solver_a", rng=rng)
@@ -357,7 +363,7 @@ def run_full_scaffold(
     else:
         def safe_role_call(role: str) -> ModelResponse:
             try:
-                txt = call_provider(model_cfg, worker_prompt(task, role))
+                txt = call_provider(model_cfg, worker_prompt(task, role), temperature=scaffold_temperature)
                 time.sleep(pause_s)
                 tracker.tick(f"{model_cfg.label} scaffold {role}")
                 return parse_model_response(txt)
@@ -401,6 +407,8 @@ def condition_metrics(
     seed: int,
     pause_s: float,
     tracker: ProgressTracker,
+    unscaffolded_temperature: float,
+    scaffold_temperature: float,
 ) -> Dict[str, float]:
     rng = random.Random(seed)
     total = 0
@@ -414,9 +422,9 @@ def condition_metrics(
 
     for task in tasks:
         if condition == "unscaffolded":
-            resp = run_unscaffolded(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker)
+            resp = run_unscaffolded(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker, unscaffolded_temperature=unscaffolded_temperature)
         else:
-            resp = run_full_scaffold(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker)
+            resp = run_full_scaffold(task, model_cfg, dry_run=dry_run, rng=rng, pause_s=pause_s, tracker=tracker, scaffold_temperature=scaffold_temperature)
 
         is_correct = (resp.answer == task.answer) if (not resp.abstained and resp.answer is not None) else False
         if resp.abstained:
@@ -461,6 +469,8 @@ def run_model_study(
     dry_run: bool,
     pause_s: float,
     tracker: ProgressTracker,
+    unscaffolded_temperature: float,
+    scaffold_temperature: float,
 ) -> Dict[str, Dict[str, float]]:
     deltas = {
         "accuracy": [],
@@ -473,8 +483,8 @@ def run_model_study(
     for i in range(trials):
         seed = base_seed + i
         tasks = generate_tasks(tasks_per_trial, seed)
-        base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s, tracker=tracker)
-        full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s, tracker=tracker)
+        base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s, tracker=tracker, unscaffolded_temperature=unscaffolded_temperature, scaffold_temperature=scaffold_temperature)
+        full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s, tracker=tracker, unscaffolded_temperature=unscaffolded_temperature, scaffold_temperature=scaffold_temperature)
 
         for m in deltas.keys():
             deltas[m].append(full[m] - base[m])
@@ -570,6 +580,8 @@ def run_stage(
     dry_run: bool,
     pause_s: float,
     show_progress: bool,
+    unscaffolded_temperature: float,
+    scaffold_temperature: float,
 ) -> None:
     total_calls = estimate_total_calls(len(models), trials, tasks_per_trial)
     tracker = ProgressTracker(total_calls=total_calls, enabled=show_progress)
@@ -584,6 +596,8 @@ def run_stage(
             dry_run=dry_run,
             pause_s=pause_s,
             tracker=tracker,
+            unscaffolded_temperature=unscaffolded_temperature,
+            scaffold_temperature=scaffold_temperature,
         )
         print_model_summary(m, summary)
 
@@ -602,6 +616,8 @@ def main() -> None:
     parser.add_argument("--print-plan", action="store_true", help="Print staged scaling call/runtime estimates and continue.")
     parser.add_argument("--avg-latency-s", type=float, default=2.0, help="Assumed average API latency for runtime estimate.")
     parser.add_argument("--no-progress", action="store_true", help="Disable progress display.")
+    parser.add_argument("--unscaffolded-temperature", type=float, default=0.0, help="Sampling temperature for unscaffolded calls.")
+    parser.add_argument("--scaffold-temperature", type=float, default=0.7, help="Sampling temperature for scaffold role calls.")
     args = parser.parse_args()
 
     models = parse_models(args)
@@ -624,6 +640,8 @@ def main() -> None:
                 dry_run=args.dry_run,
                 pause_s=args.pause_s,
                 show_progress=show_progress,
+                unscaffolded_temperature=args.unscaffolded_temperature,
+                scaffold_temperature=args.scaffold_temperature,
             )
     else:
         run_stage(
@@ -634,6 +652,8 @@ def main() -> None:
             dry_run=args.dry_run,
             pause_s=args.pause_s,
             show_progress=show_progress,
+            unscaffolded_temperature=args.unscaffolded_temperature,
+            scaffold_temperature=args.scaffold_temperature,
         )
 
 
