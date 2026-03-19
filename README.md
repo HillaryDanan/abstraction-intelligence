@@ -627,6 +627,7 @@ The API script now includes:
 - staged scaling (`--staged-run`),
 - and runtime/call-count planning (`--print-plan --avg-latency-s 2.0`).
 - timeout-retry + fail-soft handling (failed API calls become abstentions instead of aborting the whole run).
+- per-metric `base_mean` and `full_mean` plus non-zero-delta fraction (`nz_frac`) for easier diagnosis of degenerate runs.
 
 Example staged run:
 

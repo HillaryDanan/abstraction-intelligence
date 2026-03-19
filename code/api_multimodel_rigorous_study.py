@@ -479,6 +479,8 @@ def run_model_study(
         "confident_novelty_error_rate": [],
         "novelty_calibration_r": [],
     }
+    base_vals = {k: [] for k in deltas.keys()}
+    full_vals = {k: [] for k in deltas.keys()}
 
     for i in range(trials):
         seed = base_seed + i
@@ -488,30 +490,39 @@ def run_model_study(
 
         for m in deltas.keys():
             deltas[m].append(full[m] - base[m])
+            base_vals[m].append(base[m])
+            full_vals[m].append(full[m])
 
     summary: Dict[str, Dict[str, float]] = {}
     for m, vals in deltas.items():
         lo, hi = bootstrap_ci(vals)
+        nonzero = sum(1 for v in vals if abs(v) > 1e-12)
         summary[m] = {
+            "base_mean": mean(base_vals[m]) if base_vals[m] else 0.0,
+            "full_mean": mean(full_vals[m]) if full_vals[m] else 0.0,
             "mean_delta": mean(vals) if vals else 0.0,
             "sd_delta": stdev(vals) if len(vals) > 1 else 0.0,
             "ci95_lo": lo,
             "ci95_hi": hi,
             "p_perm": sign_flip_permutation_pvalue(vals),
+            "nonzero_frac": (nonzero / len(vals)) if vals else 0.0,
         }
     return summary
 
 
 def print_model_summary(model_cfg: ModelConfig, summary: Dict[str, Dict[str, float]]) -> None:
     print(f"\n=== {model_cfg.label} ===")
-    print("metric                         mean_delta   95% CI                 p_perm")
-    print("-" * 82)
+    print("metric                         base_mean   full_mean   mean_delta   95% CI                 p_perm   nz_frac")
+    print("-" * 118)
     for metric, stats in summary.items():
         print(
             f"{metric:28s}"
+            f"{stats['base_mean']:11.4f}"
+            f"{stats['full_mean']:11.4f}"
             f"{stats['mean_delta']:11.4f}"
             f" [{stats['ci95_lo']:+.4f}, {stats['ci95_hi']:+.4f}]"
             f"  {stats['p_perm']:.4f}"
+            f"   {stats['nonzero_frac']:.2f}"
         )
 
 
