@@ -555,3 +555,96 @@ The empirical foundations of the self/world axis were developed under the mentor
 -----
 
 *"Abstraction is all you need ;)"*
+
+## Swarm Scaffolding Experiment (Self-Monitoring Testbed)
+
+To test the repository's key claim about self-monitoring signatures on novelty, run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7
+```
+
+For decomposition of partial guardrails (including memory-only and leave-one-out variants of the full scaffold), run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --ablation
+```
+
+The experiment compares an **unscaffolded** swarm to **partial** and **full** scaffold conditions using external supports (shared memory, novelty-aware confidence shaping, confidence gating, verifier-weighted arbitration), so you can see how signatures change when one component is absent. The intended signature of improved self-monitoring is:
+
+- lower confident errors on novel tasks,
+- higher confidence/accuracy calibration on novel tasks,
+- slightly higher abstention on difficult novelty (conservative fallback),
+- graceful degradation as scaffolding components are removed.
+
+
+For a parameter-sensitivity pass (coarse grid), run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --sensitivity
+```
+
+For a wider/harsher fragility sweep, run:
+
+```bash
+python3 code/external_scaffolding_swarm_simulation.py --tasks 400 --seed 7 --sensitivity --sensitivity-grid wide
+```
+
+This prints a stability summary showing how often the full scaffold beats the unscaffolded baseline on key self-monitoring signature criteria across grid points and seeds (with a fresh task set generated per seed and matched between conditions).
+
+### Rigorous Paired Statistical Study
+
+For a higher-rigor run with paired trials, bootstrap confidence intervals, permutation p-values, and rough sample-size estimates:
+
+```bash
+python3 code/rigorous_swarm_study.py --trials 300 --tasks-per-trial 400
+```
+
+This writes per-trial metrics to CSV (default: `artifacts/rigorous_swarm_study_trials.csv`) and prints effect sizes + uncertainty for full scaffold minus unscaffolded under matched task sets per trial seed.
+
+
+
+### Multi-Provider API Study (OpenAI / Anthropic / Gemini)
+
+To run the same paired framework on real APIs (with cost), use:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py \
+  --openai-model gpt-5.4 \
+  --anthropic-model claude-sonnet-4-6 \
+  --gemini-model gemini-3-flash-preview \
+  --trials 50 --tasks-per-trial 100
+```
+
+Use `--dry-run` first to validate the full pipeline without spending credits:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py --openai-model dry --trials 10 --tasks-per-trial 50 --dry-run
+```
+
+The API script now includes:
+- real-time progress updates,
+- staged scaling (`--staged-run`),
+- and runtime/call-count planning (`--print-plan --avg-latency-s 2.0`).
+- timeout-retry + fail-soft handling (failed API calls become abstentions instead of aborting the whole run).
+
+Example staged run:
+
+```bash
+python3 code/api_multimodel_rigorous_study.py \
+  --openai-model gpt-5.4 \
+  --anthropic-model claude-sonnet-4-6 \
+  --gemini-model gemini-3-flash-preview \
+  --trials 50 --tasks-per-trial 100 \
+  --staged-run --print-plan
+```
+
+
+You can control stochastic diversity between conditions:
+- `--unscaffolded-temperature` (default `0.0`)
+- `--scaffold-temperature` (default `0.7`)
+
+Set API keys in your environment before live runs:
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+- `GEMINI_API_KEY`
