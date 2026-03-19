@@ -626,6 +626,7 @@ The API script now includes:
 - real-time progress updates,
 - staged scaling (`--staged-run`),
 - and runtime/call-count planning (`--print-plan --avg-latency-s 2.0`).
+- timeout-retry + fail-soft handling (failed API calls become abstentions instead of aborting the whole run).
 
 Example staged run:
 

@@ -26,6 +26,7 @@ import random
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -188,12 +189,31 @@ def parse_model_response(text: str) -> ModelResponse:
 # -----------------------------------------------------------------------------
 
 
-def _http_post_json(url: str, headers: Dict[str, str], payload: Dict, timeout: int = 60) -> Dict:
+def _http_post_json(
+    url: str,
+    headers: Dict[str, str],
+    payload: Dict,
+    timeout: int = 60,
+    max_retries: int = 5,
+    backoff_s: float = 2.0,
+) -> Dict:
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(url=url, data=data, headers=headers, method="POST")
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        body = resp.read().decode("utf-8")
-    return json.loads(body)
+
+    last_err: Optional[Exception] = None
+    for attempt in range(max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                body = resp.read().decode("utf-8")
+            return json.loads(body)
+        except (TimeoutError, urllib.error.URLError, urllib.error.HTTPError, OSError) as err:
+            last_err = err
+            if attempt >= max_retries:
+                break
+            sleep_s = backoff_s * (2 ** attempt)
+            time.sleep(sleep_s)
+
+    raise RuntimeError(f"HTTP request failed after {max_retries + 1} attempts: {last_err}")
 
 
 def call_openai(model: str, user_prompt: str, api_key: str, timeout: int = 60) -> str:
@@ -308,10 +328,15 @@ def run_unscaffolded(
         return resp
 
     prompt = worker_prompt(task, role="solver")
-    text = call_provider(model_cfg, prompt)
-    time.sleep(pause_s)
-    tracker.tick(f"{model_cfg.label} unscaffolded")
-    return parse_model_response(text)
+    try:
+        text = call_provider(model_cfg, prompt)
+        time.sleep(pause_s)
+        tracker.tick(f"{model_cfg.label} unscaffolded")
+        return parse_model_response(text)
+    except Exception as err:
+        tracker.tick(f"{model_cfg.label} unscaffolded ERROR")
+        print(f"\nWARN: {model_cfg.label} unscaffolded call failed: {err}", file=sys.stderr)
+        return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=f"error:{err}")
 
 
 def run_full_scaffold(
@@ -330,17 +355,20 @@ def run_full_scaffold(
         r3 = dry_run_response(task, role="critic", rng=rng)
         tracker.tick(f"{model_cfg.label} scaffold critic")
     else:
-        r1 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_a")))
-        time.sleep(pause_s)
-        tracker.tick(f"{model_cfg.label} scaffold solver_a")
+        def safe_role_call(role: str) -> ModelResponse:
+            try:
+                txt = call_provider(model_cfg, worker_prompt(task, role))
+                time.sleep(pause_s)
+                tracker.tick(f"{model_cfg.label} scaffold {role}")
+                return parse_model_response(txt)
+            except Exception as err:
+                tracker.tick(f"{model_cfg.label} scaffold {role} ERROR")
+                print(f"\nWARN: {model_cfg.label} scaffold {role} call failed: {err}", file=sys.stderr)
+                return ModelResponse(answer=None, confidence=0.0, abstained=True, raw_text=f"error:{err}")
 
-        r2 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "solver_b")))
-        time.sleep(pause_s)
-        tracker.tick(f"{model_cfg.label} scaffold solver_b")
-
-        r3 = parse_model_response(call_provider(model_cfg, worker_prompt(task, "critic")))
-        time.sleep(pause_s)
-        tracker.tick(f"{model_cfg.label} scaffold critic")
+        r1 = safe_role_call("solver_a")
+        r2 = safe_role_call("solver_b")
+        r3 = safe_role_call("critic")
 
     valid = [r for r in [r1, r2, r3] if not r.abstained and r.answer is not None]
     if not valid:
