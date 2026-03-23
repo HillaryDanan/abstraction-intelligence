@@ -629,6 +629,8 @@ The API script now includes:
 - timeout-retry + fail-soft handling (failed API calls become abstentions instead of aborting the whole run).
 - per-metric `base_mean` and `full_mean` plus non-zero-delta fraction (`nz_frac`) for easier diagnosis of degenerate runs.
 
+Note: if you run with `--no-progress` and pipe output (e.g., `| tee ...`), output appears only at stage/model summary boundaries; use live progress for continuous heartbeat.
+
 Example staged run:
 
 ```bash
@@ -637,6 +639,7 @@ python3 code/api_multimodel_rigorous_study.py \
   --anthropic-model claude-sonnet-4-6 \
   --gemini-model gemini-3-flash-preview \
   --trials 50 --tasks-per-trial 100 \
+  --task-mode hard --min-novel-tasks 12 \
   --staged-run --print-plan
 ```
 
@@ -644,6 +647,10 @@ python3 code/api_multimodel_rigorous_study.py \
 You can control stochastic diversity between conditions:
 - `--unscaffolded-temperature` (default `0.0`)
 - `--scaffold-temperature` (default `0.7`)
+
+To reduce ceiling effects in frontier models, use harder tasks:
+- `--task-mode hard`
+- `--min-novel-tasks 12` (or higher)
 
 Set API keys in your environment before live runs:
 - `OPENAI_API_KEY`

@@ -132,11 +132,74 @@ SYSTEM_PROMPT = (
 
 
 def worker_prompt(task: Task, role: str) -> str:
+    role_instruction = "Solve carefully and return exact integer JSON."
+    if role == "solver_a":
+        role_instruction = "Primary solver: solve directly and return exact integer JSON."
+    elif role == "solver_b":
+        role_instruction = "Independent solver: use an alternate path/check and return exact integer JSON."
+    elif role == "critic":
+        role_instruction = "Verifier: try to find arithmetic mistakes before returning final integer JSON."
+
     return (
         f"Role: {role}.\n"
+        f"Role instructions: {role_instruction}\n"
         f"Task: {task.text}.\n"
         "Provide only strict JSON with integer answer and confidence in [0,1]."
     )
+
+
+def generate_hard_tasks(n: int, seed: int) -> List[Task]:
+    """
+    Harder arithmetic/program-like tasks with multi-step composition and
+    carry/interference traps to avoid ceiling effects.
+    """
+    rng = random.Random(seed)
+    tasks: List[Task] = []
+    for _ in range(n):
+        novelty = min(1.0, max(0.0, rng.betavariate(2, 2)))
+        scale = 20 + int(180 * novelty)
+
+        # bias toward carry-heavy values (e.g., 9-ending numbers)
+        def sample_num() -> int:
+            if rng.random() < 0.35:
+                base = rng.randint(max(10, scale // 2), max(20, scale))
+                return base * 10 + rng.choice([7, 8, 9])
+            return rng.randint(2, max(10, scale))
+
+        a, b, c, d, e, f = [sample_num() for _ in range(6)]
+        pattern = rng.randint(0, 4)
+
+        if pattern == 0:
+            # two products + subtraction
+            answer = (a * b) + (c * d) - e
+            text = f"Compute (({a} * {b}) + ({c} * {d})) - {e}"
+        elif pattern == 1:
+            # distributive trap shape
+            answer = (a + b) * (c - d) + e
+            text = f"Compute (({a} + {b}) * ({c} - {d})) + {e}"
+        elif pattern == 2:
+            # nested subtraction with product interference
+            answer = a * (b + c) - (d * e)
+            text = f"Compute ({a} * ({b} + {c})) - ({d} * {e})"
+        elif pattern == 3:
+            # mixed addition/subtraction chain
+            answer = ((a * b) - c) + ((d * e) - f)
+            text = f"Compute (({a} * {b}) - {c}) + (({d} * {e}) - {f})"
+        else:
+            # parenthesized multi-step program-like arithmetic
+            answer = (a + (b * c)) - ((d + e) * f)
+            text = f"Compute ({a} + ({b} * {c})) - (({d} + {e}) * {f})"
+
+        tasks.append(Task(text=text, answer=answer, novelty=novelty))
+    return tasks
+
+
+def generate_api_tasks(n: int, seed: int, task_mode: str) -> List[Task]:
+    if task_mode == "default":
+        return generate_tasks(n, seed)
+    if task_mode == "hard":
+        return generate_hard_tasks(n, seed)
+    raise ValueError(f"Unknown task_mode: {task_mode}")
 
 
 def extract_json(text: str) -> Optional[Dict]:
@@ -471,6 +534,8 @@ def run_model_study(
     tracker: ProgressTracker,
     unscaffolded_temperature: float,
     scaffold_temperature: float,
+    task_mode: str,
+    min_novel_tasks: int,
 ) -> Dict[str, Dict[str, float]]:
     deltas = {
         "accuracy": [],
@@ -484,7 +549,13 @@ def run_model_study(
 
     for i in range(trials):
         seed = base_seed + i
-        tasks = generate_tasks(tasks_per_trial, seed)
+        tasks = generate_api_tasks(tasks_per_trial, seed, task_mode=task_mode)
+        if min_novel_tasks > 0:
+            attempts = 0
+            while sum(1 for t in tasks if t.novelty >= 0.60) < min_novel_tasks and attempts < 20:
+                attempts += 1
+                tasks = generate_api_tasks(tasks_per_trial, seed + attempts * 100_000, task_mode=task_mode)
+
         base = condition_metrics(tasks, model_cfg, "unscaffolded", dry_run=dry_run, seed=seed, pause_s=pause_s, tracker=tracker, unscaffolded_temperature=unscaffolded_temperature, scaffold_temperature=scaffold_temperature)
         full = condition_metrics(tasks, model_cfg, "full_scaffold", dry_run=dry_run, seed=seed + 10_000, pause_s=pause_s, tracker=tracker, unscaffolded_temperature=unscaffolded_temperature, scaffold_temperature=scaffold_temperature)
 
@@ -593,11 +664,16 @@ def run_stage(
     show_progress: bool,
     unscaffolded_temperature: float,
     scaffold_temperature: float,
+    task_mode: str,
+    min_novel_tasks: int,
 ) -> None:
     total_calls = estimate_total_calls(len(models), trials, tasks_per_trial)
     tracker = ProgressTracker(total_calls=total_calls, enabled=show_progress)
 
-    print(f"\nRunning stage: trials={trials}, tasks_per_trial={tasks_per_trial}, estimated_calls={total_calls}")
+    print(
+        f"\nRunning stage: trials={trials}, tasks_per_trial={tasks_per_trial}, "
+        f"task_mode={task_mode}, min_novel_tasks={min_novel_tasks}, estimated_calls={total_calls}"
+    )
     for m in models:
         summary = run_model_study(
             m,
@@ -609,11 +685,26 @@ def run_stage(
             tracker=tracker,
             unscaffolded_temperature=unscaffolded_temperature,
             scaffold_temperature=scaffold_temperature,
+            task_mode=task_mode,
+            min_novel_tasks=min_novel_tasks,
         )
         print_model_summary(m, summary)
 
 
+def _enable_line_buffering() -> None:
+    try:
+        sys.stdout.reconfigure(line_buffering=True)
+    except Exception:
+        pass
+    try:
+        sys.stderr.reconfigure(line_buffering=True)
+    except Exception:
+        pass
+
+
 def main() -> None:
+    _enable_line_buffering()
+
     parser = argparse.ArgumentParser(description="Run API-backed paired scaffold study across multiple model providers.")
     parser.add_argument("--openai-model", type=str, default="", help="OpenAI model name (optional).")
     parser.add_argument("--anthropic-model", type=str, default="", help="Anthropic model name (optional).")
@@ -629,6 +720,8 @@ def main() -> None:
     parser.add_argument("--no-progress", action="store_true", help="Disable progress display.")
     parser.add_argument("--unscaffolded-temperature", type=float, default=0.0, help="Sampling temperature for unscaffolded calls.")
     parser.add_argument("--scaffold-temperature", type=float, default=0.7, help="Sampling temperature for scaffold role calls.")
+    parser.add_argument("--task-mode", type=str, default="default", choices=["default", "hard"], help="Task generator mode.")
+    parser.add_argument("--min-novel-tasks", type=int, default=5, help="Minimum novelty-bucket tasks per trial (novelty>=0.60).")
     args = parser.parse_args()
 
     models = parse_models(args)
@@ -653,6 +746,8 @@ def main() -> None:
                 show_progress=show_progress,
                 unscaffolded_temperature=args.unscaffolded_temperature,
                 scaffold_temperature=args.scaffold_temperature,
+                task_mode=args.task_mode,
+                min_novel_tasks=args.min_novel_tasks,
             )
     else:
         run_stage(
@@ -665,6 +760,8 @@ def main() -> None:
             show_progress=show_progress,
             unscaffolded_temperature=args.unscaffolded_temperature,
             scaffold_temperature=args.scaffold_temperature,
+            task_mode=args.task_mode,
+            min_novel_tasks=args.min_novel_tasks,
         )
 
 
