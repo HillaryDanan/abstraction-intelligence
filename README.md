@@ -640,7 +640,8 @@ python3 code/api_multimodel_rigorous_study.py \
   --gemini-model gemini-3-flash-preview \
   --trials 50 --tasks-per-trial 100 \
   --task-mode hard --min-novel-tasks 12 \
-  --staged-run --print-plan
+  --staged-run --print-plan \
+  --out-csv artifacts/api_multimodel_study_rows.csv
 ```
 
 
@@ -651,6 +652,9 @@ You can control stochastic diversity between conditions:
 To reduce ceiling effects in frontier models, use harder tasks:
 - `--task-mode hard`
 - `--min-novel-tasks 12` (or higher)
+
+To retain analyzable trial-level data, set:
+- `--out-csv artifacts/api_multimodel_study_rows.csv`
 
 Set API keys in your environment before live runs:
 - `OPENAI_API_KEY`

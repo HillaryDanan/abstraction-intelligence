@@ -19,6 +19,7 @@ IMPORTANT
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
 import os
@@ -536,7 +537,7 @@ def run_model_study(
     scaffold_temperature: float,
     task_mode: str,
     min_novel_tasks: int,
-) -> Dict[str, Dict[str, float]]:
+) -> Tuple[Dict[str, Dict[str, float]], List[Dict[str, float]]]:
     deltas = {
         "accuracy": [],
         "abstain_rate": [],
@@ -546,6 +547,7 @@ def run_model_study(
     }
     base_vals = {k: [] for k in deltas.keys()}
     full_vals = {k: [] for k in deltas.keys()}
+    rows: List[Dict[str, float]] = []
 
     for i in range(trials):
         seed = base_seed + i
@@ -564,6 +566,13 @@ def run_model_study(
             base_vals[m].append(base[m])
             full_vals[m].append(full[m])
 
+        row: Dict[str, float] = {"trial": float(i), "seed": float(seed)}
+        for m in deltas.keys():
+            row[f"base_{m}"] = base[m]
+            row[f"full_{m}"] = full[m]
+            row[f"delta_{m}"] = full[m] - base[m]
+        rows.append(row)
+
     summary: Dict[str, Dict[str, float]] = {}
     for m, vals in deltas.items():
         lo, hi = bootstrap_ci(vals)
@@ -578,7 +587,7 @@ def run_model_study(
             "p_perm": sign_flip_permutation_pvalue(vals),
             "nonzero_frac": (nonzero / len(vals)) if vals else 0.0,
         }
-    return summary
+    return summary, rows
 
 
 def print_model_summary(model_cfg: ModelConfig, summary: Dict[str, Dict[str, float]]) -> None:
@@ -595,6 +604,21 @@ def print_model_summary(model_cfg: ModelConfig, summary: Dict[str, Dict[str, flo
             f"  {stats['p_perm']:.4f}"
             f"   {stats['nonzero_frac']:.2f}"
         )
+
+
+def write_rows_csv(path: str, rows: List[Dict[str, float]]) -> None:
+    if not path:
+        return
+    if not rows:
+        return
+    import pathlib
+
+    p = pathlib.Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with p.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def estimate_total_calls(num_models: int, trials: int, tasks_per_trial: int) -> int:
@@ -666,7 +690,7 @@ def run_stage(
     scaffold_temperature: float,
     task_mode: str,
     min_novel_tasks: int,
-) -> None:
+) -> List[Dict[str, float]]:
     total_calls = estimate_total_calls(len(models), trials, tasks_per_trial)
     tracker = ProgressTracker(total_calls=total_calls, enabled=show_progress)
 
@@ -674,8 +698,9 @@ def run_stage(
         f"\nRunning stage: trials={trials}, tasks_per_trial={tasks_per_trial}, "
         f"task_mode={task_mode}, min_novel_tasks={min_novel_tasks}, estimated_calls={total_calls}"
     )
+    all_rows: List[Dict[str, float]] = []
     for m in models:
-        summary = run_model_study(
+        summary, rows = run_model_study(
             m,
             trials=trials,
             tasks_per_trial=tasks_per_trial,
@@ -689,6 +714,10 @@ def run_stage(
             min_novel_tasks=min_novel_tasks,
         )
         print_model_summary(m, summary)
+        for row in rows:
+            row["model"] = m.label
+        all_rows.extend(rows)
+    return all_rows
 
 
 def _enable_line_buffering() -> None:
@@ -722,6 +751,7 @@ def main() -> None:
     parser.add_argument("--scaffold-temperature", type=float, default=0.7, help="Sampling temperature for scaffold role calls.")
     parser.add_argument("--task-mode", type=str, default="default", choices=["default", "hard"], help="Task generator mode.")
     parser.add_argument("--min-novel-tasks", type=int, default=5, help="Minimum novelty-bucket tasks per trial (novelty>=0.60).")
+    parser.add_argument("--out-csv", type=str, default="", help="Optional CSV output path for per-trial model metrics.")
     args = parser.parse_args()
 
     models = parse_models(args)
@@ -734,9 +764,10 @@ def main() -> None:
     if args.print_plan:
         print("\nPlan shown above. Continuing with run...")
 
+    collected_rows: List[Dict[str, float]] = []
     if args.staged_run:
         for t, k in stage_schedule(args.trials, args.tasks_per_trial):
-            run_stage(
+            stage_rows = run_stage(
                 models=models,
                 trials=t,
                 tasks_per_trial=k,
@@ -749,8 +780,12 @@ def main() -> None:
                 task_mode=args.task_mode,
                 min_novel_tasks=args.min_novel_tasks,
             )
+            for r in stage_rows:
+                r["stage_trials"] = float(t)
+                r["stage_tasks_per_trial"] = float(k)
+            collected_rows.extend(stage_rows)
     else:
-        run_stage(
+        stage_rows = run_stage(
             models=models,
             trials=args.trials,
             tasks_per_trial=args.tasks_per_trial,
@@ -763,6 +798,14 @@ def main() -> None:
             task_mode=args.task_mode,
             min_novel_tasks=args.min_novel_tasks,
         )
+        for r in stage_rows:
+            r["stage_trials"] = float(args.trials)
+            r["stage_tasks_per_trial"] = float(args.tasks_per_trial)
+        collected_rows.extend(stage_rows)
+
+    if args.out_csv:
+        write_rows_csv(args.out_csv, collected_rows)
+        print(f"\nSaved per-trial API study rows to: {args.out_csv}")
 
 
 if __name__ == "__main__":
